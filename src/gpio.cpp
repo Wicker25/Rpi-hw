@@ -70,7 +70,7 @@ gpio::~gpio() {
 void
 gpio::setup( uint8_t pin, PinMode mode, PullMode pud_mode ) {
 
-	// Abilito/disabilito il controllo pull-up/down su tutti i pin
+	// Abilito/disabilito la resistenza di pull-up/down su tutti i pin
 	if ( mode == INPUT ) this->setPullUpDown( pin, pud_mode );
 
 	// Calcolo la posizione dei bit relativi al pin
@@ -92,10 +92,10 @@ gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
 	uint32_t &reg_pullupdown = *( this->map + GPPUD0 );
 	uint32_t &reg_clock = *( this->map + GPPUDCLK0 + ( pin / 32 ) );
 
-	// Abilito/disabilito il controllo pull-up/down su tutti i pin
-	// 00 = Controllo pull-up/down disabilitato
-	// 01 = Controllo pull down abilitato
-	// 10 = Controllo pull up abilitato
+	// Abilito/disabilito la resistenza di pull-up/down su tutti i pin
+	// 00 = Pull-up/down disabilitato
+	// 01 = Pull-down abilitato
+	// 10 = Pull-up abilitato
 	// 11 = Riservato
 	reg_pullupdown = (uint32_t) mode;
 

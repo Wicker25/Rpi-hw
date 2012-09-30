@@ -18,6 +18,7 @@
     along with Rpi-hw. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #ifndef _RPI_HW_VERSION_HPP_
 #define _RPI_HW_VERSION_HPP_
 

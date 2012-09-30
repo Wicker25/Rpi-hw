@@ -18,6 +18,7 @@
 	along with Rpi-hw. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #ifndef _RPI_HW_GPIO_HPP_
 #define _RPI_HW_GPIO_HPP_
 
@@ -233,7 +234,7 @@ enum {
 	GPLEN1 = 28,	// 0x 7E20 0074
 
 	/*
-		= Il registro di abilitazione del controllo pull-up/down =
+		= Il registro di abilitazione della resistenza di pull-up/down =
 
 		=================GPPUD===============
 		0.	 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx00	32 bit = 2 bit di controllo + 8 inutilizzati
@@ -241,16 +242,16 @@ enum {
 
 		= Codice =
 
-		00 = Controllo pull-up/down disabilitato
-		01 = Controllo pull down abilitato
-		10 = Controllo pull up abilitato
+		00 = Pull-up/down disabilitato
+		01 = Pull-down abilitato
+		10 = Pull-up abilitato
 		11 = Riservato
 	*/
 
 	GPPUD0 = 37,	// 0x 7E20 0094
 
 	/*
-		= I 2 registri di clock per il controllo pull-up/down =
+		= I 2 registri di clock per il pull-up/down =
 
 		Questi registri devono essere utilizzati in aggiunta al registro precedente.
 		E' richiesta la seguente sequenza di eventi:
@@ -336,7 +337,7 @@ public:
 	void setHighEvent( uint8_t pin, bool value );
 	// Abilita/disabilita l'evento del segnale "basso" su un pin
 	void setLowEvent( uint8_t pin, bool value );
-	// Abilita/disabilita il controllo pull-up/down su tutti i pin
+	// Abilita/disabilita la resistenza di pull-up/down su tutti i pin
 	void setPullUpDown( uint8_t pin, PullMode mode );
 
 private:

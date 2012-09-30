@@ -41,7 +41,7 @@ inline bool
 gpio::getBit( uint8_t offset, uint8_t index ) {
 
 	// Ritorno il valore di un bit su un registro a 32 bit
-	return *( this->map + offset + ( index / 32 ) ) & ( 1 << ( index % 32 ) ) > 0;
+	return ( *( this->map + offset + ( index / 32 ) ) & ( 1 << ( index % 32 ) ) ) > 0;
 }
 
 inline void
