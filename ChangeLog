@@ -1,0 +1,29 @@
+ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
+
+============ Rpi-hw 0.2.2 - urgency=low =============
+
+2012-11-18 Wicker25 < wicker25@gmail.com >
+
+    * all: Added class `hd44780` to manage LCD displays.
+           Renamed `cpu.hpp` to `rpi.hpp`.
+           Renamed `macro.hpp` to `utils.hpp`.
+           Improved base interface classes.
+
+    * iface/base.hpp: Improved methods to manage GPIOs.
+
+    * iface/utils.hpp: Added methods `malloc` and `memset`.
+                       Added methods `sleep`, `msleep`, and `usleep`.
+                       Added method `align` to align a text.
+
+============ Rpi-hw 0.2.1 - urgency=low =============
+
+2012-10-26 Wicker25 < wicker25@gmail.com >
+
+    * all: Translated all comments to english - I hope they are clear!
+           Improved error messages.
+
+============ Rpi-hw 0.2.0 - urgency=low =============
+
+2012-10-24 Wicker25 < wicker25@gmail.com >
+
+    * all: Added this ChangeLog file to the project.

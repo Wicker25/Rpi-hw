@@ -1,7 +1,7 @@
 /* 
     Title --- gpio-inl.hpp
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -22,105 +22,98 @@
 #ifndef _RPI_HW_GPIO_INL_HPP_
 #define _RPI_HW_GPIO_INL_HPP_
 
-namespace rpihw { // Namespace di Rpi-hw
+namespace rpihw { // Begin main namespace
 
 inline void
 gpio::setBit( uint8_t offset, uint8_t index, bool value ) {
 
-	// Calcolo la posizione del bit
-	uint8_t shift = ( index % 32 );
+	// Calculate the bit position
+	uint8_t shift = index % 32;
 
-	// Ricavo il registro che contiene il bit
-	uint32_t &reg = *( this->map + offset + ( index / 32 ) );
+	// Get GPIO controller register
+	uint32_t &reg = *( m_map + offset + index / 32 );
 
-	// Imposto il valore di un bit su un registro a 32 bit
+	// Set the bit value on the GPIO controller register
 	reg = ( reg & ~( 1 << shift ) ) | ( value << shift );
 }
 
 inline bool
-gpio::getBit( uint8_t offset, uint8_t index ) {
+gpio::getBit( uint8_t offset, uint8_t index ) const {
 
-	// Ritorno il valore di un bit su un registro a 32 bit
-	return ( *( this->map + offset + ( index / 32 ) ) & ( 1 << ( index % 32 ) ) ) > 0;
+	// Return the bit value from one of the GPIO controller registers
+	return ( *( m_map + offset + index / 32 ) & ( 1 << ( index % 32 ) ) ) != 0;
 }
 
 inline void
-gpio::waitCycles( size_t cycles ) {
+gpio::waitCycles( size_t cycles ) const {
 
-	// Aspetto un certo numero di cicli
+	// Wait some cycles
     while ( cycles-- ) asm volatile( "nop" );
-}
-
-inline void
-gpio::setup( uint8_t pin, PinMode mode ) {
-
-	// Richiamo la funzione principale
-	this->setup( pin, mode, PUD_OFF );
 }
 
 inline void
 gpio::write( uint8_t pin, bool value ) {
 
-	// Imposto il valore di un pin di uscita
+	// Set the value of the output pin
 	// 0 = Low
 	// 1 = High
-	*( this->map + ( value ? GPSET0 : GPCLR0 ) + ( pin / 32 ) ) = 1 << ( pin % 32 );
+	*( m_map + ( value ? GPSET0 : GPCLR0 ) + ( pin / 32 ) ) = 1 << ( pin % 32 );
 }
 
 inline bool
-gpio::read( uint8_t pin ) {
+gpio::read( uint8_t pin ) const {
 
-	// Ritorno il valore di un pin di ingresso
+	// Return the value of the input pin
 	// 0 = Low
 	// 1 = High
-	return this->getBit( GPLEV0, pin );
+	return getBit( GPLEV0, pin );
 }
 
 inline bool
-gpio::getEvent( uint8_t pin ) {
+gpio::checkEvent( uint8_t pin ) const {
 
-	// Ritorno lo stato di un evento di un pin 
-	// 0 = Nnessun evento rilevato sul pin
-	// 1 = Evento rilevato sul pin
-	return this->getBit( GPEDS0, pin );
+	// Return event state of the GPIO pin
+	// 0 = Event not detected on the GPIO pin
+	// 1 = Event detected on the GPIO pin
+	return getBit( GPEDS0, pin );
 }
 
 inline void
-gpio::setRisingEvent( uint8_t pin, bool value ) {
+gpio::setRisingEvent( uint8_t pin, bool enabled ) {
 
-	// Abilito/disabilito l'evento di "risalita" del segnale su un pin
-	// 0 = Non abilitato
-	// 1 = Abilitato
-	this->setBit( GPREN0, pin, value );
+	// Enable/disable rising edge event on the GPIO pin
+	// 0 = Disabled
+	// 1 = Enabled
+	setBit( GPREN0, pin, enabled );
 }
 
 inline void
-gpio::setFallingEvent( uint8_t pin, bool value ) {
+gpio::setFallingEvent( uint8_t pin, bool enabled ) {
 
-	// Abilito/disabilito l'evento di "caduta" del segnale su un pin
-	// 0 = Non abilitato
-	// 1 = Abilitato
-	this->setBit( GPFEN0, pin, value );
+	// Enable/disable falling edge event on the GPIO pin
+	// 0 = Disabled
+	// 1 = Enabled
+	setBit( GPFEN0, pin, enabled );
 }
 
 inline void
-gpio::setHighEvent( uint8_t pin, bool value ) {
+gpio::setHighEvent( uint8_t pin, bool enabled ) {
 
-	// Abilito/disabilito l'evento del segnale "alto" su un pin
-	// 0 = Non abilitato
-	// 1 = Abilitato
-	this->setBit( GPHEN0, pin, value );
+	// Enable/disable high event on the GPIO pin
+	// 0 = Disabled
+	// 1 = Enabled
+	setBit( GPHEN0, pin, enabled );
 }
 
 inline void
-gpio::setLowEvent( uint8_t pin, bool value ) {
+gpio::setLowEvent( uint8_t pin, bool enabled ) {
 
-	// Abilito/disabilito l'evento del segnale "basso" su un pin
-	// 0 = Non abilitato
-	// 1 = Abilitato
-	this->setBit( GPLEN0, pin, value );
+	// Enable/disable low event on the GPIO pin
+	// 0 = Disabled
+	// 1 = Enabled
+	setBit( GPLEN0, pin, enabled );
 }
 
-} // Chiudo il namespace di Rpi-hw
+} // End of main namespace
 
 #endif

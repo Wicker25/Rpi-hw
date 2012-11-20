@@ -8,11 +8,14 @@ cmake_minimum_required( VERSION 2.6 )
 
 # Imposto la versione della libreria
 set( RPI_HW_VERSION_MAJOR 0 )
-set( RPI_HW_VERSION_MINOR 1 )
-set( RPI_HW_VERSION_PATCH 0 )
+set( RPI_HW_VERSION_MINOR 2 )
+set( RPI_HW_VERSION_PATCH 2 )
+
+# Cerco le dipendenze necessarie
+find_package( Threads )
 
 # Aggiungo una direttiva al compilatore
-add_definitions( -Wall -ansi -pedantic -pedantic-errors )
+add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-psabi )
 
 # Percorso degli headers
 include_directories(
@@ -26,23 +29,23 @@ include_directories(
 execute_process( COMMAND cat /proc/cpuinfo
 				 COMMAND grep Revision
 				 COMMAND awk "{printf $3}"
-				 OUTPUT_VARIABLE RPI_CPU_REVISION )
+				 OUTPUT_VARIABLE RPI_REVISION )
 
 # Mi assicuro che sia stato trovato il numero di revisione del Raspberry Pi
 # altrimenti suppongo che sia l'ultima versione della scheda
-IF ( RPI_CPU_REVISION )
+IF ( RPI_REVISION )
 
 	# Log di lavoro
-	MESSAGE( "-- Detecting Raspberry Pi revision: ${RPI_CPU_REVISION}" )
+	MESSAGE( "-- Detecting Raspberry Pi revision: ${RPI_REVISION}" )
 
-ELSE ( RPI_CPU_REVISION )
+ELSE ( RPI_REVISION )
 
-	set( RPI_CPU_REVISION "0006" )
+	set( RPI_REVISION "0006" )
 
 	# Log di lavoro
 	MESSAGE( WARNING "-- Could NOT find Raspberry Pi revision!" )
 
-ENDIF ( RPI_CPU_REVISION )
+ENDIF ( RPI_REVISION )
 
 # Imposto i file di configurazione generati automaticamente
 configure_file(
@@ -53,8 +56,8 @@ configure_file(
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/include/rpi-hw/cpu.hpp.in"
-	"${CMAKE_BINARY_DIR}/include/rpi-hw/cpu.hpp"
+	"${CMAKE_SOURCE_DIR}/include/rpi-hw/rpi.hpp.in"
+	"${CMAKE_BINARY_DIR}/include/rpi-hw/rpi.hpp"
 )
 
 # Imposto lo script per la disinstallazione
@@ -77,13 +80,29 @@ set( RPI_HW_BINARY_DIR ${CMAKE_BINARY_DIR}/bin ${CMAKE_BINARY_DIR}/bin )
 # Libreria Rpi-hw
 add_library( rpihw SHARED
 
-	${RPI_HW_SOURCE_DIR}/macro.cpp
+	${RPI_HW_SOURCE_DIR}/utils.cpp
+	${RPI_HW_SOURCE_DIR}/bitset.cpp
+	${RPI_HW_SOURCE_DIR}/mutex.cpp
 	${RPI_HW_SOURCE_DIR}/gpio.cpp
+	${RPI_HW_SOURCE_DIR}/iface/base.cpp
+	${RPI_HW_SOURCE_DIR}/iface/output.cpp
+	${RPI_HW_SOURCE_DIR}/iface/input.cpp
+	${RPI_HW_SOURCE_DIR}/iface/encoder.cpp
+	${RPI_HW_SOURCE_DIR}/iface/decoder.cpp
+	${RPI_HW_SOURCE_DIR}/keypad/base.cpp
+	${RPI_HW_SOURCE_DIR}/keypad/matrix.cpp
+	${RPI_HW_SOURCE_DIR}/display/s7seg.cpp
+	${RPI_HW_SOURCE_DIR}/display/m7seg.cpp
+	${RPI_HW_SOURCE_DIR}/display/hd44780.cpp
 )
+
+target_link_libraries( rpihw ${CMAKE_THREAD_LIBS_INIT} )
+
 
 # Compilo gli eseguibili
 add_executable( rpi-gpio ${RPI_HW_SOURCE_DIR}/rpi-gpio.cpp )
 target_link_libraries( rpi-gpio rpihw )
+
 
 # Installatore della libreria
 install_targets( /lib rpihw )

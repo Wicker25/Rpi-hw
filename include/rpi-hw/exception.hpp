@@ -1,7 +1,7 @@
 /* 
     Title --- exception.hpp
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -22,25 +22,26 @@
 #ifndef _RPI_HW_EXCEPTION_HPP_
 #define _RPI_HW_EXCEPTION_HPP_
 
-#include <rpi-hw/macro.hpp>
-
 #include <stdexcept>
+
+#include <rpi-hw/utils.hpp>
+#include <rpi-hw/utils-inl.hpp>
 
 #define exception( x ) exception_class( __FILE__, __LINE__, x )
 
-namespace rpihw { // Namespace di Rpi-hw
+namespace rpihw { // Begin main namespace
 
-/* ECCEZIONE */
+/* EXCEPTION CLASS */
 
 class exception_class : public std::runtime_error {
 
 public:
 
-	// Metodo costruttore
+	// Constructor method
 	exception_class( const char *file, size_t line, const std::string &message ) :
-		std::runtime_error( macro::format( "%s:%lu: \n\t\t", file, line ) + message ) { }
+		std::runtime_error( utils::format( "%s:%lu: \n\t\t", file, line ) + message ) { }
 };
 
-} // Chiudo il namespace di Rpi-hw
+} // End of main namespace
 
 #endif

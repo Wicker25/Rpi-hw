@@ -1,7 +1,7 @@
 /* 
     Title --- rpi-hw.hpp
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -24,8 +24,8 @@
 
 #include <stdint.h>
 
-namespace rpihw { // Namespace di Rpi-hw
+namespace rpihw { // Begin main namespace
 
-} // Chiudo il namespace di Rpi-hw
+} // End of main namespace
 
 #endif

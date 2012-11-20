@@ -1,7 +1,7 @@
 /* 
     Title --- rpi-gpio.cpp [tools]
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -25,27 +25,29 @@
 
 #include <rpi-hw.hpp>
 
+// Constants
 #define RPI_GPIO_VERSION	"0.1"
 
 static const char *usage =
 "Usage: rpi-gpio <setup|edge|write|read> <gpio>\n\n"
-"       rpi-gpio setup <gpio> <in|out|pulldown|pullup|pudoff>\n"
+"       rpi-gpio set   <gpio> <in|out|pulldown|pullup|pudoff>\n"
 "       rpi-gpio write <gpio> <high|low>\n"
-"       rpi-gpio edge  <gpio> <none|rising|falling|both>\n"
+"       rpi-gpio event <gpio> <rising|falling|high|low> <enabled|disabled>\n"
+"       rpi-gpio event <gpio>\n"
 "       rpi-gpio read  <gpio>\n"
 "       rpi-gpio -h\n"
 "       rpi-gpio -v\n";
 
 
-// Array con gli indici dei pin gpio
-#if RPI_CPU_REVISION == 0002 || RPI_CPU_REVISION == 0003
+// Raspberry Pi pins
+#if RPI_REVISION == 0002 || RPI_REVISION == 0003
 
 //                       pin  =    0   1   2  3   4  5   6  7   8   9  10  11  12  13
 static const int pin_gpio[27] = { -1, -1, -1, 0, -1, 1, -1, 4, 14, -1, 15, 17, 18, 21,
 //								  14  15  16  17  18  19  20  21 22  23 24  25 26
 								  -1, 22, 23, -1, 24, 10, -1, 9, 25, 11, 8, -1, 7 };
 
-#else // if RPI_CPU_REVISION == 0002 || RPI_CPU_REVISION == 0004 || RPI_CPU_REVISION == 0006
+#else // if RPI_REVISION == 0002 || RPI_REVISION == 0004 || RPI_REVISION == 0006
 
 //                       pin  =    0   1   2  3   4  5   6  7   8   9  10  11  12  13
 static const int pin_gpio[27] = { -1, -1, -1, 2, -1, 3, -1, 4, 14, -1, 15, 17, 18, 27,
@@ -54,115 +56,134 @@ static const int pin_gpio[27] = { -1, -1, -1, 2, -1, 3, -1, 4, 14, -1, 15, 17, 1
 #endif
 
 
-// Uso il namespace di Rpi-hw
+// Use the Rpi-hw namespace
 using namespace rpihw;
 
 int
 main( int argc, char *args[] ) {
 
-	// Flag di controllo
+	// Control flag
 	bool success = false;
 
-	// Controllo il numero minimo dei parametri
+	// Check minimum number of arguments
 	if ( argc > 2 ) {
 
-		// Gestore del controller gpio
+		// GPIO control interface
 		gpio io;
 
-		// Ricavo il numero del pin scelto
+		// Get selected GPIO pin
 	    char *garbage = NULL;
-		uint8_t pin;
+		int pin;
 
-		// Copio il pin scelto oppure ricavo il pin della porta gpio
-		if ( !strcasecmp( args[2], "pin" ) ) {
+		if ( !strncasecmp( args[2], "pin", 3 ) ) {
 
 			pin = (int) strtol( ( args[2] + 3 ), &garbage, 0 );
-			pin = ( *garbage == '\0' && pin >= 0 && pin < 27 ) ? (uint8_t) pin_gpio[pin] : (uint8_t) -1;
+			pin = ( *garbage == '\0' && pin >= 0 && pin < 27 ) ? pin_gpio[pin] : -1;
 
 		} else {
 
 			pin = (int) strtol( args[2], &garbage, 0 );
-			if ( *garbage != '\0' || pin < 0 || pin >= NUM_OF_PINS ) pin = (uint8_t) -1;
+			if ( *garbage != '\0' || pin >= NUM_OF_PINS ) pin = -1;
 		}
 
-		// Controllo che non ci siano errori nella scelta dei pin
+		// Check if there are no errors
 		if ( pin != -1 ) {
 
-			// Modalità di un pin
-			if ( !strcasecmp( args[1], "setup" ) ) {
+			// Set GPIO pin mode
+			if ( !strcasecmp( args[1], "set" ) ) {
 
-				// Controllo che sia stato passato il terzo paramentro
 				if ( argc > 3 ) {
 
-					// Imposto il gpio di ingresso
+					// Input mode
 					if ( !strcasecmp( args[3], "in" ) || !strcasecmp( args[3], "input" ) ) {
 
-						io.setup( pin, gpio::INPUT );
+						io.setup( (uint8_t) pin, gpio::INPUT );
 						success = true;
 
-					// Imposto il gpio di uscita
+					// Output mode
 					} else if ( !strcasecmp( args[3], "out" ) || !strcasecmp( args[3], "output" ) ) {
 
-						io.setup( pin, gpio::OUTPUT );
+						io.setup( (uint8_t) pin, gpio::OUTPUT );
 						success = true;
 
-					// Imposto la modalità pull-down
-					} else if ( !strcasecmp( args[4], "pulldown" ) ) {
+					// Pull-down control
+					} else if ( !strcasecmp( args[3], "pulldown" ) ) {
 
-						io.setPullUpDown( pin, gpio::PULL_DOWN );
+						io.setPullUpDown( (uint8_t) pin, gpio::PULL_DOWN );
 						success = true;
 
-					// Imposto la modalità pull-up
-					} else if ( !strcasecmp( args[4], "pullup" ) ) {
+					// Pull-up control
+					} else if ( !strcasecmp( args[3], "pullup" ) ) {
 
-						io.setPullUpDown( pin, gpio::PULL_UP );
+						io.setPullUpDown( (uint8_t) pin, gpio::PULL_UP );
 						success = true;
 
-					// Disabilito la modalità pull-up/down
-					} else if ( !strcasecmp( args[4], "pudoff" ) ) {
+					// Disable pull-up/down control
+					} else if ( !strcasecmp( args[3], "pudoff" ) ) {
 
-						io.setPullUpDown( pin, gpio::PUD_OFF );
+						io.setPullUpDown( (uint8_t) pin, gpio::PUD_OFF );
 						success = true;
 					}
 				}
 
-			// Lettura da un pin di ingresso
-			} else if ( !strcasecmp( args[1], "edge" ) ) {
+			// Set events
+			} else if ( !strcasecmp( args[1], "event" ) ) {
 
-				// Estraggo gli eventi del pin
-				int mode = -1;
-
-				// Controllo che sia stato passato il terzo paramentro
 				if ( argc > 3 ) {
 
-					if ( !strcasecmp( args[3], "none" ) )
-						mode = 0;
-					else if ( !strcasecmp( args[3], "rising" ) )
-						mode = 1;
-					else if ( !strcasecmp( args[3], "falling" ) )
-						mode = 2;
-					else if ( !strcasecmp( args[3], "both" ) )
-						mode = 3;
-				}
+					if ( argc > 4 ) {
 
-				// Controllo che non ci siano errori nei parametri
-				if ( mode != -1 ) {
+						// Get selected mode
+						int mode = -1;
 
-					// Imposto gli eventi del pin
-					io.setRisingEvent( pin, mode == 1 || mode == 3 );
-					io.setFallingEvent( pin, mode == 2 || mode == 3 );
+						if ( !strcasecmp( args[4], "enabled" ) )
+							mode = 1;
+						else if ( !strcasecmp( args[4], "disabled" ) )
+							mode = 0;
 
-					// Imposto il flag di controllo
+						// Check if there are no errors
+						if ( mode != -1 ) {
+
+							// Rising edge event
+							if ( !strcasecmp( args[3], "rising" ) ) {
+
+								io.setRisingEvent( (uint8_t) pin, (bool) mode );
+								success = true;
+
+							// Falling edge event
+							} else if ( !strcasecmp( args[3], "falling" ) ) {
+
+								io.setFallingEvent( (uint8_t) pin, (bool) mode );
+								success = true;
+
+							// High event
+							} else if ( !strcasecmp( args[3], "high" ) ) {
+
+								io.setHighEvent( (uint8_t) pin, (bool) mode );
+								success = true;
+
+							// Low event
+							} else if ( !strcasecmp( args[3], "low" ) ) {
+
+								io.setLowEvent( (uint8_t) pin, (bool) mode );
+								success = true;
+							}
+						}
+					}
+
+				// Otherwise, detect events 
+				} else {
+
+					std::cout << io.checkEvent( (uint8_t) pin ) << std::endl;
 					success = true;
 				}
 
-			// Scrittura su un pin di uscita
+			// Write on output pin
 			} else if ( !strcasecmp( args[1], "write" ) ) {
 
-				// Estraggo il valore di uscita del pin
+				// Get the value of the output pin
 				int value = -1;
 
-				// Controllo che sia stato passato il terzo paramentro
 				if ( argc > 3 ) {
 
 					if ( *args[3] == '0' || !strcasecmp( args[3], "low" ) )
@@ -171,19 +192,19 @@ main( int argc, char *args[] ) {
 						value = gpio::HIGH;
 				}
 
-				// Controllo che non ci siano errori nei parametri
+				// Check if there are errors
 				if ( value != -1 ) {
 
-					// Scrivo il valore di uscita del pin
-					io.write( pin, value );
+					// Write the value on the GPIO controller interface
+					io.write( (uint8_t) pin, value );
 					success = true;
 				}
 
-			// Lettura da un pin di ingresso
+			// Read from input pin
 			} else if ( !strcasecmp( args[1], "read" ) ) {
 
-				// Scrivo a schermo il valore di ingresso del pin
-				std::cout << io.read( pin ) << std::endl;
+				// Read the value from the GPIO controller interface
+				std::cout << io.read( (uint8_t) pin ) << std::endl;
 				success = true;
 			}
 		}
@@ -191,13 +212,13 @@ main( int argc, char *args[] ) {
 
 	if ( argc > 1 ) {
 
-		// Stampo la versione dell'utility
+		// Print `rpi-gpio` version
 		if ( !strcasecmp( args[1], "-v" ) ) {
 
 			std::cout << "rpi-gpio v" << RPI_GPIO_VERSION << " by Giacomo Trudu aka `Wicker25`" << std::endl;
 			success = true;
 
-		// Stampo il manuale d'utilizzo
+		// Print helps
 		} else if ( !strcasecmp( args[1], "-h" ) ) {
 
 			std::cout << usage << std::endl;
@@ -205,7 +226,7 @@ main( int argc, char *args[] ) {
 		}
 	}
 
-	// Processo eventuali errori
+	// Handle other error
 	if ( !success ) {
 
 		std::cout << usage << std::endl;

@@ -1,7 +1,7 @@
 /* 
     Title --- gpio.cpp
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -23,63 +23,63 @@
 #define _RPI_HW_GPIO_CPP_
 
 #include <rpi-hw/gpio.hpp>
+
+#include <rpi-hw/utils.hpp>
+#include <rpi-hw/utils-inl.hpp>
+
 #include <rpi-hw/gpio-inl.hpp>
 
-namespace rpihw { // Namespace di Rpi-hw
+namespace rpihw { // Begin main namespace
 
 gpio::gpio() {
 
-	// Apro il dispositivo `/dev/mem`
-	this->mem_fd = open( "/dev/mem", O_RDWR | O_SYNC );
+	// Open memory device file
+	m_mem_fd = open( "/dev/mem", O_RDWR | O_SYNC );
 
-	if ( this->mem_fd < 0 ) {
+	if ( m_mem_fd < 0 )
+		throw exception( "(Error) `gpio`: can't open `/dev/mem`, you must be 'root' to run this software!" );
 
-		throw exception( "Can't open /dev/mem : you must be 'root' to run this software!" );
-	}
-
-	// Effettuo il mapping dell'area di memoria relativa al controller gpio
-	this->map = (uint32_t *) mmap(
+	// Map GPIO controller memory
+	m_map = (uint32_t *) mmap(
 
 		0,
 		BLOCK_SIZE,
 		PROT_READ | PROT_WRITE,
 		MAP_SHARED,
-		mem_fd,
+		m_mem_fd,
 		GPIO_BASE
 	);
 
-	// Gestisco eventuali errori
-	if ( this->map == MAP_FAILED ) {
+	// Handle possible errors
+	if ( m_map == MAP_FAILED )
+		throw exception( utils::format( "(Error) `gpio`: mapping error at address %p\n", m_map ) );
 
-		throw exception( macro::format( "Fatal error : mmap %p\n", this->map ) );
-	}
-
-	// Copio l'indirizzo relativo al controller gpio
-	this->addr = (volatile uint32_t *) this->map;
+	// Store GPIO controller address
+	m_addr = (volatile uint32_t *) m_map;
 }
 
 gpio::~gpio() {
 
-	// Rimuovo il mapping del controller gpio
-	munmap( this->map, BLOCK_SIZE );
+	// Unmap GPIO controller memory
+	munmap( m_map, BLOCK_SIZE );
 
-	// Chiudo `/dev/mem`
-    close( this->mem_fd );
+	// Close memory device file
+    close( m_mem_fd );
 }
 
 void
 gpio::setup( uint8_t pin, PinMode mode, PullMode pud_mode ) {
 
-	// Abilito/disabilito la resistenza di pull-up/down su tutti i pin
-	if ( mode == INPUT ) this->setPullUpDown( pin, pud_mode );
+	// Enable/disable pull-up/down control on the GPIO pin
+	if ( mode == INPUT ) setPullUpDown( pin, pud_mode );
 
-	// Calcolo la posizione dei bit relativi al pin
+	// Calculate the bit position
 	uint8_t shift = ( pin % 10 ) * 3;
 
-	// Ricavo il registro che contiene il bit
-	uint32_t &reg = *( this->map + GPFSEL0 + ( pin / 10 ) );
+	// Get GPIO controller register
+	uint32_t &reg = *( m_map + GPFSEL0 + ( pin / 10 ) );
 
-	// Imposto la modalità scelta per il pin
+	// Sets the GPIO pin mode
 	// 000 = Input
 	// 001 = Output
 	reg = ( reg & ~( 7 << shift ) ) | ( (uint32_t) mode << shift );
@@ -88,45 +88,47 @@ gpio::setup( uint8_t pin, PinMode mode, PullMode pud_mode ) {
 void
 gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
 
-	// Ricavo i due registri necessari
-	uint32_t &reg_pullupdown = *( this->map + GPPUD0 );
-	uint32_t &reg_clock = *( this->map + GPPUDCLK0 + ( pin / 32 ) );
+	// Get the GPIO controller registers
+	uint32_t &reg_pullupdown = *( m_map + GPPUD0 );
+	uint32_t &reg_clock = *( m_map + GPPUDCLK0 + ( pin / 32 ) );
 
-	// Abilito/disabilito la resistenza di pull-up/down su tutti i pin
-	// 00 = Pull-up/down disabilitato
-	// 01 = Pull-down abilitato
-	// 10 = Pull-up abilitato
-	// 11 = Riservato
+	// Enable/disable pull-up/down control on the GPIO pin
+	// 00 = Disable pull-up/down
+	// 01 = Enable pull-down control
+	// 10 = Enable pull-up control
+	// 11 = Reserved
 	reg_pullupdown = (uint32_t) mode;
 
-	// Aspetto 150 cicli    
+	// Wait 150 cycles
     waitCycles( 150 );
 
-	// Imposto il clock sul pin
+	// Set clock con pin
 	reg_clock = 1 << ( pin % 32 );
 
-	// Aspetto 150 cicli    
+	// Wait 150 cycles
     waitCycles( 150 );
 
-	// Ripristino i registri
+	// Restore the registers
 	reg_clock = 0;
 	reg_pullupdown = 0;
 }
 
 void
-gpio::print_register( uint8_t offset, uint8_t group_bits = 0 ) {
+gpio::print_register( uint8_t offset, uint8_t group_bits ) const {
 
-	// Disegno il contenuto di un registro (funzione di debug)
-	for ( int i = 31; i >= 0; i-- ) {
+	// Print the GPIO controller register (debug function)
+	uint8_t i = 31;
 
-		std::cout << this->getBit( offset, i );
+	for ( ; i >= 0; i-- ) {
 
-		if ( ( i + 1 ) % 3 == 0 ) std::cout << " ";
+		std::cout << getBit( offset, i );
+
+		if ( ( i + 1 ) % group_bits == 0 ) std::cout << " ";
 	}
 
 	std::cout << std::endl;
 }
 
-} // Chiudo il namespace di Rpi-hw
+} // End of main namespace
 
 #endif

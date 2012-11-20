@@ -1,7 +1,7 @@
 /* 
     Title --- blink.cpp [examples]
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,27 +19,35 @@
 */
 
 
-#include <rpi-hw.hpp>
 #include <ctime>
+#include <rpi-hw.hpp>
 
+// Use Rpi-hw namespace
 using namespace rpihw;
 
 int
 main( int argc, char *args[] ) {
 
-	// Gestore del controller gpio
+	// GPIO controller interface
 	gpio io;
 
-	// Imposto il gpio di uscita
+	// Set the output pin to the led
 	io.setup( 11, gpio::OUTPUT );
 
-	// Alterno il segnale di uscita del gpio
+	// Blink
 	while ( 1 ) {
 
+		// Turn it on
 		io.write( 11, gpio::HIGH );
-		usleep( 1000000 );
+
+		// Wait some time
+		utils::usleep( 1000000 );
+
+		// Turn it off
 		io.write( 11, gpio::LOW );
-		usleep( 1000000 );
+
+		// Wait some time
+		utils::usleep( 1000000 );
 	}
 
 	return 0;

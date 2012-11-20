@@ -1,7 +1,7 @@
 /* 
-    Title --- macro.hpp
+    Title --- iface/base-inl.hpp
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,22 +19,29 @@
 */
 
 
-#ifndef _RPI_HW_MACRO_HPP_
-#define _RPI_HW_MACRO_HPP_
+#ifndef _RPI_HW_BASE_INL_HPP_
+#define _RPI_HW_BASE_INL_HPP_
 
-#include <cstdio>
-#include <cstdarg>
-#include <string>
+namespace rpihw { // Begin main namespace
 
-namespace rpihw { // Namespace di Rpi-hw
+namespace iface { // Begin interfaces namespace
 
-namespace macro { // Namespace delle funzioni macro
+inline uint8_t
+base::getPin( uint8_t index ) const {
 
-// Ritorna un oggetto stringa formattato come in `printf`
-std::string format( const char *format, ... );
+	// Return the interface pin
+	return m_pins[ index ];
+}
 
-} // Chiudo il namespace delle funzioni macro
+inline uint8_t
+base::numOfPins() const {
 
-} // Chiudo il namespace di Rpi-hw
+	// Return the number of pins
+	return m_total;
+}
+
+} // End of interfaces namespace
+
+} // End of main namespace
 
 #endif

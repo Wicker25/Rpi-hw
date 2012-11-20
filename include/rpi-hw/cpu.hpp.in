@@ -1,7 +1,7 @@
 /* 
     Title --- cpu.hpp
 
-    Copyright (C) 2010 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -22,7 +22,7 @@
 #ifndef _RPI_HW_CPU_HPP_
 #define _RPI_HW_CPU_HPP_
 
-// Revisione della Raspberry Pi
-#define RPI_CPU_REVISION	@RPI_CPU_REVISION@
+// Raspberry Pi revision number
+#define RPI_REVISION	@RPI_REVISION@
 
 #endif
