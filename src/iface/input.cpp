@@ -107,18 +107,18 @@ input::read() const {
 }
 
 bool
-input::read( uint8_t pin ) const {
+input::read( uint8_t index ) const {
 
 	// Check if pin exists
-	if ( pin >= numOfPins() )
+	if ( index >= numOfPins() )
 		throw exception( "(Error) `iface::read`: could not get pin, index out of range\n" );
 
 	// Return value
 	bool value = false;
 
 	// Read value from the interface pin
-	if ( m_pins[ pin ] != DISABLED_PIN )
-		value = m_gpio->read( m_pins[ pin ] );
+	if ( m_pins[ index ] != DISABLED_PIN )
+		value = m_gpio->read( m_pins[ index ] );
 
 	return value;
 }

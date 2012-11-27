@@ -36,28 +36,59 @@ namespace rpihw { // Begin main namespace
 namespace iface { // Begin interfaces namespace
 
 /* OUTPUT INTERFACE */
+/*!
+	@class output
+	@brief Output interface.
+*/
 class output : public iface::base {
 
 public:
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the output pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
 	output( uint8_t total, ... );
+
+	/*!
+		@brief Constructor method.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	output( const std::vector< uint8_t > &pins );
+
+	//! Destructor method.
 	virtual ~output();
 
-	// Sets a interface pin
+	/*!
+		@brief Sets an output pin.
+		@param[in] index The index position of the output pin.
+		@param[in] pin The new GPIO pin.
+	*/
 	virtual void setPin( uint8_t index, uint8_t pin );
 
-	// Writes on the interface
+	/*!
+		@brief Writes a value on the interface.
+		@param[in] value The value to be written.
+	*/
 	virtual void write( size_t value );
-	virtual void write( uint8_t pin, bool value );
+
+	/*!
+		@brief Writes a value on the interface pin.
+		@param[in] index The index position of the interface pin.
+		@param[in] value The value to be written.
+	*/
+	virtual void write( uint8_t index, bool value );
 
 protected:
 
-	// Constructor method (only for child class)
+	//! Constructor method (only for child class).
 	output();
 
-	// Initializes the interface
+	/*!
+		@brief Initializes the interface.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	virtual void init( const std::vector< uint8_t > &pins );
 };
 

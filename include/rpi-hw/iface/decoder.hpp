@@ -35,15 +35,28 @@ namespace rpihw { // Begin main namespace
 namespace iface { // Begin interfaces namespace
 
 /* DECODER OUTPUT INTERFACE */
+/*!
+	@class decoder
+	@brief Decoder output interface.
+*/
 class decoder : public iface::output {
 
 public:
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the GPIO pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
 	decoder( uint8_t total, ... );
+
+	//! Destructor method.
 	virtual ~decoder();
 
-	// Writes on the interface
+	/*!
+		@brief Writes a value on the interface.
+		@param[in] value The value to be written.
+	*/
 	virtual void write( size_t value );
 };
 

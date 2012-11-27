@@ -1,5 +1,12 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.2.3 - urgency=low =============
+
+2012-11-27 Wicker25 < wicker25@gmail.com >
+
+    * all: Added Doxygen documentation (use `make doc` to build it!).
+           Changed `README` to `README.md`.
+
 ============ Rpi-hw 0.2.2 - urgency=low =============
 
 2012-11-18 Wicker25 < wicker25@gmail.com >

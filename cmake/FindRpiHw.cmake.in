@@ -1,4 +1,4 @@
-# - Try to find Rpi-hw
+# - Try to find Rpi-hw library v@RPI_HW_VERSION@
 
 #  RPI_HW_INCLUDE_DIRS
 #  RPI_HW_LIBRARIES
@@ -20,4 +20,3 @@ IF ( RPI_HW_FOUND )
   SET( RPI_HW_INCLUDE_DIRS ${RPI_HW_INCLUDE_DIR} )
 
 ENDIF ( RPI_HW_FOUND )
-

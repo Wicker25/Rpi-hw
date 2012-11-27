@@ -20,6 +20,7 @@
 
 
 #include <iostream>
+#include <cstdio>
 
 #include <rpi-hw.hpp>
 

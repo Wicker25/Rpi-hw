@@ -30,6 +30,9 @@
 #include <rpi-hw/bitset.hpp>
 #include <rpi-hw/bitset-inl.hpp>
 
+#include <rpi-hw/keypad/base.hpp>
+#include <rpi-hw/keypad/base-inl.hpp>
+
 #include <rpi-hw/keypad/matrix.hpp>
 #include <rpi-hw/keypad/matrix-inl.hpp>
 

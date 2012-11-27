@@ -32,44 +32,76 @@
 
 namespace rpihw { // Begin main namespace
 
+/*!
+	@namespace rpihw::iface
+	@brief Namespace of the interfaces.
+*/
+
 namespace iface { // Begin interfaces namespace
 
-// Disabled pin id
+//! Constant of the disabled pins
 const uint8_t DISABLED_PIN = 255;
 
 /* GENERIC INTERFACE */
+/*!
+	@class base
+	@brief Generic interface.
+*/
 class base {
 
 public:
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the GPIO pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
 	base( uint8_t total, ... );
+
+	/*!
+		@brief Constructor method.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	base( const std::vector< uint8_t > &pins );
+
+	//! Destructor method.
 	virtual ~base();
 
-	// Sets a interface pin
+	/*!
+		@brief Sets an interface pin.
+		@param[in] index The index position of the interface pin.
+		@param[in] pin The new GPIO pin.
+	*/
 	virtual void setPin( uint8_t index, uint8_t pin );
-	// Returns a interface pin
+
+	/*!
+		@brief Returns an interface pin.
+		@param[in] index The index position of the interface pin.
+		@return The GPIO pin.
+	*/
 	virtual uint8_t getPin( uint8_t index ) const;
 
-	// Returns the number of pins
+	//! Returns the number of the pins.
 	virtual uint8_t numOfPins() const;
 
 protected:
 
-	// GPIO controller interface
+	//! GPIO controller interface.
 	gpio *m_gpio;
 
-	// Number of pins
+	//! Number of pins.
 	uint8_t m_total;
 
-	// Vector containing interface pins
+	//! Vector containing interface pins.
 	uint8_t *m_pins;
 
-	// Constructor method (only for child class)
+	//! Constructor method (only for child class)
 	base();
 
-	// Initializes the interface
+	/*!
+		@brief Initializes the interface.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	virtual void init( const std::vector< uint8_t > &pins );
 };
 

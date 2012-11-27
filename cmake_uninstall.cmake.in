@@ -1,4 +1,4 @@
-# Elimino i file installati
+# Delete all files
 
 if ( NOT EXISTS "@CMAKE_BINARY_DIR@/install_manifest.txt" )
 
@@ -38,7 +38,7 @@ foreach ( file ${files} )
 endforeach( file )
 
 
-# Elimino le cartelle installate
+# Delete all directories
 
 if ( NOT EXISTS "@CMAKE_BINARY_DIR@/install_directory.txt" )
 

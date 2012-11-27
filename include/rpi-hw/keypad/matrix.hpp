@@ -39,23 +39,39 @@ namespace rpihw { // Begin main namespace
 namespace keypad { // Begin keypads namespace
 
 /* MATRIX KEYPAD CONTROLLER */
+/*!
+	@class matrix
+	@brief Matrix keypad controller.
+
+	@example 12keys0.cpp
+	@example 12keys1.cpp
+*/
 class matrix : public keypad::base {
 
 public:
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] cols Number of the keypad columns.
+		@param[in] rows Number of the keypad rows.
+	*/
 	matrix( uint8_t cols, uint8_t rows, ... );
+
+	//! Destructor method.
 	virtual ~matrix();
 
 protected:
 
-	// Columns output interface
+	//! Columns output interface.
 	iface::output *m_output;
 
-	// Size of the matrix
-	uint8_t m_cols, m_rows;
+	//! Number of the keypad columns.
+	uint8_t m_cols;
 
-	// Updates the state of buttons
+	//! Number of the keypad rows.
+	uint8_t m_rows;
+
+	//! Updates the state of buttons.
 	virtual void update();
 };
 

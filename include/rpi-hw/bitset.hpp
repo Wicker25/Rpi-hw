@@ -30,6 +30,10 @@
 namespace rpihw { // Begin main namespace
 
 /* DYNAMIC BITSET */
+/*!
+	@class bitset
+	@brief Dynamic set of bits.
+*/
 class bitset {
 
 	// Prototypes
@@ -37,68 +41,116 @@ class bitset {
 
 public:
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] size Number of the bits.
+		@param[in] value Default value of the bits.
+	*/
 	bitset( size_t size, bool value = 0 );
+
+	//! Destructor method.
 	virtual ~bitset();
 
-	// Sets a bit value
+	/*!
+		@brief Sets a bit value.
+		@param[in] index The bit position.
+		@param[in] value The bit value.
+	*/
 	void set( size_t index, bool value );
-	// Gets a bit value
+
+	/*!
+		@brief Gets a bit value.
+		@param[in] index The bit position.
+		@return The bit value.
+	*/
 	bool get( size_t index ) const;
-	// Flips a bit value
+
+	/*!
+		@brief Flips a bit value.
+		@param[in] index The bit position.
+	*/
 	void flip( size_t index );
 
-	// Returns size of the set
+	//! Returns size of the set.
 	size_t size() const;
-	// Resizes the set to contain `size` bits
+
+	/*!
+		@brief Resizes the set to contain `size` bits.
+		@param[in] size The new size of the bitset.
+	*/
 	void resize( size_t size );
 
-	// Accessing methods to the bits
+	/*!
+		@brief Returns a reference to the bit at the `index` position.
+		@param[in] index The bit position.
+		@return A reference to the bit.
+	*/
 	ref operator[] ( size_t index );
+	/*!
+		@brief Returns the bit value at the `index` position.
+		@param[in] index The bit position.
+		@return The bit value.
+	*/
 	bool operator[] ( size_t index ) const;
 
 private:
 
-	// Number of bits and physical size
-	size_t m_nbits, m_size;
+	//! Number of bits.
+	size_t m_nbits;
 
-	// 8-bit array used to store the bits
+	//! Physical size.
+	size_t m_size;
+
+	//! 8-bit array used to store the bits.
 	uint8_t *m_data;
 };
 
 
 /* BIT REFERENCE */
+/*!
+	@class bitset::ref
+	@brief A reference to a bit.
+*/
 class bitset::ref {
 
 	friend class bitset;
 
 public:
 
-	// Constructor method
+	//! Destructor method
 	virtual ~ref();
 
-	// Assigns bit value
+	/*!
+		@brief Sets a bit value.
+		@param[in] value The bit value.
+		@return The reference to the bit.
+	*/
 	ref &operator=( bool value );
+	/*!
+		@brief Sets a bit value using a reference to another bit.
+		@param[in] other The other reference to the bit.
+		@return The reference to the bit.
+	*/
 	ref &operator=( const ref &other );
 
-	// Flips bit value
+	//! Flips the bit value.
 	ref &flip();
 
-	// Returns inverse bit value
+	//! Returns the inverse bit value.
 	bool operator~() const;
 
-	// Converts bit value to boolean 
+	//! Converts bit value to boolean.
 	operator bool() const;
 
 private:
 
-	// Destructor method
+	//! Destructor method (private).
 	ref( bitset &set, size_t index );
 
-	// Parent bitset instance
+	//! Parent bitset instance.
 	bitset *m_bitset;
 
-	// Bit position
+	//! Bit position.
 	size_t m_index;
 };
 

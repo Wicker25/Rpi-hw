@@ -41,7 +41,7 @@ malloc( size_t size, T value ) {
 
 template < typename T >
 T *
-malloc( size_t size, const  T *values ) {
+malloc( size_t size, const  T *other ) {
 
 	// Create the new array
 	T *data = new T[ size ];
@@ -49,17 +49,17 @@ malloc( size_t size, const  T *values ) {
 	// Initialize the elements
 	size_t i = 0;
 
-	for ( ; i < size; i++ ) data[i] = values[i];
+	for ( ; i < size; i++ ) data[i] = other[i];
 
 	return data;
 }
 
 template < typename T >
 inline T *
-malloc( const std::vector< T > &values ) {
+malloc( const std::vector< T > &other ) {
 
 	// Allocate and initialize a new array
-	return malloc( values.size(), &values[0] );
+	return malloc( other.size(), &other[0] );
 }
 
 template < typename T >

@@ -1,4 +1,4 @@
-# Configuration for pkg-config
+# Rpi-hw library
 
 prefix=/usr
 exec_prefix=${prefix}
@@ -7,6 +7,6 @@ includedir=${prefix}/include/rpi-hw
 
 Name: Rpi-hw
 Description: C++ library for Raspberry Pi GPIO
-Version: 0.2.2
+Version: @RPI_HW_VERSION@
 Libs: -L${libdir} -lrpihw
 Cflags: -I${includedir}

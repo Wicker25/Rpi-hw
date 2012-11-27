@@ -105,15 +105,15 @@ output::write( size_t value ) {
 }
 
 void
-output::write( uint8_t pin, bool value ) {
+output::write( uint8_t index, bool value ) {
 
 	// Check if pin exists
-	if ( pin >= numOfPins() )
+	if ( index >= numOfPins() )
 		throw exception( "(Error) `iface::write`: could not get pin, index out of range\n" );
 
 	// Write value on the interface pin
-	if ( m_pins[ pin ] != DISABLED_PIN )
-		m_gpio->write( m_pins[ pin ], value );
+	if ( m_pins[ index ] != DISABLED_PIN )
+		m_gpio->write( m_pins[ index ], value );
 }
 
 } // End of interfaces namespace

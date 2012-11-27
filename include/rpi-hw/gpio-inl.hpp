@@ -47,7 +47,7 @@ gpio::getBit( uint8_t offset, uint8_t index ) const {
 inline void
 gpio::waitCycles( size_t cycles ) const {
 
-	// Wait some cycles
+	// Wait some CPU cycles
     while ( cycles-- ) asm volatile( "nop" );
 }
 

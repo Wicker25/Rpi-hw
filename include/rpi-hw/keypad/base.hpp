@@ -38,49 +38,100 @@
 
 namespace rpihw { // Begin main namespace
 
+/*!
+	@namespace rpihw::keypad
+	@brief Namespace of the keypads.
+*/
+
 namespace keypad { // Begin keypads namespace
 
-/* KEYPAD CONTROLLER BASE CLASS */
+/* GENERIC KEYPAD CONTROLLER */
+/*!
+	@class base
+	@brief Generic keypad controller.
+*/
 class base {
 
 public:
 
-	// Constructor and destructor methods
-	base();
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the input pins (not necessarily equal to the number of the buttons).
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
 	base( size_t total, ... );
+
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the input pins (not necessarily equal to the number of the buttons).
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	base( size_t total, const std::vector< uint8_t > &pins );
+
+	//! Destructor method.
 	virtual ~base();
 
-	// Returns a button state
+	/*!
+		@brief Returns a button state.
+		@param[in] index The index position of the input pin.
+		@return The state of the button.
+	*/
 	virtual bool state( size_t index ) const;
-	// Checks if a button is pressed
+
+	/*!
+		@brief Checks if a button is pressed.
+		@param[in] index The index position of the input pin.
+		@return Return \c true if button is pressed.
+	*/
 	virtual bool pressed( size_t index ) const;
-	// Checks if a button is released
+
+	/*!
+		@brief Checks if a button is released.
+		@param[in] index The index position of the input pin.
+		@return Return \c true if button is released.
+	*/
 	virtual bool released( size_t index ) const;
-	// Returns the bitset of button states
+
+	//! Returns the \ref bitset of button states.
 	virtual const bitset &state() const;
-	// Returns the number of keys
+
+	//! Returns the number of keys.
 	virtual size_t numOfKeys() const;
 
 protected:
 
-	// Buttons input interface
+	//! Buttons input interface.
 	iface::input *m_input;
 
-	// Number of keys
+	//! Number of the keys.
 	size_t m_nkeys;
 
-	// Button registers
-	bitset *m_keystate, *m_pressed, *m_released;
+	//! Button states (0 = up, 1 = down).
+	bitset *m_keystate;
 
-	// Updating thread and mutex
+	//! Pressed buttons (0 = none, 1 = pressed).
+	bitset *m_pressed;
+
+	//! Pressed buttons (0 = none, 1 = released).
+	bitset *m_released;
+
+	//! Updating thread.
 	thread< keypad::base > *m_thread;
+
+	//! Mutex of the updating thread.
 	mutex *m_mutex;
 
-	// Initializes the interface
+	//! Constructor method (only for child class)
+	base();
+
+	/*!
+		@brief Initializes the interface.
+		@param[in] total Number of the input pins (not necessarily equal to the number of the buttons).
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	void init( size_t total, const std::vector< uint8_t > &pins );
 
-	// Updates the state of buttons
+	//! Updates the state of buttons (threading function).
 	virtual void update();
 };
 

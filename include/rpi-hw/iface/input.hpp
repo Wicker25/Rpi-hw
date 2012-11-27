@@ -36,28 +36,59 @@ namespace rpihw { // Begin main namespace
 namespace iface { // Begin interfaces namespace
 
 /* INPUT INTERFACE */
+/*!
+	@class input
+	@brief Input interface.
+*/
 class input : public iface::base {
 
 public:
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the input pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
 	input( uint8_t total, ... );
+
+	/*!
+		@brief Constructor method.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	input( const std::vector< uint8_t > &pins );
+
+	//! Destructor method.
 	virtual ~input();
 
-	// Sets a interface pin
+	/*!
+		@brief Sets an input pin.
+		@param[in] index The index position of the input pin.
+		@param[in] pin The new GPIO pin.
+	*/
 	virtual void setPin( uint8_t index, uint8_t pin );
 
-	// Reads from the interface
+	/*!
+		@brief Reads from the interface.
+		@return The value read from the interface.
+	*/
 	virtual size_t read() const;
-	virtual bool read( uint8_t pin ) const;
+
+	/*!
+		@brief Reads from the interface.
+		@param[in] index The index position of the interface pin.
+		@return The value read from the interface.
+	*/
+	virtual bool read( uint8_t index ) const;
 
 protected:
 
-	// Constructor method (only for child class)
+	//! Constructor method (only for child class)
 	input();
 
-	// Initializes the interface
+	/*!
+		@brief Initializes the interface.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
 	virtual void init( const std::vector< uint8_t > &pins );
 };
 

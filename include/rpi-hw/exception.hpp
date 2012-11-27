@@ -31,13 +31,15 @@
 
 namespace rpihw { // Begin main namespace
 
-/* EXCEPTION CLASS */
-
+/*!
+	@class exception_class
+	@brief Runtime exception class.
+*/
 class exception_class : public std::runtime_error {
 
 public:
 
-	// Constructor method
+	//! Constructor method.
 	exception_class( const char *file, size_t line, const std::string &message ) :
 		std::runtime_error( utils::format( "%s:%lu: \n\t\t", file, line ) + message ) { }
 };

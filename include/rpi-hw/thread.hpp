@@ -30,29 +30,40 @@
 namespace rpihw { // Begin main namespace
 
 /* POSIX THREAD WRAPPER */
+/*!
+	@class thread
+	@brief POSIX thread wrapper.
+*/
 template < class T >
 class thread {
 
 public:
 
-	// Thread function type
+	//! Threading function type.
 	typedef void (T::*Method)();
 
-	// Constructor and destructor methods
+	/*!
+		@brief Constructor method.
+		@param[in] object The instance.
+		@param[in] method The method of the instance.
+	*/
 	thread( T &object, Method method );
-	virtual ~thread();
 
-	// Starts thread function
-	static void *do_work( void *data );
+	//! Destructor method.
+	virtual ~thread();
 
 private:
 
-	// POSIX thread
+	//! POSIX thread.
 	pthread_t m_pthread;
 
-	// Instance and method used for the thread
+	//! Instance used for thread.
 	T *m_object;
+	//! Method used for thread.
 	Method m_method;
+
+	//! Starts threading function.
+	static void *do_work( void *data );
 };
 
 } // End of main namespace

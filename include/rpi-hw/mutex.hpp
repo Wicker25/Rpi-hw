@@ -30,22 +30,27 @@
 namespace rpihw { // Begin main namespace
 
 /* POSIX MUTEX WRAPPER */
+/*!
+	@class mutex
+	@brief POSIX mutex wrapper.
+*/
 class mutex {
 
 public:
 
-	// Constructor and destructor methods
+	//! Constructor method.
 	mutex();
+	//! Destructor method.
 	virtual ~mutex();
 
-	// Acquires the mutex
+	//! Acquires the mutex.
 	void lock();
-	// Releases the mutex
+	//! Releases the mutex.
 	void unlock();
 
 private:
 
-	// POSIX mutex
+	//! POSIX mutex.
 	pthread_mutex_t m_pmutex;
 };
 

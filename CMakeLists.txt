@@ -1,66 +1,84 @@
-# CMake's configuration
-
-# Nome del progetto
+# Project name
 project( RpiHw )
 
-# Vincolo sulle versioni minori di CMake
+# Set the minimum required version of CMake
 cmake_minimum_required( VERSION 2.6 )
 
-# Imposto la versione della libreria
+# Set the version of the library
+set( RPI_HW_VERSION "0.2.3" )
 set( RPI_HW_VERSION_MAJOR 0 )
 set( RPI_HW_VERSION_MINOR 2 )
-set( RPI_HW_VERSION_PATCH 2 )
+set( RPI_HW_VERSION_PATCH 3 )
 
-# Cerco le dipendenze necessarie
-find_package( Threads )
+# Find the dependencies
+find_package( Threads REQUIRED )
 
-# Aggiungo una direttiva al compilatore
+# Set the compiler flags
 add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-psabi )
 
-# Percorso degli headers
+# Set the path of the header files
 include_directories(
 
 	${CMAKE_SOURCE_DIR}/include
 	${CMAKE_BINARY_DIR}/include
 )
 
-# Ricavo alcune informazioni sul sistema
+# Get the Raspberry Pi Revision number
 # cat /proc/cpuinfo | grep Revision | awk "{printf $3}"
 execute_process( COMMAND cat /proc/cpuinfo
 				 COMMAND grep Revision
 				 COMMAND awk "{printf $3}"
 				 OUTPUT_VARIABLE RPI_REVISION )
 
-# Mi assicuro che sia stato trovato il numero di revisione del Raspberry Pi
-# altrimenti suppongo che sia l'ultima versione della scheda
+# If I have not found the Revision number, use the last version
 IF ( RPI_REVISION )
 
-	# Log di lavoro
 	MESSAGE( "-- Detecting Raspberry Pi revision: ${RPI_REVISION}" )
 
 ELSE ( RPI_REVISION )
 
 	set( RPI_REVISION "0006" )
 
-	# Log di lavoro
 	MESSAGE( WARNING "-- Could NOT find Raspberry Pi revision!" )
 
 ENDIF ( RPI_REVISION )
 
-# Imposto i file di configurazione generati automaticamente
+# Set the files to be modified
 configure_file(
 
 	"${CMAKE_SOURCE_DIR}/include/rpi-hw/version.hpp.in"
 	"${CMAKE_BINARY_DIR}/include/rpi-hw/version.hpp"
+	IMMEDIATE @ONLY
 )
 
 configure_file(
 
 	"${CMAKE_SOURCE_DIR}/include/rpi-hw/rpi.hpp.in"
 	"${CMAKE_BINARY_DIR}/include/rpi-hw/rpi.hpp"
+	IMMEDIATE @ONLY
 )
 
-# Imposto lo script per la disinstallazione
+configure_file(
+
+	"${CMAKE_SOURCE_DIR}/cmake/FindRpiHw.cmake.in"
+	"${CMAKE_BINARY_DIR}/cmake/FindRpiHw.cmake"
+	IMMEDIATE @ONLY
+)
+
+configure_file(
+
+	"${CMAKE_SOURCE_DIR}/pkgconfig/rpi-hw.pc.in"
+	"${CMAKE_BINARY_DIR}/pkgconfig/rpi-hw.pc"
+	IMMEDIATE @ONLY
+)
+
+configure_file(
+
+	"${CMAKE_SOURCE_DIR}/doxy.conf.in"
+	"${CMAKE_BINARY_DIR}/doxy.conf"
+	IMMEDIATE @ONLY
+)
+
 configure_file(
 
 	"${CMAKE_SOURCE_DIR}/cmake_uninstall.cmake.in"
@@ -68,16 +86,15 @@ configure_file(
 	IMMEDIATE @ONLY
 )
 
-# Imposto la cartella delle librerie generate
+# Set some paths
 set( LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib )
-# Imposto la cartella dei binari generati
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin )
 
-# Modifico i percorsi dei sorgenti e dei binari
 set( RPI_HW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src )
 set( RPI_HW_BINARY_DIR ${CMAKE_BINARY_DIR}/bin ${CMAKE_BINARY_DIR}/bin )
 
-# Libreria Rpi-hw
+
+# Build the library
 add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/utils.cpp
@@ -99,15 +116,25 @@ add_library( rpihw SHARED
 target_link_libraries( rpihw ${CMAKE_THREAD_LIBS_INIT} )
 
 
-# Compilo gli eseguibili
+# Build the executables
 add_executable( rpi-gpio ${RPI_HW_SOURCE_DIR}/rpi-gpio.cpp )
 target_link_libraries( rpi-gpio rpihw )
 
 
-# Installatore della libreria
+# If Doxygen found, define the function `make doc`
+find_package( Doxygen )
+
+if ( DOXYGEN_FOUND )
+
+	add_custom_target( doc COMMAND doxygen doxy.conf )
+	add_custom_target( doc-clean COMMAND rm -R "${CMAKE_SOURCE_DIR}/doc" )
+
+endif ( DOXYGEN_FOUND )
+
+
+# Define the library installer
 install_targets( /lib rpihw )
 
-# Installatore degli headers
 install( FILES ${CMAKE_SOURCE_DIR}/include/rpi-hw.hpp
 		 DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
 
@@ -117,26 +144,26 @@ install( DIRECTORY ${CMAKE_SOURCE_DIR}/include/rpi-hw
 		 PATTERN "*"
 		 PATTERN "*.in" EXCLUDE )
 
-# Installatore delle informazioni per pkg-config
+# Pkg-config installer
 install( FILES ${CMAKE_SOURCE_DIR}/pkgconfig/rpi-hw.pc
 		 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig )
 
-# Installatore delle informazioni per CMake
+# CMake installer
 install( FILES ${CMAKE_SOURCE_DIR}/cmake/FindRpiHw.cmake
 		 DESTINATION ${CMAKE_ROOT}/Modules/ )
 
-# Installatore degli eseguibili
+# Tools installer
 install( FILES ${CMAKE_SOURCE_DIR}/bin/rpi-gpio
 		 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
 		 PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
 
-# Memorizzo le cartelle di destinazione
+# Store the library paths
 file( WRITE "${CMAKE_SOURCE_DIR}/install_directory.txt"
 
 	"${CMAKE_INSTALL_PREFIX}/include/rpi-hw\n"
 	"${CMAKE_INSTALL_PREFIX}/share/doc/rpi-hw\n"
 )
 
-# Aggiungo il "make uninstall"
+# Define the unistaller
 add_custom_target( uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake )
 

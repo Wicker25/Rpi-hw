@@ -31,9 +31,14 @@
 
 namespace rpihw { // Begin main namespace
 
-namespace utils { // Begin utilss namespace
+/*!
+	@namespace rpihw::utils
+	@brief Namespace of the utils functions.
+*/
 
-// Constants
+namespace utils { // Begin utils namespace
+
+//! Type of alignment
 enum TextAlign {
 
 	ALIGN_LEFT		= 0,
@@ -41,34 +46,72 @@ enum TextAlign {
 	ALIGN_RIGHT		= 1
 };
 
-// Allocates and initializes an array
+/*!
+	@brief Allocates an array and initializes its elements with `value`.
+	@param[in] size Size of the new array.
+	@param[in] value Value of the array elements.
+	@return Pointer to new array.
+*/
 template < typename T >
 T *malloc( size_t size, T value );
-template < typename T >
-T *malloc( size_t size, const T *values );
-template < typename T >
-T *malloc( const std::vector< T > &values );
 
-// Sets the elements of an array
+/*!
+	@brief Allocates an array and copies elements from another array.
+	@param[in] size Size of the new array.
+	@param[in] other The other array.
+	@return Pointer to new array.
+*/
+template < typename T >
+T *malloc( size_t size, const T *other );
+
+/*!
+	@brief Allocates an array and copies elements from a vector.
+	@param[in] other The other array.
+	@return Pointer to new array.
+*/
+template < typename T >
+T *malloc( const std::vector< T > &other );
+
+/*!
+	@brief Sets array elements to `value`.
+	@param[in] data Pointer to the array.
+	@param[in] size Size of the array.
+	@param[in] value The new value.
+*/
 template < typename T >
 void memset( T *data, size_t size, T value );
 
-// Waits some time
+//! Waits some seconds
 void sleep( size_t seconds );
+//! Waits some milliseconds
 void msleep( size_t mseconds );
+//! Waits some microseconds
 void usleep( size_t useconds );
 
-// Returns formatted string like `sprintf`
+//! Returns a formatted string like `printf`.
 std::string format( const char *format, ... );
 
-// Aligns a text (left, center, and right)
+/*!
+	@brief Aligns a text.
+	@param[in] text The string to align.
+	@param[in] width Width of the text.
+	@param[in] align The position of the alignment.
+	@param[in] truncate If \c true, force to break the lines between letters.
+	@return The aligned text.
+*/
 std::string align( const std::string &text, size_t width, TextAlign align = ALIGN_LEFT, bool truncate = 0 );
 
-// Converts `va_list` to vector
+/*!
+	@brief Copies `va_list` arguments into a vector.
+	@param[in] args The `va_list` object.
+	@param[in] total Number of the arguments.
+	@param[in] offset Offset position of the first argument.
+	@return The vector contains the arguments.
+*/
 template < typename T0, typename T1 >
 std::vector< T0 > varg( va_list args, size_t total, size_t offset = 0 );
 
-} // End of utilss namespace
+} // End of utils namespace
 
 } // End of main namespace
 

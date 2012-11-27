@@ -148,7 +148,7 @@ hd44780::strobe() {
 }
 
 void
-hd44780::send( uint8_t data, size_t wait ) {
+hd44780::send( uint8_t data, size_t delay ) {
 
 	// Send nibble to the display
 	m_data->write( data );
@@ -157,18 +157,18 @@ hd44780::send( uint8_t data, size_t wait ) {
 	strobe();
 
 	// Wait some time
-	utils::usleep( (useconds_t) wait );
+	utils::usleep( (useconds_t) delay );
 }
 
 void
-hd44780::sendSerial( uint8_t data, size_t wait ) {
+hd44780::sendSerial( uint8_t data, size_t delay ) {
 
 	// If 4-bit mode is used, send high nibble to the display
 	if ( m_data->numOfPins() == 4 )
-		send( data >> 4, wait );
+		send( data >> 4, delay );
 
 	// Send rest of data to the display
-	send( data, wait );
+	send( data, delay );
 }
 
 void
