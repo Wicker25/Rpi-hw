@@ -5,10 +5,10 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION "0.2.3" )
+set( RPI_HW_VERSION "0.2.4" )
 set( RPI_HW_VERSION_MAJOR 0 )
 set( RPI_HW_VERSION_MINOR 2 )
-set( RPI_HW_VERSION_PATCH 3 )
+set( RPI_HW_VERSION_PATCH 4 )
 
 # Find the dependencies
 find_package( Threads REQUIRED )
@@ -74,8 +74,8 @@ configure_file(
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/doxy.conf.in"
-	"${CMAKE_BINARY_DIR}/doxy.conf"
+	"${CMAKE_SOURCE_DIR}/doxygen/doxy.conf.in"
+	"${CMAKE_BINARY_DIR}/doxygen/doxy.conf"
 	IMMEDIATE @ONLY
 )
 
@@ -126,7 +126,7 @@ find_package( Doxygen )
 
 if ( DOXYGEN_FOUND )
 
-	add_custom_target( doc COMMAND doxygen doxy.conf )
+	add_custom_target( doc COMMAND doxygen doxygen/doxy.conf )
 	add_custom_target( doc-clean COMMAND rm -R "${CMAKE_SOURCE_DIR}/doc" )
 
 endif ( DOXYGEN_FOUND )

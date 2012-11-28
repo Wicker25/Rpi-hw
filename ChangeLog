@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.2.4 - urgency=low =============
+
+2012-11-28 Wicker25 < wicker25@gmail.com >
+
+    * doxy.conf.in: Updated to the Doxygen's version 1.8.1.2.
+
 ============ Rpi-hw 0.2.3 - urgency=low =============
 
 2012-11-27 Wicker25 < wicker25@gmail.com >
