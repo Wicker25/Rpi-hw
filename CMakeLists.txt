@@ -5,10 +5,10 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION "0.2.4" )
+set( RPI_HW_VERSION "0.2.5" )
 set( RPI_HW_VERSION_MAJOR 0 )
 set( RPI_HW_VERSION_MINOR 2 )
-set( RPI_HW_VERSION_PATCH 4 )
+set( RPI_HW_VERSION_PATCH 5 )
 
 # Find the dependencies
 find_package( Threads REQUIRED )
@@ -23,11 +23,10 @@ include_directories(
 	${CMAKE_BINARY_DIR}/include
 )
 
+
 # Get the Raspberry Pi Revision number
-# cat /proc/cpuinfo | grep Revision | awk "{printf $3}"
-execute_process( COMMAND cat /proc/cpuinfo
-				 COMMAND grep Revision
-				 COMMAND awk "{printf $3}"
+# grep -Po '^Revision\s*:\s*\K[[:xdigit:]]{7}' /proc/cpuinfo
+execute_process( COMMAND grep -Po "^Revision\\s*:\\s*\\K[[:xdigit:]]+" /proc/cpuinfo
 				 OUTPUT_VARIABLE RPI_REVISION )
 
 # If I have not found the Revision number, use the last version
@@ -42,6 +41,9 @@ ELSE ( RPI_REVISION )
 	MESSAGE( WARNING "-- Could NOT find Raspberry Pi revision!" )
 
 ENDIF ( RPI_REVISION )
+
+set( RPI_REVISION "0x${RPI_REVISION}" )
+
 
 # Set the files to be modified
 configure_file(

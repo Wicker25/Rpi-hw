@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.2.5 - urgency=high =============
+
+2012-11-28 Wicker25 < wicker25@gmail.com >
+
+    * CMakeLists.txt: Fixed recognition of the RPi Revision.
+
 ============ Rpi-hw 0.2.4 - urgency=low =============
 
 2012-11-28 Wicker25 < wicker25@gmail.com >
