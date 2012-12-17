@@ -331,7 +331,7 @@ public:
 		PIN21	= 9,	PIN22	= 25,	PIN23	= 11,
 		PIN24	= 8,	PIN26	= 7
 
-	#else // if RPI_REVISION == 0004 || RPI_REVISION == 0006
+	#else
 
 		PIN3	= 2,	PIN5	= 3,	PIN7	= 4,
 		PIN8	= 14,	PIN10	= 15,	PIN11	= 17,
