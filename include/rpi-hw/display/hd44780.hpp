@@ -298,7 +298,7 @@ protected:
 	uint8_t *m_buffer;
 
 	//! Cursor position.
-	uint8_t m_pos[2];
+	struct { uint8_t x, y; } m_pos;
 
 	//! Autoscroll mode.
 	uint8_t m_autoscroll;

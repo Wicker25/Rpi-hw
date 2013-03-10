@@ -157,7 +157,7 @@ hd44780::send( uint8_t data, size_t delay ) {
 	strobe();
 
 	// Wait some time
-	utils::usleep( (useconds_t) delay );
+	utils::usleep( (size_t) delay );
 }
 
 void
@@ -181,10 +181,10 @@ hd44780::putchar( uint8_t chr ) {
 	sendSerial( chr, 200 );
 
 	// Store the character into the buffer
-	m_buffer[ m_pos[0] + m_pos[1] * m_cols ] = chr;
+	m_buffer[ m_pos.x + m_pos.y * m_cols ] = chr;
 
 	// Update the cursor position
-	m_pos[0]++;
+	m_pos.x++;
 }
 
 void
@@ -194,7 +194,7 @@ hd44780::home() {
 	cmd( HOME );
 
 	// Update the cursor position
-	m_pos[0] = m_pos[1] = 0;;
+	m_pos.x = m_pos.y = 0;;
 }
 
 void
@@ -204,7 +204,7 @@ hd44780::clear() {
 	cmd( CLEAR );
 
 	// Update the cursor position
-	m_pos[0] = m_pos[1] = 0;
+	m_pos.x = m_pos.y = 0;
 
 	// Clear the character buffer
 	utils::memset< uint8_t >( m_buffer, m_size, ' ' );
@@ -218,8 +218,8 @@ hd44780::move( uint8_t x, uint8_t y ) {
 		throw exception( utils::format( "(Error) `hd44780::move`: the position (%u,%u) does not exists\n", x, y ) );
 
 	// Update the cursor position
-	m_pos[0] = x;
-	m_pos[1] = y;
+	m_pos.x = x;
+	m_pos.y = y;
 
 	// Set the position of the cursor on the display
 	cmd( DGRAM | ( hd44780::lines[y] + x ) );
@@ -229,12 +229,12 @@ void
 hd44780::newLine() {
 
 	// Check if there are still lines available
-	if ( m_pos[1] < m_rows - 1 ) move( 0, m_pos[1] + 1 );
+	if ( m_pos.y < m_rows - 1 ) move( 0, m_pos.y + 1 );
 
 	// Scroll up the contents and move the cursor to the new line
 	else if ( m_autoscroll & VSCROLL ) {
 
-		move( 0, m_pos[1] );
+		move( 0, m_pos.y );
 		scrollUp( false );
 
 	// Clear the display
@@ -252,7 +252,7 @@ hd44780::write( uint8_t chr ) {
 			scrollLeft();
 
 		else if ( m_autoscroll & HSCROLL_LINE )
-			scrollLeftLine( m_pos[1] );
+			scrollLeftLine( m_pos.y );
 
 		else newLine();
 
@@ -297,7 +297,7 @@ hd44780::scrollLeft( bool cursor ) {
 	// Hardware: cmd( SHIFT | SHIFT_SC );
 
 	// Store the cursor position
-	uint8_t x = m_pos[0] - 1, y = m_pos[1];
+	uint8_t x = m_pos.x - 1, y = m_pos.y;
 
 	// Iterator
 	uint8_t i = 0;
@@ -319,8 +319,8 @@ hd44780::scrollRight( bool cursor ) {
 	// Hardware: cmd( SHIFT | SHIFT_SC | SHIFT_RL );
 
 	// Store the cursor position
-	uint8_t x = m_pos[0] + (uint8_t) cursor,
-			y = m_pos[1];
+	uint8_t x = m_pos.x + (uint8_t) cursor,
+			y = m_pos.y;
 
 	// Copy the current character buffer
 	uint8_t *tmp = utils::malloc< uint8_t >( m_size, m_buffer );
@@ -346,8 +346,8 @@ void
 hd44780::scrollUp( bool cursor ) {
 
 	// Store the cursor position
-	uint8_t x = m_pos[0],
-			y = m_pos[1] - (uint8_t) cursor;
+	uint8_t x = m_pos.x,
+			y = m_pos.y - (uint8_t) cursor;
 
 	// Iterator
 	uint8_t i = 0;
@@ -359,7 +359,7 @@ hd44780::scrollUp( bool cursor ) {
 		putchar( m_buffer[ i + m_cols ] );
 	}
 
-	move( 0, m_pos[1] + 1 );
+	move( 0, m_pos.y + 1 );
 
 	for ( ; i < m_size; i++ ) putchar( ' ' );
 
@@ -371,8 +371,8 @@ void
 hd44780::scrollDown( bool cursor ) {
 
 	// Store the cursor position
-	uint8_t x = m_pos[0],
-			y = m_pos[1] + (uint8_t) cursor;
+	uint8_t x = m_pos.x,
+			y = m_pos.y + (uint8_t) cursor;
 
 	// Copy the current character buffer
 	uint8_t *tmp = utils::malloc< uint8_t >( m_size, m_buffer );
@@ -403,8 +403,8 @@ void
 hd44780::scrollLeftLine( uint8_t line, bool cursor ) {
 
 	// Store the cursor position
-	uint8_t x = m_pos[0] - (uint8_t) cursor,
-			y = m_pos[1];
+	uint8_t x = m_pos.x - (uint8_t) cursor,
+			y = m_pos.y;
 
 	// Iterator
 	uint8_t i;
@@ -425,8 +425,8 @@ void
 hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 
 	// Store the cursor position
-	uint8_t x = m_pos[0] + (uint8_t) cursor,
-			y = m_pos[1];
+	uint8_t x = m_pos.x + (uint8_t) cursor,
+			y = m_pos.y;
 
 	// Copy the current character buffer
 	uint8_t *tmp = utils::malloc< uint8_t >( m_size, m_buffer );
@@ -469,7 +469,7 @@ hd44780::defChar( uint8_t index, const uint8_t *data ) {
 	for ( ; i < m_font_height; i++ ) sendSerial( data[i], 5000 );
 
 	// Restore the cursor position
-	move( m_pos[0], m_pos[1] );
+	move( m_pos.x, m_pos.y );
 }
 
 void

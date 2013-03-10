@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/decoder.cpp
+    Title --- iface/virtual/encoder-inl.hpp
 
     Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,50 +19,18 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_DECODER_CPP_
-#define _RPI_HW_IFACE_DECODER_CPP_
-
-#include <rpi-hw/iface/decoder.hpp>
-
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
-
-#include <rpi-hw/thread.hpp>
-#include <rpi-hw/thread-inl.hpp>
-
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/iface/decoder-inl.hpp>
+#ifndef _RPI_HW_IFACE_VIRTUAL_ENCODER_INL_HPP_
+#define _RPI_HW_IFACE_VIRTUAL_ENCODER_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-decoder::decoder( uint8_t total, ... ) {
+inline void
+encoder::write( size_t value ) {
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
-
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
-
-	// Clean variable argument list
-	va_end( args );
-}
-
-decoder::~decoder() {
-
+	// Write on the interface
+	output::write( math::fast_log2( value ) );
 }
 
 } // End of interfaces namespace

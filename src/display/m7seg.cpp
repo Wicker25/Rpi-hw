@@ -58,8 +58,8 @@ m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
 	format( 0, false );
 
 	// Create the rendering thread and mutex
-	m_thread = new thread< m7seg >( *this, &m7seg::render );
-	m_mutex = new mutex;
+	m_thread	= new thread< m7seg >( *this, &m7seg::render );
+	m_mutex		= new mutex;
 }
 
 m7seg::~m7seg() {
@@ -102,7 +102,7 @@ m7seg::render() {
 	uint8_t i;
 
 	// Rendering loop
-	while ( 1 ) {
+	for ( ;; ) {
 
 		// Check if the enabler interface has been set
 		if ( m_enabler != NULL ) {

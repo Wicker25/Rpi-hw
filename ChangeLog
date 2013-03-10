@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.2.6 - urgency=high =============
+
+********** Wicker25 < wicker25@gmail.com >
+
+    * all: Added PWM support.
+
 ============ Rpi-hw 0.2.5 - urgency=high =============
 
 2012-12-17 Wicker25 < wicker25@gmail.com >

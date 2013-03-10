@@ -140,8 +140,11 @@ If you are looking for examples, you can find some in the section <a href="examp
 #include <rpi-hw/iface/input.hpp>
 #include <rpi-hw/iface/input-inl.hpp>
 
-#include <rpi-hw/iface/decoder.hpp>
-#include <rpi-hw/iface/decoder-inl.hpp>
+#include <rpi-hw/iface/virtual/decoder.hpp>
+#include <rpi-hw/iface/virtual/decoder-inl.hpp>
+
+#include <rpi-hw/iface/virtual/encoder.hpp>
+#include <rpi-hw/iface/virtual/encoder.hpp>
 
 #include <rpi-hw/keypad/base.hpp>
 #include <rpi-hw/keypad/base-inl.hpp>
@@ -157,5 +160,11 @@ If you are looking for examples, you can find some in the section <a href="examp
 
 #include <rpi-hw/display/hd44780.hpp>
 #include <rpi-hw/display/hd44780-inl.hpp>
+
+#include <rpi-hw/display/pcd8544.hpp>
+#include <rpi-hw/display/pcd8544-inl.hpp>
+
+#include <rpi-hw/motor/stepper.hpp>
+#include <rpi-hw/motor/stepper-inl.hpp>
 
 #endif

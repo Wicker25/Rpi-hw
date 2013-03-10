@@ -1,5 +1,5 @@
 /* 
-    Title --- 12keys0.cpp [examples]
+    Title --- s7seg.cpp [examples]
 
     Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -27,38 +27,43 @@
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
-#include <rpi-hw/keypad/base.hpp>
-#include <rpi-hw/keypad/base-inl.hpp>
-
-#include <rpi-hw/keypad/matrix.hpp>
-#include <rpi-hw/keypad/matrix-inl.hpp>
+#include <rpi-hw/display/s7seg.hpp>
+#include <rpi-hw/display/s7seg-inl.hpp>
 
 // Use the Rpi-hw namespace
 using namespace rpihw;
 
+/*
+          1
+        ######
+    0  #      # 4
+       #  17  #
+        ######
+    14 #      # 18
+       #      #
+        ######
+         15
+*/
+
 int
 main( int argc, char *args[] ) {
 
-   // Matrix keypad controller
-   keypad::matrix disp( 3, 4, 21, 10, 4, 22, 14, 15, 17 );
+	// Seven-segment display controller
+	display::s7seg disp( 1, 4, 18, 15, 14, 0, 17 );
 
-   // Main loop
-   while ( 1 ) {
+	// Iterator
+	size_t i = 0;
 
-      // Check some keys state
-      if ( disp.pressed(0) )
-         std::cout << "You have pressed button 0!\n";
+	// Main loop
+	for ( ;; ) {
 
-      if ( disp.released(2) )
-         std::cout << "You have released button 2!\n";
+		// Set the digit
+		disp.set( i++ );
 
-      if ( disp.pressed(1) && disp.pressed(4) )
-         std::cout << "You have pressed buttons 1 and 4!\n";
+		// Wait some time
+		utils::msleep( 500 );
+	}
 
-      // Wait some time
-      utils::msleep( 100 );
-   }
-
-   return 0;
+	return 0;
 }
 

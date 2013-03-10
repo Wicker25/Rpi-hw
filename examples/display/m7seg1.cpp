@@ -27,8 +27,8 @@
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
-#include <rpi-hw/iface/decoder.hpp>
-#include <rpi-hw/iface/decoder-inl.hpp>
+#include <rpi-hw/iface/virtual/decoder.hpp>
+#include <rpi-hw/iface/virtual/decoder-inl.hpp>
 
 #include <rpi-hw/display/m7seg.hpp>
 #include <rpi-hw/display/m7seg-inl.hpp>
@@ -71,7 +71,7 @@ main( int argc, char *args[] ) {
 	float i = -9.0;
 
 	// Main loop
-	while ( 1 ) {
+	for ( ;; ) {
 
 		// Set the value of the display
 		disp.set( i );

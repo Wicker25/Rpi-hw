@@ -47,7 +47,7 @@ inline bool
 hd44780::isLineFull() {
 
 	// Check if the current line is full
-	return ( m_pos[0] >= m_cols );
+	return ( m_pos.x >= m_cols );
 }
 
 inline void

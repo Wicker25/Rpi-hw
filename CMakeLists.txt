@@ -5,10 +5,10 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION "0.2.5" )
+set( RPI_HW_VERSION "0.2.6" )
 set( RPI_HW_VERSION_MAJOR 0 )
 set( RPI_HW_VERSION_MINOR 2 )
-set( RPI_HW_VERSION_PATCH 5 )
+set( RPI_HW_VERSION_PATCH 6 )
 
 # Find the dependencies
 find_package( Threads REQUIRED )
@@ -103,16 +103,22 @@ add_library( rpihw SHARED
 	${RPI_HW_SOURCE_DIR}/bitset.cpp
 	${RPI_HW_SOURCE_DIR}/mutex.cpp
 	${RPI_HW_SOURCE_DIR}/gpio.cpp
+
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
 	${RPI_HW_SOURCE_DIR}/iface/output.cpp
 	${RPI_HW_SOURCE_DIR}/iface/input.cpp
-	${RPI_HW_SOURCE_DIR}/iface/encoder.cpp
-	${RPI_HW_SOURCE_DIR}/iface/decoder.cpp
+	${RPI_HW_SOURCE_DIR}/iface/virtual/encoder.cpp
+	${RPI_HW_SOURCE_DIR}/iface/virtual/decoder.cpp
+
 	${RPI_HW_SOURCE_DIR}/keypad/base.cpp
 	${RPI_HW_SOURCE_DIR}/keypad/matrix.cpp
+
 	${RPI_HW_SOURCE_DIR}/display/s7seg.cpp
 	${RPI_HW_SOURCE_DIR}/display/m7seg.cpp
 	${RPI_HW_SOURCE_DIR}/display/hd44780.cpp
+	${RPI_HW_SOURCE_DIR}/display/pcd8544.cpp
+
+	${RPI_HW_SOURCE_DIR}/motor/stepper.cpp
 )
 
 target_link_libraries( rpihw ${CMAKE_THREAD_LIBS_INIT} )

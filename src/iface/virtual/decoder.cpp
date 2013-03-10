@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/encoder.cpp
+    Title --- iface/virtual/decoder.cpp
 
     Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,10 +19,10 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_ENCODER_CPP_
-#define _RPI_HW_IFACE_ENCODER_CPP_
+#ifndef _RPI_HW_IFACE_VIRTUAL_DECODER_CPP_
+#define _RPI_HW_IFACE_VIRTUAL_DECODER_CPP_
 
-#include <rpi-hw/iface/encoder.hpp>
+#include <rpi-hw/iface/virtual/decoder.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
@@ -42,13 +42,13 @@
 #include <rpi-hw/iface/output.hpp>
 #include <rpi-hw/iface/output-inl.hpp>
 
-#include <rpi-hw/iface/encoder-inl.hpp>
+#include <rpi-hw/iface/virtual/decoder-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-encoder::encoder( uint8_t total, ... ) {
+decoder::decoder( uint8_t total, ... ) {
 
 	// Initialize variable argument list
 	va_list args;
@@ -61,7 +61,7 @@ encoder::encoder( uint8_t total, ... ) {
 	va_end( args );
 }
 
-encoder::~encoder() {
+decoder::~decoder() {
 
 }
 

@@ -1,5 +1,5 @@
 /* 
-    Title --- 12keys1.cpp [examples]
+    Title --- 12keys0.cpp [examples]
 
     Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -26,9 +26,6 @@
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/bitset.hpp>
-#include <rpi-hw/bitset-inl.hpp>
 
 #include <rpi-hw/keypad/base.hpp>
 #include <rpi-hw/keypad/base-inl.hpp>
@@ -59,32 +56,26 @@ using namespace rpihw;
 int
 main( int argc, char *args[] ) {
 
-	// Matrix keypad controller
-	keypad::matrix disp( 3, 4, 21, 10, 4, 22, 14, 15, 17 );
+   // Matrix keypad controller
+   keypad::matrix disp( 3, 4, 21, 10, 4, 22, 14, 15, 17 );
 
-	// Print message
-	std::cout << "State of buttons:\n";
+   // Main loop
+   for ( ;; ) {
 
-	// Iterator
-	size_t i;
+      // Check some keys state
+      if ( disp.pressed(0) )
+         std::cout << "You have pressed button 0!\n";
 
-	// Main loop
-	while ( 1 ) {
+      if ( disp.released(2) )
+         std::cout << "You have released button 2!\n";
 
-		// Write the buttons state
-		const bitset &keystate = disp.state();
+      if ( disp.pressed(1) && disp.pressed(4) )
+         std::cout << "You have pressed buttons 1 and 4!\n";
 
-		std::cout << '\r';
+      // Wait some time
+      utils::msleep( 100 );
+   }
 
-		for ( i = 0; i < keystate.size(); i++ )
-			std::cout << keystate[i] << ' ';
-
-		std::cout << std::flush;
-
-		// Wait some time
-		utils::msleep( 100 );
-	}
-
-	return 0;
+   return 0;
 }
 

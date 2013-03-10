@@ -348,7 +348,7 @@ public:
 	enum Level { LOW = 0, HIGH = 1 };
 
 	//! Pin mode.
-	enum PinMode { INPUT = 0, OUTPUT = 1 };
+	enum PinMode { INPUT = 0, OUTPUT = 1, PWM_OUTPUT = 2 };
 
 	//! Pull resistor mode.
 	enum PullMode { PUD_OFF = 0, PULL_DOWN = 1, PULL_UP = 2 };

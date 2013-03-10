@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/encoder.hpp
+    Title --- iface/virtual/decoder.hpp
 
     Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_ENCODER_HPP_
-#define _RPI_HW_IFACE_ENCODER_HPP_
+#ifndef _RPI_HW_IFACE_VIRTUAL_DECODER_HPP_
+#define _RPI_HW_IFACE_VIRTUAL_DECODER_HPP_
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
@@ -34,12 +34,12 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-/* ENCODER OUTPUT INTERFACE */
+/* DECODER OUTPUT INTERFACE */
 /*!
-	@class encoder
-	@brief Encoder output interface.
+	@class decoder
+	@brief Decoder output interface.
 */
-class encoder : public iface::output {
+class decoder : public iface::output {
 
 public:
 
@@ -48,10 +48,10 @@ public:
 		@param[in] total Number of the GPIO pins.
 		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
 	*/
-	encoder( uint8_t total, ... );
+	decoder( uint8_t total, ... );
 
 	//! Destructor method.
-	virtual ~encoder();
+	virtual ~decoder();
 
 	/*!
 		@brief Writes a value on the interface.

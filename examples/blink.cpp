@@ -35,7 +35,7 @@ main( int argc, char *args[] ) {
 	io.setup( 11, gpio::OUTPUT );
 
 	// Blink
-	while ( 1 ) {
+	for ( ;; ) {
 
 		// Turn it on
 		io.write( 11, gpio::HIGH );

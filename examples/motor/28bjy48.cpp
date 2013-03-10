@@ -1,5 +1,5 @@
 /* 
-    Title --- s7seg.cpp [examples]
+    Title --- 28bjy48.cpp [examples]
 
     Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,50 +19,52 @@
 */
 
 
-#include <iostream>
-#include <ctime>
-
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
-#include <rpi-hw/display/s7seg.hpp>
-#include <rpi-hw/display/s7seg-inl.hpp>
+#include <rpi-hw/motor/stepper.hpp>
+#include <rpi-hw/motor/stepper-inl.hpp>
 
 // Use the Rpi-hw namespace
 using namespace rpihw;
-
-/*
-          1
-        ######
-    0  #      # 4
-       #  17  #
-        ######
-    14 #      # 18
-       #      #
-        ######
-         15
-*/
+using namespace rpihw::motor;
 
 int
 main( int argc, char *args[] ) {
 
-	// Seven-segment display controller
-	display::s7seg disp( 1, 4, 18, 15, 14, 0, 17 );
+	// Create the stepper controller
+	stepper disp( 4096, 24, 25, 8, 7 );
 
-	// Iterator
-	size_t i = 0;
+	// Start demo
+	disp.setSpeed( 3.0 );
+	disp.rotate( 45.0 );
+	utils::msleep( 500 );
 
-	// Main loop
-	while ( 1 ) {
+	disp.setSpeed( 6.0 );
+	disp.rotate( 45.0 );
+	utils::msleep( 500 );
 
-		// Set the digit
-		disp.set( i++ );
+	disp.setSpeed( 9.0 );
+	disp.rotate( 45.0 );
+	utils::msleep( 500 );
 
-		// Wait some time
-		utils::msleep( 500 );
-	}
+	disp.setSpeed( 11.0 );
+	disp.rotate( 45.0 );
+	utils::msleep( 500 );
+
+	disp.setSpeed( 14.0 );
+	disp.rotate( 90.0 );
+	utils::msleep( 500 );
+
+	disp.setSpeed( 14.0 );
+	disp.rotate( 90.0 );
+	utils::msleep( 500 );
+
+	disp.setDirection( stepper::CCW );
+	disp.rotate( 360.0 );
+	utils::msleep( 500 );
 
 	return 0;
 }
