@@ -20,66 +20,6 @@ The following are some functions of the library:
 * Keypad support (matrix keypad)
 * Display support (7-segments, HD44780 lcd)
 
-### Compiling and install the library
+### Documentation
 
-First of all, you need to clone the Rpi-hw repository:
-
-    $ git clone https://github.com/Wicker25/Rpi-hw
-
-Then, compile and install the library with:
-
-    $ cd Rpi-hw
-    $ cmake ./ -DCMAKE_INSTALL_PREFIX=<PATH>
-    $ make
-    # make install
-
-Also, if you want a local copy of the documentation, 
-you can generate it using [doxygen](https://en.wikipedia.org/wiki/Doxygen):
-
-    $ make doc
-
-### Using the library
-
-To use the library, you must include the main Rpi-hw‘s header file into your program:
-
-    // Include the main header file
-    #include <rpi-hw.hpp>
-
-Then, you link the program's file with the library object file, adding a command line argument to the compiler:
-
-    $ g++ `pkg-config --libs --cflags rpi-hw` <SOURCE> -o <BIN>
-
-Otherwise, you can use [CMake](http://en.wikipedia.org/wiki/CMake) with the module `FindRpiHw.cmake` 
-provided by the library. See the following example:
-
-    # CMake's configuration
-
-    # Set the minimum required version of cmake for this project
-    cmake_minimum_required( VERSION 2.6 )
-
-    # Find Rpi-hw library on the operating system
-    find_package( RpiHw )
-
-    # Check if the library was found
-    IF ( RPI_HW_FOUND )
-
-        # Compile the project
-        add_executable( <BIN> ${CMAKE_SOURCE_DIR}/<SOURCE> )
-
-        # Link the library
-        target_link_libraries( <BIN> ${RPI_HW_LIBRARIES} )
-
-    ENDIF ( RPI_HW_FOUND )
-
-### Documentation and examples
-
-If you are looking for examples, you can find some into the directory of the source code, 
-else you can see some post about the library at this [link](http://www.hackyourmind.org/blog/category/rpi-hw/).
-See also the reference manual, available at:
-
-* [http://www.rpihw.hackyourmind.org/](http://www.rpihw.hackyourmind.org/)
-
-### Links
-
-* [http://www.hackyourmind.org/blog/](http://www.hackyourmind.org/blog/)
-
+Detailed documentation of Rpi-hw's features and usage can be found on the [wiki](https://github.com/Wicker25/Rpi-hw/wiki).

@@ -1,7 +1,7 @@
 /* 
-    Title --- iface/virtual/encoder-inl.hpp
+    Title --- time-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,21 +19,35 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_VIRTUAL_ENCODER_INL_HPP_
-#define _RPI_HW_IFACE_VIRTUAL_ENCODER_INL_HPP_
+#ifndef _RPI_HW_TIME_INL_HPP_
+#define _RPI_HW_TIME_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+namespace time { // Begin time namespace
 
 inline void
-encoder::write( size_t value ) {
+sleep( size_t seconds ) {
 
-	// Write on the interface
-	output::write( math::fast_log2( value ) );
+	// Wait some seconds
+	::usleep( (useconds_t) ( seconds * 1000000 ) );
 }
 
-} // End of interfaces namespace
+inline void
+msleep( size_t mseconds ) {
+
+	// Wait some milliseconds
+	::usleep( (useconds_t) ( mseconds * 1000 ) );
+}
+
+inline void
+usleep( size_t useconds ) {
+
+	// Wait some microseconds
+	::usleep( (useconds_t) useconds );
+}
+
+} // End of times namespace
 
 } // End of main namespace
 

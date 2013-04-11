@@ -1,7 +1,7 @@
 /* 
     Title --- keypad/matrix.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -25,6 +25,7 @@
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
+#include <rpi-hw/time.hpp>
 
 #include <rpi-hw/bitset.hpp>
 
@@ -38,13 +39,12 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
-/* MATRIX KEYPAD CONTROLLER */
 /*!
 	@class matrix
 	@brief Matrix keypad controller.
 
-	@example 12keys0.cpp
-	@example 12keys1.cpp
+	@example keypad/12keys0.cpp
+	@example keypad/12keys1.cpp
 */
 class matrix : public keypad::base {
 

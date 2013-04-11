@@ -1,7 +1,7 @@
 /* 
     Title --- utils.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -27,7 +27,7 @@
 
 namespace rpihw { // Begin main namespace
 
-namespace utils { // Begin utilss namespace
+namespace utils { // Begin utils namespace
 
 std::string format( const char *format, ... ) {
 
@@ -57,7 +57,7 @@ align( const std::string &text, size_t width, TextAlign align, bool truncate ) {
 	size_t len, spaces;
 
 	// Start of the new line and position of the last white space
-	size_t off = 0, lspace = 0;
+	size_t off = 0, last = 0;
 
 	// Iterator
 	size_t i = 0;
@@ -72,10 +72,10 @@ align( const std::string &text, size_t width, TextAlign align, bool truncate ) {
 		if ( len >= width ) {
 
 			// Break lines between words, except when a single word is longer than the width
-			if ( !truncate && lspace != off ) {
+			if ( !truncate && last != off ) {
 
-				al.erase( al.begin() + lspace );
-				i = lspace;
+				al.erase( al.begin() + last );
+				i = last;
 			}
 
 			// If required, insert some white spaces to align the text
@@ -102,10 +102,10 @@ align( const std::string &text, size_t width, TextAlign align, bool truncate ) {
 			}
 
 			// Update the offsets
-			lspace = off = i + 1;
+			last = off = i + 1;
 
 		// Store the last white space
-		} else if ( al[i] == ' ' ) lspace = i;
+		} else if ( al[i] == ' ' ) last = i;
 	}
 
 	// If required, insert some spaces to align the last line

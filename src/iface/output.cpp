@@ -1,7 +1,7 @@
 /* 
     Title --- iface/output.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -75,7 +75,7 @@ output::~output() {
 void
 output::init( const std::vector< uint8_t > &pins ) {
 
-	// Call parent class method
+	// Call the parent class method
 	base::init( pins );
 
 	// Initialize the interface pins
@@ -83,37 +83,30 @@ output::init( const std::vector< uint8_t > &pins ) {
 
 	for ( ; i < numOfPins(); i++ ) {
 
-		if ( m_pins[i] != DISABLED_PIN ) {
-
-			m_gpio->write( m_pins[i], gpio::LOW );
-			m_gpio->setup( m_pins[i], gpio::OUTPUT );
-		}
+		m_gpio->write( m_pins[i], gpio::LOW );
+		m_gpio->setup( m_pins[i], gpio::OUTPUT );
 	}
 }
 
 void
-output::write( size_t value ) {
+output::write( size_t data ) {
 
-	// Write value on the interface
+	// Write data on the interface
 	size_t i = 0;
 
-	for ( ; i < numOfPins(); i++ ) {
-
-		if ( m_pins[i] != DISABLED_PIN )
-			m_gpio->write( m_pins[i], value & ( 1 << i ) );
-	}
+	for ( ; i < numOfPins(); i++ )
+		m_gpio->write( m_pins[i], data & ( 1 << i ) );
 }
 
 void
-output::write( uint8_t index, bool value ) {
+output::write( uint8_t index, bool data ) {
 
 	// Check if pin exists
 	if ( index >= numOfPins() )
 		throw exception( "(Error) `iface::write`: could not get pin, index out of range\n" );
 
-	// Write value on the interface pin
-	if ( m_pins[ index ] != DISABLED_PIN )
-		m_gpio->write( m_pins[ index ], value );
+	// Write data on the interface pin
+	m_gpio->write( m_pins[ index ], data );
 }
 
 } // End of interfaces namespace

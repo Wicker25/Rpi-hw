@@ -1,7 +1,7 @@
 /* 
     Title --- gpio.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -64,7 +64,7 @@ gpio::~gpio() {
 	munmap( m_map, BLOCK_SIZE );
 
 	// Close memory device file
-    close( m_mem_fd );
+	close( m_mem_fd );
 }
 
 void

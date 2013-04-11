@@ -1,7 +1,7 @@
 /* 
-    Title --- iface/virtual/decoder.hpp
+    Title --- iface/encoder.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,46 +19,51 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_VIRTUAL_DECODER_HPP_
-#define _RPI_HW_IFACE_VIRTUAL_DECODER_HPP_
+#ifndef _RPI_HW_IFACE_ENCODER_CPP_
+#define _RPI_HW_IFACE_ENCODER_CPP_
 
-#include <rpi-hw/types.hpp>
-#include <rpi-hw/exception.hpp>
-#include <rpi-hw/math.hpp>
+#include <rpi-hw/iface/encoder.hpp>
+
 #include <rpi-hw/utils.hpp>
+#include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/mutex.hpp>
+#include <rpi-hw/mutex-inl.hpp>
+
+#include <rpi-hw/thread.hpp>
+#include <rpi-hw/thread-inl.hpp>
+
+#include <rpi-hw/gpio.hpp>
+#include <rpi-hw/gpio-inl.hpp>
 
 #include <rpi-hw/iface/base.hpp>
+#include <rpi-hw/iface/base-inl.hpp>
+
 #include <rpi-hw/iface/output.hpp>
+#include <rpi-hw/iface/output-inl.hpp>
+
+#include <rpi-hw/iface/encoder-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-/* DECODER OUTPUT INTERFACE */
-/*!
-	@class decoder
-	@brief Decoder output interface.
-*/
-class decoder : public iface::output {
+encoder::encoder( uint8_t total, ... ) {
 
-public:
+	// Initialize variable argument list
+	va_list args;
+	va_start( args, total );
 
-	/*!
-		@brief Constructor method.
-		@param[in] total Number of the GPIO pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
-	*/
-	decoder( uint8_t total, ... );
+	// Initialize the interface
+	init( utils::varg< uint8_t, int >( args, total ) );
 
-	//! Destructor method.
-	virtual ~decoder();
+	// Clean variable argument list
+	va_end( args );
+}
 
-	/*!
-		@brief Writes a value on the interface.
-		@param[in] value The value to be written.
-	*/
-	virtual void write( size_t value );
-};
+encoder::~encoder() {
+
+}
 
 } // End of interfaces namespace
 

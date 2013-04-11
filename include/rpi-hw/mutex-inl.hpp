@@ -1,7 +1,7 @@
 /* 
     Title --- mutex-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -23,6 +23,20 @@
 #define _RPI_HW_MUTEX_INL_HPP_
 
 namespace rpihw { // Begin main namespace
+
+inline
+mutex::mutex() {
+
+	// Initialize the mutex
+	pthread_mutex_init( &m_pmutex, NULL );
+}
+
+inline
+mutex::~mutex() {
+
+	// Deinitialize the mutex
+	pthread_mutex_destroy( &m_pmutex );
+}
 
 inline void
 mutex::lock() {

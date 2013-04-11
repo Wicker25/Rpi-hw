@@ -1,7 +1,7 @@
 /* 
 	Title --- gpio.hpp
 
-	Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
 	This file is part of Rpi-hw.
 
@@ -23,6 +23,8 @@
 #define _RPI_HW_GPIO_HPP_
 
 #include <iostream>
+
+#include <unistd.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 
@@ -41,7 +43,6 @@
 
 namespace rpihw { // Begin main namespace
 
-/* GPIO CONTROLLER */
 /*!
 	@class gpio
 	@brief GPIO controller interface.

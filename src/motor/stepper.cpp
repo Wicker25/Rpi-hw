@@ -1,7 +1,7 @@
 /* 
     Title --- motor/stepper.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -23,6 +23,9 @@
 #define _RPI_HW_MOTOR_STEPPER_CPP_
 
 #include <rpi-hw/motor/stepper.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/gpio.hpp>
 #include <rpi-hw/gpio-inl.hpp>
@@ -141,7 +144,7 @@ stepper::step( size_t number ) {
 		m_motor->write( m_sequence[ m_counter % m_sequence_len ] );
 
 		// Wait some time and increment the step counter
-		utils::usleep( delay );
+		time::usleep( delay );
 	}
 }
 

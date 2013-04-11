@@ -1,7 +1,7 @@
 /* 
     Title --- utils-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -41,7 +41,7 @@ malloc( size_t size, T value ) {
 
 template < typename T >
 T *
-malloc( size_t size, const  T *other ) {
+mcopy( size_t size, const  T *other ) {
 
 	// Create the new array
 	T *data = new T[ size ];
@@ -56,10 +56,10 @@ malloc( size_t size, const  T *other ) {
 
 template < typename T >
 inline T *
-malloc( const std::vector< T > &other ) {
+mcopy( const std::vector< T > &other ) {
 
 	// Allocate and initialize a new array
-	return malloc( other.size(), &other[0] );
+	return mcopy( other.size(), &other[0] );
 }
 
 template < typename T >
@@ -72,26 +72,14 @@ memset( T *data, size_t size, T value ) {
 	for ( ; i < size; i++ ) data[i] = value;
 }
 
+template < typename T >
 inline void
-sleep( size_t seconds ) {
+swap( T &a, T &b ) {
 
-	// Wait some seconds
-	::usleep( (useconds_t) ( seconds * 1000000 ) );
+	// Swap the two variables
+	std::swap( a, b );
 }
 
-inline void
-msleep( size_t mseconds ) {
-
-	// Wait some milliseconds
-	::usleep( (useconds_t) ( mseconds * 1000 ) );
-}
-
-inline void
-usleep( size_t useconds ) {
-
-	// Wait some microseconds
-	::usleep( (useconds_t) useconds );
-}
 
 template < typename T0, typename T1 >
 std::vector< T0 >

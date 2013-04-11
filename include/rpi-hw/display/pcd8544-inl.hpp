@@ -1,7 +1,7 @@
 /* 
     Title --- display/pcd8544-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -25,11 +25,6 @@
 namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
-
-inline void
-pcd8544::cmd( uint8_t data ) {
-
-}
 
 } // End of displays namespace
 

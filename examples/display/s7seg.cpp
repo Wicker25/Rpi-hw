@@ -1,7 +1,7 @@
 /* 
     Title --- s7seg.cpp [examples]
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,13 +19,13 @@
 */
 
 
-#include <iostream>
-#include <ctime>
-
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/display/s7seg.hpp>
 #include <rpi-hw/display/s7seg-inl.hpp>
@@ -61,7 +61,7 @@ main( int argc, char *args[] ) {
 		disp.set( i++ );
 
 		// Wait some time
-		utils::msleep( 500 );
+		time::msleep( 500 );
 	}
 
 	return 0;

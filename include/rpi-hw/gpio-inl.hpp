@@ -1,7 +1,7 @@
 /* 
     Title --- gpio-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -34,7 +34,10 @@ gpio::setBit( uint8_t offset, uint8_t index, bool value ) {
 	uint32_t &reg = *( m_map + offset + index / 32 );
 
 	// Set the bit value on the GPIO controller register
-	reg = ( reg & ~( 1 << shift ) ) | ( value << shift );
+	if ( value )
+		reg |= ( 1 << shift );
+	else
+		reg &= ~( 1 << shift );
 }
 
 inline bool

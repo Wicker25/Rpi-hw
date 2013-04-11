@@ -1,7 +1,7 @@
 /* 
-    Title --- iface/virtual/encoder.cpp
+    Title --- iface/shift-base.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,13 +19,16 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_VIRTUAL_ENCODER_CPP_
-#define _RPI_HW_IFACE_VIRTUAL_ENCODER_CPP_
+#ifndef _RPI_HW_IFACE_SHIFT_BASE_CPP_
+#define _RPI_HW_IFACE_SHIFT_BASE_CPP_
 
-#include <rpi-hw/iface/virtual/encoder.hpp>
+#include <rpi-hw/iface/shift-base.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/mutex.hpp>
 #include <rpi-hw/mutex-inl.hpp>
@@ -39,29 +42,20 @@
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/base-inl.hpp>
 
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/iface/virtual/encoder-inl.hpp>
+#include <rpi-hw/iface/shift-base-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-encoder::encoder( uint8_t total, ... ) {
+shiftBase::shiftBase( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay ) : base( 2, data_pin, clock_pin ) {
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
-
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
-
-	// Clean variable argument list
-	va_end( args );
+	// Store the bit order and the delay time of the clock
+	m_order = order;
+	m_delay = delay;
 }
 
-encoder::~encoder() {
+shiftBase::~shiftBase() {
 
 }
 

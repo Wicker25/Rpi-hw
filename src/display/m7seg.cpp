@@ -1,7 +1,7 @@
 /* 
     Title --- display/m7seg.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -23,6 +23,9 @@
 #define _RPI_HW_DISPLAY_M7SEG_CPP_
 
 #include <rpi-hw/display/m7seg.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/mutex.hpp>
 #include <rpi-hw/mutex-inl.hpp>
@@ -48,8 +51,33 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
+m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c,
+			  uint8_t d, uint8_t e, uint8_t f, uint8_t g ) : s7seg( a, b, c, d, e, f, g ) {
+
+	// Initialize the instance
+	init();
+}
+
 m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
-			  uint8_t e, uint8_t f, uint8_t g, uint8_t dp ) : s7seg( a, b, c, d, e, f, g, dp ), m_enabler( NULL ), m_ndisplay(2) {
+			  uint8_t e, uint8_t f, uint8_t g, uint8_t dp ) : s7seg( a, b, c, d, e, f, g, dp ) {
+
+	// Initialize the instance
+	init();
+}
+
+m7seg::~m7seg() {
+
+	// Destroy the rendering thread and mutex
+	delete m_thread;
+	delete m_mutex;
+}
+
+void
+m7seg::init() {
+
+	// Initialize some structures
+	m_enabler	= NULL;
+	m_ndisplay	= 2;
 
 	// Set the updating frequency (Hz)
 	setFreq( 100.0 );
@@ -60,13 +88,6 @@ m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
 	// Create the rendering thread and mutex
 	m_thread	= new thread< m7seg >( *this, &m7seg::render );
 	m_mutex		= new mutex;
-}
-
-m7seg::~m7seg() {
-
-	// Destroy the rendering thread and mutex
-	delete m_thread;
-	delete m_mutex;
 }
 
 void
@@ -160,7 +181,7 @@ m7seg::render() {
 					m_enabler->write( i );
 
 					// Wait some time (corresponding to the rendering frequency)
-					utils::usleep( (size_t) ( 1000000.0 / getFreq() ) );
+					time::usleep( (size_t) ( 1000000.0 / getFreq() ) );
 				}
 			}
 

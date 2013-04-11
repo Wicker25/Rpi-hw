@@ -1,7 +1,7 @@
 /* 
     Title --- display/s7seg.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -38,18 +38,17 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-/* SEVEN-SEGMENT DISPLAY CONTROLLER */
 /*!
 	@class s7seg
 	@brief Seven-segment display controller.
 
-	@example s7seg.cpp
+	@example display/s7seg.cpp
 */
 class s7seg {
 
 public:
 
-	//! Display segments
+	//! Display segments.
 	enum Segments {
 
 		SEGMENT_A	= 0,
@@ -62,8 +61,21 @@ public:
 		SEGMENT_DP	= 7
 	};
 
-	//! Outputs of digits
+	//! Outputs of digits.
 	static const uint8_t output[12];
+
+	/*!
+		@brief Constructor method.
+		@param[in] a The GPIO pin connected to the segment a.
+		@param[in] b The GPIO pin connected to the segment b.
+		@param[in] c The GPIO pin connected to the segment c.
+		@param[in] d The GPIO pin connected to the segment d.
+		@param[in] e The GPIO pin connected to the segment e.
+		@param[in] f The GPIO pin connected to the segment f.
+		@param[in] g The GPIO pin connected to the segment g.
+	*/
+	s7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
+		   uint8_t e, uint8_t f, uint8_t g );
 
 	/*!
 		@brief Constructor method.
@@ -77,7 +89,7 @@ public:
 		@param[in] dp The GPIO pin connected to the segment dp (decimal point).
 	*/
 	s7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
-		   uint8_t e, uint8_t f, uint8_t g, uint8_t dp = iface::DISABLED_PIN );
+		   uint8_t e, uint8_t f, uint8_t g, uint8_t dp );
 
 	//! Destructor method.
 	virtual ~s7seg();
@@ -86,13 +98,13 @@ public:
 		@brief Sets the value of the display.
 		@param[in] value The new value of the display.
 	*/
-	virtual void set( float value );
+	void set( float value );
 
 	/*!
 		@brief Returns the value of the display.
 		@return The current value of the display.
 	*/
-	virtual float get() const;
+	float get() const;
 
 protected:
 

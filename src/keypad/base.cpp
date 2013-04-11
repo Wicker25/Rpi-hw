@@ -1,7 +1,7 @@
 /* 
     Title --- keypad/base.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -26,6 +26,9 @@
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/bitset.hpp>
 #include <rpi-hw/bitset-inl.hpp>
@@ -104,8 +107,8 @@ base::init( size_t total, const std::vector< uint8_t > &pins ) {
 	m_input = new iface::input( pins );
 
 	// Create the updating thread and mutex
-	m_thread = new thread< keypad::base >( *this, &keypad::base::update );
-	m_mutex = new mutex;
+	m_thread	= new thread< keypad::base >( *this, &keypad::base::update );
+	m_mutex		= new mutex;
 }
 
 bool
@@ -173,7 +176,7 @@ base::update() {
 		}
 
 		// Wait some time (100 ms)
-		utils::msleep( 100 );
+		time::msleep( 100 );
 	}
 }
 

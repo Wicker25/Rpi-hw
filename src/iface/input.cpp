@@ -1,7 +1,7 @@
 /* 
     Title --- iface/input.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -75,7 +75,7 @@ input::~input() {
 void
 input::init( const std::vector< uint8_t > &pins ) {
 
-	// Call parent class method
+	// Call the parent class method
 	base::init( pins );
 
 	// Initialize the interface pins
@@ -83,27 +83,21 @@ input::init( const std::vector< uint8_t > &pins ) {
 
 	for ( ; i < numOfPins(); i++ ) {
 
-		if ( m_pins[i] != DISABLED_PIN ) {
-
-			m_gpio->setup( m_pins[i], gpio::INPUT );
-			m_gpio->setPullUpDown( m_pins[i], gpio::PULL_DOWN );
-		}
+		m_gpio->setup( m_pins[i], gpio::INPUT );
+		m_gpio->setPullUpDown( m_pins[i], gpio::PULL_DOWN );
 	}
 }
 
 size_t
 input::read() const {
 
-	// Read value from the interface
-	size_t value = 0, i = 0;
+	// Read data from the interface
+	size_t data = 0, i = 0;
 
-	for ( ; i < numOfPins(); i++ ) {
+	for ( ; i < numOfPins(); i++ )
+		data |= ( (size_t) m_gpio->read( m_pins[i] ) ) << i;
 
-		if ( m_pins[i] != DISABLED_PIN )
-			value |= ( (size_t) m_gpio->read( m_pins[i] ) ) << i;
-	}
-
-	return value;
+	return data;
 }
 
 bool
@@ -113,14 +107,13 @@ input::read( uint8_t index ) const {
 	if ( index >= numOfPins() )
 		throw exception( "(Error) `iface::read`: could not get pin, index out of range\n" );
 
-	// Return value
-	bool value = false;
+	// Return data
+	bool data = false;
 
-	// Read value from the interface pin
-	if ( m_pins[ index ] != DISABLED_PIN )
-		value = m_gpio->read( m_pins[ index ] );
+	// Read data from the interface pin
+	data = m_gpio->read( m_pins[ index ] );
 
-	return value;
+	return data;
 }
 
 } // End of interfaces namespace

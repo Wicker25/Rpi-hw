@@ -1,7 +1,7 @@
 /* 
     Title --- iface/input.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -35,7 +35,6 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-/* INPUT INTERFACE */
 /*!
 	@class input
 	@brief Input interface.
@@ -69,14 +68,14 @@ public:
 
 	/*!
 		@brief Reads from the interface.
-		@return The value read from the interface.
+		@return The data read from the interface.
 	*/
 	virtual size_t read() const;
 
 	/*!
 		@brief Reads from the interface.
 		@param[in] index The index position of the interface pin.
-		@return The value read from the interface.
+		@return The data read from the interface.
 	*/
 	virtual bool read( uint8_t index ) const;
 

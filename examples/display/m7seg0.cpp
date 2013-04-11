@@ -1,7 +1,7 @@
 /* 
     Title --- m7seg0.cpp [examples]
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,16 +19,16 @@
 */
 
 
-#include <iostream>
-#include <ctime>
-
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
-#include <rpi-hw/iface/virtual/decoder.hpp>
-#include <rpi-hw/iface/virtual/decoder-inl.hpp>
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
+
+#include <rpi-hw/iface/decoder.hpp>
+#include <rpi-hw/iface/decoder-inl.hpp>
 
 #include <rpi-hw/display/m7seg.hpp>
 #include <rpi-hw/display/m7seg-inl.hpp>
@@ -80,7 +80,7 @@ main( int argc, char *args[] ) {
 		i += 0.1;
 
 		// Wait some time
-		utils::msleep( 500 );
+		time::msleep( 500 );
 	}
 
 	return 0;

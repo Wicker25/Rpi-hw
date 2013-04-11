@@ -1,7 +1,7 @@
 /* 
     Title --- keypad/base.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -27,6 +27,7 @@
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
+#include <rpi-hw/time.hpp>
 
 #include <rpi-hw/bitset.hpp>
 
@@ -45,7 +46,6 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
-/* GENERIC KEYPAD CONTROLLER */
 /*!
 	@class base
 	@brief Generic keypad controller.

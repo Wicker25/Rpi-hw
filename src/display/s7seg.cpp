@@ -1,7 +1,7 @@
 /* 
     Title --- display/s7seg.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -56,6 +56,14 @@ const uint8_t s7seg::output[12] = {
 	0x80,	// .	 1 0 0 0 0 0 0 0
 	0x40,	// -	 0 1 0 0 0 0 0 0
 };
+
+
+s7seg::s7seg( uint8_t a, uint8_t b, uint8_t c,
+			  uint8_t d, uint8_t e, uint8_t f, uint8_t g ) {
+
+	// Create the output interface to the display
+	m_display = new iface::output( 7, a, b, c, d, e, f, g );
+}
 
 s7seg::s7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
 			  uint8_t e, uint8_t f, uint8_t g, uint8_t dp ) {

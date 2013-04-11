@@ -1,7 +1,7 @@
 /* 
-    Title --- iface/virtual/decoder-inl.hpp
+    Title --- iface/shiftin-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,18 +19,21 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_VIRTUAL_DECODER_INL_HPP_
-#define _RPI_HW_IFACE_VIRTUAL_DECODER_INL_HPP_
+#ifndef _RPI_HW_IFACE_SHIFTIN_INL_HPP_
+#define _RPI_HW_IFACE_SHIFTIN_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
 inline void
-decoder::write( size_t value ) {
+shiftIn::setPin( uint8_t index, uint8_t pin ) {
 
-	// Write on the interface
-	output::write( math::fast_pow2( value ) );
+	// Call parent class method
+	base::setPin( index, pin );
+
+	// Set the GPIO pin mode
+	m_gpio->setup( m_pins[ index ], ( index == DATA_PIN ? gpio::INPUT : gpio::OUTPUT ) );
 }
 
 } // End of interfaces namespace

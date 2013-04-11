@@ -1,7 +1,7 @@
 /* 
     Title --- iface/base-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_BASE_INL_HPP_
-#define _RPI_HW_BASE_INL_HPP_
+#ifndef _RPI_HW_IFACE_BASE_INL_HPP_
+#define _RPI_HW_IFACE_BASE_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 

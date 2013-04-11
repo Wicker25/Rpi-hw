@@ -1,7 +1,7 @@
 /* 
-    Title --- mutex.cpp
+    Title --- font/freetype-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,25 +19,15 @@
 */
 
 
-#ifndef _RPI_HW_MUTEX_CPP_
-#define _RPI_HW_MUTEX_CPP_
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
+#ifndef _RPI_HW_FONT_FREETYPE_INL_HPP_
+#define _RPI_HW_FONT_FREETYPE_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-mutex::mutex() {
+namespace font { // Begin fonts namespace
 
-	// Initialize the mutex
-	pthread_mutex_init( &m_pmutex, NULL );
-}
 
-mutex::~mutex() {
-
-	// Deinitialize the mutex
-	pthread_mutex_destroy( &m_pmutex );
-}
+} // End of fonts namespace
 
 } // End of main namespace
 

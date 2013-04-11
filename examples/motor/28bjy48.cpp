@@ -1,7 +1,7 @@
 /* 
     Title --- 28bjy48.cpp [examples]
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -24,47 +24,49 @@
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
+
 #include <rpi-hw/motor/stepper.hpp>
 #include <rpi-hw/motor/stepper-inl.hpp>
 
 // Use the Rpi-hw namespace
 using namespace rpihw;
-using namespace rpihw::motor;
 
 int
 main( int argc, char *args[] ) {
 
 	// Create the stepper controller
-	stepper disp( 4096, 24, 25, 8, 7 );
+	motor::stepper disp( 4096, 24, 25, 8, 7 );
 
 	// Start demo
 	disp.setSpeed( 3.0 );
 	disp.rotate( 45.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	disp.setSpeed( 6.0 );
 	disp.rotate( 45.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	disp.setSpeed( 9.0 );
 	disp.rotate( 45.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	disp.setSpeed( 11.0 );
 	disp.rotate( 45.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	disp.setSpeed( 14.0 );
 	disp.rotate( 90.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	disp.setSpeed( 14.0 );
 	disp.rotate( 90.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	disp.setDirection( stepper::CCW );
 	disp.rotate( 360.0 );
-	utils::msleep( 500 );
+	time::msleep( 500 );
 
 	return 0;
 }

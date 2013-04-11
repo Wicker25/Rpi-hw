@@ -1,7 +1,7 @@
 /* 
     Title --- bitset.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -34,59 +34,73 @@ namespace rpihw { // Begin main namespace
 bitset::bitset( size_t size, bool init ) {
 
 	// Allocate memory to store the bits
-	m_nbits = size;
-	m_size = (size_t) math::ceil( (float) size / 8.0 );
-	m_data = utils::malloc< uint8_t >( m_size, 0xFF );
+	m_nbits	= size;
+	m_size	= (size_t) math::ceil( (float) size / 8.0 );
+	m_data	= utils::malloc< uint8_t >( m_size, 0xFF * (uint8_t) init );
 }
 
 bitset::~bitset() {
 
-	// Free mallocated memory
+	// Free allocated memory
 	delete[] m_data;
+}
+
+void
+bitset::set( bool value ) {
+
+	// Set the value of the bits
+	utils::memset< uint8_t >( m_data, m_size, 0xFF * (uint8_t) value );
 }
 
 void
 bitset::set( size_t index, bool value ) {
 
-	// Checks if the bit exists
+	// Check if the bit exists
 	if ( index >= m_nbits )
 		throw exception( utils::format( "(Error) `bitset::set`: set %p has only %lu bits\n",
 										this, (unsigned long) m_nbits ) );
 
-	// Sets value of the bit at position `index`
-	uint8_t shift = index % 8;
-	uint8_t &data = *( m_data + index / 8 );
-	data = ( data & ~( 1 << shift ) ) | ( value << shift );
+	// Calculate the bit position
+	uint8_t shift = (uint8_t) ( index % 8 );
+
+	// Get the block of the bits
+	uint8_t &block = *( m_data + index / 8 );
+
+	// Set the value of the bit at position `index`
+	if ( value )
+		block |= ( 1 << shift );
+	else
+		block &= ~( 1 << shift );
 }
 
 bool
 bitset::get( size_t index ) const {
 
-	// Checks if the bit exists
+	// Check if the bit exists
 	if ( index >= m_nbits )
 		throw exception( utils::format( "(Error) `bitset::get`: set %p has only %lu bits\n",
 										this, (unsigned long) m_nbits ) );
 
-	// Gets value of the bit at position `index`
+	// Get the value of the bit at position `index`
 	return ( *( m_data + index / 8 ) & ( 1 << ( index % 8 ) ) ) != 0;
 }
 
 void
 bitset::flip( size_t index ) {
 
-	// Checks if the bit exists
+	// Check if the bit exists
 	if ( index >= m_nbits )
 		throw exception( utils::format( "(Error) `bitset::flip`: set %p has only %lu bits\n",
 										this, (unsigned long) m_nbits ) );
 
-	// Flips value of the bit
+	// Flip the value of the bit
 	*( m_data + index / 8 ) ^= ( 1 << ( index % 8 ) );
 }
 
 void
 bitset::resize( size_t size ) {
 
-	// Remallocate the memory to store the bits
+	// Reallocate the memory to store the bits
 	m_nbits = size;
 	m_size = (size_t) math::ceil( (float) size / 8.0 );
 

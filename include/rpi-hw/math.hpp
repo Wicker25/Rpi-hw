@@ -1,7 +1,7 @@
 /* 
     Title --- math.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -53,6 +53,10 @@ inline T floor( T x ) { return (T) std::floor( (double) x ); }
 template < typename T >
 inline T ceil( T x ) { return (T) std::ceil( (double) x ); }
 
+//! Returns the nearest integer to `x`.
+template < typename T >
+inline T round( T x ) { return ( x > 0.0 ) ? math::floor( x + 0.5 ) : math::floor( x - 0.5 ); }
+
 //! Returns the lesser of `x` and `y`
 template < typename T >
 inline T min( T x, T y ) { return ( (x < y) ? x : y ); }
@@ -84,6 +88,10 @@ inline T square( T x ) { return (x * x); }
 //! Returns the cube of `x`
 template < typename T >
 inline T cube( T x ) { return (x * x * x); }
+
+//! Returns the square root of `x`
+template < typename T >
+inline T sqrt( T x ) { return (T) std::sqrt( x ); }
 
 //! Returns the natural logarithm of `x`
 template < typename T >

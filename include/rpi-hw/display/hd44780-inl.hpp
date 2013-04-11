@@ -1,7 +1,7 @@
 /* 
     Title --- display/hd44780-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -40,14 +40,14 @@ inline uint8_t
 hd44780::getChar( uint8_t x, uint8_t y ) const {
 
 	// Return a character from the buffer
-	return m_buffer[ x + y * m_cols ];
+	return m_buffer[ x + y * m_screen.w ];
 }
 
 inline bool
 hd44780::isLineFull() {
 
 	// Check if the current line is full
-	return ( m_pos.x >= m_cols );
+	return ( m_pos.x >= m_screen.w );
 }
 
 inline void

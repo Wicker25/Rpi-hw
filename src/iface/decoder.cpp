@@ -1,7 +1,7 @@
 /* 
-    Title --- iface/virtual/decoder.cpp
+    Title --- iface/decoder.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,10 +19,10 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_VIRTUAL_DECODER_CPP_
-#define _RPI_HW_IFACE_VIRTUAL_DECODER_CPP_
+#ifndef _RPI_HW_IFACE_DECODER_CPP_
+#define _RPI_HW_IFACE_DECODER_CPP_
 
-#include <rpi-hw/iface/virtual/decoder.hpp>
+#include <rpi-hw/iface/decoder.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
@@ -42,7 +42,7 @@
 #include <rpi-hw/iface/output.hpp>
 #include <rpi-hw/iface/output-inl.hpp>
 
-#include <rpi-hw/iface/virtual/decoder-inl.hpp>
+#include <rpi-hw/iface/decoder-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 

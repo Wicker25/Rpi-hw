@@ -1,7 +1,7 @@
 /* 
     Title --- rpi-hw.hpp [main]
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -117,6 +117,9 @@ If you are looking for examples, you can find some in the section <a href="examp
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
+
 #include <rpi-hw/bitset.hpp>
 #include <rpi-hw/bitset-inl.hpp>
 
@@ -140,11 +143,31 @@ If you are looking for examples, you can find some in the section <a href="examp
 #include <rpi-hw/iface/input.hpp>
 #include <rpi-hw/iface/input-inl.hpp>
 
-#include <rpi-hw/iface/virtual/decoder.hpp>
-#include <rpi-hw/iface/virtual/decoder-inl.hpp>
+#include <rpi-hw/iface/shift-base.hpp>
+#include <rpi-hw/iface/shift-base-inl.hpp>
 
-#include <rpi-hw/iface/virtual/encoder.hpp>
-#include <rpi-hw/iface/virtual/encoder.hpp>
+#include <rpi-hw/iface/shiftout.hpp>
+#include <rpi-hw/iface/shiftout-inl.hpp>
+
+#include <rpi-hw/iface/shiftin.hpp>
+#include <rpi-hw/iface/shiftin-inl.hpp>
+
+#include <rpi-hw/iface/decoder.hpp>
+#include <rpi-hw/iface/decoder-inl.hpp>
+
+#include <rpi-hw/iface/encoder.hpp>
+#include <rpi-hw/iface/encoder.hpp>
+
+#include <rpi-hw/font/glyph.hpp>
+
+#include <rpi-hw/font/base.hpp>
+#include <rpi-hw/font/base-inl.hpp>
+
+#include <rpi-hw/font/freetype.hpp>
+#include <rpi-hw/font/freetype-inl.hpp>
+
+#include <rpi-hw/designer.hpp>
+#include <rpi-hw/designer-inl.hpp>
 
 #include <rpi-hw/keypad/base.hpp>
 #include <rpi-hw/keypad/base-inl.hpp>

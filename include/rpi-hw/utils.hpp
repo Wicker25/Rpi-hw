@@ -1,7 +1,7 @@
 /* 
     Title --- utils.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -24,7 +24,6 @@
 
 #include <cstdio>
 #include <cstdarg>
-#include <ctime>
 
 #include <vector>
 #include <string>
@@ -38,7 +37,7 @@ namespace rpihw { // Begin main namespace
 
 namespace utils { // Begin utils namespace
 
-//! Type of alignment
+//! Type of alignment.
 enum TextAlign {
 
 	ALIGN_LEFT		= 0,
@@ -62,7 +61,7 @@ T *malloc( size_t size, T value );
 	@return Pointer to new array.
 */
 template < typename T >
-T *malloc( size_t size, const T *other );
+T *mcopy( size_t size, const T *other );
 
 /*!
 	@brief Allocates an array and copies elements from a vector.
@@ -70,7 +69,7 @@ T *malloc( size_t size, const T *other );
 	@return Pointer to new array.
 */
 template < typename T >
-T *malloc( const std::vector< T > &other );
+T *mcopy( const std::vector< T > &other );
 
 /*!
 	@brief Sets array elements to `value`.
@@ -81,12 +80,14 @@ T *malloc( const std::vector< T > &other );
 template < typename T >
 void memset( T *data, size_t size, T value );
 
-//! Waits some seconds
-void sleep( size_t seconds );
-//! Waits some milliseconds
-void msleep( size_t mseconds );
-//! Waits some microseconds
-void usleep( size_t useconds );
+/*!
+	@brief Swaps two variables.
+	@param a First variable.
+	@param b Second variable.
+*/
+template < typename T >
+void swap( T &a, T &b );
+
 
 //! Returns a formatted string like `printf`.
 std::string format( const char *format, ... );
@@ -94,7 +95,7 @@ std::string format( const char *format, ... );
 /*!
 	@brief Aligns a text.
 	@param[in] text The string to align.
-	@param[in] width Width of the text.
+	@param[in] width The width of the text.
 	@param[in] align The position of the alignment.
 	@param[in] truncate If \c true, force to break the lines between letters.
 	@return The aligned text.

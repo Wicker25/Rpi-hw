@@ -1,7 +1,7 @@
 /* 
     Title --- bitset.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -29,7 +29,6 @@
 
 namespace rpihw { // Begin main namespace
 
-/* DYNAMIC BITSET */
 /*!
 	@class bitset
 	@brief Dynamic set of bits.
@@ -50,6 +49,12 @@ public:
 
 	//! Destructor method.
 	virtual ~bitset();
+
+	/*!
+		@brief Sets the value of the bits.
+		@param[in] value The value of the bits.
+	*/
+	void set( bool value );
 
 	/*!
 		@brief Sets a bit value.

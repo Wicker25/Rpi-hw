@@ -1,7 +1,7 @@
 /* 
     Title --- keypad/matrix.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -26,6 +26,9 @@
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/bitset.hpp>
 #include <rpi-hw/bitset-inl.hpp>
@@ -110,7 +113,7 @@ matrix::update() {
 		}
 
 		// Wait some time (100 ms)
-		utils::msleep( 100 );
+		time::msleep( 100 );
 	}
 }
 

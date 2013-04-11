@@ -1,7 +1,7 @@
 /* 
     Title --- 12keys0.cpp [examples]
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -20,12 +20,14 @@
 
 
 #include <iostream>
-#include <ctime>
 
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/keypad/base.hpp>
 #include <rpi-hw/keypad/base-inl.hpp>
@@ -73,7 +75,7 @@ main( int argc, char *args[] ) {
          std::cout << "You have pressed buttons 1 and 4!\n";
 
       // Wait some time
-      utils::msleep( 100 );
+      time::msleep( 100 );
    }
 
    return 0;

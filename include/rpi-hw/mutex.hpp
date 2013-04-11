@@ -1,7 +1,7 @@
 /* 
     Title --- mutex.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -29,7 +29,6 @@
 
 namespace rpihw { // Begin main namespace
 
-/* POSIX MUTEX WRAPPER */
 /*!
 	@class mutex
 	@brief POSIX mutex wrapper.

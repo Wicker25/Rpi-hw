@@ -1,7 +1,7 @@
 /* 
-    Title --- iface/virtual/encoder.hpp
+    Title --- iface/shift-base.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,45 +19,65 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_VIRTUAL_ENCODER_HPP_
-#define _RPI_HW_IFACE_VIRTUAL_ENCODER_HPP_
+#ifndef _RPI_HW_IFACE_SHIFT_BASE_HPP_
+#define _RPI_HW_IFACE_SHIFT_BASE_HPP_
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 #include <rpi-hw/utils.hpp>
+#include <rpi-hw/time.hpp>
 
 #include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/output.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-/* ENCODER OUTPUT INTERFACE */
 /*!
-	@class encoder
-	@brief Encoder output interface.
+	@class shiftBase
+	@brief Shift base interface.
 */
-class encoder : public iface::output {
+class shiftBase : public iface::base {
 
 public:
 
+	//! Shift interface pins.
+	enum ShiftPin {
+
+		DATA_PIN	= 0,	//!< The data pin.
+		CLOCK_PIN	= 1		//!< The clock pin.
+	};
+
+	//! Bit orders.
+	enum BitOrder {
+
+		MSBFIRST	= 0,	//!< Most significant bit first.
+		LSBFIRST	= 1		//!< Least significant bit first.
+	};
+
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the GPIO pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] data_pin The data pin.
+		@param[in] clock_pin The clock pin.
+		@param[in] order The bit order.
+		@param[in] delay The delay time of the clock.
 	*/
-	encoder( uint8_t total, ... );
+	shiftBase( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay = 0 );
 
 	//! Destructor method.
-	virtual ~encoder();
+	virtual ~shiftBase();
 
-	/*!
-		@brief Writes a value on the interface.
-		@param[in] value The value to be written.
-	*/
-	virtual void write( size_t value );
+	//! Toggles the clock.
+	virtual void strobe();
+
+protected:
+
+	//! The order to shift out the bits.
+	BitOrder m_order;
+
+	//! The delay time of the clock.
+	size_t m_delay;
 };
 
 } // End of interfaces namespace

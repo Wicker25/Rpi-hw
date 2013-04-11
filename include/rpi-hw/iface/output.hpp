@@ -1,7 +1,7 @@
 /* 
     Title --- iface/output.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -35,7 +35,6 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-/* OUTPUT INTERFACE */
 /*!
 	@class output
 	@brief Output interface.
@@ -68,17 +67,17 @@ public:
 	virtual void setPin( uint8_t index, uint8_t pin );
 
 	/*!
-		@brief Writes a value on the interface.
-		@param[in] value The value to be written.
+		@brief Writes a data on the interface.
+		@param[in] data The data to be written.
 	*/
-	virtual void write( size_t value );
+	virtual void write( size_t data );
 
 	/*!
-		@brief Writes a value on the interface pin.
+		@brief Writes a data on the interface pin.
 		@param[in] index The index position of the interface pin.
-		@param[in] value The value to be written.
+		@param[in] data The data to be written.
 	*/
-	virtual void write( uint8_t index, bool value );
+	virtual void write( uint8_t index, bool data );
 
 protected:
 

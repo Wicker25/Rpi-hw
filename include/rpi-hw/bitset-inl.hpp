@@ -1,7 +1,7 @@
 /* 
     Title --- bitset-inl.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -41,14 +41,14 @@ bitset::operator[] ( size_t index ) const {
 inline size_t
 bitset::size() const {
 
-	// Return size of the set 
+	// Return the size of the set 
 	return m_nbits;
 }
 
 inline bitset::ref &
 bitset::ref::operator=( bool value ) {
 
-	// Set bit value from boolean
+	// Set the bit value by boolean
 	m_bitset->set( m_index, value );
 	return *this;
 }
@@ -56,7 +56,7 @@ bitset::ref::operator=( bool value ) {
 inline bitset::ref &
 bitset::ref::operator=( const ref &other ) {
 
-	// Set bit value from another bit reference
+	// Set the bit value by another bit reference
 	m_bitset->set( m_index, other );
 	return *this;
 }

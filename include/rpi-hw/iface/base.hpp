@@ -1,7 +1,7 @@
 /* 
     Title --- iface/base.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_BASE_HPP_
-#define _RPI_HW_BASE_HPP_
+#ifndef _RPI_HW_IFACE_BASE_HPP_
+#define _RPI_HW_IFACE_BASE_HPP_
 
 #include <vector>
 
@@ -39,10 +39,6 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-//! Constant of the disabled pins
-const uint8_t DISABLED_PIN = 255;
-
-/* GENERIC INTERFACE */
 /*!
 	@class base
 	@brief Generic interface.
@@ -97,6 +93,13 @@ protected:
 
 	//! Constructor method (only for child class)
 	base();
+
+	/*!
+		@brief Initializes the interface.
+		@param[in] total Number of the GPIO pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
+	virtual void init( uint8_t total, ... );
 
 	/*!
 		@brief Initializes the interface.

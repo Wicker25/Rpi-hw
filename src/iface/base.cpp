@@ -1,7 +1,7 @@
 /* 
     Title --- iface/base.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,19 +19,13 @@
 */
 
 
-#ifndef _RPI_HW_BASE_CPP_
-#define _RPI_HW_BASE_CPP_
+#ifndef _RPI_HW_IFACE_BASE_CPP_
+#define _RPI_HW_IFACE_BASE_CPP_
 
 #include <rpi-hw/iface/base.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
-
-#include <rpi-hw/thread.hpp>
-#include <rpi-hw/thread-inl.hpp>
 
 #include <rpi-hw/gpio.hpp>
 #include <rpi-hw/gpio-inl.hpp>
@@ -83,11 +77,25 @@ base::~base() {
 }
 
 void
+base::init( uint8_t total, ... ) {
+
+	// Initialize variable argument list
+	va_list args;
+	va_start( args, total );
+
+	// Initialize the interface
+	init( utils::varg< uint8_t, int >( args, total ) );
+
+	// Clean variable argument list
+	va_end( args );
+}
+
+void
 base::init( const std::vector< uint8_t > &pins ) {
 
 	// Create vector containing the interface pins
 	m_total = (uint8_t) pins.size();
-	m_pins = utils::malloc< uint8_t >( pins );
+	m_pins = utils::mcopy< uint8_t >( pins );
 }
 
 void

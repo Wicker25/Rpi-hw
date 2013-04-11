@@ -1,7 +1,7 @@
 /* 
     Title --- display/m7seg.hpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -25,6 +25,7 @@
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
+#include <rpi-hw/time.hpp>
 
 #include <rpi-hw/mutex.hpp>
 #include <rpi-hw/thread.hpp>
@@ -38,13 +39,12 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-/* MULTIPLE SEVEN-SEGMENT DISPLAY CONTROLLER */
 /*!
 	@class m7seg
 	@brief Multiple seven-segment display controller.
 
-	@example m7seg0.cpp
-	@example m7seg1.cpp
+	@example display/m7seg0.cpp
+	@example display/m7seg1.cpp
 */
 class m7seg : public s7seg {
 
@@ -59,10 +59,23 @@ public:
 		@param[in] e The GPIO pin connected to the segment e.
 		@param[in] f The GPIO pin connected to the segment f.
 		@param[in] g The GPIO pin connected to the segment g.
+	*/
+	m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
+		   uint8_t e, uint8_t f, uint8_t g );
+
+	/*!
+		@brief Constructor method.
+		@param[in] a The GPIO pin connected to the segment a.
+		@param[in] b The GPIO pin connected to the segment b.
+		@param[in] c The GPIO pin connected to the segment c.
+		@param[in] d The GPIO pin connected to the segment d.
+		@param[in] e The GPIO pin connected to the segment e.
+		@param[in] f The GPIO pin connected to the segment f.
+		@param[in] g The GPIO pin connected to the segment g.
 		@param[in] dp The GPIO pin connected to the segment dp (decimal point).
 	*/
 	m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
-		   uint8_t e, uint8_t f, uint8_t g, uint8_t dp = iface::DISABLED_PIN );
+		   uint8_t e, uint8_t f, uint8_t g, uint8_t dp );
 
 	//! Destructor method.
 	virtual ~m7seg();
@@ -72,35 +85,35 @@ public:
 		@param[in] total Number of the displays.
 		@param[in] enabler Output interface used to enable the displays.
 	*/
-	virtual void setDisplays( size_t total, iface::output &enabler );
+	void setDisplays( size_t total, iface::output &enabler );
 
 	/*!
 		@brief Sets the updating frequency.
 		@param[in] frequency The updating frequency in Hz.
 	*/
-	virtual void setFreq( float frequency );
+	void setFreq( float frequency );
 
 	/*!
 		@brief Returns the updating frequency.
 		@return The updating frequency in Hz.
 	*/
-	virtual float getFreq() const;
+	float getFreq() const;
 
 	/*!
 		@brief Sets the value of the display.
 		@param[in] value The new value of the display.
 	*/
-	virtual void set( float value );
+	void set( float value );
 
 	/*!
 		@brief Sets the format of the display.
 		@param[in] decimals The number of decimals used to represent the value of the display.
 		@param[in] zeropad If \c true, zero pad the value of the display.
 	*/
-	virtual void format( uint8_t decimals, bool zeropad );
+	void format( uint8_t decimals, bool zeropad );
 
 	//! Update the displays (threading function).
-	virtual void render();
+	void render();
 
 protected:
 
@@ -124,6 +137,9 @@ protected:
 
 	//! Zeropad flag.
 	bool m_zeropad;
+
+	//! Initializes the instance.
+	void init();
 };
 
 } // End of displays namespace

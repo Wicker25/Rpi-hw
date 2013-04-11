@@ -1,7 +1,7 @@
 /* 
     Title --- display/hd44780.cpp
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -27,11 +27,8 @@
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
 
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
-
-#include <rpi-hw/thread.hpp>
-#include <rpi-hw/thread-inl.hpp>
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/gpio.hpp>
 #include <rpi-hw/gpio-inl.hpp>
@@ -55,7 +52,7 @@ namespace display { // Begin displays namespace
 const uint8_t hd44780::lines[4] = { 0x00, 0x40, 0x14, 0x54 };
 
 hd44780::hd44780( uint8_t rs, uint8_t e,
-				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3 ) : m_cols(0), m_rows(0), m_size(0) {
+				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3 ) : m_size(0) {
 
 	// Create the output interfaces to the display
 	m_mode = new iface::output( 2, rs, e );
@@ -64,7 +61,7 @@ hd44780::hd44780( uint8_t rs, uint8_t e,
 
 hd44780::hd44780( uint8_t rs, uint8_t e,
 				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-				  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 ) : m_cols(0), m_rows(0), m_size(0) {
+				  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 ) : m_size(0) {
 
 	// Create the output interfaces to the display
 	m_mode = new iface::output( 2, rs, e );
@@ -85,8 +82,8 @@ void
 hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 
 	// Store the size of the display
-	m_cols = cols;
-	m_rows = rows;
+	m_screen.w = cols;
+	m_screen.h = rows;
 
 	// Store the font size
 	m_font_height = ( font ? 10 : 8 );
@@ -95,14 +92,14 @@ hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 	if ( m_size ) delete m_buffer;
 
 	// Create a new character buffer
-	m_size = m_cols * m_rows;
+	m_size = m_screen.w * m_screen.h;
 	m_buffer = utils::malloc< uint8_t >( m_size, ' ' );
 
 	// Set the initial cursor position
 	move( 0, 0 );
 
 	// Wait 20ms for LCD to power up
-	utils::msleep( 20 );
+	time::msleep( 20 );
 
 	// Initialize the display
 	uint8_t flags = FUNC | FUNC_DL;
@@ -127,7 +124,7 @@ hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 	}
 
 	// Apply settings
-	if ( m_rows > 1 ) flags |= FUNC_N;
+	if ( m_screen.h > 1 ) flags |= FUNC_N;
 	if ( m_font_height == 10 ) flags |= FUNC_F; 
 
 	cmd( flags );
@@ -143,7 +140,7 @@ hd44780::strobe() {
 
 	// Toggle the enable pin
 	m_mode->write( 1, 1 );
-	utils::usleep( 50 );
+	time::usleep( 50 );
 	m_mode->write( 1, 0 );
 }
 
@@ -157,7 +154,7 @@ hd44780::send( uint8_t data, size_t delay ) {
 	strobe();
 
 	// Wait some time
-	utils::usleep( (size_t) delay );
+	time::usleep( (size_t) delay );
 }
 
 void
@@ -172,7 +169,7 @@ hd44780::sendSerial( uint8_t data, size_t delay ) {
 }
 
 void
-hd44780::putchar( uint8_t chr ) {
+hd44780::putChar( uint8_t chr ) {
 
 	// Set RS value to high
 	m_mode->write( 0, 1 );
@@ -181,7 +178,7 @@ hd44780::putchar( uint8_t chr ) {
 	sendSerial( chr, 200 );
 
 	// Store the character into the buffer
-	m_buffer[ m_pos.x + m_pos.y * m_cols ] = chr;
+	m_buffer[ m_pos.x + m_pos.y * m_screen.w ] = chr;
 
 	// Update the cursor position
 	m_pos.x++;
@@ -198,23 +195,10 @@ hd44780::home() {
 }
 
 void
-hd44780::clear() {
-
-	// Clear the screen
-	cmd( CLEAR );
-
-	// Update the cursor position
-	m_pos.x = m_pos.y = 0;
-
-	// Clear the character buffer
-	utils::memset< uint8_t >( m_buffer, m_size, ' ' );
-}
-
-void
 hd44780::move( uint8_t x, uint8_t y ) {
 
 	// Check if position exists
-	if ( x >= m_cols || y >= m_rows )
+	if ( x >= m_screen.w || y >= m_screen.h )
 		throw exception( utils::format( "(Error) `hd44780::move`: the position (%u,%u) does not exists\n", x, y ) );
 
 	// Update the cursor position
@@ -229,7 +213,7 @@ void
 hd44780::newLine() {
 
 	// Check if there are still lines available
-	if ( m_pos.y < m_rows - 1 ) move( 0, m_pos.y + 1 );
+	if ( m_pos.y < m_screen.h - 1 ) move( 0, m_pos.y + 1 );
 
 	// Scroll up the contents and move the cursor to the new line
 	else if ( m_autoscroll & VSCROLL ) {
@@ -257,12 +241,12 @@ hd44780::write( uint8_t chr ) {
 		else newLine();
 
 		// Write the character on the display, but ignore other new line character
-		if ( chr != '\n' ) putchar( chr );
+		if ( chr != '\n' ) putChar( chr );
 
 	} else {
 
 		// Write the character on the display
-		putchar( chr );
+		putChar( chr );
 	}
 }
 
@@ -284,9 +268,10 @@ hd44780::write( const std::string &text, size_t delay ) {
 		} else {
 
 			// Write the character on the display and wait some time
-			write( text[i] );
+			write( (uint8_t) text[i] );
 
-			if ( text[i] != ' ' ) utils::msleep( delay );
+			if ( text[i] != ' ' )
+				time::msleep( delay );
 		}
 	}
 }
@@ -305,8 +290,10 @@ hd44780::scrollLeft( bool cursor ) {
 	// Move left the contents and delete the first column
 	for ( ; i < m_size; i++ ) {
 
-		if ( i % m_cols == 0 ) move( 0, i / m_cols );
-		putchar( ( i + 1 ) % m_cols != 0 ? m_buffer[ i + 1 ] : ' ' );
+		if ( i % m_screen.w == 0 )
+			move( 0, i / m_screen.w );
+
+		putChar( ( i + 1 ) % m_screen.w != 0 ? m_buffer[ i + 1 ] : ' ' );
 	}
 
 	// Restore the cursor position
@@ -323,7 +310,7 @@ hd44780::scrollRight( bool cursor ) {
 			y = m_pos.y;
 
 	// Copy the current character buffer
-	uint8_t *tmp = utils::malloc< uint8_t >( m_size, m_buffer );
+	uint8_t *tmp = utils::mcopy< uint8_t >( m_size, m_buffer );
 
 	// Iterator
 	uint8_t i = 0;
@@ -331,8 +318,10 @@ hd44780::scrollRight( bool cursor ) {
 	// Move right the contents and delete the first column
 	for ( ; i < m_size; i++ ) {
 
-		if ( i % m_cols == 0 ) move( 0, i / m_cols );
-		putchar( i % m_cols != 0 ? tmp[ i - 1 ] : ' ' );
+		if ( i % m_screen.w == 0 )
+			move( 0, i / m_screen.w );
+
+		putChar( i % m_screen.w != 0 ? tmp[ i - 1 ] : ' ' );
 	}
 
 	// Free the memory
@@ -353,15 +342,17 @@ hd44780::scrollUp( bool cursor ) {
 	uint8_t i = 0;
 
 	// Move up the contents and delete the last row
-	for ( ; i < m_size - m_cols; i++ ) {
+	for ( ; i < m_size - m_screen.w; i++ ) {
 
-		if ( i % m_cols == 0 ) move( 0, i / m_cols );
-		putchar( m_buffer[ i + m_cols ] );
+		if ( i % m_screen.w == 0 )
+			move( 0, i / m_screen.w );
+
+		putChar( m_buffer[ i + m_screen.w ] );
 	}
 
 	move( 0, m_pos.y + 1 );
 
-	for ( ; i < m_size; i++ ) putchar( ' ' );
+	for ( ; i < m_size; i++ ) putChar( ' ' );
 
 	// Restore the cursor position
 	move( x, y );
@@ -375,7 +366,7 @@ hd44780::scrollDown( bool cursor ) {
 			y = m_pos.y + (uint8_t) cursor;
 
 	// Copy the current character buffer
-	uint8_t *tmp = utils::malloc< uint8_t >( m_size, m_buffer );
+	uint8_t *tmp = utils::mcopy< uint8_t >( m_size, m_buffer );
 
 	// Move the cursor to the first position
 	move( 0, 0 );
@@ -384,12 +375,14 @@ hd44780::scrollDown( bool cursor ) {
 	uint8_t i = 0;
 
 	// Move down the contents and delete the first row
-	for ( ; i < m_cols; i++ ) putchar( ' ' );
+	for ( ; i < m_screen.w; i++ ) putChar( ' ' );
 
 	for ( ; i < m_size; i++ ) {
 
-		if ( i % m_cols == 0 ) move( 0, i / m_cols );
-		putchar( tmp[ i - m_cols ] );
+		if ( i % m_screen.w == 0 )
+			move( 0, i / m_screen.w );
+
+		putChar( tmp[ i - m_screen.w ] );
 	}
 
 	// Free the memory
@@ -412,10 +405,10 @@ hd44780::scrollLeftLine( uint8_t line, bool cursor ) {
 	// Scroll the line to the left
 	move( 0, line );
 
-	for ( i = 0; i < m_cols - 1; i++ )
-		putchar( m_buffer[ line * m_cols + i + 1 ] );
+	for ( i = 0; i < m_screen.w - 1; i++ )
+		putChar( m_buffer[ line * m_screen.w + i + 1 ] );
 
-	putchar( ' ' );
+	putChar( ' ' );
 
 	// Restore the cursor position
 	move( x, y );
@@ -429,7 +422,7 @@ hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 			y = m_pos.y;
 
 	// Copy the current character buffer
-	uint8_t *tmp = utils::malloc< uint8_t >( m_size, m_buffer );
+	uint8_t *tmp = utils::mcopy< uint8_t >( m_size, m_buffer );
 
 	// Iterator
 	uint8_t i;
@@ -437,10 +430,10 @@ hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 	// Scroll the line to the right
 	move( 0, line );
 
-	putchar( ' ' );
+	putChar( ' ' );
 
-	for ( i = 1; i < m_cols; i++ )
-		putchar( tmp[ line * m_cols + i - 1 ] );
+	for ( i = 1; i < m_screen.w; i++ )
+		putChar( tmp[ line * m_screen.w + i - 1 ] );
 
 	// Restore the cursor position
 	move( x, y );
@@ -482,6 +475,19 @@ hd44780::setCursor( uint8_t mode ) {
 	if ( mode & CURSOR_BLINKING ) flags |= POWER_B; 
 
 	cmd( flags );
+}
+
+void
+hd44780::clear() {
+
+	// Clear the display
+	cmd( CLEAR );
+
+	// Update the cursor position
+	m_pos.x = m_pos.y = 0;
+
+	// Clear the character buffer
+	utils::memset< uint8_t >( m_buffer, m_size, ' ' );
 }
 
 } // End of displays namespace

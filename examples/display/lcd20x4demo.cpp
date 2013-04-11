@@ -1,7 +1,7 @@
 /* 
     Title --- lcd20x4demo.cpp [examples]
 
-    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,13 +19,13 @@
 */
 
 
-#include <iostream>
-#include <cstdio>
-
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
+
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/time-inl.hpp>
 
 #include <rpi-hw/display/hd44780.hpp>
 #include <rpi-hw/display/hd44780-inl.hpp>
@@ -61,7 +61,7 @@ std::string exec( const std::string &cmd ) {
 void pause( hd44780 &disp, size_t seconds ) {
 
 	// Wait some time and clear the display
-	utils::sleep( seconds );
+	time::sleep( seconds );
 	disp.clear();
 }
 
@@ -75,17 +75,17 @@ void demo0( hd44780 &disp ) {
 	// Write a text using the solid cursor
 	disp.setCursor( hd44780::CURSOR_SOLID );
 	disp.write( "Solid cursor", 200 );
-	utils::sleep( 1 );
+	time::sleep( 1 );
 
 	// Write a text using the blinking cursor
 	disp.setCursor( hd44780::CURSOR_BLINKING );
 	disp.write( "\nBlinking cursor", 200 );
-	utils::sleep( 1 );
+	time::sleep( 1 );
 
 	// Write a text using the both cursors 
 	disp.setCursor( hd44780::CURSOR_SOLID | hd44780::CURSOR_BLINKING );
 	disp.write( "\nBoth cursors", 200 );
-	utils::sleep( 1 );
+	time::sleep( 1 );
 
 	// Hide cursor
 	disp.setCursor( hd44780::NO_CURSOR );
@@ -110,14 +110,14 @@ void demo1( hd44780 &disp ) {
 	for ( ; i < 20; i++ ) {
 
 		disp.move( i, ( i % 4 ) );
-		utils::msleep( 500 );
+		time::msleep( 500 );
 	}
 
 	// Hide the cursor
 	disp.setCursor( hd44780::NO_CURSOR );
 
 	// Wait some time and clear the screen
-	utils::sleep( 2 );
+	time::sleep( 2 );
 	disp.clear();
 }
 
@@ -160,21 +160,21 @@ void demo4( hd44780 &disp ) {
 	// Write the title
 	disp.write( 4, 1, "= Demo #4 =" );
 	disp.write( 0, 2, "Scroll the contents" );
-	utils::sleep( 2 );
+	time::sleep( 2 );
 	disp.clear();
 
 	// Write a sample text
 	disp.write( "Vertical scrolling" );
-	utils::sleep( 2 );
+	time::sleep( 2 );
 
 	// Scroll down the screen
-	disp.scrollDown(); utils::msleep( 500 );
-	disp.scrollDown(); utils::msleep( 500 );
-	disp.scrollDown(); utils::msleep( 500 );
+	disp.scrollDown(); time::msleep( 500 );
+	disp.scrollDown(); time::msleep( 500 );
+	disp.scrollDown(); time::msleep( 500 );
 
 	// Scroll up the screen
-	disp.scrollUp(); utils::msleep( 500 );
-	disp.scrollUp(); utils::msleep( 500 );
+	disp.scrollUp(); time::msleep( 500 );
+	disp.scrollUp(); time::msleep( 500 );
 	disp.scrollUp();
 
 	// Wait some time and clear the screen
@@ -182,18 +182,18 @@ void demo4( hd44780 &disp ) {
 
 	// Write a sample text
 	disp.write( 0, 1, "Horizontal\nscrolling" );
-	utils::sleep( 1 );
+	time::sleep( 1 );
 
 	// Scroll right the screen
-	disp.scrollRight(); utils::msleep( 500 );
-	disp.scrollRight(); utils::msleep( 500 );
-	disp.scrollRight(); utils::msleep( 500 );
-	disp.scrollRight(); utils::msleep( 500 );
+	disp.scrollRight(); time::msleep( 500 );
+	disp.scrollRight(); time::msleep( 500 );
+	disp.scrollRight(); time::msleep( 500 );
+	disp.scrollRight(); time::msleep( 500 );
 
 	// Scroll left the screen
-	disp.scrollLeft(); utils::msleep( 500 );
-	disp.scrollLeft(); utils::msleep( 500 );
-	disp.scrollLeft(); utils::msleep( 500 );
+	disp.scrollLeft(); time::msleep( 500 );
+	disp.scrollLeft(); time::msleep( 500 );
+	disp.scrollLeft(); time::msleep( 500 );
 	disp.scrollLeft();
 
 	// Wait some time and clear the screen
@@ -371,7 +371,7 @@ void demo9( hd44780 &disp ) {
 		disp.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
 		disp.write( 1, 2, std::string( (size_t) math::abs( (float) i / factor ), 0xFF ) );
 
-		utils::msleep( 500 );
+		time::msleep( 500 );
 	}
 
 	pause( disp, 2 );
@@ -382,7 +382,7 @@ void demo9( hd44780 &disp ) {
 		disp.write( 0, 2, "[" + std::string( (size_t) math::abs( (float) i / factor ), '=' ) );
 		disp.write( 19, 2, "]" );
 	
-		utils::msleep( 500 );
+		time::msleep( 500 );
 	}
 
 	// Wait some time and clear the screen
@@ -418,7 +418,7 @@ void demo11( hd44780 &disp ) {
 	disp.write( list, 200 );
 
 	// Wait some time and clear the screen
-	utils::sleep( 2 );
+	time::sleep( 2 );
 	disp.clear();
 }
 
