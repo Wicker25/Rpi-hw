@@ -11,7 +11,7 @@ The source of the latest version of Rpi-hw is available on [github.com](https://
 
 - [https://github.com/Wicker25/Rpi-hw](https://github.com/Wicker25/Rpi-hw)
 
-### Main functions
+### Main features
 
 The following are some features of the library:
 
@@ -20,7 +20,7 @@ The following are some features of the library:
 * Displays support (7-segments, HD44780, PCD8544)
 * Keypad support (matrix keypad)
 * Stepper motor support
-* Unicode support (using UTF8-CPP)
+* Unicode support (using UTF8-CPP) (built-in)
 * Handles multiple image formats (using Magick++ API) (optional)
 * Supports standard fonts (using FreeType) (optional)
 * Drawing functions

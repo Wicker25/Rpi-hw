@@ -139,8 +139,8 @@ configure_file(
 
 configure_file(
 
-	${RPI_HW_DIR}/cmake_uninstall.cmake.in
-	${RPI_HW_DIR}/cmake_uninstall.cmake
+	${RPI_HW_DIR}/cmake/cmake_uninstall.cmake.in
+	${RPI_HW_DIR}/cmake/cmake_uninstall.cmake
 	IMMEDIATE @ONLY
 )
 
@@ -247,4 +247,4 @@ file( APPEND "${RPI_HW_DIR}/install_directories.txt"
 )
 
 # Define the unistaller command
-add_custom_target( uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake )
+add_custom_target( uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake )
