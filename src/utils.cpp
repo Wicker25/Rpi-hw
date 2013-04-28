@@ -48,75 +48,142 @@ std::string format( const char *format, ... ) {
 }
 
 std::string
-align( const std::string &text, size_t width, TextAlign align, bool truncate ) {
+align( const std::string &text, size_t width, uint8_t flags ) {
 
-	// The aligned text
-	std::string al = text;
+	// Get the word wrapping mode
+	bool word_break = flags & WORD_BREAK;
 
-	// Line length and number of spaces to insert at the start of line
-	size_t len, spaces;
+	// Calculate the margin factor
+	size_t margin = 0;
 
-	// Start of the new line and position of the last white space
-	size_t off = 0, last = 0;
+	if ( flags & ALIGN_CENTER )
+		margin = 2;
+	else if ( flags & ALIGN_RIGHT )
+		margin = 1;
 
-	// Iterator
-	size_t i = 0;
+	// Iterators
+	std::string::const_iterator it = text.begin(), end = text.end();
 
-	// Align the text
-	for ( ; i < al.length(); i++ ) {
+	// The aligned string
+	std::string result; result.reserve( std::distance( it, end ) * 2 );
 
-		// Calculate the length of the line at current position
-		len = i - off;
+	// Start of the current line
+	std::string::const_iterator off = it;
 
-		// Check if the line has reached the maximum width
-		if ( len >= width ) {
+	// Current line width
+	size_t line_len = 0;
 
-			// Break lines between words, except when a single word is longer than the width
-			if ( !truncate && last != off ) {
 
-				al.erase( al.begin() + last );
-				i = last;
+	// Break lines between characters
+	if ( word_break ) {
+
+		for ( ; it != end; ++it ) {
+
+			line_len++;
+
+			if ( *it == '\n' ) {
+
+				if ( margin )
+					result.append( ( width - line_len + 1 ) / margin, ' ' );
+
+				result.append( off, it );
+				result.push_back( '\n' );
+
+				off = it + 1;
+				line_len = 0;
+
+			} else if ( line_len > width ) {
+
+				if ( margin )
+					result.append( ( width - line_len + 1 ) / margin, ' ' );
+
+				result.append( off, it );
+				result.push_back( '\n' );
+
+				off = it;
+				line_len = 1;
+			}
+		}
+
+		// Append the last line
+		if ( margin )
+			result.append( ( width - line_len ) / margin, ' ' );
+
+		result.append( off, end );
+
+
+	// Break lines between words, except when a single word is longer than the width
+	} else {
+
+		// Start of the current word
+		std::string::const_iterator word_start = it;
+
+		// Current word width
+		size_t word_len = 0;
+
+		for ( ; it != end; ++it ) {
+
+			++word_len;
+
+			if ( line_len + word_len > width ) {
+
+				if ( off == word_start ) {
+
+					if ( margin )
+						result.append( ( width - ( line_len + word_len ) + 1 ) / margin, ' ' );
+
+					result.append( off, it );
+					result.push_back( '\n' );
+
+					off = word_start = it;
+					line_len = 0;
+					word_len = 1;
+
+				} else {
+
+					if ( margin )
+						result.append( ( width - line_len + 1 ) / margin, ' ' );
+
+					result.append( off, word_start );
+					result.push_back( '\n' );
+
+					off = ++word_start;
+					line_len = 0;
+				}
 			}
 
-			// If required, insert some white spaces to align the text
-			if ( align != ALIGN_LEFT ) {
+			if ( *it == '\n' ) {
 
-				spaces = ( width - ( i - off ) ) / align;
-				al.insert( al.begin() + off, spaces, ' ' );
-				i += spaces;
+				if ( margin )
+					result.append( ( width - ( line_len + word_len ) + 1 ) / margin, ' ' );
+
+				result.append( off, it );
+				result.push_back( '\n' );
+
+				off = word_start = it + 1;
+				line_len = word_len = 0;
+
+			} else if ( *it == ' ' ) {
+
+				word_start = it;
+
+				line_len += word_len;
+				word_len = 0;
 			}
+		}
 
-			// Insert the new line character and update the offsets
-			al.insert( al.begin() + i, '\n' );
-			off = i + 1;
+		// Append the last line
+		if ( margin )
+			result.append( ( width - ( line_len + word_len ) ) / margin, ' ' );
 
-		// Split the line according to the new line character
-		} else if ( al[i] == '\n' ) {
-
-			// If required, insert some white spaces to align the text
-			if ( align != ALIGN_LEFT ) {
-
-				spaces = ( width - len ) / align;
-				al.insert( al.begin() + off, spaces, ' ' );
-				i += spaces;
-			}
-
-			// Update the offsets
-			last = off = i + 1;
-
-		// Store the last white space
-		} else if ( al[i] == ' ' ) last = i;
+		result.append( off, end );
 	}
 
-	// If required, insert some spaces to align the last line
-	if ( align != ALIGN_LEFT )
-		al.insert( al.begin() + off, ( width - len - 1 ) / align, ' ' );
-
-	return al;
+	return result;
 }
 
 } // End of utilss namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_UTILS_CPP_ */

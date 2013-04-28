@@ -37,4 +37,4 @@ s7seg::get() const {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_S7SEG_INL_HPP_ */

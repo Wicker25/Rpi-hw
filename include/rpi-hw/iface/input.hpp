@@ -95,4 +95,4 @@ protected:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_INPUT_HPP_ */

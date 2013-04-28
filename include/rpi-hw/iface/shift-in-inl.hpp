@@ -1,5 +1,5 @@
 /* 
-    Title --- bitmap.cpp
+    Title --- iface/shift-in-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,26 +19,25 @@
 */
 
 
-#ifndef _RPI_HW_BITMAP_CPP_
-#define _RPI_HW_BITMAP_CPP_
-
-#include <rpi-hw/bitmap.hpp>
-
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/bitmap-inl.hpp>
+#ifndef _RPI_HW_IFACE_SHIFT_IN_INL_HPP_
+#define _RPI_HW_IFACE_SHIFT_IN_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-bitmap::bitmap( size_t width, size_t height, uint8_t *data ) : m_width( width ), m_height( height ), m_data( data ) {
+namespace iface { // Begin interfaces namespace
 
+inline void
+shiftIn::setPin( uint8_t index, uint8_t pin ) {
+
+	// Call parent class method
+	base::setPin( index, pin );
+
+	// Set the GPIO pin mode
+	m_gpio->setup( m_pins[ index ], ( index == DATA_PIN ? gpio::INPUT : gpio::OUTPUT ) );
 }
 
-bitmap::~bitmap() {
-
-}
+} // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_SHIFT_IN_INL_HPP_ */

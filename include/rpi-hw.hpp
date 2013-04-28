@@ -26,80 +26,33 @@
 
 @mainpage Reference Manual
 
-<a style="font-weight: bold;" href="http://www.hackyourmind.org/blog/projects/rpi-hw/" target="_blank">Rpi-hw</a> is a free C++ library designed to manage the Raspberry Pi's General Purpose Input/Output (GPIO) connector.
-The library is released under terms of the <a href="http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License" target="_blank">GNU LGPL v3</a>.
+@section description Description
 
-The source of the latest version of Rpi-hw is available on <a href="https://github.com/Wicker25/Rpi-hw" target="_blank">github.com</a> at:
+<a href="http://www.hackyourmind.org/blog/projects/rpi-hw/">Rpi-hw</a> is a free C++ library 
+designed to manage the Raspberry Pi's General Purpose Input/Output (GPIO) connector.
+The library is released under terms of the [GNU LGPL v3](http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License).
 
-@li <a href="https://github.com/Wicker25/Rpi-hw" target="_blank">https://github.com/Wicker25/Rpi-hw</a>
+The source of the latest version of Rpi-hw is available on [github.com](https://github.com/Wicker25/Rpi-hw) at:
+
+@li <a href="https://github.com/Wicker25/Rpi-hw">https://github.com/Wicker25/Rpi-hw</a>
 
 @section main_functions Main functions
 
-The following are some functions of the library:
+The following are some features of the library:
 
 @li Low-level management of the GPIOs
-@li Generic input/output by interfaces
+@li Generic input/output interfaces
+@li Displays support (7-segments, HD44780, PCD8544)
 @li Keypad support (matrix keypad)
-@li Display support (7-segments, HD44780 lcd)
+@li Stepper motor support
+@li Unicode support (using UTF8-CPP)
+@li Handles multiple image formats (using Magick++ API) (optional)
+@li Supports standard fonts (using FreeType) (optional)
+@li Drawing functions
 
-@section compiling_and_install Compiling and install the library
+@section documentation Documentation
 
-First of all, you need to clone the Rpi-hw repository:
-@verbatim $ git clone https://github.com/Wicker25/Rpi-hw @endverbatim
-
-Then, compile and install the library with:
-
-@verbatim
-$ cd Rpi-hw
-$ cmake ./ -DCMAKE_INSTALL_PREFIX=<PATH>
-$ make
-# make install @endverbatim
-
-Also, if you want a local copy of the documentation, you can generate it using <a href="https://en.wikipedia.org/wiki/Doxygen" target="_blank">doxygen</a>:
-
-@verbatim $ make doc @endverbatim
-
-@section using_the_library Using the library
-
-To use the library, you must include the main Rpi-hw's header file into your program:
-
-@code
-// Include the main header file
-#include <rpi-hw.hpp>
-@endcode
-
-Then, you link the program's file with the library object file, adding a command line argument to the compiler:
-@verbatim $ g++ `pkg-config --libs --cflags rpi-hw` <SOURCE> -o <BIN> @endverbatim
-
-Otherwise, you can use <a href="http://en.wikipedia.org/wiki/CMake" target="_blank">CMake</a> with the module \a FindRpiHw.cmake provided by the library. See the following example:
-
-@verbatim
-# CMake's configuration
-
-# Set the minimum required version of cmake for this project
-cmake_minimum_required( VERSION 2.6 )
-
-# Find Rpi-hw library on the operating system
-find_package( RpiHw )
-
-# Check if the library was found
-IF ( RPI_HW_FOUND )
-
-    # Compile the project
-    add_executable( <BIN> ${CMAKE_SOURCE_DIR}/<SOURCE> )
-
-    # Link the library
-    target_link_libraries( <BIN> ${RPI_HW_LIBRARIES} )
-
-ENDIF ( RPI_HW_FOUND ) @endverbatim
-
-@section examples Examples
-
-If you are looking for examples, you can find some in the section <a href="examples.html">examples</a> or on my <a href="http://www.hackyourmind.org/blog/" target="_blank">blog</a>.
-
-@section links Links
-
-@li <a href="http://www.hackyourmind.org/blog/" target="_blank">http://www.hackyourmind.org/blog/</a>
+Detailed documentation of Rpi-hw's features and usage can be found on the <a href="https://github.com/Wicker25/Rpi-hw/wiki">wiki</a>.
 
 */
 
@@ -109,9 +62,13 @@ If you are looking for examples, you can find some in the section <a href="examp
 */
 
 // Includes all Rpi-hw header files
+#include <rpi-hw/rpi.hpp>
+#include <rpi-hw/config.hpp>
+
 #include <rpi-hw/version.hpp>
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
+
 #include <rpi-hw/math.hpp>
 
 #include <rpi-hw/utils.hpp>
@@ -120,19 +77,20 @@ If you are looking for examples, you can find some in the section <a href="examp
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/time-inl.hpp>
 
-#include <rpi-hw/bitset.hpp>
-#include <rpi-hw/bitset-inl.hpp>
-
 #include <rpi-hw/mutex.hpp>
 #include <rpi-hw/mutex-inl.hpp>
 
 #include <rpi-hw/thread.hpp>
 #include <rpi-hw/thread-inl.hpp>
 
-#include <rpi-hw/rpi.hpp>
-
 #include <rpi-hw/gpio.hpp>
 #include <rpi-hw/gpio-inl.hpp>
+
+#include <rpi-hw/bitset.hpp>
+#include <rpi-hw/bitset-inl.hpp>
+
+#include <rpi-hw/unicode.hpp>
+#include <rpi-hw/unicode-inl.hpp>
 
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/base-inl.hpp>
@@ -146,25 +104,35 @@ If you are looking for examples, you can find some in the section <a href="examp
 #include <rpi-hw/iface/shift-base.hpp>
 #include <rpi-hw/iface/shift-base-inl.hpp>
 
-#include <rpi-hw/iface/shiftout.hpp>
-#include <rpi-hw/iface/shiftout-inl.hpp>
+#include <rpi-hw/iface/shift-out.hpp>
+#include <rpi-hw/iface/shift-out-inl.hpp>
 
-#include <rpi-hw/iface/shiftin.hpp>
-#include <rpi-hw/iface/shiftin-inl.hpp>
+#include <rpi-hw/iface/shift-in.hpp>
+#include <rpi-hw/iface/shift-in-inl.hpp>
 
-#include <rpi-hw/iface/decoder.hpp>
-#include <rpi-hw/iface/decoder-inl.hpp>
+#include <rpi-hw/iface/encoder-out.hpp>
+#include <rpi-hw/iface/encoder-out-inl.hpp>
 
-#include <rpi-hw/iface/encoder.hpp>
-#include <rpi-hw/iface/encoder.hpp>
+#include <rpi-hw/iface/encoder-in.hpp>
+#include <rpi-hw/iface/encoder-in-inl.hpp>
+
+#include <rpi-hw/iface/decoder-out.hpp>
+#include <rpi-hw/iface/decoder-out-inl.hpp>
+
+#include <rpi-hw/iface/decoder-in.hpp>
+#include <rpi-hw/iface/decoder-in-inl.hpp>
 
 #include <rpi-hw/font/glyph.hpp>
 
 #include <rpi-hw/font/base.hpp>
-#include <rpi-hw/font/base-inl.hpp>
 
 #include <rpi-hw/font/freetype.hpp>
 #include <rpi-hw/font/freetype-inl.hpp>
+
+#include <rpi-hw/image/base.hpp>
+
+#include <rpi-hw/image/bitmap.hpp>
+#include <rpi-hw/image/bitmap-inl.hpp>
 
 #include <rpi-hw/designer.hpp>
 #include <rpi-hw/designer-inl.hpp>
@@ -190,4 +158,4 @@ If you are looking for examples, you can find some in the section <a href="examp
 #include <rpi-hw/motor/stepper.hpp>
 #include <rpi-hw/motor/stepper-inl.hpp>
 
-#endif
+#endif /* _RPI_HW_HPP_ */

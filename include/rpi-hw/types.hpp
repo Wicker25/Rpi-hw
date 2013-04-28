@@ -27,31 +27,6 @@
 
 namespace rpihw { // Begin main namespace
 
-//! Structure of a two-dimensional vector.
-template < typename T >
-struct vec2 {
-
-	//! First dimension.
-	union { T i, x, w; };
-
-	//! Second dimension.
-	union { T j, y, h; };
-};
-
-//! Structure of a three-dimensional vector.
-template < typename T >
-struct vec3 {
-
-	//! First dimension.
-	union { T i, x, w; };
-
-	//! Second dimension.
-	union { T j, y, h; };
-
-	//! Third dimension.
-	union { T k, z, d; };
-};
-
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_TYPES_HPP_ */

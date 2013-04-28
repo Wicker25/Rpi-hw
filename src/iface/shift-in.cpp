@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/shiftin.cpp
+    Title --- iface/shift-in.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,10 +19,10 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SHIFTIN_CPP_
-#define _RPI_HW_IFACE_SHIFTIN_CPP_
+#ifndef _RPI_HW_IFACE_SHIFT_IN_CPP_
+#define _RPI_HW_IFACE_SHIFT_IN_CPP_
 
-#include <rpi-hw/iface/shiftin.hpp>
+#include <rpi-hw/iface/shift-in.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
@@ -42,7 +42,7 @@
 #include <rpi-hw/iface/shift-base.hpp>
 #include <rpi-hw/iface/shift-base-inl.hpp>
 
-#include <rpi-hw/iface/shiftin-inl.hpp>
+#include <rpi-hw/iface/shift-in-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
@@ -70,7 +70,7 @@ shiftIn::read() {
 
 	if ( m_order == MSBFIRST ) {
 
-		for ( i = 7; i >= 0 ; i-- ) {
+		for ( i = 7; i >= 0; --i ) {
 
 			// Read the data to the input pin
 			data |= ( (uint8_t) m_gpio->read( m_pins[ DATA_PIN ] ) ) << i;
@@ -81,7 +81,7 @@ shiftIn::read() {
 
 	} else {
 
-		for ( i = 0; i < 8; i++ ) {
+		for ( i = 0; i < 8; ++i ) {
 
 			// Read the data to the input pin
 			data |= ( (uint8_t) m_gpio->read( m_pins[ DATA_PIN ] ) ) << i;
@@ -98,4 +98,4 @@ shiftIn::read() {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_SHIFT_IN_CPP_ */

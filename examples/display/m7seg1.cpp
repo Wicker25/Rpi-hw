@@ -27,8 +27,8 @@
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/time-inl.hpp>
 
-#include <rpi-hw/iface/decoder.hpp>
-#include <rpi-hw/iface/decoder-inl.hpp>
+#include <rpi-hw/iface/decoder-out.hpp>
+#include <rpi-hw/iface/decoder-out-inl.hpp>
 
 #include <rpi-hw/display/m7seg.hpp>
 #include <rpi-hw/display/m7seg-inl.hpp>
@@ -55,7 +55,7 @@ main( int argc, char *args[] ) {
 	display::m7seg disp( 1, 4, 18, 15, 14, 0, 17, 23 );
 
 	// Create the enabler interface
-	iface::decoder enabler( 2, 21, 22 );
+	iface::decoderOut enabler( 2, 21, 22 );
 
 	// Set the number of displays and the enabler interface
 	disp.setDisplays( 2, enabler );

@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_GLYPH_HPP_
-#define _RPI_HW_GLYPH_HPP_
+#ifndef _RPI_HW_FONT_GLYPH_HPP_
+#define _RPI_HW_FONT_GLYPH_HPP_
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
@@ -29,35 +29,47 @@ namespace rpihw { // Begin main namespace
 
 namespace font { // Begin fonts namespace
 
+//! The format of pixels in the bitmap buffer.
+enum PixelMode {
+
+	PIXEL_MODE_NONE 	= 0,
+	PIXEL_MODE_MONO		= 1,
+	PIXEL_MODE_GRAY		= 2,
+	PIXEL_MODE_GRAY2	= 3,
+	PIXEL_MODE_GRAY4	= 4,
+	PIXEL_MODE_LCD		= 5,
+	PIXEL_MODE_LCD_V	= 6
+};
+
 /*!
 	@class glyph
 	@brief Simple glyph structure.
 */
 struct glyph {
 
-	//!< The width of the glyph.
+	//! The width of the glyph.
 	uint8_t width;
-	//!< The height of the glyph.
+	//! The height of the glyph.
 	uint8_t height;
 
-	//!< The left side bearing.
+	//! The left side bearing.
 	int8_t left;
-	//!< The top side bearing.
+	//! The top side bearing.
 	int8_t top;
 
-	//!< The format of the glyph bitmap (monochrome or gray).
-	uint8_t format;
-	//!< Maximum gray level value (in the range 1 to 255).
+	//! The format of the glyph bitmap (monochrome or gray).
+	PixelMode format;
+	//! Maximum gray level value (in the range 1 to 255).
 	uint8_t grays;
-	//!< The number of bytes per bitmap line. May be positive or negative.
-	int8_t pitch;
+	//! The number of bytes per bitmap line. May be positive or negative.
+	int16_t pitch;
 
-	//!< The horizontal advance width in pixels.
+	//! The horizontal advance width in pixels.
 	int8_t xadvance;
-	//!< The vertical advance width in pixels.
+	//! The vertical advance height in pixels.
 	int8_t yadvance;
 
-	//!< A pointer to the bitmap pixels.
+	//! A pointer to the bitmap pixels.
 	const uint8_t *buffer;
 };
 
@@ -65,4 +77,4 @@ struct glyph {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_GLYPH_HPP_ */

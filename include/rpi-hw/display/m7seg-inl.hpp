@@ -52,4 +52,4 @@ m7seg::getFreq() const {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_M7SEG_INL_HPP_ */

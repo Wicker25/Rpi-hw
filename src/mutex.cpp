@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/shiftin-inl.hpp
+    Title --- mutex.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,25 +19,26 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SHIFTIN_INL_HPP_
-#define _RPI_HW_IFACE_SHIFTIN_INL_HPP_
+#ifndef _RPI_HW_MUTEX_CPP_
+#define _RPI_HW_MUTEX_CPP_
+
+#include <rpi-hw/mutex.hpp>
+#include <rpi-hw/mutex-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+mutex::mutex() {
 
-inline void
-shiftIn::setPin( uint8_t index, uint8_t pin ) {
-
-	// Call parent class method
-	base::setPin( index, pin );
-
-	// Set the GPIO pin mode
-	m_gpio->setup( m_pins[ index ], ( index == DATA_PIN ? gpio::INPUT : gpio::OUTPUT ) );
+	// Initialize the mutex
+	pthread_mutex_init( &m_pmutex, NULL );
 }
 
-} // End of interfaces namespace
+mutex::~mutex() {
+
+	// Deinitialize the mutex
+	pthread_mutex_destroy( &m_pmutex );
+}
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MUTEX_CPP_ */

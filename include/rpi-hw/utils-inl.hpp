@@ -41,25 +41,24 @@ malloc( size_t size, T value ) {
 
 template < typename T >
 T *
-mcopy( size_t size, const  T *other ) {
+memdup( const T *other, size_t size ) {
 
 	// Create the new array
 	T *data = new T[ size ];
 
 	// Initialize the elements
-	size_t i = 0;
-
-	for ( ; i < size; i++ ) data[i] = other[i];
+	memcpy< T >( data, other, size );
 
 	return data;
 }
 
 template < typename T >
-inline T *
-mcopy( const std::vector< T > &other ) {
+void
+memcpy( T *dst, const T *src, size_t size ) {
 
-	// Allocate and initialize a new array
-	return mcopy( other.size(), &other[0] );
+	// Copy the elements from an array to another
+	while ( size-- )
+		*dst++ = *src++;
 }
 
 template < typename T >
@@ -67,9 +66,8 @@ void
 memset( T *data, size_t size, T value ) {
 
 	// Set the elements of an array
-	size_t i = 0;
-
-	for ( ; i < size; i++ ) data[i] = value;
+	while ( size-- )
+		*data++ = value;
 }
 
 template < typename T >
@@ -79,7 +77,6 @@ swap( T &a, T &b ) {
 	// Swap the two variables
 	std::swap( a, b );
 }
-
 
 template < typename T0, typename T1 >
 std::vector< T0 >
@@ -94,10 +91,12 @@ varg( va_list args, size_t total, size_t offset ) {
 	// Copy `va_list` arguments into the vector
 	size_t i = 0;
 
-	for ( ; i < total; i++ ) {
+	for ( ; i < total; ++i ) {
 
 		value = (T0) va_arg( args, T1 );
-		if ( i >= offset ) vec.push_back( value );
+
+		if ( i >= offset )
+			vec.push_back( value );
 	}
 
 	return vec;
@@ -107,4 +106,4 @@ varg( va_list args, size_t total, size_t offset ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_UTILS_INL_HPP_ */

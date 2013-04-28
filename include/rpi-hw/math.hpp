@@ -141,4 +141,4 @@ inline size_t fast_pow2( size_t x ) { return ( 1 << x ); }
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MATH_HPP_ */

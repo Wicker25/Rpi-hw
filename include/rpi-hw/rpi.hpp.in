@@ -25,4 +25,4 @@
 // Raspberry Pi revision number
 #define RPI_REVISION	@RPI_REVISION@
 
-#endif
+#endif /* _RPI_HW_RPI_HPP_ */

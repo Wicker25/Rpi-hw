@@ -26,22 +26,16 @@
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 
+#include <rpi-hw/utils.hpp>
+#include <rpi-hw/utils-inl.hpp>
 
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
-#include <rpi-hw/bitmap.hpp>
-#include <rpi-hw/bitmap-inl.hpp>
+#include <rpi-hw/unicode.hpp>
+#include <rpi-hw/unicode-inl.hpp>
 
 #include <rpi-hw/font/glyph.hpp>
-
 #include <rpi-hw/font/base.hpp>
-#include <rpi-hw/font/base-inl.hpp>
 
-#include <rpi-hw/font/freetype.hpp>
-#include <rpi-hw/font/freetype-inl.hpp>
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
-
+#include <rpi-hw/image/base.hpp>
 
 namespace rpihw { // Begin main namespace
 
@@ -49,24 +43,25 @@ namespace rpihw { // Begin main namespace
 	@class designer
 	@brief The graphic designer.
 */
-template < typename T, typename Color >
+template < typename T, typename C, uint8_t N = 3 >
 class designer {
 
 public:
 
-	//! Type of alignment.
-	enum TextAlign {
+	//! Parameters of text.
+	enum TextFlags {
 
-		ALIGN_LEFT		= 0x00,
-		ALIGN_CENTER	= 0x01,
-		ALIGN_RIGHT		= 0x02
+		ALIGN_LEFT		= 0x01,
+		ALIGN_CENTER	= 0x02,
+		ALIGN_RIGHT		= 0x04,
+		WORD_WRAP		= 0x08,
+		WORD_BREAK		= 0x10
 	};
 
 	/*!
 		@brief Constructor method.
-		@param[in] interface The instance of the interface.
-		@param[in] set The method to set a pixel color.
-		@param[in] get The method to get a pixel color.
+		@param[in] width The width of the drawing area.
+		@param[in] height The height of the drawing area.
 	*/
 	designer( T width, T height );
 
@@ -74,39 +69,42 @@ public:
 	virtual ~designer();
 
 	/*!
-		@brief Sets the foreground color.
-		@param[in] color The foreground color.
+		@brief Sets the pen color.
+		@param[in] color A pointer to the color data.
 	*/
-	virtual void setColor( Color color );
+	void setPenColor( const C *color );
 
 	/*!
-		@brief Gets the current foreground color.
-		@return The current foreground color.
+		@brief Gets the current pen color.
+		@return The pointer to the color data.
 	*/
-	virtual Color getColor() const;
+	const C *getPenColor() const;
 
 	/*!
-		@brief Sets the color of a pixel using the current foreground color.
-		@param[in] x The horizontal position of the pixel.
-		@param[in] y The vertical position of the pixel.
+		@brief Sets the pen position.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
 	*/
-	virtual void setPixel( T x, T y );
+	void setPenPosition( T x, T y );
 
 	/*!
-		@brief Sets the color of a pixel.
-		@param[in] x The horizontal position of the pixel.
-		@param[in] y The vertical position of the pixel.
-		@param[in] color The new color of the pixel.
+		@brief Sets the text font.
+		@param[in] font The new text font.
 	*/
-	virtual void setPixel( T x, T y, Color color ) = 0;
+	void setFont( font::base &font );
 
 	/*!
-		@brief Sets the color of a pixel.
-		@param[in] x The horizontal position of the pixel.
-		@param[in] y The vertical position of the pixel.
-		@return The current color of the pixel.
+		@brief Returns the current text font.
+		@return The text font.
 	*/
-	virtual Color getPixel( T x, T y ) const = 0;
+	font::base &getFont() const;
+
+	/*!
+		@brief Draws a point.
+		@param[in] x The horizontal position of the point.
+		@param[in] y The vertical position of the point.
+	*/
+	void drawPoint( T x, T y );
 
 	/*!
 		@brief Draws a line.
@@ -115,7 +113,7 @@ public:
 		@param[in] x1 The horizontal position of the second point of the line.
 		@param[in] y1 The vertical position of the second point of the line.
 	*/
-	virtual void drawLine( T x0, T y0, T x1, T y1 );
+	void drawLine( T x0, T y0, T x1, T y1 );
 
 	/*!
 		@brief Draws a rectangle.
@@ -124,7 +122,7 @@ public:
 		@param[in] x1 The horizontal position of the right-bottom vertex of the rectangle.
 		@param[in] y1 The vertical position of the right-bottom vertex of the rectangle.
 	*/
-	virtual void drawRect( T x0, T y0, T x1, T y1 );
+	void drawRect( T x0, T y0, T x1, T y1 );
 
 	/*!
 		@brief Draws a circle.
@@ -132,7 +130,7 @@ public:
 		@param[in] cy The vertical position of the center of the circle.
 		@param[in] radius The radius of the circle.
 	*/
-	virtual void drawCircle( T cx, T cy, T radius );
+	void drawCircle( T cx, T cy, T radius );
 
 	/*!
 		@brief Draws an ellipse.
@@ -141,7 +139,7 @@ public:
 		@param[in] a The parameters `a` of the ellipse.
 		@param[in] b The parameters `b` of the ellipse.
 	*/
-	virtual void drawEllipse( T cx, T cy, T a, T b );
+	void drawEllipse( T cx, T cy, T a, T b );
 
 	/*!
 		@brief Draws a filled rectangle.
@@ -150,7 +148,7 @@ public:
 		@param[in] x1 The horizontal position of the right-bottom vertex.
 		@param[in] y1 The vertical position of the right-bottom vertex.
 	*/
-	virtual void fillRect( T x0, T y0, T x1, T y1 );
+	void fillRect( T x0, T y0, T x1, T y1 );
 
 	/*!
 		@brief Draws a filled circle.
@@ -158,7 +156,7 @@ public:
 		@param[in] cy The vertical position of the center of the circle.
 		@param[in] radius The radius of the circle.
 	*/
-	virtual void fillCircle( T cx, T cy, T radius );
+	void fillCircle( T cx, T cy, T radius );
 
 	/*!
 		@brief Draws a filled ellipse.
@@ -167,100 +165,187 @@ public:
 		@param[in] a The parameters `a` of the ellipse.
 		@param[in] b The parameters `b` of the ellipse.
 	*/
-	virtual void fillEllipse( T cx, T cy, T a, T b );
+	void fillEllipse( T cx, T cy, T a, T b );
 
 	/*!
-		@brief Draws a bitmap image.
-		@param[in] img The bitmap object.
+		@brief Draws an image.
+		@param[in] img The image object.
 		@param[in] x The horizontal position of the left-top vertex.
 		@param[in] y The vertical position of the left-top vertex.
 	*/
-	virtual void drawBitmap( const bitmap &img, T x, T y );
+	void drawImage( const image::base< C > &img, T x, T y );
 
 	/*!
-		@brief Sets the position of the cursor.
-		@param[in] x The new horizontal position of the cursor.
-		@param[in] y The new vertical position of the cursor.
+		@brief Draws a character.
+		@param[in] charcode The character code.
 	*/
-	virtual void move( T x, T y );
-
-	//! Moves the cursor to the new line.
-	virtual void newLine();
+	void drawText( uint32_t charcode );
 
 	/*!
-		@brief Writes a character.
-		@param[in] charcode The 8-bit character.
+		@brief Moves the pen position and draws a character.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
+		@param[in] charcode The character code.
 	*/
-	virtual void write( uint8_t charcode );
+	void drawText( T x, T y, uint32_t charcode );
 
 	/*!
-		@brief Moves the cursor position and writes a character.
-		@param[in] x The new horizontal position of the cursor.
-		@param[in] y The new vertical position of the cursor.
-		@param[in] charcode The 8-bit character.
+		@brief Draws a string.
+		@param[in] it The start of the string.
+		@param[in] end The end of the string.
 	*/
-	virtual void write( T x, T y, uint8_t charcode );
+	template < typename iterator >
+	void drawText( iterator it, iterator end );
 
 	/*!
-		@brief Writes a string.
+		@brief Draws a multiline string.
+		@param[in] it The start of the string.
+		@param[in] end The end of the string.
+		@param[in] width The width of the text area.
+		@param[in] height The height of the text area.
+		@param[in] flags The parameters of the text.
+	*/
+	template < typename iterator >
+	void drawText( iterator it, iterator end, T width, T height, uint8_t flags );
+
+	/*!
+		@brief Moves the pen position and draws a string.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
+		@param[in] it The start of the string.
+		@param[in] end The end of the string.
+	*/
+	template < typename iterator >
+	void drawText( T x, T y, iterator it, iterator end );
+
+	/*!
+		@brief Moves the pen position and draws a multiline string.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
+		@param[in] it The start of the string.
+		@param[in] end The end of the string.
+		@param[in] width The width of the text area.
+		@param[in] height The height of the text area.
+		@param[in] flags The parameters of the text.
+	*/
+	template < typename iterator >
+	void drawText( T x, T y, iterator it, iterator end, T width, T height, uint8_t flags );
+
+	/*!
+		@brief Draws a string.
 		@param[in] text The string to be written.
 	*/
-	virtual void write( const std::string &text );
+	void drawText( const std::string &text );
 
-
-	// FIXME FIXME FIXME
 	/*!
-		@brief Writes a multiline string.
+		@brief Draws a multiline string.
 		@param[in] text The string to be written.
 		@param[in] width The width of the text area.
 		@param[in] height The height of the text area.
-		@param[in] align The position of the alignment.
+		@param[in] flags The parameters of the text.
 	*/
-	virtual void write( const std::string &text, T width, T height, TextAlign align );
-	// FIXME FIXME FIXME
-
+	void drawText( const std::string &text, T width, T height, uint8_t flags = ALIGN_LEFT );
 
 	/*!
-		@brief Moves the cursor position and writes a string.
-		@param[in] x The new horizontal position of the cursor.
-		@param[in] y The new vertical position of the cursor.
+		@brief Moves the pen position and draws a string.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
 		@param[in] text The string to be written.
 	*/
-	virtual void write( T x, T y, const std::string &text );
+	void drawText( T x, T y, const std::string &text );
+
+	/*!
+		@brief Moves the pen position and draws a multiline string.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
+		@param[in] text The string to be written.
+		@param[in] width The width of the text area.
+		@param[in] height The height of the text area.
+		@param[in] flags The parameters of the text.
+	*/
+	void drawText( T x, T y, const std::string &text, T width, T height, uint8_t flags = ALIGN_LEFT );
+
+	/*!
+		@brief Draws a unicode string.
+		@param[in] text The string to be written.
+	*/
+	void drawText( const ustring &text );
+
+	/*!
+		@brief Draws a multiline unicode string.
+		@param[in] text The string to be written.
+		@param[in] width The width of the text area.
+		@param[in] height The height of the text area.
+		@param[in] flags The parameters of the text.
+	*/
+	void drawText( const ustring &text, T width, T height, uint8_t flags = ALIGN_LEFT );
+
+	/*!
+		@brief Moves the pen position and draws a unicode string.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
+		@param[in] text The string to be written.
+	*/
+	void drawText( T x, T y, const ustring &text );
+
+	/*!
+		@brief Moves the pen position and draws a multiline unicode string.
+		@param[in] x The new horizontal pen position.
+		@param[in] y The new vertical pen position.
+		@param[in] text The string to be written.
+		@param[in] width The width of the text area.
+		@param[in] height The height of the text area.
+		@param[in] flags The parameters of the text.
+	*/
+	void drawText( T x, T y, const ustring &text, T width, T height, uint8_t flags = ALIGN_LEFT );
 
 protected:
 
-	//! Size of the drawing area.
-	vec2< T > m_area;
+	//! Width of the drawing area.
+	T m_area_w;
+
+	//! Width of the drawing area.
+	T m_area_h;
 
 	//! Foreground color.
-	Color m_color;
+	C m_color[ N ];
 
-	//! Cursor position.
-	vec2< T > m_pos;
+	//! Horizontal pen position.
+	T m_pos_x;
+
+	//! Vertical pen position.
+	T m_pos_y;
 
 	//! Text font.
 	font::base *m_font;
 
-	//! Draws the symmetric points of the circle.
-	virtual void drawCirclePoints( T cx, T cy, T x, T y );
-
-	//! Draws the symmetric areas of the circle.
-	virtual void drawCircleAreas( T cx, T cy, T x, T y );
-
-	//! Draws the symmetric points of the ellipse.
-	virtual void drawEllipsePoints( T cx, T cy, T x, T y );
-
-	//! Draws the symmetric areas of the ellipse.
-	virtual void drawEllipseAreas( T cx, T cy, T x, T y );
+	/*!
+		@brief Draws a pixel.
+		@param[in] x The horizontal position of the pixel.
+		@param[in] y The vertical position of the pixel.
+		@param[in] color A pointer to the color data.
+	*/
+	virtual void drawPixel( T x, T y, const C *color ) = 0;
 
 	/*!
-		@brief Checks if the current line is full.
-		@param[in] chr The character.
+		@brief Draws a character.
+		@param[in] charcode The character code.
 	*/
-	bool isLineFull( uint8_t chr );
+	void drawChar( uint32_t charcode );
+
+	//! Draws the symmetric points of the circle.
+	void drawCirclePoints( T cx, T cy, T x, T y );
+
+	//! Draws the symmetric areas of the circle.
+	void drawCircleAreas( T cx, T cy, T x, T y );
+
+	//! Draws the symmetric points of the ellipse.
+	void drawEllipsePoints( T cx, T cy, T x, T y );
+
+	//! Draws the symmetric areas of the ellipse.
+	void drawEllipseAreas( T cx, T cy, T x, T y );
 };
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DESIGNER_HPP_ */

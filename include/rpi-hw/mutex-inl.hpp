@@ -24,20 +24,6 @@
 
 namespace rpihw { // Begin main namespace
 
-inline
-mutex::mutex() {
-
-	// Initialize the mutex
-	pthread_mutex_init( &m_pmutex, NULL );
-}
-
-inline
-mutex::~mutex() {
-
-	// Deinitialize the mutex
-	pthread_mutex_destroy( &m_pmutex );
-}
-
 inline void
 mutex::lock() {
 
@@ -54,4 +40,4 @@ mutex::unlock() {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MUTEX_INL_HPP_ */

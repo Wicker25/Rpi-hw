@@ -1,5 +1,5 @@
 /* 
-    Title --- bitmap-inl.hpp
+    Title --- iface/encoder-out-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,17 +19,22 @@
 */
 
 
-#ifndef _RPI_HW_BITMAP_INL_HPP_
-#define _RPI_HW_BITMAP_INL_HPP_
+#ifndef _RPI_HW_IFACE_ENCODER_OUT_INL_HPP_
+#define _RPI_HW_IFACE_ENCODER_OUT_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-template < typename T >
-inline T
-bitmap::data( size_t x, size_t y, size_t channel ) const {
+namespace iface { // Begin interfaces namespace
 
+inline void
+encoderOut::write( size_t value ) {
+
+	// Write on the interface
+	output::write( math::fast_log2( value ) );
 }
+
+} // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_ENCODER_OUT_INL_HPP_ */

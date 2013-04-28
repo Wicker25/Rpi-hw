@@ -81,7 +81,7 @@ input::init( const std::vector< uint8_t > &pins ) {
 	// Initialize the interface pins
 	size_t i = 0;
 
-	for ( ; i < numOfPins(); i++ ) {
+	for ( ; i < numOfPins(); ++i ) {
 
 		m_gpio->setup( m_pins[i], gpio::INPUT );
 		m_gpio->setPullUpDown( m_pins[i], gpio::PULL_DOWN );
@@ -94,7 +94,7 @@ input::read() const {
 	// Read data from the interface
 	size_t data = 0, i = 0;
 
-	for ( ; i < numOfPins(); i++ )
+	for ( ; i < numOfPins(); ++i )
 		data |= ( (size_t) m_gpio->read( m_pins[i] ) ) << i;
 
 	return data;
@@ -120,4 +120,4 @@ input::read( uint8_t index ) const {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_INPUT_CPP_ */

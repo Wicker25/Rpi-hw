@@ -81,7 +81,7 @@ output::init( const std::vector< uint8_t > &pins ) {
 	// Initialize the interface pins
 	size_t i = 0;
 
-	for ( ; i < numOfPins(); i++ ) {
+	for ( ; i < numOfPins(); ++i ) {
 
 		m_gpio->write( m_pins[i], gpio::LOW );
 		m_gpio->setup( m_pins[i], gpio::OUTPUT );
@@ -94,7 +94,7 @@ output::write( size_t data ) {
 	// Write data on the interface
 	size_t i = 0;
 
-	for ( ; i < numOfPins(); i++ )
+	for ( ; i < numOfPins(); ++i )
 		m_gpio->write( m_pins[i], data & ( 1 << i ) );
 }
 
@@ -113,4 +113,4 @@ output::write( uint8_t index, bool data ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_OUTPUT_CPP_ */

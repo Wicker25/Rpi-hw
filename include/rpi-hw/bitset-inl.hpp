@@ -24,6 +24,46 @@
 
 namespace rpihw { // Begin main namespace
 
+inline bitset_ref &
+bitset_ref::operator=( bool value ) {
+
+	// Set the bit value by boolean
+	m_bitset->set( m_index, value );
+	return *this;
+}
+
+inline bitset_ref &
+bitset_ref::operator=( const bitset_ref &other ) {
+
+	// Set the bit value by another bit reference
+	m_bitset->set( m_index, other );
+	return *this;
+}
+
+inline bitset_ref &
+bitset_ref::flip() {
+
+	// Flip bit value
+	m_bitset->flip( m_index );
+	return *this;
+}
+
+inline bool
+bitset_ref::operator~() const {
+
+	// Return inverse bit value
+	return m_bitset->get( m_index ) != true;
+}
+
+inline
+bitset_ref::operator bool() const {
+
+	// Convert bit value to boolean 
+	return m_bitset->get( m_index ) != true;
+}
+
+
+
 inline bitset::ref
 bitset::operator[] ( size_t index ) {
 
@@ -45,44 +85,6 @@ bitset::size() const {
 	return m_nbits;
 }
 
-inline bitset::ref &
-bitset::ref::operator=( bool value ) {
-
-	// Set the bit value by boolean
-	m_bitset->set( m_index, value );
-	return *this;
-}
-
-inline bitset::ref &
-bitset::ref::operator=( const ref &other ) {
-
-	// Set the bit value by another bit reference
-	m_bitset->set( m_index, other );
-	return *this;
-}
-
-inline bitset::ref &
-bitset::ref::flip() {
-
-	// Flip bit value
-	m_bitset->flip( m_index );
-	return *this;
-}
-
-inline bool
-bitset::ref::operator~() const {
-
-	// Return inverse bit value
-	return m_bitset->get( m_index ) != true;
-}
-
-inline
-bitset::ref::operator bool() const {
-
-	// Convert bit value to boolean 
-	return m_bitset->get( m_index ) != true;
-}
-
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_BITSET_INL_HPP_ */

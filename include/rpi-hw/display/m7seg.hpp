@@ -146,4 +146,4 @@ protected:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_M7SEG_HPP_ */

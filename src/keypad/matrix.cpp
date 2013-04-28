@@ -89,13 +89,13 @@ matrix::update() {
 	while ( 1 ) {
 
 		// Update state of buttons
-		for ( j = 0; j < m_cols; j++ ) {
+		for ( j = 0; j < m_cols; ++j ) {
 
 			// Activate the j-th column
 			m_output->write( 1 << j );
 			rows_value = m_input->read();
 
-			for ( i = 0; i < m_rows; i++ ) {
+			for ( i = 0; i < m_rows; ++i ) {
 
 				// Look for connection with i-th row
 				state = rows_value & ( 1 << i );
@@ -121,4 +121,4 @@ matrix::update() {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_KEYPAD_MATRIX_CPP_ */

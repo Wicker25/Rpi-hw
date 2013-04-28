@@ -1,5 +1,5 @@
 /* 
-    Title --- bitmap.hpp [work in progress]
+    Title --- iface/decoder-in.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,63 +19,48 @@
 */
 
 
-#ifndef _RPI_HW_BITMAP_HPP_
-#define _RPI_HW_BITMAP_HPP_
-
-// Include the CImg library
-// #define cimg_display 0
-// #include <CImg.h>
+#ifndef _RPI_HW_IFACE_DECODER_IN_HPP_
+#define _RPI_HW_IFACE_DECODER_IN_HPP_
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
+#include <rpi-hw/math.hpp>
+#include <rpi-hw/utils.hpp>
 
-// Using the CImg's namespace
-//using namespace cimg_library;
+#include <rpi-hw/iface/base.hpp>
+#include <rpi-hw/iface/input.hpp>
 
 namespace rpihw { // Begin main namespace
 
+namespace iface { // Begin interfaces namespace
+
 /*!
-	@class bitmap
-	@brief Simple bitmap structure.
+	@class decoderIn
+	@brief Decoder input interface.
 */
-class bitmap {
+class decoderIn : public iface::input {
 
 public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] size Number of the bits.
-		@param[in] value Default value of the bits.
+		@param[in] total Number of the GPIO pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
 	*/
-	bitmap( size_t width, size_t height, uint8_t *data );
+	decoderIn( uint8_t total, ... );
 
 	//! Destructor method.
-	virtual ~bitmap();
+	virtual ~decoderIn();
 
 	/*!
-		@brief Sets the color of a pixel.
-		@param[in] x The horizontal position of the pixel.
-		@param[in] y The vertical position of the pixel.
-		@param[in] channel The color channel.
+		@brief Reads from the interface.
+		@return The data read from the interface.
 	*/
-	template < typename T >
-	T data( size_t x, size_t y, size_t channel = 0 ) const;
-
-private:
-
-	//! Width of the image.
-	size_t m_width;
-
-	//! Height of the image.
-	size_t m_height;
-
-	//! Number of color channel.
-	uint8_t m_channels;
-
-	//! Data of the image.
-	uint8_t *m_data;
+	virtual size_t read() const;
 };
+
+} // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_DECODER_IN_HPP_ */

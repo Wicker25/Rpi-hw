@@ -57,4 +57,4 @@ thread< T >::do_work( void *data ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_THREAD_INL_HPP_ */

@@ -107,7 +107,7 @@ void demo1( hd44780 &disp ) {
 	uint8_t i = 0;
 
 	// Move the cursor on the display
-	for ( ; i < 20; i++ ) {
+	for ( ; i < 20; ++i ) {
 
 		disp.move( i, ( i % 4 ) );
 		time::msleep( 500 );
@@ -344,7 +344,7 @@ void demo8( hd44780 &disp ) {
 	// Write the current date
 	size_t i = 0;
 
-	for ( ; i < 10; i++ ) {
+	for ( ; i < 10; ++i ) {
 
 		disp.write( 0, 1, utils::align( exec( "date +%H:%m:%S" ), 20, utils::ALIGN_CENTER ) );
 		pause( disp, 1 );

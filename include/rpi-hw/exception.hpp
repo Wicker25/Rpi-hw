@@ -46,4 +46,4 @@ public:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_EXCEPTION_HPP_ */

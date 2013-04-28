@@ -5,129 +5,167 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION "0.2.6" )
-set( RPI_HW_VERSION_MAJOR 0 )
-set( RPI_HW_VERSION_MINOR 2 )
-set( RPI_HW_VERSION_PATCH 6 )
+set( RPI_HW_VERSION			"0.3.0" )
+set( RPI_HW_VERSION_MAJOR	0 )
+set( RPI_HW_VERSION_MINOR	3 )
+set( RPI_HW_VERSION_PATCH	0 )
 
+# Project directories
+set( RPI_HW_DIR					${PROJECT_SOURCE_DIR}	)
+set( RPI_HW_SOURCE_DIR 			${RPI_HW_DIR}/src		)
+set( RPI_HW_INCLUDE_DIR			${RPI_HW_DIR}/include	)
+set( RPI_HW_LIBRARY_DIR			${RPI_HW_DIR}/lib		)
+set( RPI_HW_BUILD_DIR 			${RPI_HW_DIR}/build		)
+set( RPI_HW_DOXYGEN_DIR 		${RPI_HW_DIR}/doxygen	)
+set( RPI_HW_CMAKE_DIR 			${RPI_HW_DIR}/cmake		)
+set( RPI_HW_PKGCONFIG_DIR 		${RPI_HW_DIR}/pkgconfig	)
 
-# Find the dependencies
-find_package( Threads REQUIRED )
-find_package( Freetype REQUIRED )
+# Set the output directories
+set( LIBRARY_OUTPUT_PATH		${RPI_HW_BUILD_DIR} )
+set( EXECUTABLE_OUTPUT_PATH		${RPI_HW_BUILD_DIR} )
+
+# Set the CMake's module path
+set( CMAKE_MODULE_PATH	${CMAKE_MODULE_PATH} ${RPI_HW_DIR}/cmake )
+set( CMAKE_MODULES		UTF8-CPP )
 
 # Set the compiler flags
-add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-psabi )
+add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long ) # -Wno-psabi
 
-# Set the path of the header files
-include_directories(
-
-	${CMAKE_SOURCE_DIR}/include
-	${CMAKE_BINARY_DIR}/include
-
-	${FREETYPE_INCLUDE_DIRS}
-)
+# Remove temporary files
+execute_process( COMMAND ${CMAKE_COMMAND} -E remove "${RPI_HW_DIR}/install_directories.txt" )
 
 
 # Check if RPi's Revision has been specified by user
-IF ( RPI_REVISION )
-
-	MESSAGE( "-- Using Raspberry Pi Revision Number: ${RPI_REVISION}" )
-
-ELSE ( RPI_REVISION )
-
-	# Find the Raspberry Pi Revision number
+if ( RPI_REVISION )
+	message( "-- Using Raspberry Pi Revision Number: ${RPI_REVISION}" )
+else()
+	# Else find it with an automated script
 	# grep -Po '^Revision\s*:\s*\K[[:xdigit:]]{7}' /proc/cpuinfo
 	execute_process( COMMAND grep -Po "^Revision\\s*:\\s*\\K[[:xdigit:]]+" /proc/cpuinfo
 					 OUTPUT_VARIABLE RPI_REVISION )
 
-	# If I have not found the Revision number, use the last version
-	IF ( RPI_REVISION )
-
-		MESSAGE( "-- Detecting Raspberry Pi Revision Number: ${RPI_REVISION}" )
-
-	ELSE ( RPI_REVISION )
-
+	# If have not found the Revision number, use the last version
+	if ( RPI_REVISION )
+		message( "-- Detecting Raspberry Pi Revision Number: ${RPI_REVISION}" )
+	else()
 		set( RPI_REVISION "0006" )
-
-		MESSAGE( WARNING "-- Could NOT find Raspberry Pi revision!" )
-
-	ENDIF ( RPI_REVISION )
+		message( WARNING "-- Could NOT find Raspberry Pi revision!" )
+	endif()
 
 	set( RPI_REVISION "0x${RPI_REVISION}" )
+endif()
 
-ENDIF ( RPI_REVISION )
+
+# Find some dependencies
+find_package( Threads REQUIRED )
+find_package( UTF8-CPP )
+
+# If I couldn't find the UTF8-CPP library, use the built-in source
+if ( NOT UTF8-CPP_FOUND )
+	add_subdirectory( lib )
+endif()
+
+# Set the include directories
+include_directories(
+
+	${RPI_HW_INCLUDE_DIR}
+	${RPI_HW_LIBRARY_DIR}/utf8-cpp
+)
+
+# Define some options
+option( USE_FREETYPE	"Use FreeType library"	ON )
+option( USE_MAGICK		"Use GraphicsMagick++ library"	ON )
+
+# Enable/disable FreeType support
+if ( USE_FREETYPE )
+	find_package( Freetype REQUIRED )
+	include_directories( ${FREETYPE_INCLUDE_DIRS} )
+
+	set( CMAKE_MODULES ${CMAKE_MODULES} Freetype )
+
+	set( USE_FREETYPE 1 )
+else()
+	set( USE_FREETYPE 0 )
+endif()
+
+# Enable/disable GraphicsMagick++ support
+if ( USE_MAGICK )
+	find_package( GraphicsMagick++ REQUIRED )
+	include_directories( ${GraphicsMagick++_INCLUDE_DIRS} )
+
+	set( CMAKE_MODULES ${CMAKE_MODULES} GraphicsMagick++ )
+
+	set( USE_MAGICK 1 )
+else()
+	set( USE_MAGICK 0 )
+endif()
 
 
-# Set the files to be modified
+# Define the list of files to be built dynamically
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/include/rpi-hw/version.hpp.in"
-	"${CMAKE_BINARY_DIR}/include/rpi-hw/version.hpp"
+	${RPI_HW_INCLUDE_DIR}/rpi-hw/version.hpp.in
+	${RPI_HW_INCLUDE_DIR}/rpi-hw/version.hpp
 	IMMEDIATE @ONLY
 )
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/include/rpi-hw/rpi.hpp.in"
-	"${CMAKE_BINARY_DIR}/include/rpi-hw/rpi.hpp"
+	${RPI_HW_INCLUDE_DIR}/rpi-hw/config.hpp.in
+	${RPI_HW_INCLUDE_DIR}/rpi-hw/config.hpp
 	IMMEDIATE @ONLY
 )
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/cmake/FindRpiHw.cmake.in"
-	"${CMAKE_BINARY_DIR}/cmake/FindRpiHw.cmake"
+	${RPI_HW_INCLUDE_DIR}/rpi-hw/rpi.hpp.in
+	${RPI_HW_INCLUDE_DIR}/rpi-hw/rpi.hpp
 	IMMEDIATE @ONLY
 )
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/pkgconfig/rpi-hw.pc.in"
-	"${CMAKE_BINARY_DIR}/pkgconfig/rpi-hw.pc"
+	${RPI_HW_PKGCONFIG_DIR}/rpi-hw.pc.in
+	${RPI_HW_PKGCONFIG_DIR}/rpi-hw.pc
 	IMMEDIATE @ONLY
 )
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/doxygen/doxy.conf.in"
-	"${CMAKE_BINARY_DIR}/doxygen/doxy.conf"
+	${RPI_HW_DOXYGEN_DIR}/doxy.conf.in
+	${RPI_HW_DOXYGEN_DIR}/doxy.conf
 	IMMEDIATE @ONLY
 )
 
 configure_file(
 
-	"${CMAKE_SOURCE_DIR}/cmake_uninstall.cmake.in"
-	"${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+	${RPI_HW_DIR}/cmake_uninstall.cmake.in
+	${RPI_HW_DIR}/cmake_uninstall.cmake
 	IMMEDIATE @ONLY
 )
-
-# Set some paths
-set( LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib )
-set( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin )
-
-set( RPI_HW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src )
-set( RPI_HW_BINARY_DIR ${CMAKE_BINARY_DIR}/bin ${CMAKE_BINARY_DIR}/bin )
-
 
 # Build the library
 add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/utils.cpp
 	${RPI_HW_SOURCE_DIR}/time.cpp
-	${RPI_HW_SOURCE_DIR}/bitset.cpp
-	${RPI_HW_SOURCE_DIR}/bitmap.cpp
+	${RPI_HW_SOURCE_DIR}/mutex.cpp
 	${RPI_HW_SOURCE_DIR}/gpio.cpp
+
+	${RPI_HW_SOURCE_DIR}/bitset.cpp
+	${RPI_HW_SOURCE_DIR}/unicode.cpp
 
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
 	${RPI_HW_SOURCE_DIR}/iface/output.cpp
 	${RPI_HW_SOURCE_DIR}/iface/input.cpp
 	${RPI_HW_SOURCE_DIR}/iface/shift-base.cpp
-	${RPI_HW_SOURCE_DIR}/iface/shiftout.cpp
-	${RPI_HW_SOURCE_DIR}/iface/shiftin.cpp
-	${RPI_HW_SOURCE_DIR}/iface/encoder.cpp
-	${RPI_HW_SOURCE_DIR}/iface/decoder.cpp
+	${RPI_HW_SOURCE_DIR}/iface/shift-out.cpp
+	${RPI_HW_SOURCE_DIR}/iface/shift-in.cpp
+	${RPI_HW_SOURCE_DIR}/iface/encoder-out.cpp
+	${RPI_HW_SOURCE_DIR}/iface/encoder-in.cpp
+	${RPI_HW_SOURCE_DIR}/iface/decoder-out.cpp
+	${RPI_HW_SOURCE_DIR}/iface/decoder-in.cpp
 
-	${RPI_HW_SOURCE_DIR}/font/base.cpp
 	${RPI_HW_SOURCE_DIR}/font/freetype.cpp
 
 	${RPI_HW_SOURCE_DIR}/keypad/base.cpp
@@ -141,61 +179,72 @@ add_library( rpihw SHARED
 	${RPI_HW_SOURCE_DIR}/motor/stepper.cpp
 )
 
+
+# Link external libraries
 target_link_libraries( rpihw ${CMAKE_THREAD_LIBS_INIT} )
-target_link_libraries( rpihw ${FREETYPE_LIBRARIES} )
 target_link_libraries( rpihw rt )
+
+if ( USE_FREETYPE )
+	target_link_libraries( rpihw ${FREETYPE_LIBRARIES} )
+endif()
+
+if ( USE_MAGICK )
+	target_link_libraries( rpihw ${GraphicsMagick++_LIBRARIES} )
+endif()
+
 
 # Build the executables
 add_executable( rpi-gpio ${RPI_HW_SOURCE_DIR}/rpi-gpio.cpp )
 target_link_libraries( rpi-gpio rpihw )
 
-add_executable( test ${RPI_HW_SOURCE_DIR}/test.cpp )
-target_link_libraries( test rpihw )
 
-
-# If Doxygen found, define the function `make doc`
+# If Doxygen was found, define the function `make doc` to build the local documentation
 find_package( Doxygen )
 
 if ( DOXYGEN_FOUND )
-
 	add_custom_target( doc COMMAND doxygen doxygen/doxy.conf )
-	add_custom_target( doc-clean COMMAND rm -R "${CMAKE_SOURCE_DIR}/doc" )
-
+	add_custom_target( doc-clean COMMAND rm -R "${RPI_HW_DIR}/doc" )
 endif ( DOXYGEN_FOUND )
 
 
 # Define the library installer
 install_targets( /lib rpihw )
 
-install( FILES ${CMAKE_SOURCE_DIR}/include/rpi-hw.hpp
-		 DESTINATION ${CMAKE_INSTALL_PREFIX}/include )
+install( FILES			${RPI_HW_INCLUDE_DIR}/rpi-hw.hpp
+		 DESTINATION	${CMAKE_INSTALL_PREFIX}/include )
 
-install( DIRECTORY ${CMAKE_SOURCE_DIR}/include/rpi-hw
-		 DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+install( DIRECTORY		${RPI_HW_INCLUDE_DIR}/rpi-hw
+		 DESTINATION	${CMAKE_INSTALL_PREFIX}/include
 		 FILES_MATCHING
 		 PATTERN "*"
 		 PATTERN "*.in" EXCLUDE )
 
-# Pkg-config installer
-install( FILES ${CMAKE_SOURCE_DIR}/pkgconfig/rpi-hw.pc
-		 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig )
+# Define the pkg-config installer
+install( FILES			${RPI_HW_PKGCONFIG_DIR}/rpi-hw.pc
+		 DESTINATION	${CMAKE_INSTALL_PREFIX}/lib/pkgconfig )
 
-# CMake installer
-install( FILES ${CMAKE_SOURCE_DIR}/cmake/FindRpiHw.cmake
-		 DESTINATION ${CMAKE_ROOT}/Modules/ )
+# Define the CMake's modules installer
+install( FILES			${RPI_HW_CMAKE_DIR}/FindRpiHw.cmake
+		 DESTINATION	${CMAKE_ROOT}/Modules/ )
 
-# Tools installer
-install( FILES ${CMAKE_SOURCE_DIR}/bin/rpi-gpio
+foreach ( module ${CMAKE_MODULES} )
+	if ( NOT EXISTS "${CMAKE_ROOT}/Modules/Find${module}.cmake" )
+		install( FILES			${RPI_HW_CMAKE_DIR}/Find${module}.cmake
+				 DESTINATION	${CMAKE_ROOT}/Modules/ )
+	endif()
+endforeach()
+
+# Define the tools installer
+install( FILES ${RPI_HW_BUILD_DIR}/rpi-gpio
 		 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
 		 PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
 
 # Store the library paths
-file( WRITE "${CMAKE_SOURCE_DIR}/install_directory.txt"
+file( APPEND "${RPI_HW_DIR}/install_directories.txt"
 
 	"${CMAKE_INSTALL_PREFIX}/include/rpi-hw\n"
 	"${CMAKE_INSTALL_PREFIX}/share/doc/rpi-hw\n"
 )
 
-# Define the unistaller
+# Define the unistaller command
 add_custom_target( uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake )
-

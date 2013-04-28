@@ -58,4 +58,4 @@ nsleep( size_t nseconds ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_TIME_CPP_ */

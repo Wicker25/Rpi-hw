@@ -40,4 +40,4 @@ input::setPin( uint8_t index, uint8_t pin ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_INPUT_INL_HPP_ */

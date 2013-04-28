@@ -40,14 +40,14 @@ inline uint8_t
 hd44780::getChar( uint8_t x, uint8_t y ) const {
 
 	// Return a character from the buffer
-	return m_buffer[ x + y * m_screen.w ];
+	return m_buffer[ x + y * m_screen_w ];
 }
 
 inline bool
 hd44780::isLineFull() {
 
 	// Check if the current line is full
-	return ( m_pos.x >= m_screen.w );
+	return ( m_pos_x >= m_screen_w );
 }
 
 inline void
@@ -81,4 +81,4 @@ hd44780::setAutoscroll( uint8_t mode ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_HD44780_INL_HPP_ */

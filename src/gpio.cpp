@@ -119,7 +119,7 @@ gpio::print_register( uint8_t offset, uint8_t group_bits ) const {
 	// Print the GPIO controller register (debug function)
 	uint8_t i = 31;
 
-	for ( ; i >= 0; i-- ) {
+	for ( ; i >= 0; --i ) {
 
 		std::cout << getBit( offset, i );
 
@@ -131,4 +131,4 @@ gpio::print_register( uint8_t offset, uint8_t group_bits ) const {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_GPIO_CPP_ */

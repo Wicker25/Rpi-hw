@@ -26,8 +26,29 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
+inline void
+pcd8544::setColor( bool color ) {
+
+	// Set the foreground color
+	setPenColor( (const bool *) &color );
+}
+
+inline bool
+pcd8544::getColor() const {
+
+	// Set the foreground color
+	return *getPenColor();
+}
+
+inline void
+pcd8544::setPixel( int8_t x, int8_t y, bool color ) {
+
+	// Set the pixel color
+	drawPixel( x, y, (const bool *) &color );
+}
+
 } // End of displays namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_PCD8544_INL_HPP_ */

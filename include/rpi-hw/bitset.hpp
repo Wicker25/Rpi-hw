@@ -25,9 +25,62 @@
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
+
 #include <rpi-hw/utils.hpp>
 
 namespace rpihw { // Begin main namespace
+
+// Class prototype
+class bitset;
+
+/*!
+	@class bitset_ref
+	@brief A reference to a bit.
+*/
+class bitset_ref {
+
+	friend class bitset;
+
+public:
+
+	//! Destructor method
+	virtual ~bitset_ref();
+
+	/*!
+		@brief Sets a bit value.
+		@param[in] value The bit value.
+		@return The reference to the bit.
+	*/
+	bitset_ref &operator=( bool value );
+	/*!
+		@brief Sets a bit value using a reference to another bit.
+		@param[in] other The other reference to the bit.
+		@return The reference to the bit.
+	*/
+	bitset_ref &operator=( const bitset_ref &other );
+
+	//! Flips the bit value.
+	bitset_ref &flip();
+
+	//! Returns the inverse bit value.
+	bool operator~() const;
+
+	//! Converts bit value to boolean.
+	operator bool() const;
+
+private:
+
+	//! Destructor method (private).
+	bitset_ref( bitset &set, size_t index );
+
+	//! Parent bitset instance.
+	bitset *m_bitset;
+
+	//! Bit position.
+	size_t m_index;
+};
+
+
 
 /*!
 	@class bitset
@@ -35,8 +88,8 @@ namespace rpihw { // Begin main namespace
 */
 class bitset {
 
-	// Prototypes
-	class ref;
+	//! Reference to a bit.
+	typedef bitset_ref ref;
 
 public:
 
@@ -110,55 +163,6 @@ private:
 	uint8_t *m_data;
 };
 
-
-/* BIT REFERENCE */
-/*!
-	@class bitset::ref
-	@brief A reference to a bit.
-*/
-class bitset::ref {
-
-	friend class bitset;
-
-public:
-
-	//! Destructor method
-	virtual ~ref();
-
-	/*!
-		@brief Sets a bit value.
-		@param[in] value The bit value.
-		@return The reference to the bit.
-	*/
-	ref &operator=( bool value );
-	/*!
-		@brief Sets a bit value using a reference to another bit.
-		@param[in] other The other reference to the bit.
-		@return The reference to the bit.
-	*/
-	ref &operator=( const ref &other );
-
-	//! Flips the bit value.
-	ref &flip();
-
-	//! Returns the inverse bit value.
-	bool operator~() const;
-
-	//! Converts bit value to boolean.
-	operator bool() const;
-
-private:
-
-	//! Destructor method (private).
-	ref( bitset &set, size_t index );
-
-	//! Parent bitset instance.
-	bitset *m_bitset;
-
-	//! Bit position.
-	size_t m_index;
-};
-
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_BITSET_HPP_ */

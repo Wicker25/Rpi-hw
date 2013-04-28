@@ -22,6 +22,8 @@
 #ifndef _RPI_HW_FONT_BASE_HPP_
 #define _RPI_HW_FONT_BASE_HPP_
 
+#include <iostream>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/font/glyph.hpp>
 
@@ -50,42 +52,31 @@ class base {
 public:
 
 	/*!
-		@brief Constructor method.
-		@param[in] name The name of the font.
+		@brief Sets the font size.
 		@param[in] height The height of the font.
 	*/
-	base( const std::string &name, uint8_t height );
-
-	//! Destructor method.
-	virtual ~base();
+	virtual void setSize( uint8_t height ) = 0;
 
 	/*!
 		@brief Returns the width of a character.
 		@param[in] charcode The character code.
+		@return The width of the font.
 	*/
 	virtual uint8_t getWidth( uint32_t charcode ) const = 0;
 
 	//! Returns the height of the font.
-	virtual uint8_t getHeight() const;
+	virtual uint8_t getHeight() const = 0;
 
 	/*!
 		@brief Returns the data of the character font.
 		@param[in] charcode The character code.
-		@return glyph_data The glyph of the character.
+		@param[in] glyph The glyph of the character.
 	*/
 	virtual void data( uint32_t charcode, glyph &glyph ) const = 0;
-
-protected:
-
-	//! Name of the font.
-	std::string m_name;
-
-	//! Font height.
-	uint8_t m_height;
 };
 
 } // End of fonts namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_FONT_BASE_HPP_ */

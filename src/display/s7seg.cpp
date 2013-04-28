@@ -92,4 +92,4 @@ s7seg::set( float value ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_S7SEG_CPP_ */

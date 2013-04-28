@@ -78,7 +78,7 @@ main( int argc, char *args[] ) {
 
 		std::cout << '\r';
 
-		for ( i = 0; i < keystate.size(); i++ )
+		for ( i = 0; i < keystate.size(); ++i )
 			std::cout << keystate[i] << ' ';
 
 		std::cout << std::flush;

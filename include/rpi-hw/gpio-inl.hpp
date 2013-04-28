@@ -51,7 +51,7 @@ inline void
 gpio::waitCycles( size_t cycles ) const {
 
 	// Wait some CPU cycles
-    while ( cycles-- ) asm volatile( "nop" );
+    while ( --cycles ) asm volatile( "nop" );
 }
 
 inline void
@@ -119,4 +119,4 @@ gpio::setLowEvent( uint8_t pin, bool enabled ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_GPIO_INL_HPP_ */

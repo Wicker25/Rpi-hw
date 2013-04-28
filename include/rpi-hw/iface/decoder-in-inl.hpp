@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/encoder.hpp
+    Title --- iface/decoder-in-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,48 +19,22 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_ENCODER_HPP_
-#define _RPI_HW_IFACE_ENCODER_HPP_
-
-#include <rpi-hw/types.hpp>
-#include <rpi-hw/exception.hpp>
-#include <rpi-hw/math.hpp>
-#include <rpi-hw/utils.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/output.hpp>
+#ifndef _RPI_HW_IFACE_DECODER_IN_INL_HPP_
+#define _RPI_HW_IFACE_DECODER_IN_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-/*!
-	@class encoder
-	@brief Encoder output interface.
-*/
-class encoder : public iface::output {
+inline size_t
+decoderIn::read() const {
 
-public:
-
-	/*!
-		@brief Constructor method.
-		@param[in] total Number of the GPIO pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
-	*/
-	encoder( uint8_t total, ... );
-
-	//! Destructor method.
-	virtual ~encoder();
-
-	/*!
-		@brief Writes a value on the interface.
-		@param[in] value The value to be written.
-	*/
-	virtual void write( size_t value );
-};
+	// Write on the interface
+	return math::fast_pow2( input::read() );
+}
 
 } // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_DECODER_IN_INL_HPP_ */

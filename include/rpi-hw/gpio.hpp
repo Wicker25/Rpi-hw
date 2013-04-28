@@ -467,4 +467,4 @@ private:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_GPIO_HPP_ */

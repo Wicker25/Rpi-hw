@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/shiftout-inl.hpp
+    Title --- iface/encoder-in-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,25 +19,22 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SHIFTOUT_INL_HPP_
-#define _RPI_HW_IFACE_SHIFTOUT_INL_HPP_
+#ifndef _RPI_HW_IFACE_ENCODER_IN_INL_HPP_
+#define _RPI_HW_IFACE_ENCODER_IN_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-inline void
-shiftOut::setPin( uint8_t index, uint8_t pin ) {
+inline size_t
+encoderIn::read() const {
 
-	// Call parent class method
-	base::setPin( index, pin );
-
-	// Set the GPIO pin mode
-	m_gpio->setup( m_pins[ index ], gpio::OUTPUT );
+	// Write on the interface
+	return math::fast_log2( input::read() );
 }
 
 } // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_ENCODER_IN_INL_HPP_ */

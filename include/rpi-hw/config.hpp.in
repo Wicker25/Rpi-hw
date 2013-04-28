@@ -1,7 +1,7 @@
 /* 
-    Title --- font/base-inl.hpp
+    Title --- config.hpp
 
-    Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
+    Copyright (C) 2012 Giacomo Trudu - wicker25[at]gmail[dot]com
 
     This file is part of Rpi-hw.
 
@@ -19,22 +19,11 @@
 */
 
 
-#ifndef _RPI_HW_FONT_BASE_INL_HPP_
-#define _RPI_HW_FONT_BASE_INL_HPP_
+#ifndef _RPI_HW_CONFIG_HPP_
+#define _RPI_HW_CONFIG_HPP_
 
-namespace rpihw { // Begin main namespace
+// External libraries
+#define USE_FREETYPE	@USE_FREETYPE@
+#define USE_MAGICK		@USE_MAGICK@
 
-namespace font { // Begin fonts namespace
-
-inline uint8_t
-base::getHeight() const {
-
-	// Return the height of the font
-	return m_height;
-}
-
-} // End of fonts namespace
-
-} // End of main namespace
-
-#endif
+#endif /* _RPI_HW_CONFIG_HPP_ */

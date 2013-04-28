@@ -19,6 +19,10 @@
 */
 
 
+#include <rpi-hw/config.hpp>
+
+#if USE_FREETYPE
+
 #ifndef _RPI_HW_FONT_FREETYPE_INL_HPP_
 #define _RPI_HW_FONT_FREETYPE_INL_HPP_
 
@@ -26,9 +30,32 @@ namespace rpihw { // Begin main namespace
 
 namespace font { // Begin fonts namespace
 
+inline const std::string &
+freetype::getPath() const {
+
+	// Return the path to the font
+	return m_path;
+}
+
+inline void
+freetype::setSize( uint8_t height ) {
+
+	// Set the font size
+	m_image_type->width		= height;
+	m_image_type->height	= height;
+}
+
+inline uint8_t
+freetype::getHeight() const {
+
+	// Return the height of the font
+	return m_image_type->height;
+}
 
 } // End of fonts namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_FONT_FREETYPE_INL_HPP_ */
+
+#endif /* USE_FREETYPE */

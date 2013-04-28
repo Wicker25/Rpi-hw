@@ -19,14 +19,14 @@
 */
 
 
+#include <rpi-hw/config.hpp>
+
+#if USE_FREETYPE
+
 #ifndef _RPI_HW_FONT_FREETYPE_CPP_
 #define _RPI_HW_FONT_FREETYPE_CPP_
 
 #include <rpi-hw/font/freetype.hpp>
-
-#include <rpi-hw/font/base.hpp>
-#include <rpi-hw/font/base-inl.hpp>
-
 #include <rpi-hw/font/freetype-inl.hpp>
 
 namespace rpihw { // Begin main namespace
@@ -42,22 +42,21 @@ faceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer obj, FT_Face *
 	return 0;
 }
 
-freetype::freetype( const std::string &name, uint8_t height, RenderMode mode ) : font::base( name, height ) {
+freetype::freetype( const std::string &path, uint8_t height, RenderMode mode, Encoding encoding ) : m_path( path ), m_encoding( encoding ) {
 
 	// Initialize the FreeType Font Library
 	if ( FT_Init_FreeType( &m_library ) )
-		throw exception( "(Error) FT_Init_FreeType: failed\n" );
+		throw exception( "(Error) `freetype->constructor`: `FT_Init_FreeType` failed\n" );
 
 	// Create the cache manager and some other instances
 	if ( FTC_Manager_New( m_library, 0, 0, 0, (FTC_Face_Requester) &faceRequester, (FT_Pointer *) this, &m_manager ) )
-		throw exception( "(Error) FTC_Manager_New: failed\n" );
+		throw exception( "(Error) `freetype->constructor`: `FTC_Manager_New` failed\n" );
 
 	if ( FTC_CMapCache_New( m_manager, &m_cmap_cache ) )
-		throw exception( "(Error) FTC_CMapCache_New: failed\n" );
+		throw exception( "(Error) `freetype->constructor`: `FTC_CMapCache_New` failed\n" );
 
 	if ( FTC_SBitCache_New( m_manager, &m_sbit_cache ) )
-		throw exception( "(Error) FTC_SBitCache_New: failed\n" );
-
+		throw exception( "(Error) `freetype->constructor`: `FTC_SBitCache_New` failed\n" );
 
 	// Set the parameters of the font
 	m_image_type = new FTC_ImageTypeRec;
@@ -82,8 +81,15 @@ void
 freetype::buildFace( FTC_FaceID face_id, FT_Face *face ) {
 
 	// Build the fresh new font object
-	if ( FT_New_Face( m_library, (const char *) m_name.c_str(), 0, face ) )
-		throw exception( "(Error) FT_New_Face: unknow file format\n" );
+	if ( FT_New_Face( m_library, (const char *) m_path.c_str(), 0, face ) )
+		throw exception( utils::format( "(Error) `freetype->buildFace`: `FT_New_Face` failed whit `%s`\n", m_path.c_str() ) );
+
+	// Set the character set
+	if ( m_encoding != ENCODING_NONE ) {
+
+		if ( FT_Select_Charmap( *face, (FT_Encoding) m_encoding ) )
+			throw exception( utils::format( "(Error) `freetype->buildFace`: `FT_Select_Charmap` failed with `%s`\n", m_path.c_str() ) );
+	}
 }
 
 void
@@ -92,32 +98,30 @@ freetype::getSBitChar( uint32_t charcode, FTC_SBit &sbit ) const {
 	// Translate the character code into a glyph index
 	FT_UInt glyph_index = FTC_CMapCache_Lookup( m_cmap_cache, m_image_type->face_id, 0, charcode );
 
+	/*
 	if ( !glyph_index )
-		throw exception( "(Error) FTC_CMapCache_Lookup: failed\n" );
+		std::cerr << utils::format( "(Warning) `freetype->getSBitChar`: `FTC_CMapCache_Lookup` unknown character `\\u%04x`\n", charcode );
+	*/
 
 	if ( FTC_SBitCache_Lookup( m_sbit_cache, m_image_type, glyph_index, &sbit, NULL ) )
-		throw exception( "(Error) FTC_SBitCache_Lookup: failed\n" );
+		throw exception( utils::format( "(Error) `freetype->getSBitChar`: `FTC_SBitCache_Lookup` failed with `%s`\n", m_path.c_str() ) );
 }
 
 uint8_t
 freetype::getWidth( uint32_t charcode ) const {
 
 	// Get the bitmap of the character
-	FTC_SBit sbit;
-
-	getSBitChar( charcode, sbit );
+	FTC_SBit sbit; getSBitChar( charcode, sbit );
 
 	// Return the width of the character
-	return sbit->width;
+	return sbit->xadvance;
 }
 
 void
 freetype::data( uint32_t charcode, glyph &glyph ) const {
 
 	// Get the bitmap of the character
-	FTC_SBit sbit;
-
-	getSBitChar( charcode, sbit );
+	FTC_SBit sbit; getSBitChar( charcode, sbit );
 
 	// Copy the bitmap informations to the glyph object
 	glyph.width		= (uint8_t) sbit->width;
@@ -126,9 +130,9 @@ freetype::data( uint32_t charcode, glyph &glyph ) const {
 	glyph.left		= (int8_t) sbit->left;
 	glyph.top		= (int8_t) sbit->top;
 
-	glyph.format	= (uint8_t)	sbit->format;
+	glyph.format	= (PixelMode) sbit->format;
 	glyph.grays		= (uint8_t)	sbit->max_grays;
-	glyph.pitch		= (int8_t)	sbit->pitch;
+	glyph.pitch		= (int16_t)	sbit->pitch;
 
 	glyph.xadvance	= (int8_t) sbit->xadvance;
 	glyph.yadvance	= (int8_t) sbit->yadvance;
@@ -140,4 +144,6 @@ freetype::data( uint32_t charcode, glyph &glyph ) const {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_FONT_FREETYPE_CPP_ */
+
+#endif /* USE_FREETYPE */

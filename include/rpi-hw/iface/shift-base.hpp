@@ -84,4 +84,4 @@ protected:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_SHIFT_BASE_HPP_ */

@@ -30,4 +30,4 @@ namespace keypad { // Begin keypads namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_KEYPAD_MATRIX_INL_HPP_ */

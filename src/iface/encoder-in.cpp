@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/shiftout.cpp
+    Title --- iface/encoder-in.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,10 +19,10 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SHIFTOUT_CPP_
-#define _RPI_HW_IFACE_SHIFTOUT_CPP_
+#ifndef _RPI_HW_IFACE_ENCODER_IN_CPP_
+#define _RPI_HW_IFACE_ENCODER_IN_CPP_
 
-#include <rpi-hw/iface/shiftout.hpp>
+#include <rpi-hw/iface/encoder-in.hpp>
 
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/utils-inl.hpp>
@@ -39,60 +39,34 @@
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/base-inl.hpp>
 
-#include <rpi-hw/iface/shift-base.hpp>
-#include <rpi-hw/iface/shift-base-inl.hpp>
+#include <rpi-hw/iface/input.hpp>
+#include <rpi-hw/iface/input-inl.hpp>
 
-#include <rpi-hw/iface/shiftout-inl.hpp>
+#include <rpi-hw/iface/encoder-in-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-shiftOut::shiftOut( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay ) : shiftBase( data_pin, clock_pin, order, delay ) {
+encoderIn::encoderIn( uint8_t total, ... ) {
 
-	// Initialize the interface pins
-	m_gpio->write( m_pins[ DATA_PIN ], gpio::LOW );
-	m_gpio->setup( m_pins[ DATA_PIN ], gpio::OUTPUT );
+	// Initialize variable argument list
+	va_list args;
+	va_start( args, total );
 
-	m_gpio->write( m_pins[ CLOCK_PIN ], gpio::LOW );
-	m_gpio->setup( m_pins[ CLOCK_PIN ], gpio::OUTPUT );
+	// Initialize the interface
+	init( utils::varg< uint8_t, int >( args, total ) );
+
+	// Clean variable argument list
+	va_end( args );
 }
 
-shiftOut::~shiftOut() {
+encoderIn::~encoderIn() {
 
-}
-
-void
-shiftOut::write( uint8_t data ) {
-
-	int8_t i;
-
-	if ( m_order == MSBFIRST ) {
-
-		for ( i = 7; i >= 0 ; i-- ) {
-
-			// Write the data to the output pin
-			m_gpio->write( m_pins[ DATA_PIN ], data & ( 1 << i ) );
-
-			// Toggle the clock
-			strobe();
-		}
-
-	} else {
-
-		for ( i = 0; i < 8; i++ ) {
-
-			// Write the data to the output pin
-			m_gpio->write( m_pins[ DATA_PIN ], data & ( 1 << i ) );
-
-			// Toggle the clock
-			strobe();
-		}
-	}
 }
 
 } // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_ENCODER_IN_CPP_ */

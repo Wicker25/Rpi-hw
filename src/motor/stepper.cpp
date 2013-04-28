@@ -83,7 +83,7 @@ const uint8_t stepper::seq_half[8] = {
 };
 
 
-stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1 ) : m_direction( CW ), m_rpm(1.0), m_steps( steps ) {
+stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1 ) : m_direction( DIRECTION_CW ), m_rpm(1.0), m_steps( steps ) {
 
 	// Create the output interface to the motor
 	m_motor = new iface::output( 2, pin0, pin1 );
@@ -92,7 +92,7 @@ stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1 ) : m_direction( CW )
 	setSequence( stepper::seq_2wire, 4 );
 }
 
-stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1, uint8_t pin2, uint8_t pin3 ) : m_direction( CW ), m_rpm(1.0), m_steps( steps ) {
+stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1, uint8_t pin2, uint8_t pin3 ) : m_direction( DIRECTION_CW ), m_rpm(1.0), m_steps( steps ) {
 
 	// Create the output interface to the motor
 	m_motor = new iface::output( 4, pin0, pin1, pin2, pin3 );
@@ -137,7 +137,7 @@ stepper::step( size_t number ) {
 	// Move the motor
 	size_t i = 0;
 
-	for ( ; i < number; i++ ) {
+	for ( ; i < number; ++i ) {
 
 		// Update the outputs to the motor 
 		m_counter += (size_t) m_direction;
@@ -152,4 +152,4 @@ stepper::step( size_t number ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MOTOR_STEPPER_CPP_ */

@@ -1,5 +1,5 @@
 /* 
-    Title --- font/base.cpp
+    Title --- iface/decoder-out-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,26 +19,22 @@
 */
 
 
-#ifndef _RPI_HW_FONT_BASE_CPP_
-#define _RPI_HW_FONT_BASE_CPP_
-
-#include <rpi-hw/font/base.hpp>
-#include <rpi-hw/font/base-inl.hpp>
+#ifndef _RPI_HW_IFACE_DECODER_IN_INL_HPP_
+#define _RPI_HW_IFACE_DECODER_IN_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace font { // Begin fonts namespace
+namespace iface { // Begin interfaces namespace
 
-base::base( const std::string &name, uint8_t height ) : m_name( name ), m_height( height ) {
+inline void
+decoderOut::write( size_t value ) {
 
+	// Write on the interface
+	output::write( math::fast_pow2( value ) );
 }
 
-base::~base() {
-
-}
-
-} // End of fonts namespace
+} // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_DECODER_IN_INL_HPP_ */

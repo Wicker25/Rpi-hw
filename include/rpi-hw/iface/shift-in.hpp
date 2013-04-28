@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/shiftout.hpp
+    Title --- iface/shift-in.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SHIFTOUT_HPP_
-#define _RPI_HW_IFACE_SHIFTOUT_HPP_
+#ifndef _RPI_HW_IFACE_SHIFT_IN_HPP_
+#define _RPI_HW_IFACE_SHIFT_IN_HPP_
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
@@ -35,10 +35,10 @@ namespace rpihw { // Begin main namespace
 namespace iface { // Begin interfaces namespace
 
 /*!
-	@class shiftOut
-	@brief Shift-out interface.
+	@class shiftIn
+	@brief Shift-in interface.
 */
-class shiftOut : public shiftBase {
+class shiftIn : public shiftBase {
 
 public:
 
@@ -49,27 +49,27 @@ public:
 		@param[in] order The bit order.
 		@param[in] delay The delay time of the clock.
 	*/
-	shiftOut( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay = 0 );
+	shiftIn( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay = 0 );
 
 	//! Destructor method.
-	virtual ~shiftOut();
+	virtual ~shiftIn();
 
 	/*!
-		@brief Sets an shiftOut pin.
-		@param[in] index The index position of the shiftOut pin.
+		@brief Sets an input pin.
+		@param[in] index The index position of the shiftIn pin.
 		@param[in] pin The new GPIO pin.
 	*/
 	virtual void setPin( uint8_t index, uint8_t pin );
 
 	/*!
-		@brief Writes a data on the interface.
-		@param[in] data The data to be written.
+		@brief Reads from the interface.
+		@return The data read from the interface.
 	*/
-	virtual void write( uint8_t data );
+	virtual uint8_t read();
 };
 
 } // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_SHIFT_IN_HPP_ */

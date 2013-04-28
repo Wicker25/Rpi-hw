@@ -51,4 +51,4 @@ usleep( size_t useconds ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_TIME_INL_HPP_ */

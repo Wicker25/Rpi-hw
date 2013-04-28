@@ -31,6 +31,19 @@
 
 namespace rpihw { // Begin main namespace
 
+bitset_ref::bitset_ref( bitset &set, size_t index ) {
+
+	// Store data of parent bitset
+	m_bitset = &set;
+	m_index = index;
+}
+
+bitset_ref::~bitset_ref() {
+
+}
+
+
+
 bitset::bitset( size_t size, bool init ) {
 
 	// Allocate memory to store the bits
@@ -57,8 +70,7 @@ bitset::set( size_t index, bool value ) {
 
 	// Check if the bit exists
 	if ( index >= m_nbits )
-		throw exception( utils::format( "(Error) `bitset::set`: set %p has only %lu bits\n",
-										this, (unsigned long) m_nbits ) );
+		throw exception( utils::format( "(Error) `bitset::set`: set has only %lu bits\n", (unsigned long) m_nbits ) );
 
 	// Calculate the bit position
 	uint8_t shift = (uint8_t) ( index % 8 );
@@ -78,8 +90,7 @@ bitset::get( size_t index ) const {
 
 	// Check if the bit exists
 	if ( index >= m_nbits )
-		throw exception( utils::format( "(Error) `bitset::get`: set %p has only %lu bits\n",
-										this, (unsigned long) m_nbits ) );
+		throw exception( utils::format( "(Error) `bitset::get`: set has only %lu bits\n", (unsigned long) m_nbits ) );
 
 	// Get the value of the bit at position `index`
 	return ( *( m_data + index / 8 ) & ( 1 << ( index % 8 ) ) ) != 0;
@@ -90,8 +101,7 @@ bitset::flip( size_t index ) {
 
 	// Check if the bit exists
 	if ( index >= m_nbits )
-		throw exception( utils::format( "(Error) `bitset::flip`: set %p has only %lu bits\n",
-										this, (unsigned long) m_nbits ) );
+		throw exception( utils::format( "(Error) `bitset::flip`: set has only %lu bits\n", (unsigned long) m_nbits ) );
 
 	// Flip the value of the bit
 	*( m_data + index / 8 ) ^= ( 1 << ( index % 8 ) );
@@ -108,17 +118,6 @@ bitset::resize( size_t size ) {
 	m_data = new uint8_t[ m_size ];
 }
 
-bitset::ref::ref( bitset &set, size_t index ) {
-
-	// Store data of parent bitset
-	m_bitset = &set;
-	m_index = index;
-}
-
-bitset::ref::~ref() {
-
-}
-
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_BITSET_CPP_ */

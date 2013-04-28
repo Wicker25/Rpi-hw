@@ -55,4 +55,4 @@ private:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MUTEX_HPP_ */

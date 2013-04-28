@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/encoder.cpp
+    Title --- iface/encoder-out.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,54 +19,48 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_ENCODER_CPP_
-#define _RPI_HW_IFACE_ENCODER_CPP_
+#ifndef _RPI_HW_IFACE_ENCODER_OUT_HPP_
+#define _RPI_HW_IFACE_ENCODER_OUT_HPP_
 
-#include <rpi-hw/iface/encoder.hpp>
-
+#include <rpi-hw/types.hpp>
+#include <rpi-hw/exception.hpp>
+#include <rpi-hw/math.hpp>
 #include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
-
-#include <rpi-hw/thread.hpp>
-#include <rpi-hw/thread-inl.hpp>
-
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
 
 #include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
 #include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/iface/encoder-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-encoder::encoder( uint8_t total, ... ) {
+/*!
+	@class encoderOut
+	@brief Encoder output interface.
+*/
+class encoderOut : public iface::output {
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
+public:
 
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the GPIO pins.
+		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+	*/
+	encoderOut( uint8_t total, ... );
 
-	// Clean variable argument list
-	va_end( args );
-}
+	//! Destructor method.
+	virtual ~encoderOut();
 
-encoder::~encoder() {
-
-}
+	/*!
+		@brief Writes a value on the interface.
+		@param[in] value The value to be written.
+	*/
+	virtual void write( size_t value );
+};
 
 } // End of interfaces namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_ENCODER_OUT_HPP_ */

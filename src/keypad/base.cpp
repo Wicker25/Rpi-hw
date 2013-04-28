@@ -160,7 +160,7 @@ base::update() {
 	while ( 1 ) {
 
 		// Update state of buttons
-		for ( i = 0; i < m_nkeys; i++ ) {
+		for ( i = 0; i < m_nkeys; ++i ) {
 
 			// Read the state of i-th button
 			state = m_input->read( i );
@@ -184,4 +184,4 @@ base::update() {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_KEYPAD_BASE_CPP_ */

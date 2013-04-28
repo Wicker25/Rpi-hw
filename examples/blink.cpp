@@ -19,7 +19,7 @@
 */
 
 
-#include <ctime>
+// Include the Rpi-hw header
 #include <rpi-hw.hpp>
 
 // Use Rpi-hw namespace
@@ -34,22 +34,21 @@ main( int argc, char *args[] ) {
 	// Set the output pin to the led
 	io.setup( 11, gpio::OUTPUT );
 
-	// Blink
+	// Main loop
 	for ( ;; ) {
 
 		// Turn it on
 		io.write( 11, gpio::HIGH );
 
 		// Wait some time
-		utils::usleep( 1000000 );
+		time::usleep( 1000000 );
 
 		// Turn it off
 		io.write( 11, gpio::LOW );
 
 		// Wait some time
-		utils::usleep( 1000000 );
+		time::usleep( 1000000 );
 	}
 
 	return 0;
 }
-

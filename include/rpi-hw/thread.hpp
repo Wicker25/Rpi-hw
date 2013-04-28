@@ -67,4 +67,4 @@ private:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_THREAD_HPP_ */

@@ -79,4 +79,4 @@ protected:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_KEYPAD_MATRIX_HPP_ */

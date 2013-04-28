@@ -1,4 +1,4 @@
-Rpi-hw v0.2.6
+Rpi-hw v0.3
 =============
 
 ### Description
@@ -13,12 +13,17 @@ The source of the latest version of Rpi-hw is available on [github.com](https://
 
 ### Main functions
 
-The following are some functions of the library:
+The following are some features of the library:
 
 * Low-level management of the GPIOs
-* Generic input/output by interfaces
+* Generic input/output interfaces
+* Displays support (7-segments, HD44780, PCD8544)
 * Keypad support (matrix keypad)
-* Display support (7-segments, HD44780 lcd)
+* Stepper motor support
+* Unicode support (using UTF8-CPP)
+* Handles multiple image formats (using Magick++ API) (optional)
+* Supports standard fonts (using FreeType) (optional)
+* Drawing functions
 
 ### Documentation
 

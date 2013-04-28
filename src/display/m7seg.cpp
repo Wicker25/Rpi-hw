@@ -139,7 +139,7 @@ m7seg::render() {
 			out = 0xff;
 
 			// Update all displays
-			for ( i = 0; i < m_ndisplay && out; i++ ) {
+			for ( i = 0; i < m_ndisplay && out; ++i ) {
 
 				// Handle non-numeric symbols
 				if ( !value && i > m_decimals ) {
@@ -195,4 +195,4 @@ m7seg::render() {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_M7SEG_CPP_ */

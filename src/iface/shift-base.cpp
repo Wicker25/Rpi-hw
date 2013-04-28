@@ -63,4 +63,4 @@ shiftBase::~shiftBase() {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_SHIFT_BASE_CPP_ */

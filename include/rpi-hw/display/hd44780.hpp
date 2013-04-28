@@ -57,7 +57,7 @@ public:
 		SHIFT	= 0x10,		//!< Cursor/display shift.
 		FUNC	= 0x20,		//!< Function set.
 		CGRAM	= 0x40,		//!< Set CGRAM address.
-		DGRAM	= 0x80		//!< Set DDRAM address.
+		DDRAM	= 0x80		//!< Set DDRAM address.
 	};
 
 	//! The controller command set (bit flags).
@@ -282,8 +282,11 @@ protected:
 	//! Output interface to the data pins.
 	iface::output *m_data;
 
-	//! Size of the display.
-	vec2< uint8_t > m_screen;
+	//! Width of the display.
+	uint8_t m_screen_w;
+
+	//! Height of the display.
+	uint8_t m_screen_h;
 
 	//! Number of the characters.
 	size_t m_size;
@@ -294,8 +297,11 @@ protected:
 	//! Text buffer.
 	uint8_t *m_buffer;
 
-	//! Cursor position.
-	vec2< uint8_t > m_pos;
+	//! Horizontal cursor position.
+	uint8_t m_pos_x;
+
+	//! Vertical cursor position.
+	uint8_t m_pos_y;
 
 	//! Autoscroll mode.
 	uint8_t m_autoscroll;
@@ -325,4 +331,4 @@ protected:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_HD44780_HPP_ */

@@ -33,9 +33,6 @@
 #include <rpi-hw/bitset.hpp>
 #include <rpi-hw/bitset-inl.hpp>
 
-#include <rpi-hw/font/base.hpp>
-#include <rpi-hw/font/base-inl.hpp>
-
 #include <rpi-hw/font/freetype.hpp>
 #include <rpi-hw/font/freetype-inl.hpp>
 
@@ -51,11 +48,11 @@
 #include <rpi-hw/iface/output.hpp>
 #include <rpi-hw/iface/output-inl.hpp>
 
-#include <rpi-hw/iface/input.hpp>
-#include <rpi-hw/iface/input-inl.hpp>
+#include <rpi-hw/iface/shift-base.hpp>
+#include <rpi-hw/iface/shift-base-inl.hpp>
 
-#include <rpi-hw/iface/shiftout.hpp>
-#include <rpi-hw/iface/shiftout-inl.hpp>
+#include <rpi-hw/iface/shift-out.hpp>
+#include <rpi-hw/iface/shift-out-inl.hpp>
 
 #include <rpi-hw/display/pcd8544-inl.hpp>
 
@@ -63,20 +60,17 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-pcd8544::pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t rst ) : designer< int8_t, bool >( LCD_WIDTH, LCD_HEIGHT ) {
+pcd8544::pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t rst ) : designer< int8_t, bool, 1 >( LCD_WIDTH, LCD_HEIGHT ) {
 
 	// Create the interfaces to the display
 	m_control	= new iface::output( 3, dc, sce, rst );
 	m_data		= new iface::shiftOut( sdin, sclk, iface::shiftOut::MSBFIRST, 10000 );
 
-	// Calculate the size of the data buffer
-	size_t buffer_size = LCD_WIDTH * LCD_HEIGHT / 8;
-
 	// Create the data buffer
-	m_buffer = utils::malloc< uint8_t >( buffer_size, 0x00 );
+	m_buffer = utils::malloc< uint8_t >( DDRAM_SIZE, 0x00 );
 
 	// Create the update buffer
-	m_updates = new bitset( buffer_size, true );
+	m_updates = new bitset( DDRAM_SIZE, true );
 
 	// Set the foreground color
 	setColor( COLOR_BLACK );
@@ -151,7 +145,7 @@ pcd8544::setContrast( uint8_t value ) {
 }
 
 void
-pcd8544::setPixel( int8_t x, int8_t y, bool color ) {
+pcd8544::drawPixel( int8_t x, int8_t y, const bool *color ) {
 
 	// Check if positions exist
 	if ( x < 0 || y < 0 || x >= LCD_WIDTH || y >= LCD_HEIGHT )
@@ -163,10 +157,10 @@ pcd8544::setPixel( int8_t x, int8_t y, bool color ) {
 	// Set the color of the pixel
 	size_t index = (size_t) x + ( (size_t) y / 8 ) * LCD_WIDTH;
 
-	if ( color )
-		m_buffer[ index ] |= ( 1 << shift );
-	else
+	if ( *color )
 		m_buffer[ index ] &= ~( 1 << shift );
+	else
+		m_buffer[ index ] |= ( 1 << shift );
 
 	// Add the update to the buffer
 	m_updates->set( index, true );
@@ -180,34 +174,41 @@ pcd8544::getPixel( int8_t x, int8_t y ) const {
 		return 0;
 
 	// Set the color of the pixel
-	return (bool) ( m_buffer[ (size_t) x + ( (size_t) y / 8 ) * LCD_WIDTH ] >> ( 7 - ( y % 8 ) ) & 0x01 );
+	return m_buffer[ (size_t) x + ( (size_t) y / 8 ) * LCD_WIDTH ] >> ( 7 - ( y % 8 ) ) & 0x01;
 }
 
 uint16_t
 pcd8544::redraw() {
 
-	// Update the pixels in the bounding box
-	uint16_t total = 0, j = 0, i = 0;
+	// Number of updated blocks
+	uint16_t total = 0;
 
+	// Flag indicating that a block is skipped
 	bool jump = true;
 
-	for ( ; i < m_updates->size(); i++, j = i % LCD_WIDTH ) {
+	// Iterators
+	uint16_t k = 0; uint8_t i, j;
 
-		if ( j == 0 )
-			cmd( YADDR | i / LCD_WIDTH );
+	// Update the pixels in the bounding box
+	for ( j = 0; j < DDRAM_HEIGHT; ++j ) {
 
-		if ( m_updates->get( i ) ) {
+		cmd( YADDR | j );
 
-			if ( jump ) {
+		for ( i = 0; i < DDRAM_WIDTH; ++i, ++k ) {
 
-				cmd( XADDR | j );
-				jump = false;
-			}
+			if ( m_updates->get( k ) ) {
 
-			sendData( m_buffer[ i ] );
-			total++;
+				if ( jump ) {
 
-		} else jump = true;
+					cmd( XADDR | i );
+					jump = false;
+				}
+
+				sendData( m_buffer[ k ] );
+				total++;
+
+			} else jump = true;
+		}
 	}
 
 	// Remove all updates from the buffer
@@ -221,17 +222,17 @@ void
 pcd8544::clear() {
 
 	// Clear the data buffer
-	utils::memset< uint8_t >( m_buffer, LCD_WIDTH * LCD_HEIGHT / 8, 0x00 );
+	utils::memset< uint8_t >( m_buffer, DDRAM_SIZE, 0x00 );
 
 	// Add the update to the buffer
 	m_updates->set( true );
 
 	// Restore the cursor position
-	move( 0, 0 );
+	setPenPosition( 0, 0 );
 }
 
 } // End of displays namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_PCD8544_CPP_ */

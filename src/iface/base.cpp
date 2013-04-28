@@ -95,7 +95,7 @@ base::init( const std::vector< uint8_t > &pins ) {
 
 	// Create vector containing the interface pins
 	m_total = (uint8_t) pins.size();
-	m_pins = utils::mcopy< uint8_t >( pins );
+	m_pins = utils::memdup< uint8_t >( pins.data(), pins.size() );
 }
 
 void
@@ -113,4 +113,4 @@ base::setPin( uint8_t index, uint8_t pin ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_IFACE_BASE_CPP_ */

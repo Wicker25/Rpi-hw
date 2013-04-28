@@ -39,6 +39,13 @@ namespace rpihw { // Begin main namespace
 
 namespace motor { // Begin motors namespace
 
+//! Directions of the rotation.
+enum Direction {
+
+	DIRECTION_CW	=  1,	//!< Clockwise direction.
+	DIRECTION_CCW	= -1	//!< Counterclockwise direction.
+};
+
 /*!
 	@class stepper
 	@brief Motor stepper controller.
@@ -53,13 +60,6 @@ public:
 	//! Some moving sequences.
 	static const uint8_t seq_2wire[4], seq_wave[4], seq_full[4], seq_half[8];
 	//@}
-
-	//! Directions of motor.
-	enum Direction {
-
-		CW	=  1,	//!< Clockwise direction.
-		CCW = -1	//!< Counterclockwise direction.
-	};
 
 	/*!
 		@brief Constructor method.
@@ -165,4 +165,4 @@ protected:
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MOTOR_STEPPER_HPP_ */

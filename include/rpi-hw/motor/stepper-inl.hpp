@@ -61,7 +61,7 @@ stepper::setDirection( Direction direction ) {
 	m_direction = direction;
 }
 
-inline stepper::Direction
+inline Direction
 stepper::getDirection() const {
 
 	// Return the current motor direction
@@ -79,4 +79,4 @@ stepper::rotate( double angle ) {
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_MOTOR_STEPPER_INL_HPP_ */

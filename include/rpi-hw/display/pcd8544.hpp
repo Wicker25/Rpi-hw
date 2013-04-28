@@ -34,8 +34,7 @@
 
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/input.hpp>
-#include <rpi-hw/iface/shiftout.hpp>
+#include <rpi-hw/iface/shift-out.hpp>
 
 namespace rpihw { // Begin main namespace
 
@@ -44,8 +43,10 @@ namespace display { // Begin displays namespace
 /*!
 	@class pcd8544
 	@brief Philips PCD8544 LCD controller.
+
+	@example display/pcd8544.cpp
 */
-class pcd8544 : public designer< int8_t, bool > {
+class pcd8544 : public designer< int8_t, bool, 1 > {
 
 public:
 
@@ -94,11 +95,19 @@ public:
 		LCD_HEIGHT	= 48
 	};
 
+	//! The size of the DDRAM.
+	enum RamSize {
+
+		DDRAM_WIDTH		= LCD_WIDTH,
+		DDRAM_HEIGHT	= LCD_HEIGHT / 8,
+		DDRAM_SIZE		= DDRAM_WIDTH * DDRAM_HEIGHT
+	};
+
 	//! The display colors.
 	enum Color {
 
-		COLOR_WHITE	= 0,
-		COLOR_BLACK	= 1
+		COLOR_BLACK	= 0,
+		COLOR_WHITE	= 1
 	};
 
 	/*!
@@ -119,7 +128,7 @@ public:
 		@param[in] contrast The contrast of the display.
 		@param[in] inverse Invert the colors of the display.
 	*/
-	void init( uint8_t contrast, bool inverse );
+	void init( uint8_t contrast = 80, bool inverse = false );
 
 	/*!
 		@brief Sends a command to the display.
@@ -140,20 +149,32 @@ public:
 	void setContrast( uint8_t value );
 
 	/*!
-		@brief Sets the color of a pixel.
-		@param[in] x The horizontal position of the pixel.
-		@param[in] y The vertical position of the pixel.
-		@param[in] color The new color of the pixel.
+		@brief Sets the foreground color.
+		@param[in] color The new foreground color.
 	*/
-	virtual void setPixel( int8_t x, int8_t y, bool color );
+	void setColor( bool color );
+
+	/*!
+		@brief Gets the current foreground color.
+		@return The foreground color.
+	*/
+	bool getColor() const;
 
 	/*!
 		@brief Sets the color of a pixel.
 		@param[in] x The horizontal position of the pixel.
 		@param[in] y The vertical position of the pixel.
-		@return The current color of the pixel.
+		@param[in] color The new pixel color.
 	*/
-	virtual bool getPixel( int8_t x, int8_t y ) const;
+	void setPixel( int8_t x, int8_t y, bool color );
+
+	/*!
+		@brief Returns the color of a pixel.
+		@param[in] x The horizontal position of the pixel.
+		@param[in] y The vertical position of the pixel.
+		@return The pixel color.
+	*/
+	bool getPixel( int8_t x, int8_t y ) const;
 
 	/*!
 		@brief Redraws the display.
@@ -186,10 +207,18 @@ protected:
 		@param[in] bottom The bottom side of the bounding box.
 	*/
 	void updateBoundingBox( uint8_t left, uint8_t top, uint8_t right, uint8_t bottom );
+
+	/*!
+		@brief Sets the color of a pixel.
+		@param[in] x The horizontal position of the pixel.
+		@param[in] y The vertical position of the pixel.
+		@param[in] color A pointer to the new color data.
+	*/
+	virtual void drawPixel( int8_t x, int8_t y, const bool *color );
 };
 
 } // End of displays namespace
 
 } // End of main namespace
 
-#endif
+#endif /* _RPI_HW_DISPLAY_PCD8544_HPP_ */

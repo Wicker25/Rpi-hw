@@ -64,7 +64,7 @@ main( int argc, char *args[] ) {
 	disp.rotate( 90.0 );
 	time::msleep( 500 );
 
-	disp.setDirection( stepper::CCW );
+	disp.setDirection( motor::DIRECTION_CCW );
 	disp.rotate( 360.0 );
 	time::msleep( 500 );
 
