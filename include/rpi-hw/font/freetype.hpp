@@ -69,7 +69,7 @@ FT_Error faceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer obj, 
 
 /*!
 	@class freetype
-	@brief True Type Font.
+	@brief TrueType font.
 */
 class freetype : public font::base {
 

@@ -82,7 +82,7 @@ freetype::buildFace( FTC_FaceID face_id, FT_Face *face ) {
 
 	// Build the fresh new font object
 	if ( FT_New_Face( m_library, (const char *) m_path.c_str(), 0, face ) )
-		throw exception( utils::format( "(Error) `freetype->buildFace`: `FT_New_Face` failed whit `%s`\n", m_path.c_str() ) );
+		throw exception( utils::format( "(Error) `freetype->buildFace`: `FT_New_Face` failed with `%s`\n", m_path.c_str() ) );
 
 	// Set the character set
 	if ( m_encoding != ENCODING_NONE ) {
