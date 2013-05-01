@@ -47,4 +47,8 @@ void nsleep( size_t nseconds );
 
 } // End of main namespace
 
+
+// Include inline functions 
+#include <rpi-hw/time-inl.hpp>
+
 #endif /* _RPI_HW_TIME_HPP_ */

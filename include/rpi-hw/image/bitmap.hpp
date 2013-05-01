@@ -162,4 +162,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/image/bitmap-inl.hpp>
+
 #endif /* _RPI_HW_IMAGE_BITMAP_HPP_ */

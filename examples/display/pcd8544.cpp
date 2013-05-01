@@ -18,17 +18,14 @@
     along with Rpi-hw. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cstdlib>
 
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/unicode.hpp>
-#include <rpi-hw/unicode-inl.hpp>
-
 #include <rpi-hw/font/freetype.hpp>
-#include <rpi-hw/font/freetype-inl.hpp>
-
+#include <rpi-hw/image/bitmap.hpp>
 #include <rpi-hw/display/pcd8544.hpp>
-#include <rpi-hw/display/pcd8544-inl.hpp>
 
 // Use some namespaces
 using namespace rpihw;

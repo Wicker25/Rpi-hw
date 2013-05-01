@@ -24,17 +24,6 @@
 
 #include <rpi-hw/display/s7seg.hpp>
 
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/display/s7seg-inl.hpp>
-
 namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace

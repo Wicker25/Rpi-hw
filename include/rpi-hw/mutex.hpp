@@ -55,4 +55,8 @@ private:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/mutex-inl.hpp>
+
 #endif /* _RPI_HW_MUTEX_HPP_ */

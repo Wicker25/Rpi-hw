@@ -112,4 +112,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/iface/base-inl.hpp>
+
 #endif /* _RPI_HW_IFACE_BASE_HPP_ */

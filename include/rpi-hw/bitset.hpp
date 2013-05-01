@@ -165,4 +165,8 @@ private:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/bitset-inl.hpp>
+
 #endif /* _RPI_HW_BITSET_HPP_ */

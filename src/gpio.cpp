@@ -24,11 +24,6 @@
 
 #include <rpi-hw/gpio.hpp>
 
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/gpio-inl.hpp>
-
 namespace rpihw { // Begin main namespace
 
 gpio::gpio() {

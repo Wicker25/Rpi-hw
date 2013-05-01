@@ -24,16 +24,8 @@
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
-
-#include <rpi-hw/keypad/base.hpp>
-#include <rpi-hw/keypad/base-inl.hpp>
-
 #include <rpi-hw/keypad/matrix.hpp>
-#include <rpi-hw/keypad/matrix-inl.hpp>
 
 // Use the Rpi-hw namespace
 using namespace rpihw;

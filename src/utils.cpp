@@ -23,7 +23,6 @@
 #define _RPI_HW_UTILS_CPP_
 
 #include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 

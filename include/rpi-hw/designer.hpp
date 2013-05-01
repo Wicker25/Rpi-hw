@@ -27,14 +27,9 @@
 #include <rpi-hw/math.hpp>
 
 #include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
 #include <rpi-hw/unicode.hpp>
-#include <rpi-hw/unicode-inl.hpp>
-
 #include <rpi-hw/font/glyph.hpp>
 #include <rpi-hw/font/base.hpp>
-
 #include <rpi-hw/image/base.hpp>
 
 namespace rpihw { // Begin main namespace
@@ -347,5 +342,9 @@ protected:
 };
 
 } // End of main namespace
+
+
+// Include inline methods 
+#include <rpi-hw/designer-inl.hpp>
 
 #endif /* _RPI_HW_DESIGNER_HPP_ */

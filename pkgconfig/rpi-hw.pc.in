@@ -1,13 +1,7 @@
 # Rpi-hw library
 
-prefix=@CMAKE_INSTALL_PREFIX@
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include/rpi-hw
-libname=rpihw
-
 Name: Rpi-hw
 Description: C++ library for Raspberry Pi GPIO
 Version: @RPI_HW_VERSION@
-Libs: -L${libdir} -l{libname}
-Cflags: -I${includedir}
+Libs: @PKG_CONFIG_LIBS@
+Cflags: @PKG_CONFIG_CFLAGS@

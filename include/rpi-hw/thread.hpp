@@ -67,4 +67,8 @@ private:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/thread-inl.hpp>
+
 #endif /* _RPI_HW_THREAD_HPP_ */

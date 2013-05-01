@@ -61,101 +61,10 @@ Detailed documentation of Rpi-hw's features and usage can be found on the <a hre
 	@brief Main namespace of the library.
 */
 
-// Includes all Rpi-hw header files
+// Includes some Rpi-hw header files
 #include <rpi-hw/rpi.hpp>
 #include <rpi-hw/config.hpp>
-
 #include <rpi-hw/version.hpp>
 #include <rpi-hw/types.hpp>
-#include <rpi-hw/exception.hpp>
-
-#include <rpi-hw/math.hpp>
-
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
-
-#include <rpi-hw/thread.hpp>
-#include <rpi-hw/thread-inl.hpp>
-
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
-
-#include <rpi-hw/bitset.hpp>
-#include <rpi-hw/bitset-inl.hpp>
-
-#include <rpi-hw/unicode.hpp>
-#include <rpi-hw/unicode-inl.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/iface/input.hpp>
-#include <rpi-hw/iface/input-inl.hpp>
-
-#include <rpi-hw/iface/shift-base.hpp>
-#include <rpi-hw/iface/shift-base-inl.hpp>
-
-#include <rpi-hw/iface/shift-out.hpp>
-#include <rpi-hw/iface/shift-out-inl.hpp>
-
-#include <rpi-hw/iface/shift-in.hpp>
-#include <rpi-hw/iface/shift-in-inl.hpp>
-
-#include <rpi-hw/iface/encoder-out.hpp>
-#include <rpi-hw/iface/encoder-out-inl.hpp>
-
-#include <rpi-hw/iface/encoder-in.hpp>
-#include <rpi-hw/iface/encoder-in-inl.hpp>
-
-#include <rpi-hw/iface/decoder-out.hpp>
-#include <rpi-hw/iface/decoder-out-inl.hpp>
-
-#include <rpi-hw/iface/decoder-in.hpp>
-#include <rpi-hw/iface/decoder-in-inl.hpp>
-
-#include <rpi-hw/font/glyph.hpp>
-
-#include <rpi-hw/font/base.hpp>
-
-#include <rpi-hw/font/freetype.hpp>
-#include <rpi-hw/font/freetype-inl.hpp>
-
-#include <rpi-hw/image/base.hpp>
-
-#include <rpi-hw/image/bitmap.hpp>
-#include <rpi-hw/image/bitmap-inl.hpp>
-
-#include <rpi-hw/designer.hpp>
-#include <rpi-hw/designer-inl.hpp>
-
-#include <rpi-hw/keypad/base.hpp>
-#include <rpi-hw/keypad/base-inl.hpp>
-
-#include <rpi-hw/keypad/matrix.hpp>
-#include <rpi-hw/keypad/matrix-inl.hpp>
-
-#include <rpi-hw/display/s7seg.hpp>
-#include <rpi-hw/display/s7seg-inl.hpp>
-
-#include <rpi-hw/display/m7seg.hpp>
-#include <rpi-hw/display/m7seg-inl.hpp>
-
-#include <rpi-hw/display/hd44780.hpp>
-#include <rpi-hw/display/hd44780-inl.hpp>
-
-#include <rpi-hw/display/pcd8544.hpp>
-#include <rpi-hw/display/pcd8544-inl.hpp>
-
-#include <rpi-hw/motor/stepper.hpp>
-#include <rpi-hw/motor/stepper-inl.hpp>
 
 #endif /* _RPI_HW_HPP_ */

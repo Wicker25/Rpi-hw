@@ -120,4 +120,8 @@ std::vector< T0 > varg( va_list args, size_t total, size_t offset = 0 );
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/utils-inl.hpp>
+
 #endif /* _RPI_HW_UTILS_HPP_ */

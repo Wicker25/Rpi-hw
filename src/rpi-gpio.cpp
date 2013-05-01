@@ -24,6 +24,7 @@
 #include <cstring>
 
 #include <rpi-hw.hpp>
+#include <rpi-hw/gpio.hpp>
 
 // Constants
 #define RPI_GPIO_VERSION	"0.1"

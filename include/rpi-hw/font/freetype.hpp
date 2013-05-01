@@ -150,6 +150,10 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/font/freetype-inl.hpp>
+
 #endif /* _RPI_HW_FONT_FREETYPE_HPP_ */
 
 #endif /* USE_FREETYPE */

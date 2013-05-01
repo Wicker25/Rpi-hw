@@ -5,10 +5,10 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION			"0.3.0" )
+set( RPI_HW_VERSION			"0.3.1" )
 set( RPI_HW_VERSION_MAJOR	0 )
 set( RPI_HW_VERSION_MINOR	3 )
-set( RPI_HW_VERSION_PATCH	0 )
+set( RPI_HW_VERSION_PATCH	1 )
 
 # Project directories
 set( RPI_HW_DIR					${PROJECT_SOURCE_DIR}	)
@@ -28,31 +28,33 @@ set( EXECUTABLE_OUTPUT_PATH		${RPI_HW_BUILD_DIR} )
 set( CMAKE_MODULE_PATH	${CMAKE_MODULE_PATH} ${RPI_HW_DIR}/cmake )
 set( CMAKE_MODULES		UTF8-CPP )
 
+# Pkg-config's flags and libs
+set( PKG_CONFIG_CFLAGS	"-I${CMAKE_INSTALL_PREFIX}/include" )
+set( PKG_CONFIG_LIBS	"-L${CMAKE_INSTALL_PREFIX}/lib -lrpihw ${CMAKE_THREAD_LIBS_INIT} -lrt" )
+
+# Define some options
+option( USE_FREETYPE	"Use FreeType library"			ON )
+option( USE_MAGICK		"Use GraphicsMagick++ library"	ON )
+
 # Set the compiler flags
 add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long ) # -Wno-psabi
+
+# Set the include directories
+include_directories( ${RPI_HW_INCLUDE_DIR} )
 
 # Remove temporary files
 execute_process( COMMAND ${CMAKE_COMMAND} -E remove "${RPI_HW_DIR}/install_directories.txt" )
 
 
+# Include some external functions
+include( ${RPI_HW_CMAKE_DIR}/functions.cmake )
+
 # Check if RPi's Revision has been specified by user
 if ( RPI_REVISION )
 	message( "-- Using Raspberry Pi Revision Number: ${RPI_REVISION}" )
 else()
-	# Else find it with an automated script
-	# grep -Po '^Revision\s*:\s*\K[[:xdigit:]]{7}' /proc/cpuinfo
-	execute_process( COMMAND grep -Po "^Revision\\s*:\\s*\\K[[:xdigit:]]+" /proc/cpuinfo
-					 OUTPUT_VARIABLE RPI_REVISION )
-
-	# If have not found the Revision number, use the last version
-	if ( RPI_REVISION )
-		message( "-- Detecting Raspberry Pi Revision Number: ${RPI_REVISION}" )
-	else()
-		set( RPI_REVISION "0006" )
-		message( WARNING "-- Could NOT find Raspberry Pi revision!" )
-	endif()
-
-	set( RPI_REVISION "0x${RPI_REVISION}" )
+	# Find it with an automated script
+	findRpiRevision( RPI_REVISION )
 endif()
 
 
@@ -60,21 +62,18 @@ endif()
 find_package( Threads REQUIRED )
 find_package( UTF8-CPP )
 
+
 # If I couldn't find the UTF8-CPP library, use the built-in source
-if ( NOT UTF8-CPP_FOUND )
+if ( UTF8-CPP_FOUND )
+	include_directories( ${UTF8-CPP_INCLUDE_DIRS} )
+else()
 	add_subdirectory( lib )
+	include_directories( ${RPI_HW_LIBRARY_DIR}/utf8-cpp )
+	set( UTF8-CPP_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include/utf8-cpp" )
 endif()
 
-# Set the include directories
-include_directories(
+addPkgConfigCflags( PKG_CONFIG_CFLAGS "${UTF8-CPP_INCLUDE_DIRS}" )
 
-	${RPI_HW_INCLUDE_DIR}
-	${RPI_HW_LIBRARY_DIR}/utf8-cpp
-)
-
-# Define some options
-option( USE_FREETYPE	"Use FreeType library"	ON )
-option( USE_MAGICK		"Use GraphicsMagick++ library"	ON )
 
 # Enable/disable FreeType support
 if ( USE_FREETYPE )
@@ -83,10 +82,14 @@ if ( USE_FREETYPE )
 
 	set( CMAKE_MODULES ${CMAKE_MODULES} Freetype )
 
+	addPkgConfigCflags( PKG_CONFIG_CFLAGS "${FREETYPE_INCLUDE_DIRS}" )
+	addPkgConfigLibs( PKG_CONFIG_LIBS "${FREETYPE_LIBRARIES}" )
+
 	set( USE_FREETYPE 1 )
 else()
 	set( USE_FREETYPE 0 )
 endif()
+
 
 # Enable/disable GraphicsMagick++ support
 if ( USE_MAGICK )
@@ -95,10 +98,25 @@ if ( USE_MAGICK )
 
 	set( CMAKE_MODULES ${CMAKE_MODULES} GraphicsMagick++ )
 
+	execute_process( COMMAND GraphicsMagick++-config --cppflags OUTPUT_VARIABLE	GraphicsMagick++_CFLAGS )
+	string( REGEX REPLACE "(.+)?\n" "\\1" GraphicsMagick++_CFLAGS ${GraphicsMagick++_CFLAGS} )
+	list( APPEND PKG_CONFIG_CFLAGS ${GraphicsMagick++_CFLAGS} )
+
+	execute_process( COMMAND GraphicsMagick++-config --libs OUTPUT_VARIABLE	GraphicsMagick++_LIBS )
+	string( REGEX REPLACE "(.+)?\n" "\\1" GraphicsMagick++_LIBS ${GraphicsMagick++_LIBS} )
+	list( APPEND PKG_CONFIG_LIBS ${GraphicsMagick++_LIBS} )
+
 	set( USE_MAGICK 1 )
 else()
 	set( USE_MAGICK 0 )
 endif()
+
+
+list( REMOVE_DUPLICATES PKG_CONFIG_CFLAGS )
+join( PKG_CONFIG_CFLAGS "${PKG_CONFIG_CFLAGS}" )
+
+list( REMOVE_DUPLICATES PKG_CONFIG_LIBS )
+join( PKG_CONFIG_LIBS "${PKG_CONFIG_LIBS}" )
 
 
 # Define the list of files to be built dynamically
@@ -139,8 +157,8 @@ configure_file(
 
 configure_file(
 
-	${RPI_HW_DIR}/cmake/cmake_uninstall.cmake.in
-	${RPI_HW_DIR}/cmake/cmake_uninstall.cmake
+	${RPI_HW_DIR}/cmake/uninstall.cmake.in
+	${RPI_HW_DIR}/cmake/uninstall.cmake
 	IMMEDIATE @ONLY
 )
 
@@ -204,7 +222,7 @@ find_package( Doxygen )
 if ( DOXYGEN_FOUND )
 	add_custom_target( doc COMMAND doxygen doxygen/doxy.conf )
 	add_custom_target( doc-clean COMMAND rm -R "${RPI_HW_DIR}/doc" )
-endif ( DOXYGEN_FOUND )
+endif()
 
 
 # Define the library installer
@@ -247,4 +265,4 @@ file( APPEND "${RPI_HW_DIR}/install_directories.txt"
 )
 
 # Define the unistaller command
-add_custom_target( uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake )
+add_custom_target( uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/uninstall.cmake )

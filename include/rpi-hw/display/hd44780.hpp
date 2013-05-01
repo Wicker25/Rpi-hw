@@ -331,4 +331,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/display/hd44780-inl.hpp>
+
 #endif /* _RPI_HW_DISPLAY_HD44780_HPP_ */

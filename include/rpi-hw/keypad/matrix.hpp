@@ -79,4 +79,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/keypad/matrix-inl.hpp>
+
 #endif /* _RPI_HW_KEYPAD_MATRIX_HPP_ */

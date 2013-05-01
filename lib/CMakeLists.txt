@@ -7,7 +7,7 @@ cmake_minimum_required( VERSION 2.6 )
 # Dependency directories
 set( UTF8CPP_DIR ${PROJECT_SOURCE_DIR}/utf8-cpp )
 
-message( "-- Using the built-in UTF8-CPP library" )
+message( "-- Using built-in UTF8-CPP library" )
 
 # Define the library installer
 install( DIRECTORY		${UTF8CPP_DIR}

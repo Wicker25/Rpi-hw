@@ -24,26 +24,6 @@
 
 #include <rpi-hw/display/hd44780.hpp>
 
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
-
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/iface/input.hpp>
-#include <rpi-hw/iface/input-inl.hpp>
-
-#include <rpi-hw/display/hd44780-inl.hpp>
-
 namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace

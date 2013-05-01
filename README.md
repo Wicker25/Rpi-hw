@@ -1,4 +1,4 @@
-Rpi-hw v0.3
+Rpi-hw v0.3.1
 =============
 
 ### Description

@@ -165,4 +165,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/motor/stepper-inl.hpp>
+
 #endif /* _RPI_HW_MOTOR_STEPPER_HPP_ */

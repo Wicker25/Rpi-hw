@@ -21,6 +21,8 @@
 
 // Include the Rpi-hw header
 #include <rpi-hw.hpp>
+#include <rpi-hw/time.hpp>
+#include <rpi-hw/gpio.hpp>
 
 // Use Rpi-hw namespace
 using namespace rpihw;
@@ -41,13 +43,13 @@ main( int argc, char *args[] ) {
 		io.write( 11, gpio::HIGH );
 
 		// Wait some time
-		time::usleep( 1000000 );
+		time::sleep(1);
 
 		// Turn it off
 		io.write( 11, gpio::LOW );
 
 		// Wait some time
-		time::usleep( 1000000 );
+		time::sleep(1);
 	}
 
 	return 0;

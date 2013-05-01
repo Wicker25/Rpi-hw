@@ -72,4 +72,8 @@ public:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/iface/shift-out-inl.hpp>
+
 #endif /* _RPI_HW_IFACE_SHIFT_OUT_HPP_ */

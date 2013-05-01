@@ -84,4 +84,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/iface/shift-base-inl.hpp>
+
 #endif /* _RPI_HW_IFACE_SHIFT_BASE_HPP_ */

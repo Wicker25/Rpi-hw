@@ -63,4 +63,8 @@ public:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/iface/encoder-out-inl.hpp>
+
 #endif /* _RPI_HW_IFACE_ENCODER_OUT_HPP_ */

@@ -24,11 +24,6 @@
 
 #include <rpi-hw/bitset.hpp>
 
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/bitset-inl.hpp>
-
 namespace rpihw { // Begin main namespace
 
 bitset_ref::bitset_ref( bitset &set, size_t index ) {

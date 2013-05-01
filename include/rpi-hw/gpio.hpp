@@ -467,4 +467,8 @@ private:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/gpio-inl.hpp>
+
 #endif /* _RPI_HW_GPIO_HPP_ */

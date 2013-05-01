@@ -146,4 +146,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/display/m7seg-inl.hpp>
+
 #endif /* _RPI_HW_DISPLAY_M7SEG_HPP_ */

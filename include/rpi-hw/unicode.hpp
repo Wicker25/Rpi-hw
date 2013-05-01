@@ -209,4 +209,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/unicode-inl.hpp>
+
 #endif /* _RPI_HW_UNICODE_HPP_ */

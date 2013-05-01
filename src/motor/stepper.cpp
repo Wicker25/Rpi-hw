@@ -24,20 +24,6 @@
 
 #include <rpi-hw/motor/stepper.hpp>
 
-#include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
-
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/motor/stepper-inl.hpp>
-
 namespace rpihw { // Begin main namespace
 
 namespace motor { // Begin motors namespace

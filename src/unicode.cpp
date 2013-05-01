@@ -23,7 +23,6 @@
 #define _RPI_HW_UNICODE_CPP_
 
 #include <rpi-hw/unicode.hpp>
-#include <rpi-hw/unicode-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 

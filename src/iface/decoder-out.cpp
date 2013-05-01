@@ -24,26 +24,6 @@
 
 #include <rpi-hw/iface/decoder-out.hpp>
 
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
-
-#include <rpi-hw/thread.hpp>
-#include <rpi-hw/thread-inl.hpp>
-
-#include <rpi-hw/gpio.hpp>
-#include <rpi-hw/gpio-inl.hpp>
-
-#include <rpi-hw/iface/base.hpp>
-#include <rpi-hw/iface/base-inl.hpp>
-
-#include <rpi-hw/iface/output.hpp>
-#include <rpi-hw/iface/output-inl.hpp>
-
-#include <rpi-hw/iface/decoder-out-inl.hpp>
-
 namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace

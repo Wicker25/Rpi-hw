@@ -22,13 +22,8 @@
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
-
 #include <rpi-hw/motor/stepper.hpp>
-#include <rpi-hw/motor/stepper-inl.hpp>
 
 // Use the Rpi-hw namespace
 using namespace rpihw;

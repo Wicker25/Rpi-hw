@@ -95,4 +95,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/iface/input-inl.hpp>
+
 #endif /* _RPI_HW_IFACE_INPUT_HPP_ */

@@ -27,7 +27,6 @@
 #define _RPI_HW_FONT_FREETYPE_CPP_
 
 #include <rpi-hw/font/freetype.hpp>
-#include <rpi-hw/font/freetype-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 

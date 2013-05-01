@@ -221,4 +221,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/display/pcd8544-inl.hpp>
+
 #endif /* _RPI_HW_DISPLAY_PCD8544_HPP_ */

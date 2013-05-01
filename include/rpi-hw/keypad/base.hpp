@@ -139,4 +139,8 @@ protected:
 
 } // End of main namespace
 
+
+// Include inline methods 
+#include <rpi-hw/keypad/base-inl.hpp>
+
 #endif /* _RPI_HW_KEYPAD_BASE_HPP_ */

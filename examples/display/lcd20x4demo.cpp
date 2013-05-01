@@ -20,15 +20,9 @@
 
 
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/utils.hpp>
-#include <rpi-hw/utils-inl.hpp>
-
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
-
 #include <rpi-hw/display/hd44780.hpp>
-#include <rpi-hw/display/hd44780-inl.hpp>
 
 // Use some namespaces
 using namespace rpihw;

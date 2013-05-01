@@ -23,7 +23,6 @@
 #define _RPI_HW_MUTEX_CPP_
 
 #include <rpi-hw/mutex.hpp>
-#include <rpi-hw/mutex-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 

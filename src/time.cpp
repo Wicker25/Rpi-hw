@@ -25,7 +25,6 @@
 #include <iostream>
 
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/time-inl.hpp>
 
 namespace rpihw { // Begin main namespace
 
