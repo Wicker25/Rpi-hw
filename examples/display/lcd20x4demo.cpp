@@ -363,7 +363,7 @@ void demo9( hd44780 &disp ) {
 	for ( ; i <= 100; i += 5 ) {
 
 		disp.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
-		disp.write( 1, 2, std::string( (size_t) math::abs( (float) i / factor ), 0xFF ) );
+		disp.write( 1, 2, std::string( (size_t) math::abs( (float) i / factor ), (uint8_t) 0xFF ) );
 
 		time::msleep( 500 );
 	}

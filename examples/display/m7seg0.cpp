@@ -21,7 +21,6 @@
 
 #include <rpi-hw.hpp>
 
-#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/iface/decoder-out.hpp>
 #include <rpi-hw/display/m7seg.hpp>

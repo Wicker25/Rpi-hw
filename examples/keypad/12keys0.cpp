@@ -23,7 +23,6 @@
 
 #include <rpi-hw.hpp>
 
-#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/keypad/matrix.hpp>
 
