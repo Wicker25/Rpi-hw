@@ -28,9 +28,6 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-// Address locations
-const uint8_t hd44780::lines[4] = { 0x00, 0x40, 0x14, 0x54 };
-
 hd44780::hd44780( uint8_t rs, uint8_t e,
 				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3 ) : m_size(0) {
 
@@ -66,11 +63,28 @@ hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 	m_screen_w = cols;
 	m_screen_h = rows;
 
+	// Limit the number of rows
+	rows = math::min< uint8_t >( rows, 4 );
+
+	// Set the address locations
+	// see: http://web.alfredstate.edu/weimandn/lcd/lcd_addressing/lcd_addressing_index.html
+	m_lines[0] = 0x00;
+	m_lines[1] = 0x40;
+
+	if ( rows == 4 ) {
+
+		if ( cols == 16 )
+			m_lines[2] = 0x10, m_lines[3] = 0x50;
+		else
+			m_lines[2] = 0x14, m_lines[3] = 0x54;
+	}
+
 	// Store the font size
 	m_font_height = ( font ? 10 : 8 );
 
 	// Delete the old character buffer
-	if ( m_size ) delete m_buffer;
+	if ( m_size )
+		delete m_buffer;
 
 	// Create a new character buffer
 	m_size = m_screen_w * m_screen_h;
@@ -187,7 +201,7 @@ hd44780::move( uint8_t x, uint8_t y ) {
 	m_pos_y = y;
 
 	// Set the position of the cursor on the display
-	cmd( DDRAM | ( hd44780::lines[y] + x ) );
+	cmd( DDRAM | ( m_lines[y] + x ) );
 }
 
 void

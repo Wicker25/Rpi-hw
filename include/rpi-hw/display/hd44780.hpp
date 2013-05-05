@@ -108,9 +108,6 @@ public:
 		HSCROLL_LINE	= 0x04		//!< Horizontal scroll line.
 	};
 
-	//! DDRAM line addresses
-	static const uint8_t lines[4];
-
 	/*!
 		@brief Constructor method (4-bit mode).
 		@param[in] rs The GPIO pin connected to the rs pin.
@@ -281,6 +278,9 @@ protected:
 
 	//! Output interface to the data pins.
 	iface::output *m_data;
+
+	//! DDRAM line addresses
+	uint8_t m_lines[4];
 
 	//! Width of the display.
 	uint8_t m_screen_w;

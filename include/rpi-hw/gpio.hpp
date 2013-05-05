@@ -361,7 +361,7 @@ public:
 	virtual ~gpio();
 
 	/*!
-		@brief Sets a GPIO pin.
+		@brief Sets the mode of a GPIO pin.
 		@param[in] pin The GPIO pin.
 		@param[in] mode The GPIO mode.
 		@param[in] pud_mode The pull resistor mode.

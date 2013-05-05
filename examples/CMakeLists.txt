@@ -9,7 +9,7 @@ add_definitions( -Wall -ansi -pedantic -pedantic-errors )
 # Find the Rpi-hw library
 find_package( RpiHw REQUIRED )
 
-# Set the path of the header files
+# Set the path to the header files
 include_directories( ${RpiHw_INCLUDE_DIRS} )
 
 # Build all examples

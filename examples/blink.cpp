@@ -33,7 +33,7 @@ main( int argc, char *args[] ) {
 	// GPIO controller interface
 	gpio io;
 
-	// Set the output pin to the led
+	// Set the output GPIO to the LED
 	io.setup( 11, gpio::OUTPUT );
 
 	// Main loop
