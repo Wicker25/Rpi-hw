@@ -24,7 +24,6 @@
 #include <rpi-hw.hpp>
 
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/bitset.hpp>
 #include <rpi-hw/keypad/matrix.hpp>
 
 // Use the Rpi-hw namespace
@@ -51,7 +50,7 @@ int
 main( int argc, char *args[] ) {
 
 	// Matrix keypad controller
-	keypad::matrix disp( 3, 4, 21, 10, 4, 22, 14, 15, 17 );
+	keypad::matrix disp( { 21, 10, 4 }, { 22, 14, 15, 17 } );
 
 	// Print message
 	std::cout << "State of buttons:\n";
@@ -63,7 +62,7 @@ main( int argc, char *args[] ) {
 	for ( ;; ) {
 
 		// Write the buttons state
-		const bitset &keystate = disp.state();
+		const std::vector< bool > &keystate = disp.state();
 
 		std::cout << '\r';
 

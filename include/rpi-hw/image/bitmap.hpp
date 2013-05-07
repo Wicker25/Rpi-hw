@@ -22,6 +22,9 @@
 #ifndef _RPI_HW_IMAGE_BITMAP_HPP_
 #define _RPI_HW_IMAGE_BITMAP_HPP_
 
+#include <memory>
+#include <algorithm>
+
 #if USE_MAGICK
 #include <Magick++.h>
 #endif
@@ -145,7 +148,7 @@ protected:
 	uint8_t m_channels;
 
 	//! The data buffer.
-	T *m_buffer;
+	std::unique_ptr< T[] > m_buffer;
 
 #if USE_MAGICK
 

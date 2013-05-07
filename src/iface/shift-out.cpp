@@ -28,7 +28,9 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-shiftOut::shiftOut( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay ) : shiftBase( data_pin, clock_pin, order, delay ) {
+shiftOut::shiftOut( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay )
+
+	: shiftBase( data_pin, clock_pin, order, delay ) {
 
 	// Initialize the interface pins
 	m_gpio->write( m_pins[ DATA_PIN ], gpio::LOW );

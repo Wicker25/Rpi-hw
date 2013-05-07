@@ -28,47 +28,28 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-input::input( uint8_t total, ... ) {
+input::input( std::initializer_list< uint8_t > pins ) : iface::base( pins ) {
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
+	// Initialize the interface pins
+	for ( auto &pin : m_pins ) {
 
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
-
-	// Clean variable argument list
-	va_end( args );
+		m_gpio->setup( pin, gpio::INPUT );
+		m_gpio->setPullUpDown( pin, gpio::PULL_DOWN );
+	}
 }
 
-input::input( const std::vector< uint8_t > &pins ) {
+input::input( const std::vector< uint8_t > &pins ) : iface::base( pins ) {
 
-	// Initialize the interface
-	init( pins );
-}
+	// Initialize the interface pins
+	for ( auto &pin : m_pins ) {
 
-input::input() {
-
+		m_gpio->setup( pin, gpio::INPUT );
+		m_gpio->setPullUpDown( pin, gpio::PULL_DOWN );
+	}
 }
 
 input::~input() {
 
-}
-
-void
-input::init( const std::vector< uint8_t > &pins ) {
-
-	// Call the parent class method
-	base::init( pins );
-
-	// Initialize the interface pins
-	size_t i = 0;
-
-	for ( ; i < numOfPins(); ++i ) {
-
-		m_gpio->setup( m_pins[i], gpio::INPUT );
-		m_gpio->setPullUpDown( m_pins[i], gpio::PULL_DOWN );
-	}
 }
 
 size_t

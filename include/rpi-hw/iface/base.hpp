@@ -22,6 +22,8 @@
 #ifndef _RPI_HW_IFACE_BASE_HPP_
 #define _RPI_HW_IFACE_BASE_HPP_
 
+#include <memory>
+#include <initializer_list>
 #include <vector>
 
 #include <rpi-hw/types.hpp>
@@ -49,10 +51,9 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the GPIO pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] pins Sequence of `uint8_t` containing the GPIO pins.
 	*/
-	base( uint8_t total, ... );
+	base( std::initializer_list< uint8_t > pins );
 
 	/*!
 		@brief Constructor method.
@@ -83,29 +84,10 @@ public:
 protected:
 
 	//! GPIO controller interface.
-	gpio *m_gpio;
-
-	//! Number of pins.
-	uint8_t m_total;
+	std::unique_ptr< gpio > m_gpio;
 
 	//! Vector containing interface pins.
-	uint8_t *m_pins;
-
-	//! Constructor method (only for child class)
-	base();
-
-	/*!
-		@brief Initializes the interface.
-		@param[in] total Number of the GPIO pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
-	*/
-	virtual void init( uint8_t total, ... );
-
-	/*!
-		@brief Initializes the interface.
-		@param[in] pins Vector containing the GPIO pins.
-	*/
-	virtual void init( const std::vector< uint8_t > &pins );
+	std::vector< uint8_t > m_pins;
 };
 
 } // End of interfaces namespace

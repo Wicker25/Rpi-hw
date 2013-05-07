@@ -1,5 +1,17 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.4 - urgency=medium =============
+
+2013-05-06 Wicker25 < wicker25@gmail.com >
+
+    * all: Welcome C++11!
+           Replaced UTF8-CPP with C++ built-in UTF-32.
+           Replaced `bitset` with `std::vector< bool >` specialization.
+
+    * freetype.cpp: Added file checking.
+
+    * hd44780.cpp: Fixed line addressing.
+
 ============ Rpi-hw 0.3.1 - urgency=medium =============
 
 2013-05-01 Wicker25 < wicker25@gmail.com >

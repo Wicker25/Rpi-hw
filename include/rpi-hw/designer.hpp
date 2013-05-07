@@ -22,12 +22,14 @@
 #ifndef _RPI_HW_DESIGNER_HPP_
 #define _RPI_HW_DESIGNER_HPP_
 
+#include <array>
+#include <algorithm>
+#include <locale>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/unicode.hpp>
 #include <rpi-hw/font/glyph.hpp>
 #include <rpi-hw/font/base.hpp>
 #include <rpi-hw/image/base.hpp>
@@ -174,7 +176,7 @@ public:
 		@brief Draws a character.
 		@param[in] charcode The character code.
 	*/
-	void drawText( uint32_t charcode );
+	void drawText( char32_t charcode );
 
 	/*!
 		@brief Moves the pen position and draws a character.
@@ -182,7 +184,7 @@ public:
 		@param[in] y The new vertical pen position.
 		@param[in] charcode The character code.
 	*/
-	void drawText( T x, T y, uint32_t charcode );
+	void drawText( T x, T y, char32_t charcode );
 
 	/*!
 		@brief Draws a string.
@@ -264,7 +266,7 @@ public:
 		@brief Draws a unicode string.
 		@param[in] text The string to be written.
 	*/
-	void drawText( const ustring &text );
+	void drawText( const std::u32string &text );
 
 	/*!
 		@brief Draws a multiline unicode string.
@@ -273,7 +275,7 @@ public:
 		@param[in] height The height of the text area.
 		@param[in] flags The parameters of the text.
 	*/
-	void drawText( const ustring &text, T width, T height, uint8_t flags = ALIGN_LEFT );
+	void drawText( const std::u32string &text, T width, T height, uint8_t flags = ALIGN_LEFT );
 
 	/*!
 		@brief Moves the pen position and draws a unicode string.
@@ -281,7 +283,7 @@ public:
 		@param[in] y The new vertical pen position.
 		@param[in] text The string to be written.
 	*/
-	void drawText( T x, T y, const ustring &text );
+	void drawText( T x, T y, const std::u32string &text );
 
 	/*!
 		@brief Moves the pen position and draws a multiline unicode string.
@@ -292,7 +294,7 @@ public:
 		@param[in] height The height of the text area.
 		@param[in] flags The parameters of the text.
 	*/
-	void drawText( T x, T y, const ustring &text, T width, T height, uint8_t flags = ALIGN_LEFT );
+	void drawText( T x, T y, const std::u32string &text, T width, T height, uint8_t flags = ALIGN_LEFT );
 
 protected:
 
@@ -326,7 +328,7 @@ protected:
 		@brief Draws a character.
 		@param[in] charcode The character code.
 	*/
-	void drawChar( uint32_t charcode );
+	void drawChar( char32_t charcode );
 
 	//! Draws the symmetric points of the circle.
 	void drawCirclePoints( T cx, T cy, T x, T y );

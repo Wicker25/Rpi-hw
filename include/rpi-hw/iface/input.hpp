@@ -22,6 +22,7 @@
 #ifndef _RPI_HW_IFACE_INPUT_HPP_
 #define _RPI_HW_IFACE_INPUT_HPP_
 
+#include <initializer_list>
 #include <vector>
 
 #include <rpi-hw/types.hpp>
@@ -45,10 +46,9 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the input pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] pins Sequence of `uint8_t` containing the GPIO pins.
 	*/
-	input( uint8_t total, ... );
+	input( std::initializer_list< uint8_t > pins );
 
 	/*!
 		@brief Constructor method.
@@ -78,17 +78,6 @@ public:
 		@return The data read from the interface.
 	*/
 	virtual bool read( uint8_t index ) const;
-
-protected:
-
-	//! Constructor method (only for child class)
-	input();
-
-	/*!
-		@brief Initializes the interface.
-		@param[in] pins Vector containing the GPIO pins.
-	*/
-	virtual void init( const std::vector< uint8_t > &pins );
 };
 
 } // End of interfaces namespace

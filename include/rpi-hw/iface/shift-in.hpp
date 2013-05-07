@@ -56,7 +56,7 @@ public:
 
 	/*!
 		@brief Sets an input pin.
-		@param[in] index The index position of the shiftIn pin.
+		@param[in] index The index position of the input pin.
 		@param[in] pin The new GPIO pin.
 	*/
 	virtual void setPin( uint8_t index, uint8_t pin );

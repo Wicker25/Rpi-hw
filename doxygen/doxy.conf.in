@@ -98,9 +98,9 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 
-INPUT                  = src/ include/
+INPUT                  = include/
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.hpp *.cpp
+FILE_PATTERNS          = *.hpp
 RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO

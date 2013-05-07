@@ -22,7 +22,6 @@
 
 #include <rpi-hw.hpp>
 
-#include <rpi-hw/unicode.hpp>
 #include <rpi-hw/font/freetype.hpp>
 #include <rpi-hw/image/bitmap.hpp>
 #include <rpi-hw/display/pcd8544.hpp>
@@ -260,21 +259,21 @@ showUnicode( pcd8544 &disp ) {
 	font::freetype greek( "fonts/DroidSans.ttf", 12, font::RENDER_MONOCHROME );
 	font::freetype cjk( "fonts/DroidSansFallback.ttf", 12, font::RENDER_MONOCHROME );
 
-	ustring utf8_text;
+	std::u32string utf32_text;
 
 	// Draw greek text
 	disp.setFont( greek );
-	utf8_text = "\xce\x93\xce\xb5\xce\xb9\xce\xb1 \xcf\x83\xce\xb1\xcf\x82 \xce\xba\xcf\x8c\xcf\x83\xce\xbc\xce\xbf\n";
-	disp.drawText( utf8_text );
+	utf32_text = U"Γεια σας κόσμο\n";
+	disp.drawText( utf32_text );
 
 	// Draw japanese text
 	disp.setFont( cjk );
-	utf8_text = "\xe3\x81\x93\xe3\x82\x93\xe3\x81\xab\xe3\x81\xa1\xe3\x81\xaf\xe4\xb8\x96\xe7\x95\x8c\n";
-	disp.drawText( utf8_text );
+	utf32_text = U"こんにちは世界\n";
+	disp.drawText( utf32_text );
 
 	// Draw chinese text
-	utf8_text = "\xe4\xb8\x96\xe7\x95\x8c \xe4\xbd\xa0\xe5\xa5\xbd";
-	disp.drawText( utf8_text );
+	utf32_text = U"世界，你好";
+	disp.drawText( utf32_text );
 
 	disp.redraw();
 }

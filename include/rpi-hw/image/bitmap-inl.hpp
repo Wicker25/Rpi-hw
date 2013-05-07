@@ -27,10 +27,13 @@ namespace rpihw { // Begin main namespace
 namespace image { // Begin images namespace
 
 template < typename T >
-bitmap< T >::bitmap( uint16_t width, uint16_t height, uint8_t channels ) :	m_width( width ), m_height( height ), m_channels( channels ) {
+bitmap< T >::bitmap( uint16_t width, uint16_t height, uint8_t channels ) 
 
-	// Create the data buffer
-	m_buffer = utils::malloc< T >( width * height * channels, 0 );
+	: m_width		( width )
+	, m_height		( height )
+	, m_channels	( channels )
+	, m_buffer		( width * height * channels, 0 ) {
+
 }
 
 
@@ -68,7 +71,7 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 	size_t size = m_width * m_height;
 
 	// Pointer to the bitmap buffer
-	T *ptr = m_buffer;
+	T *ptr;
 
 	// Iterator
 	size_t i;
@@ -83,13 +86,10 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			// Set the number of image channels and update the size of the buffer
 			m_channels = 4; size *= m_channels;
 
-			// Create the data buffer
-			m_buffer = utils::malloc< T >( size, 0 );
+			// Allocate the bitmap buffer
+			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
 
-			// Pointer to the bitmap buffer
-			T *ptr = m_buffer;
-
-			for ( i = 0, ptr = m_buffer; i < size; ++i, ++pixels ) {
+			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels ) {
 
 				*ptr++ = (T) pixels->red;
 				*ptr++ = (T) pixels->green;
@@ -106,10 +106,10 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			// Set the number of image channels and update the size of the buffer
 			m_channels = 3; size *= m_channels;
 
-			// Create the data buffer
-			m_buffer = utils::malloc< T >( size, 0 );
+			// Allocate the bitmap buffer
+			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
 
-			for ( i = 0, ptr = m_buffer; i < size; ++i, ++pixels ) {
+			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels ) {
 
 				*ptr++ = (T) pixels->red;
 				*ptr++ = (T) pixels->green;
@@ -124,10 +124,10 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			// Set the number of image channels and update the size of the buffer
 			m_channels = 2; size *= m_channels;
 
-			// Create the data buffer
-			m_buffer = utils::malloc< T >( size, 0 );
+			// Allocate the bitmap buffer
+			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
 
-			for ( i = 0, ptr = m_buffer; i < size; ++i, ++pixels ) {
+			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels ) {
 
 				*ptr++ = (T) pixels->red;
 				*ptr++ = (T) pixels->opacity;
@@ -141,10 +141,10 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			// Set the number of image channels
 			m_channels = 1;
 
-			// Create the data buffer
-			m_buffer = utils::malloc< T >( size, 0 );
+			// Allocate the bitmap buffer
+			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
 
-			for ( i = 0, ptr = m_buffer; i < size; ++i, ++pixels )
+			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels )
 				*ptr++ = (T) pixels->red;
 
 			break;
@@ -158,7 +158,6 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 template < typename T >
 bitmap< T >::~bitmap() {
 
-	delete[] m_buffer;
 }
 
 template < typename T >
@@ -189,25 +188,30 @@ template < typename T >
 inline void
 bitmap< T >::setData( uint16_t x, uint16_t y, T *color ) {
 
+	size_t offset = (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
+
 	// Set the color of the pixel
-	T *data = m_buffer + (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
-	utils::memcpy< T >( data, color, m_channels );
+	std::copy( color, color +  m_channels, m_buffer + offset );
 }
 
 template < typename T >
 inline void
 bitmap< T >::setData( uint16_t x, uint16_t y, uint8_t c, T value ) {
 
+	size_t offset = (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width ) + c;
+
 	// Set the channel value of the pixel
-	*( m_buffer + (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width ) + c ) = value;
+	m_buffer[ offset ] = value;
 }
 
 template < typename T >
 inline const T *
 bitmap< T >::getData( uint16_t x, uint16_t y ) const {
 
-	// Copy the color data into the buffer
-	return m_buffer + (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
+	size_t offset = (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
+
+	// Return the color data into the buffer
+	return (const T *) ( m_buffer.get() + offset );
 }
 
 template < typename T >

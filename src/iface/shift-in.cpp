@@ -28,7 +28,9 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-shiftIn::shiftIn( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay ) : shiftBase( data_pin, clock_pin, order, delay ) {
+shiftIn::shiftIn( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay )
+
+	: shiftBase( data_pin, clock_pin, order, delay ) {
 
 	// Initialize the interface pins
 	m_gpio->setup( m_pins[ DATA_PIN ], gpio::INPUT );

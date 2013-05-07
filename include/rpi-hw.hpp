@@ -45,7 +45,7 @@ The following are some features of the library:
 @li Displays support (7-segments, HD44780, PCD8544)
 @li Keypad support (matrix keypad)
 @li Stepper motor support
-@li Unicode support (using UTF8-CPP) (built-in)
+@li Unicode support (built-in)
 @li Handles multiple image formats (using Magick++ API) (optional)
 @li Supports standard fonts (using FreeType) (optional)
 @li Drawing functions

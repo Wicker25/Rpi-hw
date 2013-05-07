@@ -37,7 +37,7 @@ inline uint8_t
 base::numOfPins() const {
 
 	// Return the number of pins
-	return m_total;
+	return (uint8_t) m_pins.size();
 }
 
 } // End of interfaces namespace

@@ -28,17 +28,14 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-pcd8544::pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t rst ) : designer< int8_t, bool, 1 >( LCD_WIDTH, LCD_HEIGHT ) {
+pcd8544::pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t rst )
 
-	// Create the interfaces to the display
-	m_control	= new iface::output( 3, dc, sce, rst );
-	m_data		= new iface::shiftOut( sdin, sclk, iface::shiftOut::MSBFIRST, 10000 );
+	: designer< int8_t, bool, 1 >	( LCD_WIDTH, LCD_HEIGHT )
+	, m_control						( new iface::output( { dc, sce, rst } ) )
+	, m_data						( new iface::shiftOut( sdin, sclk, iface::shiftOut::MSBFIRST, 10000 ) )
+	, m_buffer						( DDRAM_SIZE, 0x00 )
+	, m_updates						( DDRAM_SIZE, true ) {
 
-	// Create the data buffer
-	m_buffer = utils::malloc< uint8_t >( DDRAM_SIZE, 0x00 );
-
-	// Create the update buffer
-	m_updates = new bitset( DDRAM_SIZE, true );
 
 	// Set the foreground color
 	setColor( COLOR_BLACK );
@@ -46,15 +43,6 @@ pcd8544::pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t r
 
 pcd8544::~pcd8544() {
 
-	// Destroy the interfaces
-	delete m_control;
-	delete m_data;
-
-	// Destroy the data buffer
-	delete[] m_buffer;
-
-	// Destroy the update buffer
-	delete m_updates;
 }
 
 void
@@ -120,18 +108,16 @@ pcd8544::drawPixel( int8_t x, int8_t y, const bool *color ) {
 		return;
 
 	// Calculate the bit position
-	uint8_t shift = (uint8_t) ( y % 8 );
+	uint8_t index = (uint8_t) y % 8;
+
+	// Get the block containing the pixel
+	size_t block = (size_t) x + (size_t) y / 8 * LCD_WIDTH;
 
 	// Set the color of the pixel
-	size_t index = (size_t) x + ( (size_t) y / 8 ) * LCD_WIDTH;
-
-	if ( *color )
-		m_buffer[ index ] &= ~( 1 << shift );
-	else
-		m_buffer[ index ] |= ( 1 << shift );
+	utils::set_bit( m_buffer, block, index, *color == false );
 
 	// Add the update to the buffer
-	m_updates->set( index, true );
+	m_updates[ block ] = true;
 }
 
 bool
@@ -141,8 +127,11 @@ pcd8544::getPixel( int8_t x, int8_t y ) const {
 	if ( x < 0 || y < 0 || x >= LCD_WIDTH || y >= LCD_HEIGHT )
 		return 0;
 
-	// Set the color of the pixel
-	return m_buffer[ (size_t) x + ( (size_t) y / 8 ) * LCD_WIDTH ] >> ( 7 - ( y % 8 ) ) & 0x01;
+	// Get the block containing the pixel
+	size_t block = (size_t) x + ( (size_t) y / 8 ) * LCD_WIDTH;
+
+	// Return the color of the pixel
+	return utils::get_bit( m_buffer, block, 7 - ( y % 8 ) );
 }
 
 uint16_t
@@ -164,7 +153,7 @@ pcd8544::redraw() {
 
 		for ( i = 0; i < DDRAM_WIDTH; ++i, ++k ) {
 
-			if ( m_updates->get( k ) ) {
+			if ( m_updates[k] ) {
 
 				if ( jump ) {
 
@@ -180,7 +169,7 @@ pcd8544::redraw() {
 	}
 
 	// Remove all updates from the buffer
-	m_updates->set( false );
+	m_updates.assign( DDRAM_SIZE, false );
 
 	// Return the number of updated blocks
 	return total;
@@ -190,10 +179,10 @@ void
 pcd8544::clear() {
 
 	// Clear the data buffer
-	utils::memset< uint8_t >( m_buffer, DDRAM_SIZE, 0x00 );
+	m_buffer.assign( DDRAM_SIZE, 0x00 );
 
 	// Add the update to the buffer
-	m_updates->set( true );
+	m_updates.assign( DDRAM_SIZE, true );
 
 	// Restore the cursor position
 	setPenPosition( 0, 0 );

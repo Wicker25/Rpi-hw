@@ -22,12 +22,12 @@
 #ifndef _RPI_HW_KEYPAD_MATRIX_HPP_
 #define _RPI_HW_KEYPAD_MATRIX_HPP_
 
+#include <memory>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
-
-#include <rpi-hw/bitset.hpp>
 
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/output.hpp>
@@ -52,10 +52,10 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] cols Number of the keypad columns.
-		@param[in] rows Number of the keypad rows.
+		@param[in] col_pins Sequence of `uint8_t` containing the column GPIOs.
+		@param[in] row_pins Sequence of `uint8_t` containing the rows GPIOs.
 	*/
-	matrix( uint8_t cols, uint8_t rows, ... );
+	matrix( std::initializer_list< uint8_t > col_pins, std::initializer_list< uint8_t > row_pins );
 
 	//! Destructor method.
 	virtual ~matrix();
@@ -63,13 +63,7 @@ public:
 protected:
 
 	//! Columns output interface.
-	iface::output *m_output;
-
-	//! Number of the keypad columns.
-	uint8_t m_cols;
-
-	//! Number of the keypad rows.
-	uint8_t m_rows;
+	std::unique_ptr< iface::output > m_output;
 
 	//! Updates the state of buttons.
 	virtual void update();

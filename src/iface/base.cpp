@@ -28,73 +28,23 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-base::base() {
+base::base( std::initializer_list< uint8_t > pins ) : m_gpio( new gpio ), m_pins( pins ) {
 
-	// Create the GPIO controller interface
-	m_gpio = new gpio;
 }
 
-base::base( uint8_t total, ... ) {
+base::base( const std::vector< uint8_t > &pins ) : m_gpio( new gpio ), m_pins( pins ) {
 
-	// Create the GPIO controller interface
-	m_gpio = new gpio;
-
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
-
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
-
-	// Clean variable argument list
-	va_end( args );
-}
-
-base::base( const std::vector< uint8_t > &pins ) {
-
-	// Create the GPIO controller interface
-	m_gpio = new gpio;
-
-	// Initialize the interface
-	init( pins );
 }
 
 base::~base() {
 
-	// Destroy the vector containing interface pins
-	delete[] m_pins;
-
-	// Destroy the GPIO controller interface
-	delete m_gpio;
-}
-
-void
-base::init( uint8_t total, ... ) {
-
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
-
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
-
-	// Clean variable argument list
-	va_end( args );
-}
-
-void
-base::init( const std::vector< uint8_t > &pins ) {
-
-	// Create vector containing the interface pins
-	m_total = (uint8_t) pins.size();
-	m_pins = utils::memdup< uint8_t >( pins.data(), pins.size() );
 }
 
 void
 base::setPin( uint8_t index, uint8_t pin ) {
 
 	// Check if the interface pin exists
-	if ( index >= m_total )
+	if ( index >= m_pins.size() )
 		throw exception( "(Error) `iface::setPin`: wrong pin index\n" );
 
 	// Store the interface pin

@@ -5,10 +5,10 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION			"0.3.1" )
+set( RPI_HW_VERSION			"0.4.0" )
 set( RPI_HW_VERSION_MAJOR	0 )
-set( RPI_HW_VERSION_MINOR	3 )
-set( RPI_HW_VERSION_PATCH	1 )
+set( RPI_HW_VERSION_MINOR	4 )
+set( RPI_HW_VERSION_PATCH	0 )
 
 # Project directories
 set( RPI_HW_DIR					${PROJECT_SOURCE_DIR}	)
@@ -26,7 +26,7 @@ set( EXECUTABLE_OUTPUT_PATH		${RPI_HW_BUILD_DIR} )
 
 # Set the CMake's module path
 set( CMAKE_MODULE_PATH	${CMAKE_MODULE_PATH} ${RPI_HW_DIR}/cmake )
-set( CMAKE_MODULES		UTF8-CPP )
+set( CMAKE_MODULES		"" )
 
 # Pkg-config's flags and libs
 set( PKG_CONFIG_CFLAGS	"-I${CMAKE_INSTALL_PREFIX}/include" )
@@ -37,7 +37,7 @@ option( USE_FREETYPE	"Use FreeType library"			ON )
 option( USE_MAGICK		"Use GraphicsMagick++ library"	ON )
 
 # Set the compiler flags
-add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long ) # -Wno-psabi
+add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long -std=c++0x ) # -Wno-psabi
 
 # Set the include directories
 include_directories( ${RPI_HW_INCLUDE_DIR} )
@@ -60,19 +60,6 @@ endif()
 
 # Find some dependencies
 find_package( Threads REQUIRED )
-find_package( UTF8-CPP )
-
-
-# If I couldn't find the UTF8-CPP library, use the built-in source
-if ( UTF8-CPP_FOUND )
-	include_directories( ${UTF8-CPP_INCLUDE_DIRS} )
-else()
-	add_subdirectory( lib )
-	include_directories( ${RPI_HW_LIBRARY_DIR}/utf8-cpp )
-	set( UTF8-CPP_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include/utf8-cpp" )
-endif()
-
-addPkgConfigCflags( PKG_CONFIG_CFLAGS "${UTF8-CPP_INCLUDE_DIRS}" )
 
 
 # Enable/disable FreeType support
@@ -167,11 +154,7 @@ add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/utils.cpp
 	${RPI_HW_SOURCE_DIR}/time.cpp
-	${RPI_HW_SOURCE_DIR}/mutex.cpp
 	${RPI_HW_SOURCE_DIR}/gpio.cpp
-
-	${RPI_HW_SOURCE_DIR}/bitset.cpp
-	${RPI_HW_SOURCE_DIR}/unicode.cpp
 
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
 	${RPI_HW_SOURCE_DIR}/iface/output.cpp

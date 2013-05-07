@@ -47,7 +47,7 @@ main( int argc, char *args[] ) {
 	display::m7seg disp( 1, 4, 18, 15, 14, 0, 17, 23 );
 
 	// Create the enabler interface
-	iface::decoderOut enabler( 2, 21, 22 );
+	iface::decoderOut enabler( { 21, 22 } );
 
 	// Set the number of displays and the enabler interface
 	disp.setDisplays( 2, enabler );

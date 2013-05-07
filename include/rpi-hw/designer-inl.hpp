@@ -25,7 +25,7 @@
 namespace rpihw { // Begin main namespace
 
 template < typename T, typename C, uint8_t N >
-designer< T, C, N >::designer( T width, T height ) : m_area_w( width ), m_area_h( height ), m_font( NULL ) {
+designer< T, C, N >::designer( T width, T height ) : m_area_w( width ), m_area_h( height ), m_font( nullptr ) {
 
 	// Set the initial pen position
 	setPenPosition( 0, 0 );
@@ -41,7 +41,7 @@ inline void
 designer< T, C, N >::setPenColor( const C *color ) {
 
 	// Set the foreground color
-	utils::memcpy< C >( m_color, color, N );
+	std::copy( color, color + N, m_color );
 }
 
 template < typename T, typename C, uint8_t N >
@@ -100,14 +100,14 @@ designer< T, C, N >::drawLine( T x0, T y0, T x1, T y1 ) {
 	// (algorithm works only with m <= 1 and dx > dy)
 	if ( steep ) {
 
-		utils::swap( x0, y0 );
-		utils::swap( x1, y1 );
+		std::swap( x0, y0 );
+		std::swap( x1, y1 );
 	}
 
 	if ( x0 > x1 ) {
 
-		utils::swap( x0, x1 );
-		utils::swap( y0, y1 );
+		std::swap( x0, x1 );
+		std::swap( y0, y1 );
 	}
 
 	// Calculate the new parameters
@@ -151,10 +151,10 @@ designer< T, C, N >::drawRect( T x0, T y0, T x1, T y1 ) {
 
 	// Prepare the parameters
 	if ( x0 > x1 )
-		utils::swap( x0, x1 );
+		std::swap( x0, x1 );
 
 	if ( y0 > y1 )
-		utils::swap( y0, y1 );
+		std::swap( y0, y1 );
 
 	// Draw the rectangle
 	T i;
@@ -238,10 +238,10 @@ designer< T, C, N >::fillRect( T x0, T y0, T x1, T y1 ) {
 
 	// Prepare the parameters
 	if ( x0 > x1 )
-		utils::swap( x0, x1 );
+		std::swap( x0, x1 );
 
 	if ( y0 > y1 )
-		utils::swap( y0, y1 );
+		std::swap( y0, y1 );
 
 	// Calculate the parameters
 	int w = x1 - x0,
@@ -406,7 +406,7 @@ designer< T, C, N >::drawImage( const image::base< C > &img, T x, T y ) {
 
 template < typename T, typename C, uint8_t N >
 void
-designer< T, C, N >::drawChar( uint32_t charcode ) {
+designer< T, C, N >::drawChar( char32_t charcode ) {
 
 	// Get the bitmap of the character font 
 	font::glyph glyph; m_font->data( charcode, glyph );
@@ -457,7 +457,7 @@ designer< T, C, N >::drawChar( uint32_t charcode ) {
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::drawText( uint32_t charcode ) {
+designer< T, C, N >::drawText( char32_t charcode ) {
 
 	// Check if text font was loaded
 	if ( !m_font )
@@ -469,7 +469,7 @@ designer< T, C, N >::drawText( uint32_t charcode ) {
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::drawText( T x, T y, uint32_t charcode ) {
+designer< T, C, N >::drawText( T x, T y, char32_t charcode ) {
 
 	// Set the pen position on the display
 	setPenPosition( x, y );
@@ -497,7 +497,7 @@ designer< T, C, N >::drawText( iterator it, iterator end ) {
 	for ( ; it != end; ++it ) {
 
 		if ( *it != '\n' )
-			drawText( (uint32_t) *it );
+			drawText( (char32_t) *it );
 
 		else {
 
@@ -554,7 +554,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 				// Draw the current line
 				for ( ; off != it; ++off )
-					drawChar( (uint32_t) *off );
+					drawChar( (char32_t) *off );
 
 				m_pos_x = old_x;
 				m_pos_y += m_font->getHeight();
@@ -572,7 +572,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 				// Draw the current line
 				for ( ; off != it; ++off )
-					drawChar( (uint32_t) *off );
+					drawChar( (char32_t) *off );
 
 				m_pos_x = old_x;
 				m_pos_y += m_font->getHeight();
@@ -591,7 +591,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 			// Append the last line
 			for ( ; off != end; ++off )
-				drawChar( (uint32_t) *off );
+				drawChar( (char32_t) *off );
 		}
 
 
@@ -621,7 +621,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 					// Draw the current line
 					for ( ; off != it; ++off )
-						drawChar( (uint32_t) *off );
+						drawChar( (char32_t) *off );
 
 					m_pos_x = old_x;
 					m_pos_y += m_font->getHeight();
@@ -637,7 +637,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 					// Draw the current line
 					for ( ; off != word_start; ++off )
-						drawChar( (uint32_t) *off );
+						drawChar( (char32_t) *off );
 
 					m_pos_x = old_x;
 					m_pos_y += m_font->getHeight();
@@ -657,7 +657,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 				// Draw the current line
 				for ( ; off != it; ++off )
-					drawChar( (uint32_t) *off );
+					drawChar( (char32_t) *off );
 
 				m_pos_x = old_x;
 				m_pos_y += m_font->getHeight();
@@ -684,7 +684,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 			// Append the last line
 			for ( ; off != end; ++off )
-				drawChar( (uint32_t) *off );
+				drawChar( (char32_t) *off );
 		}
 	}
 }
@@ -753,7 +753,7 @@ designer< T, C, N >::drawText( T x, T y, const std::string &text, T width, T hei
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::drawText( const ustring &text ) {
+designer< T, C, N >::drawText( const std::u32string &text ) {
 
 	// Draws the unicode string
 	drawText( text.begin(), text.end() );
@@ -761,7 +761,7 @@ designer< T, C, N >::drawText( const ustring &text ) {
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::drawText( const ustring &text, T width, T height, uint8_t flags ) {
+designer< T, C, N >::drawText( const std::u32string &text, T width, T height, uint8_t flags ) {
 
 	// Draw the multiline unicode string
 	drawText( text.begin(), text.end(), width, height, flags );
@@ -769,7 +769,7 @@ designer< T, C, N >::drawText( const ustring &text, T width, T height, uint8_t f
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::drawText( T x, T y, const ustring &text ) {
+designer< T, C, N >::drawText( T x, T y, const std::u32string &text ) {
 
 	// Set the pen position
 	setPenPosition( x, y );
@@ -780,7 +780,7 @@ designer< T, C, N >::drawText( T x, T y, const ustring &text ) {
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::drawText( T x, T y, const ustring &text, T width, T height, uint8_t flags ) {
+designer< T, C, N >::drawText( T x, T y, const std::u32string &text, T width, T height, uint8_t flags ) {
 
 	// Draw the multiline unicode string
 	drawText( x, y, text.begin(), text.end(), width, height, flags );

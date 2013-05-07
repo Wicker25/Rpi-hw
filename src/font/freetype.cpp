@@ -43,6 +43,12 @@ faceRequester( FTC_FaceID face_id, FT_Library library, FT_Pointer obj, FT_Face *
 
 freetype::freetype( const std::string &path, uint8_t height, RenderMode mode, Encoding encoding ) : m_path( path ), m_encoding( encoding ) {
 
+	// Check if file exists
+	struct stat stat_info;
+
+	if ( stat( path.c_str(), &stat_info ) == -1 )
+		throw exception( utils::format( "(Error) `freetype->constructor`: the file `%s` doesn't exist\n", path.c_str() ) );
+
 	// Initialize the FreeType Font Library
 	if ( FT_Init_FreeType( &m_library ) )
 		throw exception( "(Error) `freetype->constructor`: `FT_Init_FreeType` failed\n" );

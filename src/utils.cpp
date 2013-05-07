@@ -61,13 +61,13 @@ align( const std::string &text, size_t width, uint8_t flags ) {
 		margin = 1;
 
 	// Iterators
-	std::string::const_iterator it = text.begin(), end = text.end();
+	auto it = text.begin(), end = text.end();
 
 	// The aligned string
 	std::string result; result.reserve( std::distance( it, end ) * 2 );
 
 	// Start of the current line
-	std::string::const_iterator off = it;
+	auto off = it;
 
 	// Current line width
 	size_t line_len = 0;
@@ -115,7 +115,7 @@ align( const std::string &text, size_t width, uint8_t flags ) {
 	} else {
 
 		// Start of the current word
-		std::string::const_iterator word_start = it;
+		auto word_start = it;
 
 		// Current word width
 		size_t word_len = 0;

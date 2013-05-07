@@ -22,6 +22,8 @@
 #ifndef _RPI_HW_MOTOR_STEPPER_HPP_
 #define _RPI_HW_MOTOR_STEPPER_HPP_
 
+#include <vector>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
@@ -58,7 +60,7 @@ public:
 
 	//@{
 	//! Some moving sequences.
-	static const uint8_t seq_2wire[4], seq_wave[4], seq_full[4], seq_half[8];
+	static const std::vector< uint8_t > seq_2wire, seq_wave, seq_full, seq_half;
 	//@}
 
 	/*!
@@ -97,9 +99,8 @@ public:
 	/*!
 		@brief Sets the moving sequence.
 		@param[in] sequence The moving sequence.
-		@param[in] len The length of the sequence.
 	*/
-	void setSequence( const uint8_t *sequence, uint8_t len = 0 );
+	void setSequence( const std::vector< uint8_t > &sequence );
 
 	/*!
 		@brief Sets the motor speed in rotations per minute (RPMs).
@@ -142,11 +143,8 @@ protected:
 	//! Output interface to the display.
 	iface::output *m_motor;
 
-	//! Moving sequence and its length.
-	const uint8_t *m_sequence;
-
-	//! Length of the moving sequence.
-	uint8_t m_sequence_len;
+	//! Moving sequence.
+	std::vector< uint8_t > m_sequence;
 
 	//! Motor direction.
 	Direction m_direction;

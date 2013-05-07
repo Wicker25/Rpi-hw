@@ -26,11 +26,11 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
-inline const bitset &
+inline const std::vector< bool > &
 base::state() const {
 
 	// Return the button state
-	return *m_keystate;
+	return m_keystate;
 }
 
 inline size_t

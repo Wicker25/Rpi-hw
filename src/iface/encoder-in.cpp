@@ -28,17 +28,12 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-encoderIn::encoderIn( uint8_t total, ... ) {
+encoderIn::encoderIn( std::initializer_list< uint8_t > pins ) : iface::input( pins ) {
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
+}
 
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
+encoderIn::encoderIn( const std::vector< uint8_t > &pins ) : iface::input( pins ) {
 
-	// Clean variable argument list
-	va_end( args );
 }
 
 encoderIn::~encoderIn() {

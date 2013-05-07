@@ -28,61 +28,30 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
-base::base() {
+base::base( size_t total, std::initializer_list< uint8_t > pins )
+
+	: m_input		( new iface::input( pins ) )
+	, m_keystate	( m_nkeys, 0 )
+	, m_pressed		( m_nkeys, 0 )
+	, m_released	( m_nkeys, 0 )
+	, m_thread		( new std::thread( &keypad::base::update, this ) )
+	, m_mutex		( new std::mutex ) {
 
 }
 
-base::base( size_t total, ... ) {
+base::base( size_t total, const std::vector< uint8_t > &pins )
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
+	: m_input		( new iface::input( pins ) )
+	, m_keystate	( m_nkeys, 0 )
+	, m_pressed		( m_nkeys, 0 )
+	, m_released	( m_nkeys, 0 )
+	, m_thread		( new std::thread( &keypad::base::update, this ) )
+	, m_mutex		( new std::mutex ) {
 
-	// Initialize the instance
-	init( total, utils::varg< uint8_t, int >( args, total ) );
-
-	// Clean variable argument list
-	va_end( args );
-}
-
-base::base( size_t total, const std::vector< uint8_t > &pins ) {
-
-	// Initialize the instance
-	init( total, pins );
 }
 
 base::~base() {
 
-	// Destroy the updating thread and mutex
-	delete m_thread;
-	delete m_mutex;
-
-	// Destroy the input interface
-	delete m_input;
-
-	// Destroy the button registers
-	delete m_keystate;
-	delete m_pressed;
-	delete m_released;
-}
-
-void
-base::init( size_t total, const std::vector< uint8_t > &pins ) {
-
-	// Store the number of keys
-	m_nkeys = total;
-
-	// Create the button registers
-	m_keystate	= new bitset( m_nkeys, 0 );
-	m_pressed	= new bitset( m_nkeys, 0 );
-	m_released	= new bitset( m_nkeys, 0 );
-
-	// Create the buttons input interface
-	m_input = new iface::input( pins );
-
-	// Create the updating thread and mutex
-	m_thread	= new thread< keypad::base >( *this, &keypad::base::update );
-	m_mutex		= new mutex;
 }
 
 bool
@@ -94,7 +63,7 @@ base::state( size_t index ) const {
 										this, (unsigned long) m_nkeys ) );
 
 	// Return the button state
-	return m_keystate->get( index );
+	return m_keystate[ index ];
 }
 
 bool
@@ -106,7 +75,7 @@ base::pressed( size_t index ) const {
 										this, (unsigned long) m_nkeys ) );
 
 	// Return `true` if the button is pressed
-	return m_pressed->get( index );
+	return m_pressed[ index ];
 }
 
 bool
@@ -118,7 +87,7 @@ base::released( size_t index ) const {
 										this, (unsigned long) m_nkeys ) );
 
 	// Return `true` if the button is released
-	return m_released->get( index );
+	return m_released[ index ];
 }
 
 void
@@ -142,9 +111,9 @@ base::update() {
 			// Update the button registers
 			m_mutex->lock();
 
-			m_pressed->set( i, !m_keystate->get( i ) && state );
-			m_released->set( i, m_keystate->get( i ) && !state );
-			m_keystate->set( i, state );
+			m_pressed[i]	= ( !m_keystate[i] && state );
+			m_released[i]	= ( m_keystate[i] && !state );
+			m_keystate[i]	= state;
 
 			m_mutex->unlock();
 		}

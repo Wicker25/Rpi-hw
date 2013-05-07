@@ -28,30 +28,23 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
-matrix::matrix( uint8_t cols, uint8_t rows, ... ) : m_cols( cols ), m_rows( rows ) {
+matrix::matrix( std::initializer_list< uint8_t > col_pins, std::initializer_list< uint8_t > row_pins )
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, rows );
+	: keypad::base( col_pins.size() * row_pins.size(), row_pins )
+	, m_output( new iface::output( col_pins ) ) {
 
-	// Create the columns output interface
-	m_output = new iface::output( utils::varg< uint8_t, int >( args, cols ) );
-
-	// Initialize the instance
-	init( (size_t) cols * (size_t) rows, utils::varg< uint8_t, int >( args, rows, cols ) );
-
-	// Clean variable argument list
-	va_end( args );
 }
 
 matrix::~matrix() {
 
-	// Destroy the output interface
-	delete m_output;
 }
 
 void
 matrix::update() {
+
+	// Get the size of the keypad
+	uint8_t cols = m_output->numOfPins(),
+			rows = m_input->numOfPins();
 
 	// Working structures
 	size_t index, state, rows_value;
@@ -63,24 +56,24 @@ matrix::update() {
 	while ( 1 ) {
 
 		// Update state of buttons
-		for ( j = 0; j < m_cols; ++j ) {
+		for ( j = 0; j < cols; ++j ) {
 
 			// Activate the j-th column
 			m_output->write( 1 << j );
 			rows_value = m_input->read();
 
-			for ( i = 0; i < m_rows; ++i ) {
+			for ( i = 0; i < rows; ++i ) {
 
 				// Look for connection with i-th row
 				state = rows_value & ( 1 << i );
-				index = (size_t) j + (size_t) i * (size_t) m_cols;
+				index = (size_t) j + (size_t) i * (size_t) cols;
 
 				// Update the button registers
 				m_mutex->lock();
 
-				m_pressed->set( index, !m_keystate->get( index ) && state );
-				m_released->set( index, m_keystate->get( index ) && !state );
-				m_keystate->set( index, state );
+				m_pressed[ index ]	= ( !m_keystate[ index ] && state );
+				m_released[ index ]	= ( m_keystate[ index ] && !state );
+				m_keystate[ index ]	= state;
 
 				m_mutex->unlock();
 			}

@@ -29,7 +29,7 @@ namespace rpihw { // Begin main namespace
 namespace motor { // Begin motors namespace
 
 // Two wire sequence
-const uint8_t stepper::seq_2wire[4] = {
+const std::vector< uint8_t > stepper::seq_2wire = {
 
 	0x01,	// 0001
 	0x03,	// 0011
@@ -38,7 +38,7 @@ const uint8_t stepper::seq_2wire[4] = {
 };
 
 // Wave drive sequence
-const uint8_t stepper::seq_wave[4] = {
+const std::vector< uint8_t > stepper::seq_wave = {
 
 	0x01,	// 0001
 	0x02,	// 0010
@@ -47,7 +47,7 @@ const uint8_t stepper::seq_wave[4] = {
 };
 
 // Full step sequence
-const uint8_t stepper::seq_full[4] = {
+const std::vector< uint8_t > stepper::seq_full = {
 
 	0x03,	// 0011
 	0x06,	// 0110
@@ -56,7 +56,7 @@ const uint8_t stepper::seq_full[4] = {
 };
 
 // Half step sequence
-const uint8_t stepper::seq_half[8] = {
+const std::vector< uint8_t > stepper::seq_half = {
 
 	0x01,	// 0001
 	0x03,	// 0011
@@ -72,19 +72,19 @@ const uint8_t stepper::seq_half[8] = {
 stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1 ) : m_direction( DIRECTION_CW ), m_rpm(1.0), m_steps( steps ) {
 
 	// Create the output interface to the motor
-	m_motor = new iface::output( 2, pin0, pin1 );
+	m_motor = new iface::output( { pin0, pin1 } );
 
 	// Set the moving sequence
-	setSequence( stepper::seq_2wire, 4 );
+	setSequence( stepper::seq_2wire );
 }
 
 stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1, uint8_t pin2, uint8_t pin3 ) : m_direction( DIRECTION_CW ), m_rpm(1.0), m_steps( steps ) {
 
 	// Create the output interface to the motor
-	m_motor = new iface::output( 4, pin0, pin1, pin2, pin3 );
+	m_motor = new iface::output( { pin0, pin1, pin2, pin3 } );
 
 	// Set the moving sequence
-	setSequence( stepper::seq_half, 8 );
+	setSequence( stepper::seq_half );
 }
 
 stepper::~stepper() {
@@ -94,24 +94,10 @@ stepper::~stepper() {
 }
 
 void
-stepper::setSequence( const uint8_t *sequence, uint8_t len ) {
+stepper::setSequence( const std::vector< uint8_t > &sequence ) {
 
 	// Set the moving sequence and its length
-	m_sequence		= sequence;
-	m_sequence_len	= len;
-
-	// Use the length of the default sequences
-	if ( !len ) {
-
-		if ( m_sequence == stepper::seq_2wire ||
-			 m_sequence == stepper::seq_wave  ||
-			 m_sequence == stepper::seq_full )
-
-			m_sequence_len = 4;
-
-		else if ( m_sequence == stepper::seq_half )
-			m_sequence_len = 8;
-	}
+	m_sequence = sequence;
 }
 
 void
@@ -120,6 +106,9 @@ stepper::step( size_t number ) {
 	// Calculate the delay time between signals (in microseconds)
 	size_t delay = math::floor( ( 60000000.0 / m_rpm ) / (double) m_steps );
 
+	// Get the sequence length;
+	uint8_t sequence_len = (uint8_t) m_sequence.size();
+
 	// Move the motor
 	size_t i = 0;
 
@@ -127,7 +116,7 @@ stepper::step( size_t number ) {
 
 		// Update the outputs to the motor 
 		m_counter += (size_t) m_direction;
-		m_motor->write( m_sequence[ m_counter % m_sequence_len ] );
+		m_motor->write( m_sequence[ m_counter % sequence_len ] );
 
 		// Wait some time and increment the step counter
 		time::usleep( delay );

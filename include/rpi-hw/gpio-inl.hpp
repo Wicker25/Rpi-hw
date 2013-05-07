@@ -27,24 +27,15 @@ namespace rpihw { // Begin main namespace
 inline void
 gpio::setBit( uint8_t offset, uint8_t index, bool value ) {
 
-	// Calculate the bit position
-	uint8_t shift = index % 32;
-
-	// Get GPIO controller register
-	uint32_t &reg = *( m_map + offset + index / 32 );
-
 	// Set the bit value on the GPIO controller register
-	if ( value )
-		reg |= ( 1 << shift );
-	else
-		reg &= ~( 1 << shift );
+	utils::set_bit( m_map, offset + index / 32, index % 32, value );
 }
 
 inline bool
 gpio::getBit( uint8_t offset, uint8_t index ) const {
 
 	// Return the bit value from one of the GPIO controller registers
-	return ( *( m_map + offset + index / 32 ) & ( 1 << ( index % 32 ) ) ) != 0;
+	return utils::get_bit( m_map, offset + index / 32, index % 32 );
 }
 
 inline void
@@ -60,7 +51,7 @@ gpio::write( uint8_t pin, bool value ) {
 	// Set the value of the output pin
 	// 0 = Low
 	// 1 = High
-	*( m_map + ( value ? GPSET0 : GPCLR0 ) + ( pin / 32 ) ) = 1 << ( pin % 32 );
+	*( m_map + ( value ? GPSET0 : GPCLR0 ) + pin / 32 ) = 1 << ( pin % 32 );
 }
 
 inline bool

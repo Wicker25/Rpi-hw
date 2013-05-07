@@ -22,10 +22,12 @@
 #ifndef _RPI_HW_DISPLAY_HD44780_HPP_
 #define _RPI_HW_DISPLAY_HD44780_HPP_
 
+#include <vector>
+#include <array>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
-#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 
 #include <rpi-hw/iface/base.hpp>
@@ -274,13 +276,13 @@ public:
 protected:
 
 	//! Output interface to the control pins.
-	iface::output *m_mode;
+	std::unique_ptr< iface::output > m_mode;
 
 	//! Output interface to the data pins.
-	iface::output *m_data;
+	std::unique_ptr< iface::output > m_data;
 
 	//! DDRAM line addresses
-	uint8_t m_lines[4];
+	std::array< uint8_t, 4 > m_lines;
 
 	//! Width of the display.
 	uint8_t m_screen_w;
@@ -288,14 +290,11 @@ protected:
 	//! Height of the display.
 	uint8_t m_screen_h;
 
-	//! Number of the characters.
-	size_t m_size;
-
 	//! Font height.
 	uint8_t m_font_height;
 
 	//! Text buffer.
-	uint8_t *m_buffer;
+	std::vector< uint8_t > m_buffer;
 
 	//! Horizontal cursor position.
 	uint8_t m_pos_x;

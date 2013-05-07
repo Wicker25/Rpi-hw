@@ -27,79 +27,38 @@ namespace rpihw { // Begin main namespace
 namespace utils { // Begin utilss namespace
 
 template < typename T >
-T *
-malloc( size_t size, T value ) {
+inline void
+set_bit( T &buffer, size_t offset, uint8_t index, bool value ) {
 
-	// Create the new array
-	T *data = new T[ size ];
-
-	// Initialize the elements
-	memset< T >( data, size, value );
-
-	return data;
-}
-
-template < typename T >
-T *
-memdup( const T *other, size_t size ) {
-
-	// Create the new array
-	T *data = new T[ size ];
-
-	// Initialize the elements
-	memcpy< T >( data, other, size );
-
-	return data;
-}
-
-template < typename T >
-void
-memcpy( T *dst, const T *src, size_t size ) {
-
-	// Copy the elements from an array to another
-	while ( size-- )
-		*dst++ = *src++;
-}
-
-template < typename T >
-void
-memset( T *data, size_t size, T value ) {
-
-	// Set the elements of an array
-	while ( size-- )
-		*data++ = value;
+	// Set the bit
+	if ( value )
+		buffer[ offset ] |= ( 1 << index );
+	else
+		buffer[ offset ] &= ~( 1 << index );
 }
 
 template < typename T >
 inline void
-swap( T &a, T &b ) {
+clear_bit( T &buffer, size_t offset, uint8_t index ) {
 
-	// Swap the two variables
-	std::swap( a, b );
+	// Clear the bit
+	buffer[ offset ] &= ~( 1 << index );
 }
 
-template < typename T0, typename T1 >
-std::vector< T0 >
-varg( va_list args, size_t total, size_t offset ) {
+template < typename T >
+inline void
+flip_bit( T &buffer, size_t offset, uint8_t index ) {
 
-	// Vector of arguments
-	std::vector< T0 > vec;
+	// Flip the bit value
+	buffer[ offset ] ^= ( 1 << index );
+}
 
-	T0 value;
-	total += offset;
+template < typename T >
+inline bool
+get_bit( T &buffer, size_t offset, uint8_t index ) {
 
-	// Copy `va_list` arguments into the vector
-	size_t i = 0;
-
-	for ( ; i < total; ++i ) {
-
-		value = (T0) va_arg( args, T1 );
-
-		if ( i >= offset )
-			vec.push_back( value );
-	}
-
-	return vec;
+	// Return the bit value
+	return (bool) ( buffer[ offset ] & ( 1 << index ) & 1 );
 }
 
 } // End of utilss namespace

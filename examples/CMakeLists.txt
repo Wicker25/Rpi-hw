@@ -4,10 +4,14 @@
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the compiler flags
-add_definitions( -Wall -ansi -pedantic -pedantic-errors )
+add_definitions( -Wall -ansi -pedantic -pedantic-errors -std=c++0x )
 
 # Find the Rpi-hw library
 find_package( RpiHw REQUIRED )
+
+# Find some dependencies
+find_package( Freetype REQUIRED )
+find_package( GraphicsMagick++ REQUIRED )
 
 # Set the path to the header files
 include_directories( ${RpiHw_INCLUDE_DIRS} )

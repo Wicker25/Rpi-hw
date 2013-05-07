@@ -56,7 +56,7 @@ public:
 
 	/*!
 		@brief Sets an output pin.
-		@param[in] index The index position of the shiftOut pin.
+		@param[in] index The index position of the output pin.
 		@param[in] pin The new GPIO pin.
 	*/
 	virtual void setPin( uint8_t index, uint8_t pin );

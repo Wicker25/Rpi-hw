@@ -22,17 +22,15 @@
 #ifndef _RPI_HW_KEYPAD_BASE_HPP_
 #define _RPI_HW_KEYPAD_BASE_HPP_
 
+#include <memory>
 #include <vector>
+
+#include <thread>
+#include <mutex>
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
-#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
-
-#include <rpi-hw/bitset.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/thread.hpp>
 
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/input.hpp>
@@ -56,15 +54,15 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the input pins (not necessarily equal to the number of the buttons).
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] total Number of the buttons.
+		@param[in] pins Sequence of `uint8_t` containing the input GPIOs.
 	*/
-	base( size_t total, ... );
+	base( size_t total, std::initializer_list< uint8_t > pins );
 
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the input pins (not necessarily equal to the number of the buttons).
-		@param[in] pins Vector containing the GPIO pins.
+		@param[in] total Number of the buttons.
+		@param[in] pins Vector containing the input GPIO pins.
 	*/
 	base( size_t total, const std::vector< uint8_t > &pins );
 
@@ -92,44 +90,34 @@ public:
 	*/
 	virtual bool released( size_t index ) const;
 
-	//! Returns the \ref bitset of button states.
-	virtual const bitset &state() const;
+	//! Returns the `std::vector< bool >` of button states.
+	virtual const std::vector< bool > &state() const;
 
 	//! Returns the number of keys.
 	virtual size_t numOfKeys() const;
 
 protected:
 
-	//! Buttons input interface.
-	iface::input *m_input;
-
 	//! Number of the keys.
 	size_t m_nkeys;
 
+	//! Buttons input interface.
+	std::unique_ptr< iface::input > m_input;
+
 	//! Button states (0 = up, 1 = down).
-	bitset *m_keystate;
+	std::vector< bool > m_keystate;
 
 	//! Pressed buttons (0 = none, 1 = pressed).
-	bitset *m_pressed;
+	std::vector< bool > m_pressed;
 
 	//! Pressed buttons (0 = none, 1 = released).
-	bitset *m_released;
+	std::vector< bool > m_released;
 
 	//! Updating thread.
-	thread< keypad::base > *m_thread;
+	std::unique_ptr< std::thread > m_thread;
 
 	//! Mutex of the updating thread.
-	mutex *m_mutex;
-
-	//! Constructor method (only for child class)
-	base();
-
-	/*!
-		@brief Initializes the interface.
-		@param[in] total Number of the input pins (not necessarily equal to the number of the buttons).
-		@param[in] pins Vector containing the GPIO pins.
-	*/
-	void init( size_t total, const std::vector< uint8_t > &pins );
+	std::unique_ptr< std::mutex > m_mutex;
 
 	//! Updates the state of buttons (threading function).
 	virtual void update();

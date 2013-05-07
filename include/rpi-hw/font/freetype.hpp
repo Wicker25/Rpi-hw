@@ -29,6 +29,8 @@
 #include <iostream>
 #include <string>
 
+#include <sys/stat.h>
+
 // FreeType Headers
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -39,6 +41,7 @@
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
+#include <rpi-hw/utils.hpp>
 
 #include <rpi-hw/font/base.hpp>
 

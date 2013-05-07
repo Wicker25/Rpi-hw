@@ -29,31 +29,23 @@ namespace rpihw { // Begin main namespace
 namespace display { // Begin displays namespace
 
 hd44780::hd44780( uint8_t rs, uint8_t e,
-				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3 ) : m_size(0) {
+				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3 )
 
-	// Create the output interfaces to the display
-	m_mode = new iface::output( 2, rs, e );
-	m_data = new iface::output( 4, d0, d1, d2, d3 );
+	: m_mode( new iface::output( { rs, e } ) )
+	, m_data( new iface::output( { d0, d1, d2, d3 } ) ) {
+
 }
 
 hd44780::hd44780( uint8_t rs, uint8_t e,
 				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-				  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 ) : m_size(0) {
+				  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 )
 
-	// Create the output interfaces to the display
-	m_mode = new iface::output( 2, rs, e );
-	m_data = new iface::output( 8, d0, d1, d2, d3, d4, d5, d6, d7 );
+	: m_mode( new iface::output( { rs, e } ) )
+	, m_data( new iface::output( { d0, d1, d2, d3, d4, d5, d6, d7 } ) ) {
 }
 
 hd44780::~hd44780() {
 
-	// Destroy the output interfaces
-	delete m_mode;
-	delete m_data;
-
-	// Delete the character buffer
-	if ( m_size )
-		delete m_buffer;
 }
 
 void
@@ -68,27 +60,16 @@ hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 
 	// Set the address locations
 	// see: http://web.alfredstate.edu/weimandn/lcd/lcd_addressing/lcd_addressing_index.html
-	m_lines[0] = 0x00;
-	m_lines[1] = 0x40;
-
-	if ( rows == 4 ) {
-
-		if ( cols == 16 )
-			m_lines[2] = 0x10, m_lines[3] = 0x50;
-		else
-			m_lines[2] = 0x14, m_lines[3] = 0x54;
-	}
+	if ( rows == 4 && cols == 16 )
+		m_lines = {{ 0x00, 0x40, 0x10, 0x50 }};
+	else
+		m_lines = {{ 0x00, 0x40, 0x14, 0x54 }};
 
 	// Store the font size
 	m_font_height = ( font ? 10 : 8 );
 
-	// Delete the old character buffer
-	if ( m_size )
-		delete m_buffer;
-
 	// Create a new character buffer
-	m_size = m_screen_w * m_screen_h;
-	m_buffer = utils::malloc< uint8_t >( m_size, ' ' );
+	m_buffer.assign( m_screen_w * m_screen_h, ' ' );
 
 	// Set the initial cursor position
 	move( 0, 0 );
@@ -284,7 +265,7 @@ hd44780::scrollLeft( bool cursor ) {
 	uint8_t i = 0;
 
 	// Move left the contents and delete the first column
-	for ( ; i < m_size; ++i ) {
+	for ( ; i < m_buffer.size(); ++i ) {
 
 		if ( i % m_screen_w == 0 )
 			move( 0, i / m_screen_w );
@@ -306,22 +287,19 @@ hd44780::scrollRight( bool cursor ) {
 			y = m_pos_y;
 
 	// Copy the current character buffer
-	uint8_t *tmp = utils::memdup< uint8_t >( m_buffer, m_size );
+	std::vector< uint8_t > tmp = m_buffer;
 
 	// Iterator
 	uint8_t i = 0;
 
 	// Move right the contents and delete the first column
-	for ( ; i < m_size; ++i ) {
+	for ( ; i < m_buffer.size(); ++i ) {
 
 		if ( i % m_screen_w == 0 )
 			move( 0, i / m_screen_w );
 
 		putChar( i % m_screen_w != 0 ? tmp[ i - 1 ] : ' ' );
 	}
-
-	// Free the memory
-	delete[] tmp;
 
 	// Restore the cursor position
 	move( x, y );
@@ -338,7 +316,7 @@ hd44780::scrollUp( bool cursor ) {
 	uint8_t i = 0;
 
 	// Move up the contents and delete the last row
-	for ( ; i < m_size - m_screen_w; ++i ) {
+	for ( ; i < m_buffer.size() - m_screen_w; ++i ) {
 
 		if ( i % m_screen_w == 0 )
 			move( 0, i / m_screen_w );
@@ -348,7 +326,7 @@ hd44780::scrollUp( bool cursor ) {
 
 	move( 0, m_pos_y + 1 );
 
-	for ( ; i < m_size; ++i ) putChar( ' ' );
+	for ( ; i < m_buffer.size(); ++i ) putChar( ' ' );
 
 	// Restore the cursor position
 	move( x, y );
@@ -362,7 +340,7 @@ hd44780::scrollDown( bool cursor ) {
 			y = m_pos_y + (uint8_t) cursor;
 
 	// Copy the current character buffer
-	uint8_t *tmp = utils::memdup< uint8_t >( m_buffer, m_size );
+	std::vector< uint8_t > tmp = m_buffer;
 
 	// Move the cursor to the first position
 	move( 0, 0 );
@@ -374,16 +352,13 @@ hd44780::scrollDown( bool cursor ) {
 	for ( ; i < m_screen_w; ++i )
 		putChar( ' ' );
 
-	for ( ; i < m_size; ++i ) {
+	for ( ; i < m_buffer.size(); ++i ) {
 
 		if ( i % m_screen_w == 0 )
 			move( 0, i / m_screen_w );
 
 		putChar( tmp[ i - m_screen_w ] );
 	}
-
-	// Free the memory
-	delete[] tmp;
 
 	// Restore the cursor position
 	move( x, y );
@@ -419,7 +394,7 @@ hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 			y = m_pos_y;
 
 	// Copy the current character buffer
-	uint8_t *tmp = utils::memdup< uint8_t >( m_buffer, m_size );
+	std::vector< uint8_t > tmp = m_buffer;
 
 	// Iterator
 	uint8_t i;
@@ -434,9 +409,6 @@ hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 
 	// Restore the cursor position
 	move( x, y );
-
-	// Free the memory
-	delete[] tmp;
 }
 
 void
@@ -485,7 +457,7 @@ hd44780::clear() {
 	m_pos_x = m_pos_y = 0;
 
 	// Clear the character buffer
-	utils::memset< uint8_t >( m_buffer, m_size, ' ' );
+	m_buffer.assign( m_buffer.size(), ' ' );
 }
 
 } // End of displays namespace

@@ -28,7 +28,9 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-shiftBase::shiftBase( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay ) : base( 2, data_pin, clock_pin ) {
+shiftBase::shiftBase( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t delay )
+
+	: base( { data_pin, clock_pin } ) {
 
 	// Store the bit order and the delay time of the clock
 	m_order = order;

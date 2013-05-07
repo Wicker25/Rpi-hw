@@ -28,17 +28,12 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-decoderOut::decoderOut( uint8_t total, ... ) {
+decoderOut::decoderOut( std::initializer_list< uint8_t > pins ) : iface::output( pins ) {
 
-	// Initialize variable argument list
-	va_list args;
-	va_start( args, total );
+}
 
-	// Initialize the interface
-	init( utils::varg< uint8_t, int >( args, total ) );
+decoderOut::decoderOut( const std::vector< uint8_t > &pins ) : iface::output( pins ) {
 
-	// Clean variable argument list
-	va_end( args );
 }
 
 decoderOut::~decoderOut() {

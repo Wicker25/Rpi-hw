@@ -22,13 +22,14 @@
 #ifndef _RPI_HW_DISPLAY_PCD8544_HPP_
 #define _RPI_HW_DISPLAY_PCD8544_HPP_
 
+#include <memory>
+#include <vector>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
-
-#include <rpi-hw/bitset.hpp>
 
 #include <rpi-hw/designer.hpp>
 
@@ -188,16 +189,16 @@ public:
 protected:
 
 	//! Output interface to the control pins.
-	iface::output *m_control;
+	std::unique_ptr< iface::output > m_control;
 
 	//! Shift-out interface to the data pins.
-	iface::shiftOut *m_data;
+	std::unique_ptr< iface::shiftOut > m_data;
 
 	//! Data buffer.
-	uint8_t *m_buffer;
+	std::vector< uint8_t > m_buffer;
 
 	//! Buffer of updates.
-	bitset *m_updates;
+	std::vector< bool > m_updates;
 
 	/*!
 		@brief Updates the bounding box.

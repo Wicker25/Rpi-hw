@@ -50,7 +50,7 @@ int
 main( int argc, char *args[] ) {
 
    // Matrix keypad controller
-   keypad::matrix disp( 3, 4, 21, 10, 4, 22, 14, 15, 17 );
+   keypad::matrix disp( { 21, 10, 4 }, { 22, 14, 15, 17 } );
 
    // Main loop
    for ( ;; ) {

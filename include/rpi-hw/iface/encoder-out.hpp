@@ -22,6 +22,9 @@
 #ifndef _RPI_HW_IFACE_ENCODER_OUT_HPP_
 #define _RPI_HW_IFACE_ENCODER_OUT_HPP_
 
+#include <initializer_list>
+#include <vector>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
@@ -44,10 +47,15 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the GPIO pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] pins Sequence of `uint8_t` containing the GPIO pins.
 	*/
-	encoderOut( uint8_t total, ... );
+	encoderOut( std::initializer_list< uint8_t > pins );
+
+	/*!
+		@brief Constructor method.
+		@param[in] pins Vector containing the GPIO pins.
+	*/
+	encoderOut( const std::vector< uint8_t > &pins );
 
 	//! Destructor method.
 	virtual ~encoderOut();

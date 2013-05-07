@@ -22,13 +22,14 @@
 #ifndef _RPI_HW_DISPLAY_M7SEG_HPP_
 #define _RPI_HW_DISPLAY_M7SEG_HPP_
 
+#include <memory>
+#include <thread>
+#include <mutex>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 #include <rpi-hw/time.hpp>
-
-#include <rpi-hw/mutex.hpp>
-#include <rpi-hw/thread.hpp>
 
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/output.hpp>
@@ -117,15 +118,6 @@ public:
 
 protected:
 
-	//! Enabler interface.
-	iface::output *m_enabler;
-
-	//! Rendering thread.
-	thread< m7seg > *m_thread;
-
-	//! Mutex of the rendering thread.
-	mutex *m_mutex;
-
 	//! Number of the displays.
 	size_t m_ndisplay;
 
@@ -138,8 +130,14 @@ protected:
 	//! Zeropad flag.
 	bool m_zeropad;
 
-	//! Initializes the instance.
-	void init();
+	//! Enabler interface.
+	iface::output *m_enabler;
+
+	//! Rendering thread.
+	std::unique_ptr< std::thread > m_thread;
+
+	//! Mutex of the rendering thread.
+	std::unique_ptr< std::mutex > m_mutex;
 };
 
 } // End of displays namespace

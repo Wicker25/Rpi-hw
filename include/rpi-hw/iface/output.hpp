@@ -22,6 +22,7 @@
 #ifndef _RPI_HW_IFACE_OUTPUT_HPP_
 #define _RPI_HW_IFACE_OUTPUT_HPP_
 
+#include <initializer_list>
 #include <vector>
 
 #include <rpi-hw/types.hpp>
@@ -45,10 +46,9 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] total Number of the output pins.
-		@param[in] ... Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] pins Sequence of `uint8_t` containing the GPIO pins.
 	*/
-	output( uint8_t total, ... );
+	output( std::initializer_list< uint8_t > pins );
 
 	/*!
 		@brief Constructor method.
@@ -78,17 +78,6 @@ public:
 		@param[in] data The data to be written.
 	*/
 	virtual void write( uint8_t index, bool data );
-
-protected:
-
-	//! Constructor method (only for child class).
-	output();
-
-	/*!
-		@brief Initializes the interface.
-		@param[in] pins Vector containing the GPIO pins.
-	*/
-	virtual void init( const std::vector< uint8_t > &pins );
 };
 
 } // End of interfaces namespace

@@ -29,42 +29,35 @@ namespace rpihw { // Begin main namespace
 namespace display { // Begin displays namespace
 
 m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c,
-			  uint8_t d, uint8_t e, uint8_t f, uint8_t g ) : s7seg( a, b, c, d, e, f, g ) {
+			  uint8_t d, uint8_t e, uint8_t f, uint8_t g )
 
-	// Initialize the instance
-	init();
+	: s7seg			( a, b, c, d, e, f, g )
+	, m_ndisplay	(2)
+	, m_frequency	( 100.0 )
+	, m_decimals	(0)
+	, m_zeropad		( false )
+	, m_enabler		( nullptr )
+	, m_thread		( new std::thread( &m7seg::render, this ) )
+	, m_mutex		( new std::mutex ) {
+
 }
 
 m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
-			  uint8_t e, uint8_t f, uint8_t g, uint8_t dp ) : s7seg( a, b, c, d, e, f, g, dp ) {
+			  uint8_t e, uint8_t f, uint8_t g, uint8_t dp )
 
-	// Initialize the instance
-	init();
+	: s7seg			( a, b, c, d, e, f, g, dp )
+	, m_ndisplay	(2)
+	, m_frequency	( 100.0 )
+	, m_decimals	(0)
+	, m_zeropad		( false )
+	, m_enabler		( nullptr )
+	, m_thread		( new std::thread( &m7seg::render, this ) )
+	, m_mutex		( new std::mutex ) {
+
 }
 
 m7seg::~m7seg() {
 
-	// Destroy the rendering thread and mutex
-	delete m_thread;
-	delete m_mutex;
-}
-
-void
-m7seg::init() {
-
-	// Initialize some structures
-	m_enabler	= NULL;
-	m_ndisplay	= 2;
-
-	// Set the updating frequency (Hz)
-	setFreq( 100.0 );
-
-	// Set the format of the display
-	format( 0, false );
-
-	// Create the rendering thread and mutex
-	m_thread	= new thread< m7seg >( *this, &m7seg::render );
-	m_mutex		= new mutex;
 }
 
 void

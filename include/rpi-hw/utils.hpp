@@ -49,49 +49,44 @@ enum TextFlags {
 	WORD_BREAK		= 0x10
 };
 
-/*!
-	@brief Allocates an array and initializes its elements with `value`.
-	@param[in] size The size of the new array.
-	@param[in] value The initial value of the elements.
-	@return Pointer to the new array.
-*/
-template < typename T >
-T *malloc( size_t size, T value );
 
 /*!
-	@brief Allocates an array and copies elements from another array.
-	@param[in] size Size of the new array.
-	@param[in] other The other array.
-	@return Pointer to new array.
+	@brief Sets a bit in a variable.
+	@param[in] buffer The buffer containing the data.
+	@param[in] offset The offset position in the buffer.
+	@param[in] index The bit position.
+	@param[in] value The bit value.
 */
 template < typename T >
-T *memdup( const T *other, size_t size );
+void set_bit( T &buffer, size_t offset, uint8_t index, bool value = 1 );
 
 /*!
-	@brief Copies a range of elements from an array to another.
-	@param[in] dst Pointer to the destination array.
-	@param[in] src Pointer to the source array.
-	@param[in] size Size of the arrays.
+	@brief Clears a bit in a variable.
+	@param[in] buffer The buffer containing the data.
+	@param[in] offset The offset position in the buffer.
+	@param[in] index The bit position.
 */
 template < typename T >
-void memcpy( T *dst, const T *src, size_t size );
+void clear_bit( T &buffer, size_t offset, uint8_t index );
 
 /*!
-	@brief Sets array elements to `value`.
-	@param[in] data Pointer to the array.
-	@param[in] size Size of the array.
-	@param[in] value The new value.
+	@brief Flips a bit value in a variable.
+	@param[in] buffer The buffer containing the data.
+	@param[in] offset The offset position in the buffer.
+	@param[in] index The bit position.
 */
 template < typename T >
-void memset( T *data, size_t size, T value );
+void flip_bit( T &buffer, size_t offset, uint8_t index );
 
 /*!
-	@brief Swaps two variables.
-	@param a First variable.
-	@param b Second variable.
+	@brief Retuns a bit value in a variable.
+	@param[in] buffer The buffer containing the data.
+	@param[in] offset The offset position in the buffer.
+	@param[in] index The bit position.
+	@return The bit value.
 */
 template < typename T >
-void swap( T &a, T &b );
+bool get_bit( T &buffer, size_t offset, uint8_t index );
 
 
 //! Returns a formatted string like `printf`.
@@ -105,16 +100,6 @@ std::string format( const char *format, ... );
 	@return The aligned text.
 */
 std::string align( const std::string &text, size_t width, uint8_t flags = ALIGN_LEFT );
-
-/*!
-	@brief Copies `va_list` arguments into a vector.
-	@param[in] args The `va_list` object.
-	@param[in] total Number of the arguments.
-	@param[in] offset Offset position of the first argument.
-	@return The vector contains the arguments.
-*/
-template < typename T0, typename T1 >
-std::vector< T0 > varg( va_list args, size_t total, size_t offset = 0 );
 
 } // End of utils namespace
 

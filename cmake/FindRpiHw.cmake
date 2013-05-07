@@ -34,7 +34,6 @@ find_package_handle_standard_args(
 if ( RPIHW_FOUND )
 
 	# Find some dependencies
-	find_package( UTF8-CPP )
 	find_package( Freetype )
 	find_package( GraphicsMagick++ )
 

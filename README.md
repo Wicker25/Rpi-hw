@@ -1,4 +1,4 @@
-Rpi-hw v0.3.1
+Rpi-hw v0.4.0
 =============
 
 ### Description
@@ -20,7 +20,7 @@ The following are some features of the library:
 * Displays support (7-segments, HD44780, PCD8544)
 * Keypad support (matrix keypad)
 * Stepper motor support
-* Unicode support (using UTF8-CPP) (built-in)
+* Unicode support (built-in)
 * Handles multiple image formats (using Magick++ API) (optional)
 * Supports standard fonts (using FreeType) (optional)
 * Drawing functions
