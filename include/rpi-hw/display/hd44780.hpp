@@ -284,11 +284,10 @@ protected:
 	//! DDRAM line addresses
 	std::array< uint8_t, 4 > m_lines;
 
-	//! Width of the display.
-	uint8_t m_screen_w;
-
-	//! Height of the display.
-	uint8_t m_screen_h;
+	//@{
+	//! Size of the display.
+	uint8_t m_screen_w, m_screen_h;
+	//@}
 
 	//! Font height.
 	uint8_t m_font_height;
@@ -296,11 +295,10 @@ protected:
 	//! Text buffer.
 	std::vector< uint8_t > m_buffer;
 
-	//! Horizontal cursor position.
-	uint8_t m_pos_x;
-
-	//! Vertical cursor position.
-	uint8_t m_pos_y;
+	//@{
+	//! Cursor position.
+	uint8_t m_pos_x, m_pos_y;
+	//@}
 
 	//! Autoscroll mode.
 	uint8_t m_autoscroll;

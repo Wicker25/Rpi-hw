@@ -22,6 +22,8 @@
 #ifndef _RPI_HW_IMAGE_BASE_HPP_
 #define _RPI_HW_IMAGE_BASE_HPP_
 
+#include <vector>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 
@@ -56,9 +58,9 @@ public:
 		@brief Returns the color of a pixel.
 		@param[in] x The horizontal position of the pixel.
 		@param[in] y The vertical position of the pixel.
-		@return A pointer to the color data.
+		@return An iterator to the color data.
 	*/
-	virtual const T *getData( uint16_t x, uint16_t y ) const = 0;
+	virtual color_iterator< T > getData( uint16_t x, uint16_t y ) const = 0;
 
 	/*!
 		@brief Returns the channel value of a pixel.

@@ -213,9 +213,9 @@ protected:
 		@brief Sets the color of a pixel.
 		@param[in] x The horizontal position of the pixel.
 		@param[in] y The vertical position of the pixel.
-		@param[in] color A pointer to the new color data.
+		@param[in] color An iterator to the color data.
 	*/
-	virtual void drawPixel( int8_t x, int8_t y, const bool *color );
+	virtual void drawPixel( int8_t x, int8_t y, color_iterator< bool > color );
 };
 
 } // End of displays namespace

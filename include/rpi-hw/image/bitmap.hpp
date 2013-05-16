@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <algorithm>
+#include <vector>
 
 #if USE_MAGICK
 #include <Magick++.h>
@@ -123,9 +124,9 @@ public:
 		@brief Returns the color of a pixel.
 		@param[in] x The horizontal position of the pixel.
 		@param[in] y The vertical position of the pixel.
-		@return A pointer to the color data.
+		@return An iterator to the color data.
 	*/
-	virtual const T *getData( uint16_t x, uint16_t y ) const;
+	virtual color_iterator< T > getData( uint16_t x, uint16_t y ) const;
 
 	/*!
 		@brief Returns the channel value of a pixel.
@@ -138,17 +139,16 @@ public:
 
 protected:
 
-	//! Width of the image.
-	uint32_t m_width;
-
-	//! Height of the image.
-	uint32_t m_height;
+	//@{
+	//! Size of the bitmap.
+	uint32_t m_width, m_height;
+	//@}
 
 	//! Number of color channel.
 	uint8_t m_channels;
 
 	//! The data buffer.
-	std::unique_ptr< T[] > m_buffer;
+	std::vector< T > m_buffer;
 
 #if USE_MAGICK
 

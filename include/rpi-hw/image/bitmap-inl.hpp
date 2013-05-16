@@ -65,13 +65,10 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 	m_height	= (uint16_t)	img.rows();
 
 	// Get the pixels of the image
-	Magick::PixelPacket *pixels = img.getPixels( 0, 0, m_width, m_height );
+	const Magick::PixelPacket *pixels = img.getConstPixels( 0, 0, m_width, m_height );
 
 	// Size of the bitmap buffer (incomplete)
 	size_t size = m_width * m_height;
-
-	// Pointer to the bitmap buffer
-	T *ptr;
 
 	// Iterator
 	size_t i;
@@ -87,14 +84,17 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			m_channels = 4; size *= m_channels;
 
 			// Allocate the bitmap buffer
-			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
+			m_buffer.resize( size );
 
-			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels ) {
+			// Iterator of the bitmap buffer
+			auto it = m_buffer.begin();
 
-				*ptr++ = (T) pixels->red;
-				*ptr++ = (T) pixels->green;
-				*ptr++ = (T) pixels->blue;
-				*ptr++ = (T) pixels->opacity;
+			for ( i = 0; i < size; ++i, ++pixels ) {
+
+				*it++ = (T) pixels->red;
+				*it++ = (T) pixels->green;
+				*it++ = (T) pixels->blue;
+				*it++ = (T) pixels->opacity;
 			}
 
 			break;
@@ -107,13 +107,16 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			m_channels = 3; size *= m_channels;
 
 			// Allocate the bitmap buffer
-			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
+			m_buffer.resize( size );
 
-			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels ) {
+			// Iterator of the bitmap buffer
+			auto it = m_buffer.begin();
 
-				*ptr++ = (T) pixels->red;
-				*ptr++ = (T) pixels->green;
-				*ptr++ = (T) pixels->blue;
+			for ( i = 0; i < size; ++i, ++pixels ) {
+
+				*it++ = (T) pixels->red;
+				*it++ = (T) pixels->green;
+				*it++ = (T) pixels->blue;
 			}
 
 			break;
@@ -125,12 +128,15 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			m_channels = 2; size *= m_channels;
 
 			// Allocate the bitmap buffer
-			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
+			m_buffer.resize( size );
 
-			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels ) {
+			// Iterator of the bitmap buffer
+			auto it = m_buffer.begin();
 
-				*ptr++ = (T) pixels->red;
-				*ptr++ = (T) pixels->opacity;
+			for ( i = 0; i < size; ++i, ++pixels ) {
+
+				*it++ = (T) pixels->red;
+				*it++ = (T) pixels->opacity;
 			}
 
 			break;
@@ -142,10 +148,13 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			m_channels = 1;
 
 			// Allocate the bitmap buffer
-			m_buffer = std::unique_ptr< T[] >( new T[ size ] );
+			m_buffer.resize( size );
 
-			for ( i = 0, ptr = m_buffer.get(); i < size; ++i, ++pixels )
-				*ptr++ = (T) pixels->red;
+			// Iterator of the bitmap buffer
+			auto it = m_buffer.begin();
+
+			for ( i = 0; i < size; ++i, ++pixels )
+				*it++ = (T) pixels->red;
 
 			break;
 		}
@@ -188,30 +197,24 @@ template < typename T >
 inline void
 bitmap< T >::setData( uint16_t x, uint16_t y, T *color ) {
 
-	size_t offset = (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
-
 	// Set the color of the pixel
-	std::copy( color, color +  m_channels, m_buffer + offset );
+	std::copy( color, color +  m_channels, m_buffer + (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width ) );
 }
 
 template < typename T >
 inline void
 bitmap< T >::setData( uint16_t x, uint16_t y, uint8_t c, T value ) {
 
-	size_t offset = (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width ) + c;
-
 	// Set the channel value of the pixel
-	m_buffer[ offset ] = value;
+	m_buffer[ (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width ) + c ] = value;
 }
 
 template < typename T >
-inline const T *
+inline color_iterator< T >
 bitmap< T >::getData( uint16_t x, uint16_t y ) const {
 
-	size_t offset = (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
-
 	// Return the color data into the buffer
-	return (const T *) ( m_buffer.get() + offset );
+	return m_buffer.begin() + (size_t) m_channels * ( (size_t) x + (size_t) y * (size_t) m_width );
 }
 
 template < typename T >

@@ -25,10 +25,15 @@
 namespace rpihw { // Begin main namespace
 
 template < typename T, typename C, uint8_t N >
-designer< T, C, N >::designer( T width, T height ) : m_area_w( width ), m_area_h( height ), m_font( nullptr ) {
+designer< T, C, N >::designer( T width, T height )
 
-	// Set the initial pen position
-	setPenPosition( 0, 0 );
+	: m_area_w	( width )
+	, m_area_h	( height )
+	, m_pos_x	(0)
+	, m_pos_y	(0)
+	, m_color	( N, 0 )
+	, m_font	( nullptr ) {
+
 }
 
 template < typename T, typename C, uint8_t N >
@@ -38,14 +43,14 @@ designer< T, C, N >::~designer() {
 
 template < typename T, typename C, uint8_t N >
 inline void
-designer< T, C, N >::setPenColor( const C *color ) {
+designer< T, C, N >::setPenColor( const std::vector< C > &color ) {
 
 	// Set the foreground color
-	std::copy( color, color + N, m_color );
+	m_color = color;
 }
 
 template < typename T, typename C, uint8_t N >
-inline const C *
+inline const std::vector< C > &
 designer< T, C, N >::getPenColor() const {
 
 	// Return the current foreground color
@@ -82,7 +87,7 @@ inline void
 designer< T, C, N >::drawPoint( T x, T y ) {
 
 	// Draw the pixel
-	drawPixel( x, y, m_color );
+	drawPixel( x, y, m_color.cbegin() );
 }
 
 template < typename T, typename C, uint8_t N >
@@ -387,6 +392,8 @@ template < typename T, typename C, uint8_t N >
 void
 designer< T, C, N >::drawImage( const image::base< C > &img, T x, T y ) {
 
+	//std::cout << img.getSpectrum() << std::endl;	FIXME FIXME FIXME FIXME
+
 	// Check the number of channels
 	if ( img.getSpectrum() != N )
 		throw exception( "(Error) `designer->drawImage`: incorrect number of channels\n" );
@@ -448,7 +455,7 @@ designer< T, C, N >::drawChar( char32_t charcode ) {
 			for ( i = 0; i < pitch; ++i, byte += step )
 				for ( k = 0; k < 8; ++k )
 					if ( *byte & ( 1 << ( 7 - k ) ) )
-						drawPixel( offx + i * 8 + k, offy + j, m_color );
+						drawPixel( offx + i * 8 + k, offy + j, m_color.cbegin() );
 	}
 
 	// Update the pen position

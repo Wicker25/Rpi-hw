@@ -30,21 +30,27 @@ inline void
 pcd8544::setColor( bool color ) {
 
 	// Set the foreground color
-	setPenColor( (const bool *) &color );
+	setPenColor( { color } );
 }
 
 inline bool
 pcd8544::getColor() const {
 
 	// Set the foreground color
-	return *getPenColor();
+	return getPenColor()[0];
 }
 
 inline void
 pcd8544::setPixel( int8_t x, int8_t y, bool color ) {
 
+	// FIXME FIXME FIXME FIXME
+	// FIXME FIXME FIXME FIXME
+	// FIXME FIXME FIXME FIXME
+	std::vector< bool > c = { color };
+	auto cc = c.cbegin();
+
 	// Set the pixel color
-	drawPixel( x, y, (const bool *) &color );
+	drawPixel( x, y, cc );
 }
 
 } // End of displays namespace

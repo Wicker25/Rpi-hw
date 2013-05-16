@@ -24,6 +24,8 @@
 
 #include <array>
 #include <algorithm>
+#include <vector>
+#include <array>
 #include <locale>
 
 #include <rpi-hw/types.hpp>
@@ -69,13 +71,13 @@ public:
 		@brief Sets the pen color.
 		@param[in] color A pointer to the color data.
 	*/
-	void setPenColor( const C *color );
+	void setPenColor( const std::vector< C > &color );
 
 	/*!
 		@brief Gets the current pen color.
 		@return The pointer to the color data.
 	*/
-	const C *getPenColor() const;
+	const std::vector< C > &getPenColor() const;
 
 	/*!
 		@brief Sets the pen position.
@@ -298,20 +300,18 @@ public:
 
 protected:
 
-	//! Width of the drawing area.
-	T m_area_w;
+	//@{
+	//! Size of the drawing area.
+	T m_area_w, m_area_h;
+	//@}
 
-	//! Width of the drawing area.
-	T m_area_h;
+	//@{
+	//! Pen position.
+	T m_pos_x, m_pos_y;
+	//@}
 
 	//! Foreground color.
-	C m_color[ N ];
-
-	//! Horizontal pen position.
-	T m_pos_x;
-
-	//! Vertical pen position.
-	T m_pos_y;
+	std::vector< C > m_color;
 
 	//! Text font.
 	font::base *m_font;
@@ -320,9 +320,9 @@ protected:
 		@brief Draws a pixel.
 		@param[in] x The horizontal position of the pixel.
 		@param[in] y The vertical position of the pixel.
-		@param[in] color A pointer to the color data.
+		@param[in] color An iterator to the color data.
 	*/
-	virtual void drawPixel( T x, T y, const C *color ) = 0;
+	virtual void drawPixel( T x, T y, color_iterator< C > color ) = 0;
 
 	/*!
 		@brief Draws a character.

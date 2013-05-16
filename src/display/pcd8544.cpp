@@ -101,7 +101,7 @@ pcd8544::setContrast( uint8_t value ) {
 }
 
 void
-pcd8544::drawPixel( int8_t x, int8_t y, const bool *color ) {
+pcd8544::drawPixel( int8_t x, int8_t y, color_iterator< bool > color ) {
 
 	// Check if positions exist
 	if ( x < 0 || y < 0 || x >= LCD_WIDTH || y >= LCD_HEIGHT )

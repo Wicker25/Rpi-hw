@@ -29,7 +29,7 @@ set( CMAKE_MODULE_PATH	${CMAKE_MODULE_PATH} ${RPI_HW_DIR}/cmake )
 set( CMAKE_MODULES		"" )
 
 # Pkg-config's flags and libs
-set( PKG_CONFIG_CFLAGS	"-I${CMAKE_INSTALL_PREFIX}/include" )
+set( PKG_CONFIG_CFLAGS	"-I${CMAKE_INSTALL_PREFIX}/include -std=c++11" )
 set( PKG_CONFIG_LIBS	"-L${CMAKE_INSTALL_PREFIX}/lib -lrpihw ${CMAKE_THREAD_LIBS_INIT} -lrt" )
 
 # Define some options
@@ -37,7 +37,7 @@ option( USE_FREETYPE	"Use FreeType library"			ON )
 option( USE_MAGICK		"Use GraphicsMagick++ library"	ON )
 
 # Set the compiler flags
-add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long -std=c++0x ) # -Wno-psabi
+add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long -std=c++11 ) # -Wno-psabi
 
 # Set the include directories
 include_directories( ${RPI_HW_INCLUDE_DIR} )
