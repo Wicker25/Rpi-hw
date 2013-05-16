@@ -80,11 +80,11 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 		case Magick::TrueColorMatteType:
 		case Magick::ColorSeparationType: {
 
-			// Set the number of image channels and update the size of the buffer
-			m_channels = 4; size *= m_channels;
+			// Set the number of image channels
+			m_channels = 4;
 
 			// Allocate the bitmap buffer
-			m_buffer.resize( size );
+			m_buffer.resize( size * m_channels );
 
 			// Iterator of the bitmap buffer
 			auto it = m_buffer.begin();
@@ -103,11 +103,11 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 		case Magick::PaletteType:
 		case Magick::TrueColorType: {
 
-			// Set the number of image channels and update the size of the buffer
-			m_channels = 3; size *= m_channels;
+			// Set the number of image channels
+			m_channels = 3;
 
 			// Allocate the bitmap buffer
-			m_buffer.resize( size );
+			m_buffer.resize( size * m_channels );
 
 			// Iterator of the bitmap buffer
 			auto it = m_buffer.begin();
@@ -124,11 +124,11 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 
 		case Magick::GrayscaleMatteType: {
 
-			// Set the number of image channels and update the size of the buffer
-			m_channels = 2; size *= m_channels;
+			// Set the number of image channels
+			m_channels = 2;
 
 			// Allocate the bitmap buffer
-			m_buffer.resize( size );
+			m_buffer.resize( size * m_channels );
 
 			// Iterator of the bitmap buffer
 			auto it = m_buffer.begin();
@@ -148,7 +148,7 @@ bitmap< T >::loadMagickObj( Magick::Image &img ) {
 			m_channels = 1;
 
 			// Allocate the bitmap buffer
-			m_buffer.resize( size );
+			m_buffer.resize( size * m_channels );
 
 			// Iterator of the bitmap buffer
 			auto it = m_buffer.begin();
