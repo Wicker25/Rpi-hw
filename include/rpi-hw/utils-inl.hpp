@@ -58,7 +58,7 @@ inline bool
 get_bit( T &buffer, size_t offset, uint8_t index ) {
 
 	// Return the bit value
-	return (bool) ( buffer[ offset ] & ( 1 << index ) & 1 );
+	return ( buffer[ offset ] & ( 1 << index ) ) != 0;
 }
 
 } // End of utilss namespace
