@@ -34,8 +34,9 @@ gpio::gpio() {
 	if ( m_mem_fd < 0 )
 		throw exception( "(Error) `gpio`: can't open `/dev/mem`, you must be 'root' to run this software!" );
 
-	// Map GPIO controller memory
-	m_map = (uint32_t *) mmap(
+
+	// Map the GPIO controller memory
+	m_gpio = (volatile uint32_t *) mmap(
 
 		0,
 		BLOCK_SIZE,
@@ -46,11 +47,24 @@ gpio::gpio() {
 	);
 
 	// Handle possible errors
-	if ( m_map == MAP_FAILED )
-		throw exception( utils::format( "(Error) `gpio`: mapping error at address %p\n", m_map ) );
+	if ( m_gpio == MAP_FAILED )
+		throw exception( utils::format( "(Error) `gpio`: mapping error at address %p (gpio)\n", m_gpio ) );
 
-	// Store GPIO controller address
-	m_addr = (volatile uint32_t *) m_map;
+
+	// Map the PWM controller memory
+	m_pwm = (volatile uint32_t *) mmap(
+
+		0,
+		BLOCK_SIZE,
+		PROT_READ | PROT_WRITE,
+		MAP_SHARED,
+		m_mem_fd,
+		GPIO_PWM
+	);
+
+	// Handle possible errors
+	if ( m_pwm == MAP_FAILED )
+		throw exception( utils::format( "(Error) `gpio`: mapping error at address %p (pwm)\n", m_pwm ) );
 }
 
 gpio::~gpio() {

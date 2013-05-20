@@ -35,7 +35,10 @@
 #include <rpi-hw/utils.hpp>
 
 #define BCM2708_PERI_BASE	0x20000000
-#define GPIO_BASE			(BCM2708_PERI_BASE + 0x200000)
+
+#define CLOCK_BASE			(BCM2708_PERI_BASE + 0x00101000)
+#define GPIO_BASE			(BCM2708_PERI_BASE + 0x00200000)
+#define GPIO_PWM			(BCM2708_PERI_BASE + 0x0020C000)
 
 #define	NUM_OF_PINS		54
 #define	PAGE_SIZE		(4*1024)
@@ -53,8 +56,10 @@ class gpio {
 
 public:
 
-	//! GPIO Controller Registers.
+	//! BCM2708 registers.
 	enum Registers {
+
+		/* ================== GPIO Controller registers ================== */
 
 		/*!
 			@section title GPIO Function Select Registers (0 to 5)
@@ -317,13 +322,220 @@ public:
 		*/
 
 		GPPUDCLK0 = 38,	// 0x 7E20 0098
-		GPPUDCLK1 = 39	// 0x 7E20 009C
+		GPPUDCLK1 = 39,	// 0x 7E20 009C
+
+
+		/** ================== PWM Controller registers ================== **/
+
+		/*!
+			@section title PWM Control
+
+			@code
+			==================CTL================
+			     xxxxxxxxxxxxxxxxx0x0000000000000	32 bit = 14 fields + 18 reserved
+			=====================================
+			@endcode
+
+			@section title CTL Register
+
+			@code
+			   Bit     Field name        Description
+			=================================================================
+			    15          MSEN2        Channel 2 M/S enable
+			                               0 = PWM algorithm is used
+			                               1 = M/S transmission is used
+			-----------------------------------------------------------------
+			    13          USEF2        Channel 2 use FIFO
+			                               0 = Data register is transmitted
+			                               1 = Fifo is used for transmission
+			-----------------------------------------------------------------
+			    12          POLA2        Channel 2 polarity
+			                               0 = 0->low 1->high
+			                               1 = 0->high 1->low
+			-----------------------------------------------------------------
+			    11          SBIT2        Channel 2 silence bit
+			                             Defines the state of the output
+			                             when no transmission takes place.
+			-----------------------------------------------------------------
+			    10          RPTL2        Channel 2 repeat last data
+			                               0 = Transmission interrupts when
+			                                   FIFO is empty
+			                               1 = Last data in FIFO is
+			                                   transmitted repetedly until
+			                                   FIFO is not empty
+			-----------------------------------------------------------------
+			     9          MODE2        Channel 2 mode
+			                               0 = PWM mode
+			                               1 = Serialiser mode
+			-----------------------------------------------------------------
+			     8          PWEN2        Channel 2 enable
+			                               0 = Channel is disabled
+			                               1 = Channel is enabled
+			-----------------------------------------------------------------
+			     7          MSEN1        Channel 1 M/S enable
+			                               0 = PWM algorithm is used
+			                               1 = M/S transmission is used
+			-----------------------------------------------------------------
+			     6          CLRF1        Clear FIFO
+			                               0 = Clears FIFO
+			                               1 = Has no effect
+			                             This is a single shot operation.
+			                             This bit always reads 0.
+			-----------------------------------------------------------------
+			     5          USEF1        Channel 1 use FIFO
+			                               0 = Data register is transmitted
+			                               1 = Fifo is used for transmission
+			-----------------------------------------------------------------
+			     4          POLA1        Channel 1 use FIFO
+			                               0 = 0->low 1->high
+			                               1 = 0->high 1->low
+			-----------------------------------------------------------------
+			     3          SBIT1        Channel 1 silence bit
+			                             Defines the state of the output
+			                             when no transmission takes place.
+			-----------------------------------------------------------------
+			     2          RPTL1        Channel 1 repeat last data
+			                               0 = Transmission interrupts when
+			                                   FIFO is empty
+			                               1 = Last data in FIFO is
+			                                   transmitted repetedly until
+			                                   FIFO is not empty
+			-----------------------------------------------------------------
+			     1          MODE1        Channel 1 mode
+			                               0 = PWM mode
+			                               1 = Serialiser mode
+			-----------------------------------------------------------------
+			     0          PWEN1        Channel 1 enable
+			                               0 = Channel is disabled
+			                               1 = Channel is enabled
+			=================================================================
+			@endcode
+		*/
+
+		PWM_CTL = 1,	// 0x 7E20 C000
+
+		/*!
+			@section title PWM Status
+
+			@code
+			==================STA================
+			     xxxxxxxxxxxxxxxxxxxx000000000000	32 bit = 12 fields + 20 reserved
+			=====================================
+			@endcode
+
+			@section title STA Register
+
+			@code
+			   Bit     Field name        Description
+			=============================================================
+			    12           STA4        Channel 4 state
+			    11           STA3        Channel 3 state
+			    10           STA2        Channel 2 state
+			     9           STA1        Channel 1 state
+			     8           BERR        Bus error flag
+			     7          GAPO4        Channel 4 gap cccurred flag
+			     6          GAPO3        Channel 3 gap cccurred flag
+			     5          GAPO2        Channel 2 gap cccurred flag
+			     4          GAPO1        Channel 1 gap cccurred flag
+			     3          RERR1        FIFO read error flag
+			     2          WERR1        FIFO write error flag
+			     1          EMPT1        FIFO empty flag
+			     0          FULL1        FIFO full flag
+			=============================================================
+			@endcode
+		*/
+
+		PWM_STA = 2,	// 0x 7E20 C004
+
+		/*!
+			@section title DMAC Register
+
+			@code
+			=================DMAC================
+			     0xxxxxxxxxxxxxxxx000000000000000	32 bit = 16 fields + 16 reserved
+			=====================================
+			@endcode
+
+			@section title DMAC Register
+
+			@code
+			   Bit     Field name        Description
+			=============================================================
+			   31            ENAB        DMA Enable
+			 15:8           PANIC        DMA Threshold for PANIC signal
+			  7:0            DREQ        DMA Threshold for DREQ signal
+			=============================================================
+			@endcode
+		*/
+
+		PWM_DMAC = 3,	// 0x 7E20 C008
+
+		/*!
+			@section title PWM Channel 1 Range
+
+			@code
+			=================RNG1================
+			0.	 00000000000000000000000000000000	32 bit = 32 fields
+			=====================================
+			@endcode
+		*/
+
+		PWM_RNG1 = 4,	// 0x 7E20 C010
+
+		/*!
+			@section title PWM Channel 1 Data
+
+			@code
+			=================DAT1================
+			0.	 00000000000000000000000000000000	32 bit = 32 fields
+			=====================================
+			@endcode
+		*/
+
+		PWM_DAT1 = 5,	// 0x 7E20 C014
+
+		/*!
+			@section title PWM FIFO Input
+
+			@code
+			=================FIF1================
+			0.	 00000000000000000000000000000000	32 bit = 32 fields
+			=====================================
+			@endcode
+		*/
+
+		PWM_FIF1 = 6,	// 0x 7E20 C018
+
+		/*!
+			@section title PWM Channel 2 Range
+
+			@code
+			=================RNG2================
+			0.	 00000000000000000000000000000000	32 bit = 32 fields
+			=====================================
+			@endcode
+		*/
+
+		PWM_RNG2 = 7,	// 0x 7E20 C020
+
+		/*!
+			@section title PWM Channel 2 Data
+
+			@code
+			=================DAT2================
+			0.	 00000000000000000000000000000000	32 bit = 32 fields
+			=====================================
+			@endcode
+		*/
+
+		PWM_DAT2 = 8	// 0x 7E20 C024
 	};
+
 
 	//! Raspberry Pi pins.
 	enum RpiPins {
 
-	#if RPI_REVISION == 0002 || RPI_REVISION == 0003
+	#if RPI_REVISION == 0x0002 || RPI_REVISION == 0x0003
 
 		PIN3	= 0,	PIN5	= 1,	PIN7	= 4,
 		PIN8	= 14,	PIN10	= 15,	PIN11	= 17,
@@ -353,6 +565,7 @@ public:
 
 	//! Pull resistor mode.
 	enum PullMode { PUD_OFF = 0, PULL_DOWN = 1, PULL_UP = 2 };
+
 
 	//! Constructor method.
 	gpio();
@@ -429,11 +642,11 @@ private:
 	//! File descriptor of `/dev/mem`.
 	int m_mem_fd;
 
-	//! Memory mapped of GPIO controller.
-	uint32_t *m_map;
-
 	//! GPIO controller virtual address.
-	volatile uint32_t *m_addr;
+	volatile uint32_t *m_gpio;
+
+	//! PWM controller virtual address.
+	volatile uint32_t *m_pwm;
 
 	/*!
 		@brief Sets a bit value on one of the GPIO controller registers.

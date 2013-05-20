@@ -5,10 +5,10 @@ project( RpiHw )
 cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
-set( RPI_HW_VERSION			"0.4.0" )
 set( RPI_HW_VERSION_MAJOR	0 )
 set( RPI_HW_VERSION_MINOR	4 )
-set( RPI_HW_VERSION_PATCH	0 )
+set( RPI_HW_VERSION_PATCH	1 )
+set( RPI_HW_VERSION			"${RPI_HW_VERSION_MAJOR}.${RPI_HW_VERSION_MINOR}.${RPI_HW_VERSION_PATCH}" )
 
 # Project directories
 set( RPI_HW_DIR					${PROJECT_SOURCE_DIR}	)
@@ -37,7 +37,7 @@ option( USE_FREETYPE	"Use FreeType library"			ON )
 option( USE_MAGICK		"Use GraphicsMagick++ library"	ON )
 
 # Set the compiler flags
-add_definitions( -Wall -ansi -pedantic -pedantic-errors -Wno-long-long -std=c++11 ) # -Wno-psabi
+add_definitions( -Wall -ansi -pedantic -pedantic-errors -mfloat-abi=hard -std=c++11 -Wno-long-long ) # -Wno-psabi
 
 # Set the include directories
 include_directories( ${RPI_HW_INCLUDE_DIR} )

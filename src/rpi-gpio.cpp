@@ -27,7 +27,7 @@
 #include <rpi-hw/gpio.hpp>
 
 // Constants
-#define RPI_GPIO_VERSION	"0.1"
+#define RPI_GPIO_VERSION	"0.2"
 
 static const char *usage =
 "Usage: rpi-gpio <setup|edge|write|read> <gpio>\n\n"
@@ -41,19 +41,19 @@ static const char *usage =
 
 
 // Raspberry Pi pins
-#if RPI_REVISION == 0002 || RPI_REVISION == 0003
+#if RPI_REVISION == 0x0002 || RPI_REVISION == 0x0003
 
-//                       pin  =    0   1   2  3   4  5   6  7   8   9  10  11  12  13
-static const int pin_gpio[27] = { -1, -1, -1, 0, -1, 1, -1, 4, 14, -1, 15, 17, 18, 21,
-//								  14  15  16  17  18  19  20  21 22  23 24  25 26
-								  -1, 22, 23, -1, 24, 10, -1, 9, 25, 11, 8, -1, 7 };
+//                       pin  =    0   1   2   3   4   5   6   7   8   9  10  11  12  13
+static const int pin_gpio[27] = { -1, -1, -1,  0, -1,  1, -1,  4, 14, -1, 15, 17, 18, 21,
+//								  14  15  16  17  18  19  20  21 22  23  24  25  26
+								  -1, 22, 23, -1, 24, 10, -1, 9, 25, 11,  8, -1,  7 };
 
 #else
 
-//                       pin  =    0   1   2  3   4  5   6  7   8   9  10  11  12  13
-static const int pin_gpio[27] = { -1, -1, -1, 2, -1, 3, -1, 4, 14, -1, 15, 17, 18, 27,
-//								  14  15  16  17  18  19  20  21 22  23 24  25 26
-								  -1, 22, 23, -1, 24, 10, -1, 9, 25, 11, 8, -1, 7 };
+//                       pin  =    0   1   2  3   4   5   6   7   8   9  10  11  12  13
+static const int pin_gpio[27] = { -1, -1, -1, 2, -1,  3, -1,  4, 14, -1, 15, 17, 18, 27,
+//								  14  15  16  17  18  19  20  21  22  23  24  25  26
+								  -1, 22, 23, -1, 24, 10, -1,  9, 25, 11,  8, -1,  7 };
 #endif
 
 
