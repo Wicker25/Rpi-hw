@@ -1,6 +1,8 @@
 Rpi-hw v0.4.1
 =============
 
+![Example](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/ultrasonic_sensor.jpg)
+
 ### Description
 
 [Rpi-hw](http://www.hackyourmind.org/blog/projects/rpi-hw/) is a free C++ library 
