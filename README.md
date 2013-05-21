@@ -1,7 +1,8 @@
 Rpi-hw v0.4.1
 =============
 
-![Example](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/ultrasonic_sensor.jpg) ![Example](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/pcd8544.png)
+![Ultrasonic Distance Sensor](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/ultrasonic_sensor.jpg) .
+![PCD8544 LCD](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/pcd8544.png)
 
 ### Description
 
@@ -31,3 +32,4 @@ The following are some features of the library:
 ### Documentation
 
 Detailed documentation of Rpi-hw's features and usage can be found on the [wiki](https://github.com/Wicker25/Rpi-hw/wiki).
+
