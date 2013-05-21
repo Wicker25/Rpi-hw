@@ -1,5 +1,5 @@
 /* 
-    Title --- 28bjy48.cpp [examples]
+    Title --- hc-sr04.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -21,8 +21,9 @@
 
 #include <rpi-hw.hpp>
 
+#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/motor/stepper.hpp>
+#include <rpi-hw/sensor/hc-sr04.hpp>
 
 // Use the Rpi-hw namespace
 using namespace rpihw;
@@ -31,36 +32,16 @@ int
 main( int argc, char *args[] ) {
 
 	// Create the stepper controller
-	motor::stepper disp( 4096, 24, 25, 8, 7 );
+	sensor::hcsr04 disp( 23, 24 );
 
-	// Start demo
-	disp.setSpeed( 3.0 );
-	disp.rotate( 45.0 );
-	time::msleep( 500 );
+	// Calculate the elapsed time between sending and receiving back the pulse
+	double elapsed	= disp.timing();
 
-	disp.setSpeed( 6.0 );
-	disp.rotate( 45.0 );
-	time::msleep( 500 );
+	// Calculate the distance from the sensor to an object or surface
+	double distance	= disp.ranging();
 
-	disp.setSpeed( 9.0 );
-	disp.rotate( 45.0 );
-	time::msleep( 500 );
-
-	disp.setSpeed( 11.0 );
-	disp.rotate( 45.0 );
-	time::msleep( 500 );
-
-	disp.setSpeed( 14.0 );
-	disp.rotate( 90.0 );
-	time::msleep( 500 );
-
-	disp.setSpeed( 14.0 );
-	disp.rotate( 90.0 );
-	time::msleep( 500 );
-
-	disp.setDirection( motor::DIRECTION_CCW );
-	disp.rotate( 360.0 );
-	time::msleep( 500 );
+	std::cout << utils::format( "Elapsed time: %f\n", elapsed );
+	std::cout << utils::format( "Distance: %.1f cm\n", distance );
 
 	return 0;
 }

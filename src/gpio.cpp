@@ -70,7 +70,10 @@ gpio::gpio() {
 gpio::~gpio() {
 
 	// Unmap GPIO controller memory
-	munmap( m_map, BLOCK_SIZE );
+	munmap( (uint32_t *) m_gpio, BLOCK_SIZE );
+
+	// Unmap PWM controller memory
+	munmap( (uint32_t *) m_pwm, BLOCK_SIZE );
 
 	// Close memory device file
 	close( m_mem_fd );
@@ -86,7 +89,7 @@ gpio::setup( uint8_t pin, PinMode mode, PullMode pud_mode ) {
 	uint8_t shift = ( pin % 10 ) * 3;
 
 	// Get GPIO controller register
-	uint32_t &reg = *( m_map + GPFSEL0 + ( pin / 10 ) );
+	volatile uint32_t &reg = *( m_gpio + GPFSEL0 + ( pin / 10 ) );
 
 	// Sets the GPIO pin mode
 	// 000 = Input
@@ -98,8 +101,8 @@ void
 gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
 
 	// Get the GPIO controller registers
-	uint32_t &reg_pullupdown = *( m_map + GPPUD0 );
-	uint32_t &reg_clock = *( m_map + GPPUDCLK0 + ( pin / 32 ) );
+	volatile uint32_t	&reg_pullupdown	= *( m_gpio + GPPUD0 ),
+						&reg_clock		= *( m_gpio + GPPUDCLK0 + ( pin / 32 ) );
 
 	// Enable/disable pull-up/down control on the GPIO pin
 	// 00 = Disable pull-up/down
@@ -108,13 +111,9 @@ gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
 	// 11 = Reserved
 	reg_pullupdown = (uint32_t) mode;
 
-	// Wait 150 cycles
-    waitCycles( 150 );
-
 	// Set clock con pin
+    waitCycles( 150 );
 	reg_clock = 1 << ( pin % 32 );
-
-	// Wait 150 cycles
     waitCycles( 150 );
 
 	// Restore the registers
@@ -132,7 +131,8 @@ gpio::print_register( uint8_t offset, uint8_t group_bits ) const {
 
 		std::cout << getBit( offset, i );
 
-		if ( ( i + 1 ) % group_bits == 0 ) std::cout << " ";
+		if ( ( i + 1 ) % group_bits == 0 )
+			std::cout << " ";
 	}
 
 	std::cout << std::endl;

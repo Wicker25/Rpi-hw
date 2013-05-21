@@ -17,9 +17,10 @@ The following are some features of the library:
 
 * Low-level management of the GPIOs
 * Generic input/output interfaces
-* Displays support (7-segments, HD44780, PCD8544)
+* Display support (7-segments, HD44780, PCD8544)
 * Keypad support (matrix keypad)
 * Stepper motor support
+* Sensor support (HC-SR04)
 * Unicode support (built-in)
 * Handles multiple image formats (using Magick++ API) (optional)
 * Supports standard fonts (using FreeType) (optional)

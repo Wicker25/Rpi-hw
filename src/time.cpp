@@ -22,8 +22,6 @@
 #ifndef _RPI_HW_TIME_CPP_
 #define _RPI_HW_TIME_CPP_
 
-#include <iostream>
-
 #include <rpi-hw/time.hpp>
 
 namespace rpihw { // Begin main namespace
@@ -34,23 +32,16 @@ void
 nsleep( size_t nseconds ) {
 
 	// Use a high-resolution timer to wait some nanoseconds
-	long int start, elapsed;
+	using timer	= high_resolution_clock;
 
-	struct timespec now;
-	clock_gettime( CLOCK_REALTIME, &now );
-
-	start = now.tv_nsec;
+	size_t elapsed;
+	time_point< timer > start = timer::now();
 
 	do {
 
-		clock_gettime( CLOCK_REALTIME, &now );
+		elapsed = duration_cast< nanoseconds >( timer::now() - start ).count();
 
-		elapsed = now.tv_nsec - start;
-
-		if ( elapsed < 0 )
-			elapsed += 1000000000;	
-
-	} while ( elapsed < (long int) nseconds );
+	} while ( elapsed < nseconds );
 }
 
 } // End of times namespace

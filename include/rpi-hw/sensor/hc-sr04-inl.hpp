@@ -1,5 +1,5 @@
 /* 
-    Title --- time.hpp
+    Title --- sensor/hc-sr04-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,42 +19,22 @@
 */
 
 
-#ifndef _RPI_HW_TIME_HPP_
-#define _RPI_HW_TIME_HPP_
-
-#include <chrono>
-#include <unistd.h>
-
-// Use some external namespaces
-using namespace std::chrono;
+#ifndef _RPI_HW_SENSOR_HC_SR04_INL_HPP_
+#define _RPI_HW_SENSOR_HC_SR04_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-/*!
-	@namespace rpihw::time
-	@brief Namespace of the time functions.
-*/
+namespace sensor { // Begin sensors namespace
 
-namespace time { // Begin time namespace
+inline double
+hcsr04::ranging() {
 
-//! Waits some seconds
-void sleep( size_t seconds );
+	// Return the distance from the sensor to an object or surface
+	return timing() * 17;
+}
 
-//! Waits some milliseconds
-void msleep( size_t mseconds );
-
-//! Waits some microseconds
-void usleep( size_t useconds );
-
-//! Waits some nanoseconds
-void nsleep( size_t nseconds );
-
-} // End of time namespace
+} // End of sensors namespace
 
 } // End of main namespace
 
-
-// Include inline functions 
-#include <rpi-hw/time-inl.hpp>
-
-#endif /* _RPI_HW_TIME_HPP_ */
+#endif /* _RPI_HW_SENSOR_HC_SR04_INL_HPP_ */

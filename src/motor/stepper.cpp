@@ -69,28 +69,28 @@ const std::vector< uint8_t > stepper::seq_half = {
 };
 
 
-stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1 ) : m_direction( DIRECTION_CW ), m_rpm(1.0), m_steps( steps ) {
+stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1 )
 
-	// Create the output interface to the motor
-	m_motor = new iface::output( { pin0, pin1 } );
+	: m_motor		( new iface::output( { pin0, pin1 } ) )
+	, m_sequence	( stepper::seq_2wire )
+	, m_direction	( DIRECTION_CW )
+	, m_rpm			( 1.0 )
+	, m_steps		( steps ) {
 
-	// Set the moving sequence
-	setSequence( stepper::seq_2wire );
 }
 
-stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1, uint8_t pin2, uint8_t pin3 ) : m_direction( DIRECTION_CW ), m_rpm(1.0), m_steps( steps ) {
+stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1, uint8_t pin2, uint8_t pin3 )
 
-	// Create the output interface to the motor
-	m_motor = new iface::output( { pin0, pin1, pin2, pin3 } );
+	: m_motor		( new iface::output( { pin0, pin1, pin2, pin3 } ) )
+	, m_sequence	( stepper::seq_half )
+	, m_direction	( DIRECTION_CW )
+	, m_rpm			( 1.0 )
+	, m_steps		( steps ) {
 
-	// Set the moving sequence
-	setSequence( stepper::seq_half );
 }
 
 stepper::~stepper() {
 
-	// Destroy the output interface
-	delete m_motor;
 }
 
 void

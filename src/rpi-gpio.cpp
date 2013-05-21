@@ -30,7 +30,7 @@
 #define RPI_GPIO_VERSION	"0.2"
 
 static const char *usage =
-"Usage: rpi-gpio <setup|edge|write|read> <gpio>\n\n"
+"Usage: rpi-gpio <set|write|event|write|read> <gpio> [options]\n\n"
 "       rpi-gpio set   <gpio> <in|out|pulldown|pullup|pudoff>\n"
 "       rpi-gpio write <gpio> <high|low>\n"
 "       rpi-gpio event <gpio> <rising|falling|high|low> <enabled|disabled>\n"

@@ -46,3 +46,6 @@ target_link_libraries( 12keys1 ${RpiHw_LIBRARIES} )
 
 add_executable( 28bjy48 ${CMAKE_SOURCE_DIR}/motor/28bjy48.cpp )
 target_link_libraries( 28bjy48 ${RpiHw_LIBRARIES} )
+
+add_executable( hc-sr04 ${CMAKE_SOURCE_DIR}/sensor/hc-sr04.cpp )
+target_link_libraries( hc-sr04 ${RpiHw_LIBRARIES} )

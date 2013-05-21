@@ -4,9 +4,11 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
 2013-05-06 Wicker25 < wicker25@gmail.com >
 
+    * all: Added class `hc-sr04` to manage HC-SR04 ultrasonic distance sensors.
+
     * gpio.hpp: Replaced `m_addr` with `m_gpio`.
 
-
+    * utils.hpp: Rewrote the function `nsleep`.
 
 ============ Rpi-hw 0.4.0 - urgency=low =============
 

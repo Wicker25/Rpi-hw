@@ -22,6 +22,7 @@
 #ifndef _RPI_HW_MOTOR_STEPPER_HPP_
 #define _RPI_HW_MOTOR_STEPPER_HPP_
 
+#include <memory>
 #include <vector>
 
 #include <rpi-hw/types.hpp>
@@ -141,7 +142,7 @@ public:
 protected:
 
 	//! Output interface to the display.
-	iface::output *m_motor;
+	std::unique_ptr< iface::output > m_motor;
 
 	//! Moving sequence.
 	std::vector< uint8_t > m_sequence;

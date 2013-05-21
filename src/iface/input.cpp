@@ -72,7 +72,7 @@ input::read( uint8_t index ) const {
 		throw exception( "(Error) `iface::read`: could not get pin, index out of range\n" );
 
 	// Return data
-	bool data = false;
+	bool data = 0;
 
 	// Read data from the interface pin
 	data = m_gpio->read( m_pins[ index ] );
