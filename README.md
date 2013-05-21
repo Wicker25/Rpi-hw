@@ -1,7 +1,7 @@
 Rpi-hw v0.4.1
 =============
 
-![Example](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/ultrasonic_sensor.jpg)
+![Example](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/ultrasonic_sensor.jpg) ![Example](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/pcd8544.png)
 
 ### Description
 
