@@ -21,8 +21,8 @@
 
 #include <iostream>
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/keypad/matrix.hpp>
 
@@ -50,19 +50,19 @@ int
 main( int argc, char *args[] ) {
 
    // Matrix keypad controller
-   keypad::matrix disp( { 21, 10, 4 }, { 22, 14, 15, 17 } );
+   keypad::matrix dev( { 21, 10, 4 }, { 22, 14, 15, 17 } );
 
    // Main loop
    for ( ;; ) {
 
       // Check some keys state
-      if ( disp.pressed(0) )
+      if ( dev.pressed(0) )
          std::cout << "You have pressed button 0!\n";
 
-      if ( disp.released(2) )
+      if ( dev.released(2) )
          std::cout << "You have released button 2!\n";
 
-      if ( disp.pressed(1) && disp.pressed(4) )
+      if ( dev.pressed(1) && dev.pressed(4) )
          std::cout << "You have pressed buttons 1 and 4!\n";
 
       // Wait some time

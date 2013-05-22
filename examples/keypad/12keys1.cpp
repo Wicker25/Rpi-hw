@@ -21,8 +21,8 @@
 
 #include <iostream>
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/keypad/matrix.hpp>
 
@@ -50,7 +50,7 @@ int
 main( int argc, char *args[] ) {
 
 	// Matrix keypad controller
-	keypad::matrix disp( { 21, 10, 4 }, { 22, 14, 15, 17 } );
+	keypad::matrix dev( { 21, 10, 4 }, { 22, 14, 15, 17 } );
 
 	// Print message
 	std::cout << "State of buttons:\n";
@@ -62,7 +62,7 @@ main( int argc, char *args[] ) {
 	for ( ;; ) {
 
 		// Write the buttons state
-		const std::vector< bool > &keystate = disp.state();
+		const std::vector< bool > &keystate = dev.state();
 
 		std::cout << '\r';
 

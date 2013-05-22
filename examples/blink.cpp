@@ -19,7 +19,7 @@
 */
 
 
-// Include the Rpi-hw header
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/gpio.hpp>

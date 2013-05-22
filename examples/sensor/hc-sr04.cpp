@@ -19,8 +19,8 @@
 */
 
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/sensor/hc-sr04.hpp>
@@ -32,13 +32,13 @@ int
 main( int argc, char *args[] ) {
 
 	// Create the stepper controller
-	sensor::hcsr04 disp( 23, 24 );
+	sensor::hcsr04 dev( 23, 24 );
 
 	// Calculate the elapsed time between sending and receiving back the pulse
-	double elapsed	= disp.timing();
+	double elapsed = dev.timing();
 
 	// Calculate the distance from the sensor to an object or surface
-	double distance	= disp.ranging();
+	double distance = dev.ranging();
 
 	std::cout << utils::format( "Elapsed time: %f\n", elapsed );
 	std::cout << utils::format( "Distance: %.1f cm\n", distance );
