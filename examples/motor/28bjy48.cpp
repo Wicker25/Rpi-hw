@@ -19,8 +19,8 @@
 */
 
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/motor/stepper.hpp>
 
@@ -31,35 +31,35 @@ int
 main( int argc, char *args[] ) {
 
 	// Create the stepper controller
-	motor::stepper disp( 4096, 24, 25, 8, 7 );
+	motor::stepper dev( 4096, 24, 25, 8, 7 );
 
 	// Start demo
-	disp.setSpeed( 3.0 );
-	disp.rotate( 45.0 );
+	dev.setSpeed( 3.0 );
+	dev.rotate( 45.0 );
 	time::msleep( 500 );
 
-	disp.setSpeed( 6.0 );
-	disp.rotate( 45.0 );
+	dev.setSpeed( 6.0 );
+	dev.rotate( 45.0 );
 	time::msleep( 500 );
 
-	disp.setSpeed( 9.0 );
-	disp.rotate( 45.0 );
+	dev.setSpeed( 9.0 );
+	dev.rotate( 45.0 );
 	time::msleep( 500 );
 
-	disp.setSpeed( 11.0 );
-	disp.rotate( 45.0 );
+	dev.setSpeed( 11.0 );
+	dev.rotate( 45.0 );
 	time::msleep( 500 );
 
-	disp.setSpeed( 14.0 );
-	disp.rotate( 90.0 );
+	dev.setSpeed( 14.0 );
+	dev.rotate( 90.0 );
 	time::msleep( 500 );
 
-	disp.setSpeed( 14.0 );
-	disp.rotate( 90.0 );
+	dev.setSpeed( 14.0 );
+	dev.rotate( 90.0 );
 	time::msleep( 500 );
 
-	disp.setDirection( motor::DIRECTION_CCW );
-	disp.rotate( 360.0 );
+	dev.setDirection( motor::DIRECTION_CCW );
+	dev.rotate( 360.0 );
 	time::msleep( 500 );
 
 	return 0;

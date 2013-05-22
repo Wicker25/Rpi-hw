@@ -18,10 +18,11 @@
     along with Rpi-hw. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #include <cstdlib>
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/font/freetype.hpp>
 #include <rpi-hw/image/bitmap.hpp>
 #include <rpi-hw/display/pcd8544.hpp>
@@ -31,30 +32,30 @@ using namespace rpihw;
 using namespace rpihw::display;
 
 void
-showTitleScreen( pcd8544 &disp, font::base &title_font, font::base &text_font, const std::string &title, const std::string &text ) {
+showTitleScreen( pcd8544 &dev, font::base &title_font, font::base &text_font, const std::string &title, const std::string &text ) {
 
-	disp.clear();
+	dev.clear();
 
 	// Draw the demo title
-	disp.setFont( title_font );
-	disp.drawText( title );
+	dev.setFont( title_font );
+	dev.drawText( title );
 
 	// Draw the demo description
-	disp.setFont( text_font );
-	disp.drawText( 0, 12, text, 84, 48 );
+	dev.setFont( text_font );
+	dev.drawText( 0, 12, text, 84, 48 );
 
-	disp.redraw();
+	dev.redraw();
 
 	time::sleep(4);
 
-	disp.clear();
-	disp.redraw();
+	dev.clear();
+	dev.redraw();
 }
 
 void
-drawLines( pcd8544 &disp ) {
+drawLines( pcd8544 &dev ) {
 
-	disp.clear();
+	dev.clear();
 
 	std::srand( std::time( NULL ) );
 
@@ -68,22 +69,22 @@ drawLines( pcd8544 &disp ) {
 		x1 = rand() % 84;
 		y1 = rand() % 48;
 
-		disp.drawLine( x0, y0, x1, y1 );
-		disp.redraw();
+		dev.drawLine( x0, y0, x1, y1 );
+		dev.redraw();
 
 		time::msleep(80);
 	}
 
 	time::sleep(1);
 
-	disp.clear();
-	disp.redraw();
+	dev.clear();
+	dev.redraw();
 }
 
 void
-drawCircles( pcd8544 &disp ) {
+drawCircles( pcd8544 &dev ) {
 
-	disp.clear();
+	dev.clear();
 
 	std::srand( std::time( NULL ) );
 
@@ -96,22 +97,22 @@ drawCircles( pcd8544 &disp ) {
 		y = rand() % 48;
 		r = rand() % 18 + 2;
 
-		disp.drawCircle( x, y, r );
-		disp.redraw();
+		dev.drawCircle( x, y, r );
+		dev.redraw();
 
 		time::msleep(80);
 	}
 
 	time::sleep(1);
 
-	disp.clear();
-	disp.redraw();
+	dev.clear();
+	dev.redraw();
 }
 
 void
-drawRectangles( pcd8544 &disp ) {
+drawRectangles( pcd8544 &dev ) {
 
-	disp.clear();
+	dev.clear();
 
 	std::srand( std::time( NULL ) );
 
@@ -125,22 +126,22 @@ drawRectangles( pcd8544 &disp ) {
 		w = rand() % 30;
 		h = rand() % 25 + 5;
 
-		disp.drawRect( x, y, x + w, y + h );
-		disp.redraw();
+		dev.drawRect( x, y, x + w, y + h );
+		dev.redraw();
 
 		time::msleep(80);
 	}
 
 	time::sleep(1);
 
-	disp.clear();
-	disp.redraw();
+	dev.clear();
+	dev.redraw();
 }
 
 void
-drawEllipses( pcd8544 &disp ) {
+drawEllipses( pcd8544 &dev ) {
 
-	disp.clear();
+	dev.clear();
 
 	std::srand( std::time( NULL ) );
 
@@ -154,34 +155,34 @@ drawEllipses( pcd8544 &disp ) {
 		a = rand() % 25 + 5;
 		b = rand() % 25 + 5;
 
-		disp.drawEllipse( x, y, a, b );
-		disp.redraw();
+		dev.drawEllipse( x, y, a, b );
+		dev.redraw();
 
 		time::msleep(80);
 	}
 
 	time::sleep(1);
 
-	disp.clear();
-	disp.redraw();
+	dev.clear();
+	dev.redraw();
 }
 
 void
-showImage( pcd8544 &disp, const std::string &path, uint8_t x = 0, uint8_t y = 0 ) {
+showImage( pcd8544 &dev, const std::string &path, uint8_t x = 0, uint8_t y = 0 ) {
 
-	disp.clear();
+	dev.clear();
 
 	// Load and show the image
 	image::bitmap< bool > img( path );
-	disp.drawImage( img, x, y );
+	dev.drawImage( img, x, y );
 
-	disp.redraw();
+	dev.redraw();
 }
 
 void
-showDitherImage( pcd8544 &disp, const std::string &path, uint8_t x = 0, uint8_t y = 0 ) {
+showDitherImage( pcd8544 &dev, const std::string &path, uint8_t x = 0, uint8_t y = 0 ) {
 
-	disp.clear();
+	dev.clear();
 
 	// Load the image using Magick++ API and convert it to black and white 
 	Magick::Image img_magick( path );
@@ -191,40 +192,40 @@ showDitherImage( pcd8544 &disp, const std::string &path, uint8_t x = 0, uint8_t 
 	image::bitmap< bool > img( img_magick );
 
 	// Draw the image on the screen
-	disp.drawImage( img, x, y );
+	dev.drawImage( img, x, y );
 
-	disp.redraw();
+	dev.redraw();
 }
 
 void
-showFontStyles( pcd8544 &disp ) {
+showFontStyles( pcd8544 &dev ) {
 
 	// Load some text font
 	font::freetype normal( "fonts/DroidSerif-Regular.ttf", 12, font::RENDER_MONOCHROME );
 	font::freetype bold( "fonts/DroidSerif-Bold.ttf", 12, font::RENDER_MONOCHROME );
 	font::freetype oblique( "fonts/DroidSerif-Italic.ttf", 12, font::RENDER_MONOCHROME );
 
-	disp.clear();
+	dev.clear();
 
 	// Draw same text using different styles
-	disp.setFont( normal );
-	disp.drawText( "Hello world\n" );
+	dev.setFont( normal );
+	dev.drawText( "Hello world\n" );
 
-	disp.setFont( bold );
-	disp.drawText( "Hello world\n" );
+	dev.setFont( bold );
+	dev.drawText( "Hello world\n" );
 
-	disp.setFont( oblique );
-	disp.drawText( "Hello world" );
+	dev.setFont( oblique );
+	dev.drawText( "Hello world" );
 
-	disp.redraw();
+	dev.redraw();
 }
 
 void
-showFontSizes( pcd8544 &disp ) {
+showFontSizes( pcd8544 &dev ) {
 
 	// Load a font
 	font::freetype regular( "fonts/DroidSerif-Regular.ttf", 10, font::RENDER_MONOCHROME );
-	disp.setFont( regular );
+	dev.setFont( regular );
 
 	// Draw same text using different sizes
 	uint8_t i = 12;
@@ -233,27 +234,27 @@ showFontSizes( pcd8544 &disp ) {
 
 		regular.setSize( i );
 
-		disp.clear();
-		disp.drawText( 0, 0, "Size" );
-		disp.redraw();
+		dev.clear();
+		dev.drawText( 0, 0, "Size" );
+		dev.redraw();
 
 		time::msleep(250);
 	}
 }
 
 void
-showFontTest( pcd8544 &disp, font::base &font ) {
+showFontTest( pcd8544 &dev, font::base &font ) {
 
-	disp.clear();
+	dev.clear();
 
-	disp.setFont( font );
-	disp.drawText( "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 84, 48, pcd8544::WORD_BREAK );
+	dev.setFont( font );
+	dev.drawText( "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 84, 48, pcd8544::WORD_BREAK );
 
-	disp.redraw();
+	dev.redraw();
 }
 
 void
-showUnicode( pcd8544 &disp ) {
+showUnicode( pcd8544 &dev ) {
 
 	// Load some fonts
 	font::freetype greek( "fonts/DroidSans.ttf", 12, font::RENDER_MONOCHROME );
@@ -262,61 +263,61 @@ showUnicode( pcd8544 &disp ) {
 	std::u32string utf32_text;
 
 	// Draw greek text
-	disp.setFont( greek );
+	dev.setFont( greek );
 	utf32_text = U"Γεια σας κόσμο\n";
-	disp.drawText( utf32_text );
+	dev.drawText( utf32_text );
 
 	// Draw japanese text
-	disp.setFont( cjk );
+	dev.setFont( cjk );
 	utf32_text = U"こんにちは世界\n";
-	disp.drawText( utf32_text );
+	dev.drawText( utf32_text );
 
 	// Draw chinese text
 	utf32_text = U"世界，你好";
-	disp.drawText( utf32_text );
+	dev.drawText( utf32_text );
 
-	disp.redraw();
+	dev.redraw();
 }
 
 void
-showAlignments( pcd8544 &disp, font::base &font ) {
+showAlignments( pcd8544 &dev, font::base &font ) {
 
-	disp.setFont( font );
+	dev.setFont( font );
 
 	// Show text alignments
 	std::string text = "More importantly, a towel has immense psychological value.";
 
-	disp.clear();
-	disp.drawText( 0, 0, text, 84, 48, pcd8544::ALIGN_LEFT );
-	disp.redraw();
+	dev.clear();
+	dev.drawText( 0, 0, text, 84, 48, pcd8544::ALIGN_LEFT );
+	dev.redraw();
 
 	time::sleep(3);
 
-	disp.clear();
-	disp.drawText( 0, 0, text, 84, 48, pcd8544::ALIGN_CENTER );
-	disp.redraw();
+	dev.clear();
+	dev.drawText( 0, 0, text, 84, 48, pcd8544::ALIGN_CENTER );
+	dev.redraw();
 
 	time::sleep(3);
 
-	disp.clear();
-	disp.drawText( 0, 0, text, 84, 48, pcd8544::ALIGN_RIGHT );
-	disp.redraw();
+	dev.clear();
+	dev.drawText( 0, 0, text, 84, 48, pcd8544::ALIGN_RIGHT );
+	dev.redraw();
 
 	time::sleep(3);
 }
 
 void
-showStarWars( pcd8544 &disp, font::base &font ) {
+showStarWars( pcd8544 &dev, font::base &font ) {
 
-	disp.clear();
+	dev.clear();
 
 	// Show a tribute to Star Wars
-	showImage( disp, "images/starwars.png" );
+	showImage( dev, "images/starwars.png" );
 	time::sleep(2);
 
-	disp.clear();
+	dev.clear();
 
-	disp.setFont( font );
+	dev.setFont( font );
 
 	std::string opening =
 
@@ -329,19 +330,19 @@ showStarWars( pcd8544 &disp, font::base &font ) {
 
 	for ( ; i > -90; --i ) {
 
-		disp.clear();
-		disp.drawText( 0, i, opening, 84, 127, pcd8544::ALIGN_CENTER );
-		disp.redraw();
+		dev.clear();
+		dev.drawText( 0, i, opening, 84, 127, pcd8544::ALIGN_CENTER );
+		dev.redraw();
 
 		time::msleep(300);
 	}
 }
 
 void
-showRadar( pcd8544 &disp, font::base &font ) {
+showRadar( pcd8544 &dev, font::base &font ) {
 
 	// Set the text font
-	disp.setFont( font );
+	dev.setFont( font );
 
 	// Target
 	int8_t x = -10, y = 25;
@@ -355,21 +356,21 @@ showRadar( pcd8544 &disp, font::base &font ) {
 		distance = math::sqrt( math::square( (float) x - 42.0 ) + math::square( (float) y ) );
 
 		// Redraw the screen
-		disp.clear();
+		dev.clear();
 
-		disp.fillCircle( 42, 0, 2 );
-		disp.drawCircle( 42, 0, 15 );
+		dev.fillCircle( 42, 0, 2 );
+		dev.drawCircle( 42, 0, 15 );
 
 		if ( x >= 0 && x < 84 ) {
 
-			disp.drawCircle( x, y, 3 );
-			disp.drawLine( 42, 0, x, y );
+			dev.drawCircle( x, y, 3 );
+			dev.drawLine( 42, 0, x, y );
 
-			disp.drawText( x - 10, y + 3, utils::format( "%.1fm", distance ) );
+			dev.drawText( x - 10, y + 3, utils::format( "%.1fm", distance ) );
 		}
 
-		disp.drawRect( 0, 0, 83, 47 );
-		disp.redraw();
+		dev.drawRect( 0, 0, 83, 47 );
+		dev.redraw();
 
 		// Wait some time
 		time::msleep( 500 );
@@ -384,104 +385,104 @@ main( int argc, char *args[] ) {
 	font::freetype body_font( "fonts/DroidSans.ttf", 10, font::RENDER_MONOCHROME );
 
 	// Create the display controller
-	pcd8544 disp( 23, 24, 25, 8, 7 );
+	pcd8544 dev( 23, 24, 25, 8, 7 );
 
 	// Initialize the display
-	disp.init();
+	dev.init();
 
 	// Show the main logo
-	showImage( disp, "images/main_logo.png" );
+	showImage( dev, "images/main_logo.png" );
 	time::sleep(3);
 
 
 	/* ========= Demo #0 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #0", "Drawing functions" );
+	showTitleScreen( dev, title_font, body_font, "Demo #0", "Drawing functions" );
 	time::sleep(1);
 
-	drawLines( disp );
+	drawLines( dev );
 	time::sleep(1);
 
-	drawCircles( disp );
+	drawCircles( dev );
 	time::sleep(1);
 
-	drawRectangles( disp );
+	drawRectangles( dev );
 	time::sleep(1);
 
-	drawEllipses( disp );
+	drawEllipses( dev );
 	time::sleep(2);
 
 
 	/* ========= Demo #1 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #1", "Handles multiple image formats using Magick++ API" );
+	showTitleScreen( dev, title_font, body_font, "Demo #1", "Handles multiple image formats using Magick++ API" );
 	time::sleep(1);
 
-	showImage( disp, "images/tao.png", 18, 0 );
+	showImage( dev, "images/tao.png", 18, 0 );
 	time::sleep(2);
 
-	showDitherImage( disp, "images/eye.png" );
+	showDitherImage( dev, "images/eye.png" );
 	time::sleep(2);
 
-	showDitherImage( disp, "images/hand.gif", 21, 0 );
+	showDitherImage( dev, "images/hand.gif", 21, 0 );
 	time::sleep(2);
 
-	showDitherImage( disp, "images/cat.jpg", 6, 0 );
+	showDitherImage( dev, "images/cat.jpg", 6, 0 );
 	time::sleep(2);
 
 
 	/* ========= Demo #2 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #2", "Supports several font formats using FreeType library" );
+	showTitleScreen( dev, title_font, body_font, "Demo #2", "Supports several font formats using FreeType library" );
 	time::sleep(1);
 
-	showFontStyles( disp );
+	showFontStyles( dev );
 	time::sleep(2);
 
-	showFontSizes( disp );
+	showFontSizes( dev );
 	time::sleep(2);
 
-	showFontTest( disp, body_font );
+	showFontTest( dev, body_font );
 	time::sleep(2);
 
 
 	/* ========= Demo #3 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #3", "Unicode support using UTF8-CPP library" );
+	showTitleScreen( dev, title_font, body_font, "Demo #3", "Unicode support using UTF8-CPP library" );
 	time::sleep(1);
 
-	showUnicode( disp );
+	showUnicode( dev );
 	time::sleep(4);
 
 
 	/* ========= Demo #4 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #4", "Text wrapping" );
+	showTitleScreen( dev, title_font, body_font, "Demo #4", "Text wrapping" );
 	time::sleep(1);
 
-	showAlignments( disp, body_font );
+	showAlignments( dev, body_font );
 	time::sleep(2);
 
 
 	/* ========= Demo #5 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #5", "A long time ago, in a galaxy far, far away..." );
+	showTitleScreen( dev, title_font, body_font, "Demo #5", "A long time ago, in a galaxy far, far away..." );
 	time::sleep(1);
 
-	showStarWars( disp, body_font );
+	showStarWars( dev, body_font );
 	time::sleep(2);
 
 
 	/* ========= Demo #6 ========= */
 
-	showTitleScreen( disp, title_font, body_font, "Demo #6", "The target is approaching" );
+	showTitleScreen( dev, title_font, body_font, "Demo #6", "The target is approaching" );
 	time::sleep(1);
 
-	showRadar( disp, body_font );
+	showRadar( dev, body_font );
 	time::sleep(2);
 
-	disp.clear();
-	disp.redraw();
+	dev.clear();
+	dev.redraw();
 
 	return 0;
 }

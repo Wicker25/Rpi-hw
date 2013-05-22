@@ -19,6 +19,7 @@
 */
 
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
 #include <rpi-hw/display/hd44780.hpp>
 
@@ -29,16 +30,16 @@ int
 main( int argc, char *args[] ) {
 
 	// Create the display controller
-	display::hd44780 disp( 14, 18, 4, 17, 21, 22 );
+	display::hd44780 dev( 14, 18, 4, 17, 21, 22 );
 
 	// Initialize the 16x2 display
-	disp.init( 16, 2 );
+	dev.init( 16, 2 );
 
 	// Move the cursor position
-	disp.move( 2, 0 );
+	dev.move( 2, 0 );
 
 	// Write a string at cursor position
-	disp.write( "Hello World!" );
+	dev.write( "Hello World!" );
 
 	return 0;
 }

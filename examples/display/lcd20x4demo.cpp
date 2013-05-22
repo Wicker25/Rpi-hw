@@ -19,6 +19,7 @@
 */
 
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
@@ -52,50 +53,50 @@ std::string exec( const std::string &cmd ) {
 	return output;
 }
 
-void pause( hd44780 &disp, size_t seconds ) {
+void pause( hd44780 &dev, size_t seconds ) {
 
 	// Wait some time and clear the display
 	time::sleep( seconds );
-	disp.clear();
+	dev.clear();
 }
 
-void demo0( hd44780 &disp ) {
+void demo0( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #0 =" );
-	disp.write( 4, 2, "Cursor mode" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #0 =" );
+	dev.write( 4, 2, "Cursor mode" );
+	pause( dev, 2 );
 
 	// Write a text using the solid cursor
-	disp.setCursor( hd44780::CURSOR_SOLID );
-	disp.write( "Solid cursor", 200 );
+	dev.setCursor( hd44780::CURSOR_SOLID );
+	dev.write( "Solid cursor", 200 );
 	time::sleep( 1 );
 
 	// Write a text using the blinking cursor
-	disp.setCursor( hd44780::CURSOR_BLINKING );
-	disp.write( "\nBlinking cursor", 200 );
+	dev.setCursor( hd44780::CURSOR_BLINKING );
+	dev.write( "\nBlinking cursor", 200 );
 	time::sleep( 1 );
 
 	// Write a text using the both cursors 
-	disp.setCursor( hd44780::CURSOR_SOLID | hd44780::CURSOR_BLINKING );
-	disp.write( "\nBoth cursors", 200 );
+	dev.setCursor( hd44780::CURSOR_SOLID | hd44780::CURSOR_BLINKING );
+	dev.write( "\nBoth cursors", 200 );
 	time::sleep( 1 );
 
 	// Hide cursor
-	disp.setCursor( hd44780::NO_CURSOR );
-	disp.write( "\nNo cursor", 200 );
-	pause( disp, 2 );
+	dev.setCursor( hd44780::NO_CURSOR );
+	dev.write( "\nNo cursor", 200 );
+	pause( dev, 2 );
 }
 
-void demo1( hd44780 &disp ) {
+void demo1( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #1 =" );
-	disp.write( 2, 2, "Move the cursor" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #1 =" );
+	dev.write( 2, 2, "Move the cursor" );
+	pause( dev, 2 );
 
 	// Set solid cursor
-	disp.setCursor( hd44780::CURSOR_SOLID );
+	dev.setCursor( hd44780::CURSOR_SOLID );
 
 	// Iterator
 	uint8_t i = 0;
@@ -103,103 +104,103 @@ void demo1( hd44780 &disp ) {
 	// Move the cursor on the display
 	for ( ; i < 20; ++i ) {
 
-		disp.move( i, ( i % 4 ) );
+		dev.move( i, ( i % 4 ) );
 		time::msleep( 500 );
 	}
 
 	// Hide the cursor
-	disp.setCursor( hd44780::NO_CURSOR );
+	dev.setCursor( hd44780::NO_CURSOR );
 
 	// Wait some time and clear the screen
 	time::sleep( 2 );
-	disp.clear();
+	dev.clear();
 }
 
-void demo2( hd44780 &disp ) {
+void demo2( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #2 =" );
-	disp.write( 2, 2, "Speed of writing" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #2 =" );
+	dev.write( 2, 2, "Speed of writing" );
+	pause( dev, 2 );
 
 	// Write text at different speeds
-	disp.write( "Slow speed", 500 );
-	disp.write( "\nNormal speed", 200 );
-	disp.write( "\nFast speed" );
-	pause( disp, 2 );
+	dev.write( "Slow speed", 500 );
+	dev.write( "\nNormal speed", 200 );
+	dev.write( "\nFast speed" );
+	pause( dev, 2 );
 }
 
-void demo3( hd44780 &disp ) {
+void demo3( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #3 =" );
-	disp.write( 3, 2, "Text alignment" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #3 =" );
+	dev.write( 3, 2, "Text alignment" );
+	pause( dev, 2 );
 
 	// Write a text using the left alignment
-	disp.write( 0, 1, "Left\nalignment", 0 );
-	pause( disp, 2 );
+	dev.write( 0, 1, "Left\nalignment", 0 );
+	pause( dev, 2 );
 
 	// Write a text using the center alignment
-	disp.write( 0, 1, utils::align( "Center\nalignment", 20, utils::ALIGN_CENTER ), 0 );
-	pause( disp, 2 );
+	dev.write( 0, 1, utils::align( "Center\nalignment", 20, utils::ALIGN_CENTER ), 0 );
+	pause( dev, 2 );
 
 	// Write a text using the right alignment
-	disp.write( 0, 1, utils::align( "Right\nalignment", 20, utils::ALIGN_RIGHT ), 0 );
-	pause( disp, 2 );
+	dev.write( 0, 1, utils::align( "Right\nalignment", 20, utils::ALIGN_RIGHT ), 0 );
+	pause( dev, 2 );
 }
 
-void demo4( hd44780 &disp ) {
+void demo4( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #4 =" );
-	disp.write( 0, 2, "Scroll the contents" );
+	dev.write( 4, 1, "= Demo #4 =" );
+	dev.write( 0, 2, "Scroll the contents" );
 	time::sleep( 2 );
-	disp.clear();
+	dev.clear();
 
 	// Write a sample text
-	disp.write( "Vertical scrolling" );
+	dev.write( "Vertical scrolling" );
 	time::sleep( 2 );
 
 	// Scroll down the screen
-	disp.scrollDown(); time::msleep( 500 );
-	disp.scrollDown(); time::msleep( 500 );
-	disp.scrollDown(); time::msleep( 500 );
+	dev.scrollDown(); time::msleep( 500 );
+	dev.scrollDown(); time::msleep( 500 );
+	dev.scrollDown(); time::msleep( 500 );
 
 	// Scroll up the screen
-	disp.scrollUp(); time::msleep( 500 );
-	disp.scrollUp(); time::msleep( 500 );
-	disp.scrollUp();
+	dev.scrollUp(); time::msleep( 500 );
+	dev.scrollUp(); time::msleep( 500 );
+	dev.scrollUp();
 
 	// Wait some time and clear the screen
-	pause( disp, 2 );
+	pause( dev, 2 );
 
 	// Write a sample text
-	disp.write( 0, 1, "Horizontal\nscrolling" );
+	dev.write( 0, 1, "Horizontal\nscrolling" );
 	time::sleep( 1 );
 
 	// Scroll right the screen
-	disp.scrollRight(); time::msleep( 500 );
-	disp.scrollRight(); time::msleep( 500 );
-	disp.scrollRight(); time::msleep( 500 );
-	disp.scrollRight(); time::msleep( 500 );
+	dev.scrollRight(); time::msleep( 500 );
+	dev.scrollRight(); time::msleep( 500 );
+	dev.scrollRight(); time::msleep( 500 );
+	dev.scrollRight(); time::msleep( 500 );
 
 	// Scroll left the screen
-	disp.scrollLeft(); time::msleep( 500 );
-	disp.scrollLeft(); time::msleep( 500 );
-	disp.scrollLeft(); time::msleep( 500 );
-	disp.scrollLeft();
+	dev.scrollLeft(); time::msleep( 500 );
+	dev.scrollLeft(); time::msleep( 500 );
+	dev.scrollLeft(); time::msleep( 500 );
+	dev.scrollLeft();
 
 	// Wait some time and clear the screen
-	pause( disp, 2 );
+	pause( dev, 2 );
 }
 
-void demo5( hd44780 &disp ) {
+void demo5( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #5 =" );
-	disp.write( 3, 2, "Autoscrolling" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #5 =" );
+	dev.write( 3, 2, "Autoscrolling" );
+	pause( dev, 2 );
 
 	// A sample text
 	std::string text =	"First line.\n"
@@ -210,57 +211,57 @@ void demo5( hd44780 &disp ) {
 						"Sixth line.";
 
 	// Write the text without scrolling
-	disp.write( 3, 1, "No scrolling" );
-	pause( disp, 2 );
+	dev.write( 3, 1, "No scrolling" );
+	pause( dev, 2 );
 
-	disp.setAutoscroll( hd44780::NO_SCROLL );
-	disp.write( text, 150 );
-	pause( disp, 1 );
+	dev.setAutoscroll( hd44780::NO_SCROLL );
+	dev.write( text, 150 );
+	pause( dev, 1 );
 
 	// Write the text with vertical autoscrolling
-	disp.write( 6, 1, "Vertical" );
-	pause( disp, 2 );
+	dev.write( 6, 1, "Vertical" );
+	pause( dev, 2 );
 
-	disp.setAutoscroll( hd44780::VSCROLL );
-	disp.write( text, 150 );
-	pause( disp, 1 );
+	dev.setAutoscroll( hd44780::VSCROLL );
+	dev.write( text, 150 );
+	pause( dev, 1 );
 
 	// Write the text with horizontal autoscrolling
-	disp.write( 5, 1, "Horizontal" );
-	pause( disp, 2 );
+	dev.write( 5, 1, "Horizontal" );
+	pause( dev, 2 );
 
-	disp.setAutoscroll( hd44780::HSCROLL );
-	disp.write( text, 150 );
-	pause( disp, 2 );
+	dev.setAutoscroll( hd44780::HSCROLL );
+	dev.write( text, 150 );
+	pause( dev, 2 );
 
 	// Write the text with horizontal autoscrolling (single line)
-	disp.write( 1, 1, "Horizontal (line)" );
-	pause( disp, 2 );
+	dev.write( 1, 1, "Horizontal (line)" );
+	pause( dev, 2 );
 
-	disp.setAutoscroll( hd44780::HSCROLL_LINE );
-	disp.write( text, 150 );
-	pause( disp, 2 );
+	dev.setAutoscroll( hd44780::HSCROLL_LINE );
+	dev.write( text, 150 );
+	pause( dev, 2 );
 
 	// Write the text with horizontal (single line) and vertical autoscrolling
-	disp.write( 0, 1, utils::align( "Horizontal (line) and vertical", 20, utils::ALIGN_CENTER ) );
-	pause( disp, 2 );
+	dev.write( 0, 1, utils::align( "Horizontal (line) and vertical", 20, utils::ALIGN_CENTER ) );
+	pause( dev, 2 );
 
-	disp.setAutoscroll( hd44780::HSCROLL_LINE | hd44780::VSCROLL );
-	disp.write( text, 150 );
+	dev.setAutoscroll( hd44780::HSCROLL_LINE | hd44780::VSCROLL );
+	dev.write( text, 150 );
 
 	// Restore the autoscrolling
-	disp.setAutoscroll( hd44780::VSCROLL );
+	dev.setAutoscroll( hd44780::VSCROLL );
 
 	// Wait some time and clear the screen
-	pause( disp, 2 );
+	pause( dev, 2 );
 }
 
-void demo6( hd44780 &disp ) {
+void demo6( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #6 =" );
-	disp.write( 3, 2, "Word wrapping" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #6 =" );
+	dev.write( 3, 2, "Word wrapping" );
+	pause( dev, 2 );
 
 	// A sample text
 	std::string text =	"To be, or not to be, that is the question: "
@@ -270,19 +271,19 @@ void demo6( hd44780 &disp ) {
 						"and, by opposing, end them. To die, to sleep...";
 
 	// Write the text with word wrapping
-	disp.write( utils::align( text, 20, utils::ALIGN_CENTER ), 200 );
-	pause( disp, 2 );
+	dev.write( utils::align( text, 20, utils::ALIGN_CENTER ), 200 );
+	pause( dev, 2 );
 }
 
-void demo7( hd44780 &disp ) {
+void demo7( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #7 =" );
-	disp.write( 1, 2, "Custom characters" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #7 =" );
+	dev.write( 1, 2, "Custom characters" );
+	pause( dev, 2 );
 
 	// Display loading message
-	disp.write( 5, 1, "Loading..." );
+	dev.write( 5, 1, "Loading..." );
 
 	// Define some custom characters
 	uint8_t smile[8]		= { 0x00, 0x0a, 0x0a, 0x00, 0x00, 0x11, 0x0e, 0x00 };
@@ -294,66 +295,66 @@ void demo7( hd44780 &disp ) {
 	uint8_t bat_center[8]	= { 0x0a, 0x0e, 0x1f, 0x1f, 0x1f, 0x1f, 0x0e, 0x04 };
 	uint8_t bat_right[8]	= { 0x08, 0x0c, 0x1e, 0x1e, 0x1e, 0x1e, 0x0c, 0x08 };
 
-	disp.defChar( hd44780::CCHAR0, smile );
-	disp.defChar( hd44780::CCHAR1, heart );
-	disp.defChar( hd44780::CCHAR2, pacman );
-	disp.defChar( hd44780::CCHAR3, music );
+	dev.defChar( hd44780::CCHAR0, smile );
+	dev.defChar( hd44780::CCHAR1, heart );
+	dev.defChar( hd44780::CCHAR2, pacman );
+	dev.defChar( hd44780::CCHAR3, music );
 
-	disp.defChar( hd44780::CCHAR4, bat_left );
-	disp.defChar( hd44780::CCHAR5, bat_center );
-	disp.defChar( hd44780::CCHAR6, bat_right );
+	dev.defChar( hd44780::CCHAR4, bat_left );
+	dev.defChar( hd44780::CCHAR5, bat_center );
+	dev.defChar( hd44780::CCHAR6, bat_right );
 
 	// Clear the display
-	disp.clear();
+	dev.clear();
 
 	// Write the custom characters
-	disp.write( 1, 0, "Smile  " );
-	disp.write( hd44780::CCHAR0 );
+	dev.write( 1, 0, "Smile  " );
+	dev.write( hd44780::CCHAR0 );
 
-	disp.write( 12, 0, hd44780::CCHAR1 );
-	disp.write( " Heart" );
+	dev.write( 12, 0, hd44780::CCHAR1 );
+	dev.write( " Heart" );
 
-	disp.write( 1, 1, "Pacman " );
-	disp.write( hd44780::CCHAR2 );
+	dev.write( 1, 1, "Pacman " );
+	dev.write( hd44780::CCHAR2 );
 
-	disp.write( 12, 1, hd44780::CCHAR3 );
-	disp.write( " Music" );
+	dev.write( 12, 1, hd44780::CCHAR3 );
+	dev.write( " Music" );
 
-	disp.write( 4, 3, "Batman! " );
-	disp.write( hd44780::CCHAR4 );
-	disp.write( hd44780::CCHAR5 );
-	disp.write( hd44780::CCHAR6 );
+	dev.write( 4, 3, "Batman! " );
+	dev.write( hd44780::CCHAR4 );
+	dev.write( hd44780::CCHAR5 );
+	dev.write( hd44780::CCHAR6 );
 
 	// Wait some time and clear the screen
-	pause( disp, 6 );
+	pause( dev, 6 );
 }
 
-void demo8( hd44780 &disp ) {
+void demo8( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #8 =" );
-	disp.write( 1, 2, "Print current time" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #8 =" );
+	dev.write( 1, 2, "Print current time" );
+	pause( dev, 2 );
 
 	// Write the current date
 	size_t i = 0;
 
 	for ( ; i < 10; ++i ) {
 
-		disp.write( 0, 1, utils::align( exec( "date +%H:%m:%S" ), 20, utils::ALIGN_CENTER ) );
-		pause( disp, 1 );
+		dev.write( 0, 1, utils::align( exec( "date +%H:%m:%S" ), 20, utils::ALIGN_CENTER ) );
+		pause( dev, 1 );
 	}
 
 	// Wait some time and clear the screen
-	pause( disp, 1 );
+	pause( dev, 1 );
 }
 
-void demo9( hd44780 &disp ) {
+void demo9( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 4, 1, "= Demo #9 =" );
-	disp.write( 3, 2, "Progress bars" );
-	pause( disp, 2 );
+	dev.write( 4, 1, "= Demo #9 =" );
+	dev.write( 3, 2, "Progress bars" );
+	pause( dev, 2 );
 
 	// Draw the progress bars
 	float factor = 100.0 / 18.0;
@@ -362,112 +363,112 @@ void demo9( hd44780 &disp ) {
 
 	for ( ; i <= 100; i += 5 ) {
 
-		disp.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
-		disp.write( 1, 2, std::string( (size_t) math::abs( (float) i / factor ), (uint8_t) 0xFF ) );
+		dev.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
+		dev.write( 1, 2, std::string( (size_t) math::abs( (float) i / factor ), (uint8_t) 0xFF ) );
 
 		time::msleep( 500 );
 	}
 
-	pause( disp, 2 );
+	pause( dev, 2 );
 
 	for ( i = 0; i <= 100; i += 5 ) {
 
-		disp.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
-		disp.write( 0, 2, "[" + std::string( (size_t) math::abs( (float) i / factor ), '=' ) );
-		disp.write( 19, 2, "]" );
+		dev.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
+		dev.write( 0, 2, "[" + std::string( (size_t) math::abs( (float) i / factor ), '=' ) );
+		dev.write( 19, 2, "]" );
 	
 		time::msleep( 500 );
 	}
 
 	// Wait some time and clear the screen
-	pause( disp, 2 );
+	pause( dev, 2 );
 }
 
-void demo10( hd44780 &disp ) {
+void demo10( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 3, 1, "= Demo #10 =" );
-	disp.write( 1, 2, "Directory contents" );
-	pause( disp, 2 );
+	dev.write( 3, 1, "= Demo #10 =" );
+	dev.write( 1, 2, "Directory contents" );
+	pause( dev, 2 );
 
 	// Write the contents of the directory
-	disp.write( "Directory contents\n" );
-	disp.write( exec( "ls | awk '{print FNR \" \" $0}'" ), 200 );
-	pause( disp, 2 );
+	dev.write( "Directory contents\n" );
+	dev.write( exec( "ls | awk '{print FNR \" \" $0}'" ), 200 );
+	pause( dev, 2 );
 }
 
-void demo11( hd44780 &disp ) {
+void demo11( hd44780 &dev ) {
 
 	// Write the title
-	disp.write( 3, 1, "= Demo #11 =" );
-	disp.write( 1, 2, "Wireless networks" );
-	pause( disp, 2 );
+	dev.write( 3, 1, "= Demo #11 =" );
+	dev.write( 1, 2, "Wireless networks" );
+	pause( dev, 2 );
 
 	// Write the list of the wireless networks
-	disp.write( 0, 0, "Scanning..." );
+	dev.write( 0, 0, "Scanning..." );
 	std::string list = exec( "iwlist wlan0 scanning | sed -n 's/.*ESSID:\"\\(.*\\)\"/\\1/p' | awk '{ print FNR, $0 }'" );
-	disp.clear();
+	dev.clear();
 
-	disp.write( "Wireless networks\n" );
-	disp.write( list, 200 );
+	dev.write( "Wireless networks\n" );
+	dev.write( list, 200 );
 
 	// Wait some time and clear the screen
 	time::sleep( 2 );
-	disp.clear();
+	dev.clear();
 }
 
 int
 main( int argc, char *args[] ) {
 
 	// Display controller
-	hd44780 disp( 14, 18, 4, 17, 21, 22 );
+	hd44780 dev( 14, 18, 4, 17, 21, 22 );
 
 	// Initialize the 16x2 display
-	disp.init( 20, 4 );
+	dev.init( 20, 4 );
 
 	// Print the initial messages
-	disp.write( utils::align(
+	dev.write( utils::align(
 
 		"= Rpi-hw =\n"
 		"Interfacing Raspberry Pi with Hitachi HD44780",
 
 	20, utils::ALIGN_CENTER ) );
 
-	pause( disp, 5 );
+	pause( dev, 5 );
 
-	disp.write( utils::align(
+	dev.write( utils::align(
 
 		"Rpi-hw is a free C++ library designed to manage "
 		"the Raspberry Pi's GPIO connector.",
 
 	20, utils::ALIGN_CENTER ), 200 );
 
-	pause( disp, 2 );
+	pause( dev, 2 );
 
 	// Play all demos
-	demo0( disp );
-	demo1( disp );
-	demo2( disp );
-	demo3( disp );
-	demo4( disp );
-	demo5( disp );
-	demo6( disp );
-	demo7( disp );
-	demo8( disp );
-	demo9( disp );
-	demo10( disp );
-	//demo11( disp );
+	demo0( dev );
+	demo1( dev );
+	demo2( dev );
+	demo3( dev );
+	demo4( dev );
+	demo5( dev );
+	demo6( dev );
+	demo7( dev );
+	demo8( dev );
+	demo9( dev );
+	demo10( dev );
+	//demo11( dev );
 
 	// Print the final message
-	disp.write( utils::align( "That's all, folks!\nFeel free to comment my work!", 20, utils::ALIGN_CENTER ), 200 );
-	pause( disp, 2 );
-	disp.write( utils::align( "For more informations visit:\n\nwww.hackyourmind.org", 20, utils::ALIGN_CENTER ), 200 );
-	pause( disp, 2 );
+	dev.write( utils::align( "That's all, folks!\nFeel free to comment my work!", 20, utils::ALIGN_CENTER ), 200 );
+	pause( dev, 2 );
+	dev.write( utils::align( "For more informations visit:\n\nwww.hackyourmind.org", 20, utils::ALIGN_CENTER ), 200 );
+	pause( dev, 2 );
 
 	/*
-	disp.write( utils::align( "A special thanks to my friend Nicola for helping me with this video!", 20, utils::ALIGN_CENTER ), 200 );
-	disp.write( hd44780::CCHAR0 );
-	pause( disp, 2 );
+	dev.write( utils::align( "A special thanks to my friend Nicola for helping me with this video!", 20, utils::ALIGN_CENTER ), 200 );
+	dev.write( hd44780::CCHAR0 );
+	pause( dev, 2 );
 	*/
 
 	return 0;

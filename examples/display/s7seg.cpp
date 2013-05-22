@@ -19,8 +19,8 @@
 */
 
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/display/s7seg.hpp>
@@ -44,16 +44,16 @@ int
 main( int argc, char *args[] ) {
 
 	// Seven-segment display controller
-	display::s7seg disp( 1, 4, 18, 15, 14, 0, 17 );
+	display::s7seg dev( 1, 4, 18, 15, 14, 0, 17 );
 
-	// Iterator
+	// Counter
 	size_t i = 0;
 
 	// Main loop
 	for ( ;; ) {
 
 		// Set the digit
-		disp.set( i++ );
+		dev.set( i++ );
 
 		// Wait some time
 		time::msleep( 500 );

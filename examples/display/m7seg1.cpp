@@ -19,8 +19,8 @@
 */
 
 
+// Include Rpi-hw headers
 #include <rpi-hw.hpp>
-
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/iface/decoder-out.hpp>
 #include <rpi-hw/display/m7seg.hpp>
@@ -44,29 +44,29 @@ int
 main( int argc, char *args[] ) {
 
 	// Multiple seven-segment display controller
-	display::m7seg disp( 1, 4, 18, 15, 14, 0, 17, 23 );
+	display::m7seg dev( 1, 4, 18, 15, 14, 0, 17, 23 );
 
 	// Create the enabler interface
 	iface::decoderOut enabler( { 21, 22 } );
 
 	// Set the number of displays and the enabler interface
-	disp.setDisplays( 2, enabler );
+	dev.setDisplays( 2, enabler );
 
 	// Set the updating frequency (Hz)
-	disp.setFreq( 100.0 );
+	dev.setFreq( 100.0 );
 
 	// Set the format of the display
-	disp.format( 0, false );
+	dev.format( 0, false );
 
 
-	// Iterator
+	// Counter
 	float i = -9.0;
 
 	// Main loop
 	for ( ;; ) {
 
 		// Set the value of the display
-		disp.set( i );
+		dev.set( i );
 
 		// Increment value of the display
 		i += 1.0;
