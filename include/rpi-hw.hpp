@@ -28,7 +28,7 @@
 
 @section description Description
 
-<a href="http://www.hackyourmind.org/blog/projects/rpi-hw/">Rpi-hw</a> is a free C++ library 
+<a href="http://hackyourmind.org/projects/rpi-hw">Rpi-hw</a> is a free C++ library 
 designed to manage the Raspberry Pi's General Purpose Input/Output (GPIO) connector.
 The library is released under terms of the [GNU LGPL v3](http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License).
 
