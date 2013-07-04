@@ -28,10 +28,10 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
-matrix::matrix( std::initializer_list< uint8_t > col_pins, std::initializer_list< uint8_t > row_pins )
+matrix::matrix( std::initializer_list< uint8_t > cols, std::initializer_list< uint8_t > rows )
 
-	: keypad::base( col_pins.size() * row_pins.size(), row_pins )
-	, m_output( new iface::output( col_pins ) ) {
+	: keypad::base( cols.size() * rows.size(), rows )
+	, m_output( new iface::output( cols ) ) {
 
 }
 

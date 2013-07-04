@@ -52,10 +52,10 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] col_pins Sequence of `uint8_t` containing the column GPIOs.
-		@param[in] row_pins Sequence of `uint8_t` containing the rows GPIOs.
+		@param[in] cols Sequence of `uint8_t` containing the column GPIOs.
+		@param[in] rows Sequence of `uint8_t` containing the rows GPIOs.
 	*/
-	matrix( std::initializer_list< uint8_t > col_pins, std::initializer_list< uint8_t > row_pins );
+	matrix( std::initializer_list< uint8_t > cols, std::initializer_list< uint8_t > rows );
 
 	//! Destructor method.
 	virtual ~matrix();
