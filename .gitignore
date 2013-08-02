@@ -1,0 +1,21 @@
+# CMake's files
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+install_directories.txt
+
+# Generated files
+/include/rpi-hw/version.hpp
+/include/rpi-hw/config.hpp
+/include/rpi-hw/rpi.hpp
+/pkgconfig/rpi-hw.pc
+/doxygen/doxy.conf
+/cmake/uninstall.cmake
+
+# Compiled objects
+build/
+
+# Documentation
+doc/
