@@ -53,7 +53,7 @@ matrix::update() {
 	uint8_t i, j;
 
 	// Updating loop
-	while ( 1 ) {
+	for ( ;; ) {
 
 		// Update state of buttons
 		for ( j = 0; j < cols; ++j ) {
