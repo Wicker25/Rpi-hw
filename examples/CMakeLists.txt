@@ -6,6 +6,10 @@ cmake_minimum_required( VERSION 2.6 )
 # Set the compiler flags
 add_definitions( -Wall -ansi -pedantic -pedantic-errors -std=c++11 )
 
+# Set the output directories
+set( LIBRARY_OUTPUT_PATH		"build" )
+set( EXECUTABLE_OUTPUT_PATH		"build" )
+
 # Find the Rpi-hw library
 find_package( RpiHw REQUIRED )
 
