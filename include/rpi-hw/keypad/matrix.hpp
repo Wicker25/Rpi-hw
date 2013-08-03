@@ -57,6 +57,14 @@ public:
 	*/
 	matrix( std::initializer_list< uint8_t > cols, std::initializer_list< uint8_t > rows );
 
+	/*!
+		@brief Constructor method.
+		@param[in] cols Sequence of `uint8_t` containing the column GPIOs.
+		@param[in] rows Sequence of `uint8_t` containing the rows GPIOs.
+		@param[in] keymap The keymap vector.
+	*/
+	matrix( std::initializer_list< uint8_t > cols, std::initializer_list< uint8_t > rows, const std::vector< uint8_t > &keymap );
+
 	//! Destructor method.
 	virtual ~matrix();
 

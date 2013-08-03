@@ -43,7 +43,6 @@ using namespace rpihw;
    -----------------
           ||||
     (22, 14, 15, 17)  rows = 4
-
 */
 
 int
@@ -55,7 +54,7 @@ main( int argc, char *args[] ) {
    // Main loop
    for ( ;; ) {
 
-      // Check some keys state
+      // Check some buttons state
       if ( dev.pressed(0) )
          std::cout << "You have pressed button 0!\n";
 

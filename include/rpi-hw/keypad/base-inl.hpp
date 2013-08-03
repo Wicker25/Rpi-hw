@@ -29,7 +29,7 @@ namespace keypad { // Begin keypads namespace
 inline const std::vector< bool > &
 base::state() const {
 
-	// Return the button state
+	// Return the list of button states
 	return m_keystate;
 }
 
