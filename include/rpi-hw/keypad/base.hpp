@@ -116,6 +116,9 @@ public:
 	*/
 	virtual bool released( size_t index ) const;
 
+	//! Returns the list of button states.
+	virtual const std::vector< bool > &state() const;
+
 	/*!
 		@brief Returns a key state.
 		@param[in] key The key button.
@@ -136,9 +139,6 @@ public:
 		@return Return \c true if button is released.
 	*/
 	virtual bool keyReleased( uint8_t key ) const;
-
-	//! Returns the list of button states.
-	virtual const std::vector< bool > &state() const;
 
 	//! Returns the list of pressed keys.
 	virtual std::vector< uint8_t > keyState() const;

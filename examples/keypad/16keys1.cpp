@@ -76,7 +76,7 @@ main( int argc, char *args[] ) {
 		std::cout << '\r';
 
 		for ( uint8_t chr : keystate )
-			std::cout << chr << ' ';
+			std::cout << '\'' << (char) chr << "' ";
 
 		std::cout << std::flush;
 
