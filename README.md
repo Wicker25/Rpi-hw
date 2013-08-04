@@ -1,8 +1,8 @@
 Rpi-hw v0.4.1
 =============
 
-![Ultrasonic Distance Sensor](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/ultrasonic_sensor.jpg) .
-![PCD8544 LCD](https://raw.github.com/Wicker25/Rpi-hw/develop/extras/pcd8544.png)
+![Ultrasonic Distance Sensor](https://raw.github.com/Wicker25/Rpi-hw/master/extras/ultrasonic_sensor.jpg) .
+![PCD8544 LCD](https://raw.github.com/Wicker25/Rpi-hw/master/extras/pcd8544.png)
 
 ### Description
 
