@@ -181,7 +181,7 @@ base::keyState() const {
 	// Find pressed keys
 	size_t index = 0;
 
-	for ( auto it = m_keymap.begin(); it != m_keymap.end(); ++it, ++index )
+	for ( auto it = std::begin( m_keymap ); it != std::end( m_keymap ); ++it, ++index )
 		if ( m_keystate[ it->second ] )
 			keys.push_back( it->first );
 
