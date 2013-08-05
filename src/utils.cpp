@@ -61,7 +61,7 @@ align( const std::string &text, size_t width, uint8_t flags ) {
 		margin = 1;
 
 	// Iterators
-	auto it = text.begin(), end = text.end();
+	auto it = std::begin( text ), end = std::end( text );
 
 	// The aligned string
 	std::string result; result.reserve( std::distance( it, end ) * 2 );

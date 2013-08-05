@@ -231,7 +231,7 @@ void
 hd44780::write( const std::string &text, size_t delay ) {
 
 	// Iterators
-	std::string::const_iterator it = text.begin(), end = text.end();
+	std::string::const_iterator it = std::begin( text ), end = std::end( text );
 
 	// Write the character on the display
 	for ( ; it != end; ++it ) {
