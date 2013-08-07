@@ -29,12 +29,8 @@
 // Use the Rpi-hw namespace
 using namespace rpihw;
 
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
 /*
-       (21, 10, 4, N)   colums = 4
+      (14, 15, 18, 23)   colums = 4
             ||||
    ----------------------
    | (1)  (2)  (3)  (A) |
@@ -46,7 +42,7 @@ using namespace rpihw;
    | (*)  (0)  (#)  (D) |
    ----------------------
             ||||
-      (22, 14, 15, 17)  rows = 4
+       (24, 25, 8, 7)  rows = 4
 */
 
 int
@@ -62,10 +58,7 @@ main( int argc, char *args[] ) {
 	};
 
 	// Matrix keypad controller
-	keypad::matrix dev( { 21, 10, 4 }, { 22, 14, 15, 17 }, keymap );
-
-	// Print message
-	std::cout << "State of keys:\n";
+	keypad::matrix dev( { 14, 15, 18, 23 }, { 24, 25, 8, 7 }, keymap );
 
 	// Main loop
 	for ( ;; ) {
@@ -73,12 +66,8 @@ main( int argc, char *args[] ) {
 		// Write the buttons state
 		const std::vector< uint8_t > &keystate = dev.keyState();
 
-		std::cout << '\r';
-
-		for ( uint8_t chr : keystate )
-			std::cout << '\'' << (char) chr << "' ";
-
-		std::cout << std::flush;
+		for ( uint8_t c : keystate )
+			std::cout << (char) c << std::flush;
 
 		// Wait some time
 		time::msleep( 100 );

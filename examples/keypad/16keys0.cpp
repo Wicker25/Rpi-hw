@@ -29,12 +29,8 @@
 // Use the Rpi-hw namespace
 using namespace rpihw;
 
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
-// FIXME FIXME FIXME FIXME
 /*
-       (21, 10, 4, N)   colums = 4
+      (14, 15, 18, 23)   colums = 4
             ||||
    ----------------------
    | (1)  (2)  (3)  (A) |
@@ -46,7 +42,7 @@ using namespace rpihw;
    | (*)  (0)  (#)  (D) |
    ----------------------
             ||||
-      (22, 14, 15, 17)  rows = 4
+       (24, 25, 8, 7)  rows = 4
 */
 
 int
@@ -62,7 +58,7 @@ main( int argc, char *args[] ) {
 	};
 
 	// Matrix keypad controller
-	keypad::matrix dev( { 21, 10, 4 }, { 22, 14, 15, 17 }, keymap );
+	keypad::matrix dev( { 14, 15, 18, 23 }, { 24, 25, 8, 7 }, keymap );
 
 	// Main loop
 	for ( ;; ) {
@@ -71,11 +67,14 @@ main( int argc, char *args[] ) {
       if ( dev.keyPressed('1') )
          std::cout << "You have pressed '1' key!\n";
 
+      if ( dev.keyPressed('2') || dev.keyPressed('3') )
+         std::cout << "You have pressed keys '2' or '3'!\n";
+
       if ( dev.keyReleased('#') )
          std::cout << "You have released '#' key!\n";
 
-      if ( dev.keyPressed('A') && dev.keyPressed('*') )
-         std::cout << "You have pressed keys 'A' and '*'!\n";
+      if ( dev.keyPressed('A') && dev.keyPressed('C') )
+         std::cout << "You have pressed keys 'A' and 'C'!\n";
 
 		// Wait some time
 		time::msleep( 100 );
