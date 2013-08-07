@@ -55,6 +55,10 @@ The following are some features of the library:
 
 Detailed documentation of Rpi-hw's features and usage can be found on the <a href="https://github.com/Wicker25/Rpi-hw/wiki">wiki</a>.
 
+@section bug_tracker Bug tracker
+
+Have a bug? Please create an issue on GitHub at <a href="https://github.com/Wicker25/Rpi-hw/issues">https://github.com/Wicker25/Rpi-hw/issues</a>.
+
 */
 
 /*!

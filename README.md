@@ -34,3 +34,7 @@ The following are some features of the library:
 Detailed documentation of Rpi-hw's features and usage can be found on the [wiki](https://github.com/Wicker25/Rpi-hw/wiki).
 
 Otherwise, you can find [some articles](http://hackyourmind.org/tag/rpi-hw) about the library on <http://hackyourmind.org/>.
+
+### Bug tracker
+
+Have a bug? Please create an issue on GitHub at <https://github.com/Wicker25/Rpi-hw/issues>.
