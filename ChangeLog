@@ -1,5 +1,12 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.4.2 - urgency=high =============
+
+2013-08-07 Wicker25 < wicker25@gmail.com >
+
+    * keypad/base.cpp: Fixed bad initialization.
+                       Added keymap support.
+
 ============ Rpi-hw 0.4.1 - urgency=low =============
 
 2013-05-06 Wicker25 < wicker25@gmail.com >
