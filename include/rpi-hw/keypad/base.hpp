@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 
 #include <thread>
 #include <mutex>
@@ -52,6 +53,9 @@ class base {
 
 public:
 
+	//! The keymap type.
+	typedef std::map< uint8_t, uint8_t > T_Keymap;
+
 	/*!
 		@brief Constructor method.
 		@param[in] total Number of the buttons.
@@ -62,12 +66,34 @@ public:
 	/*!
 		@brief Constructor method.
 		@param[in] total Number of the buttons.
+		@param[in] pins Sequence of `uint8_t` containing the input GPIOs.
+		@param[in] keymap The keymap vector.
+	*/
+	base( size_t total, std::initializer_list< uint8_t > pins, const std::vector< uint8_t > &keymap );
+
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the buttons.
 		@param[in] pins Vector containing the input GPIO pins.
 	*/
 	base( size_t total, const std::vector< uint8_t > &pins );
 
+	/*!
+		@brief Constructor method.
+		@param[in] total Number of the buttons.
+		@param[in] pins Vector containing the input GPIO pins.
+		@param[in] keymap The keymap vector.
+	*/
+	base( size_t total, const std::vector< uint8_t > &pins, const std::vector< uint8_t > &keymap );
+
 	//! Destructor method.
 	virtual ~base();
+
+	/*!
+		@brief Sets the keymap.
+		@param[in] keymap The keymap vector.
+	*/
+	virtual void setKeymap( const std::vector< uint8_t > &keymap );
 
 	/*!
 		@brief Returns a button state.
@@ -90,8 +116,32 @@ public:
 	*/
 	virtual bool released( size_t index ) const;
 
-	//! Returns the `std::vector< bool >` of button states.
+	//! Returns the list of button states.
 	virtual const std::vector< bool > &state() const;
+
+	/*!
+		@brief Returns a key state.
+		@param[in] key The key button.
+		@return The state of the button.
+	*/
+	virtual bool keyState( uint8_t key ) const;
+
+	/*!
+		@brief Checks if a key is pressed.
+		@param[in] key The key button.
+		@return Return \c true if button is pressed.
+	*/
+	virtual bool keyPressed( uint8_t key ) const;
+
+	/*!
+		@brief Checks if a key is released.
+		@param[in] key The key button.
+		@return Return \c true if button is released.
+	*/
+	virtual bool keyReleased( uint8_t key ) const;
+
+	//! Returns the list of pressed keys.
+	virtual std::vector< uint8_t > keyState() const;
 
 	//! Returns the number of keys.
 	virtual size_t numOfKeys() const;
@@ -103,6 +153,9 @@ protected:
 
 	//! Buttons input interface.
 	std::unique_ptr< iface::input > m_input;
+
+	//! The keymap vector.
+	T_Keymap m_keymap;
 
 	//! Button states (0 = up, 1 = down).
 	std::vector< bool > m_keystate;

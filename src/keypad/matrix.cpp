@@ -30,8 +30,15 @@ namespace keypad { // Begin keypads namespace
 
 matrix::matrix( std::initializer_list< uint8_t > cols, std::initializer_list< uint8_t > rows )
 
-	: keypad::base( cols.size() * rows.size(), rows )
-	, m_output( new iface::output( cols ) ) {
+	: keypad::base	( cols.size() * rows.size(), rows )
+	, m_output		( new iface::output( cols ) ) {
+
+}
+
+matrix::matrix( std::initializer_list< uint8_t > cols, std::initializer_list< uint8_t > rows, const std::vector< uint8_t > &keymap )
+
+	: keypad::base	( cols.size() * rows.size(), rows, keymap )
+	, m_output		( new iface::output( cols ) ) {
 
 }
 
@@ -43,7 +50,7 @@ void
 matrix::update() {
 
 	// Get the size of the keypad
-	uint8_t cols = m_output->numOfPins(),
+	uint8_t	cols = m_output->numOfPins(),
 			rows = m_input->numOfPins();
 
 	// Working structures

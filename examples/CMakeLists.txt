@@ -48,6 +48,12 @@ target_link_libraries( 12keys0 ${RpiHw_LIBRARIES} )
 add_executable( 12keys1 ${CMAKE_SOURCE_DIR}/keypad/12keys1.cpp )
 target_link_libraries( 12keys1 ${RpiHw_LIBRARIES} )
 
+add_executable( 16keys0 ${CMAKE_SOURCE_DIR}/keypad/16keys0.cpp )
+target_link_libraries( 16keys0 ${RpiHw_LIBRARIES} )
+
+add_executable( 16keys1 ${CMAKE_SOURCE_DIR}/keypad/16keys1.cpp )
+target_link_libraries( 16keys1 ${RpiHw_LIBRARIES} )
+
 add_executable( 28bjy48 ${CMAKE_SOURCE_DIR}/motor/28bjy48.cpp )
 target_link_libraries( 28bjy48 ${RpiHw_LIBRARIES} )
 

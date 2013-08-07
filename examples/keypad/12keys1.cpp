@@ -43,7 +43,6 @@ using namespace rpihw;
    -----------------
           ||||
     (22, 14, 15, 17)  rows = 4
-
 */
 
 int

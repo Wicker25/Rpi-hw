@@ -1,5 +1,5 @@
 /* 
-    Title --- 12keys0.cpp [examples]
+    Title --- 16keys1.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -30,44 +30,49 @@
 using namespace rpihw;
 
 /*
-      (21, 10, 4)     colums = 3
-          |||
-   -----------------
-   | (1)  (2)  (3) |
-   |               |
-   | (4)  (5)  (6) |
-   |               |
-   | (7)  (8)  (9) |
-   |               |
-   | (*)  (0)  (#) |
-   -----------------
-          ||||
-    (22, 14, 15, 17)  rows = 4
+      (14, 15, 18, 23)   colums = 4
+            ||||
+   ----------------------
+   | (1)  (2)  (3)  (A) |
+   |                    |
+   | (4)  (5)  (6)  (B) |
+   |                    |
+   | (7)  (8)  (9)  (C) |
+   |                    |
+   | (*)  (0)  (#)  (D) |
+   ----------------------
+            ||||
+       (24, 25, 8, 7)  rows = 4
 */
 
 int
 main( int argc, char *args[] ) {
 
-   // Matrix keypad controller
-   keypad::matrix dev( { 21, 10, 4 }, { 22, 14, 15, 17 } );
+	// Define the keymap
+	std::vector< uint8_t > keymap = {
 
-   // Main loop
-   for ( ;; ) {
+		'1', '2', '3', 'A',
+		'4', '5', '6', 'B',
+		'7', '8', '9', 'C',
+		'*', '0', '#', 'D'
+	};
 
-      // Check some buttons state
-      if ( dev.pressed(0) )
-         std::cout << "You have pressed button 0!\n";
+	// Matrix keypad controller
+	keypad::matrix dev( { 14, 15, 18, 23 }, { 24, 25, 8, 7 }, keymap );
 
-      if ( dev.released(2) )
-         std::cout << "You have released button 2!\n";
+	// Main loop
+	for ( ;; ) {
 
-      if ( dev.pressed(1) && dev.pressed(4) )
-         std::cout << "You have pressed buttons 1 and 4!\n";
+		// Write the buttons state
+		const std::vector< uint8_t > &keystate = dev.keyState();
 
-      // Wait some time
-      time::msleep( 100 );
-   }
+		for ( uint8_t c : keystate )
+			std::cout << (char) c << std::flush;
 
-   return 0;
+		// Wait some time
+		time::msleep( 100 );
+	}
+
+	return 0;
 }
 

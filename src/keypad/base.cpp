@@ -30,18 +30,34 @@ namespace keypad { // Begin keypads namespace
 
 base::base( size_t total, std::initializer_list< uint8_t > pins )
 
-	: m_input		( new iface::input( pins ) )
+	: m_nkeys		( total )
+	, m_input		( new iface::input( pins ) )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
 	, m_thread		( new std::thread( &keypad::base::update, this ) )
 	, m_mutex		( new std::mutex ) {
 
+}
+
+base::base( size_t total, std::initializer_list< uint8_t > pins, const std::vector< uint8_t > &keymap )
+
+	: m_nkeys		( total )
+	, m_input		( new iface::input( pins ) )
+	, m_keystate	( m_nkeys, 0 )
+	, m_pressed		( m_nkeys, 0 )
+	, m_released	( m_nkeys, 0 )
+	, m_thread		( new std::thread( &keypad::base::update, this ) )
+	, m_mutex		( new std::mutex ) {
+
+	// Set the keymap
+	setKeymap( keymap );
 }
 
 base::base( size_t total, const std::vector< uint8_t > &pins )
 
-	: m_input		( new iface::input( pins ) )
+	: m_nkeys		( total )
+	, m_input		( new iface::input( pins ) )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
@@ -50,8 +66,36 @@ base::base( size_t total, const std::vector< uint8_t > &pins )
 
 }
 
+base::base( size_t total, const std::vector< uint8_t > &pins, const std::vector< uint8_t > &keymap )
+
+	: m_nkeys		( total )
+	, m_input		( new iface::input( pins ) )
+	, m_keystate	( m_nkeys, 0 )
+	, m_pressed		( m_nkeys, 0 )
+	, m_released	( m_nkeys, 0 )
+	, m_thread		( new std::thread( &keypad::base::update, this ) )
+	, m_mutex		( new std::mutex ) {
+
+	// Set the keymap
+	setKeymap( keymap );
+}
+
 base::~base() {
 
+}
+
+void
+base::setKeymap( const std::vector< uint8_t > &keymap ) {
+
+	// Check the keymap
+	if ( keymap.size() != m_nkeys )
+		throw exception( utils::format( "(Error) `keypad::setKeymap`: bad keymap\n" ) );
+
+	// Store the keymap
+	uint8_t index = 0;
+
+	for ( uint8_t key : keymap )
+		m_keymap[ key ] = index++;
 }
 
 bool
@@ -90,6 +134,64 @@ base::released( size_t index ) const {
 	return m_released[ index ];
 }
 
+bool
+base::keyState( uint8_t key ) const {
+
+	// Check if the key exists
+	T_Keymap::const_iterator it = m_keymap.find( key );
+
+	if ( it == m_keymap.end() )
+		throw exception( utils::format( "(Error) `keypad::state`: keypad %p doesn't have key '%c'\n",
+										this, (char) key ) );
+
+	// Return the button state
+	return m_keystate[ it->second ];
+}
+
+bool
+base::keyPressed( uint8_t key ) const {
+
+	// Check if the key exists
+	T_Keymap::const_iterator it = m_keymap.find( key );
+
+	if ( it == m_keymap.end() )
+		throw exception( utils::format( "(Error) `keypad::pressed`: keypad %p doesn't have key '%c'\n",
+										this, (char) key ) );
+
+	// Return `true` if the button is pressed
+	return m_pressed[ it->second ];
+}
+
+bool
+base::keyReleased( uint8_t key ) const {
+
+	// Check if the key exists
+	T_Keymap::const_iterator it = m_keymap.find( key );
+
+	if ( it == m_keymap.end() )
+		throw exception( utils::format( "(Error) `keypad::released`: keypad %p doesn't have key '%c'\n",
+										this, (char) key ) );
+
+	// Return `true` if the button is released
+	return m_released[ it->second ];
+}
+
+std::vector< uint8_t >
+base::keyState() const {
+
+	// List of pressed keys
+	std::vector< uint8_t > keys;
+	keys.reserve( m_nkeys );
+
+	// Find pressed keys
+	for ( auto &key : m_keymap )
+		if ( m_keystate[ key.second ] )
+			keys.push_back( key.first );
+
+	// Return the list of pressed keys
+	return keys;
+}
+
 void
 base::update() {
 
@@ -100,7 +202,7 @@ base::update() {
 	uint8_t i;
 
 	// Updating loop
-	while ( 1 ) {
+	for ( ;; ) {
 
 		// Update state of buttons
 		for ( i = 0; i < m_nkeys; ++i ) {
