@@ -169,7 +169,19 @@ public:
 		@return The 8-bit character at position.
 	*/
 	uint8_t getChar( uint8_t x, uint8_t y ) const;
-
+	
+	/*!
+		@brief Reads the current x-position of the cursor.
+		@return Cursor x-position.
+	*/
+	uint8_t getXCursor() const;
+	
+	/*!
+		@brief Reads the current y-position of the cursor.
+		@return Cursor y-position.
+	*/
+	uint8_t getYCursor() const;
+	
 	//! Homes the cursor.
 	void home();
 

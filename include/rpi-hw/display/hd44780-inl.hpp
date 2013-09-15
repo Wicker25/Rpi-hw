@@ -43,6 +43,20 @@ hd44780::getChar( uint8_t x, uint8_t y ) const {
 	return m_buffer[ x + y * m_screen_w ];
 }
 
+inline uint8_t
+hd44780::getXCursor() const{
+	
+	//Return cursor x position
+	return m_pos_x;
+}
+
+inline uint8_t
+hd44780::getYCursor() const{
+	
+	//Return cursor x position
+	return m_pos_y;
+}
+
 inline bool
 hd44780::isLineFull() {
 
