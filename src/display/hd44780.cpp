@@ -460,6 +460,12 @@ hd44780::clear() {
 	m_buffer.assign( m_buffer.size(), ' ' );
 }
 
+uint8_t
+hd44780::getXpos() {return m_pos_x;}
+
+uint8_t
+hd44780::getYpos() {return m_pos_y;}
+
 } // End of displays namespace
 
 } // End of main namespace
