@@ -174,13 +174,13 @@ public:
 		@brief Reads the current x-position of the cursor.
 		@return Cursor x-position.
 	*/
-	uint8_t getXpos();
+	uint8_t getXCursor() const;
 	
 	/*!
 		@brief Reads the current y-position of the cursor.
 		@return Cursor y-position.
 	*/
-	uint8_t getYpos();
+	uint8_t getYCursor() const;
 	
 	//! Homes the cursor.
 	void home();
