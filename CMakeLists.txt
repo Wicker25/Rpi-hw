@@ -155,6 +155,7 @@ add_library( rpihw SHARED
 	${RPI_HW_SOURCE_DIR}/utils.cpp
 	${RPI_HW_SOURCE_DIR}/time.cpp
 	${RPI_HW_SOURCE_DIR}/gpio.cpp
+	${RPI_HW_SOURCE_DIR}/spi.cpp
 
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
 	${RPI_HW_SOURCE_DIR}/iface/output.cpp
