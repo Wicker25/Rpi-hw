@@ -392,8 +392,6 @@ template < typename T, typename C, uint8_t N >
 void
 designer< T, C, N >::drawImage( const image::base< C > &img, T x, T y ) {
 
-	//std::cout << img.getSpectrum() << std::endl;	FIXME FIXME FIXME FIXME
-
 	// Check the number of channels
 	if ( img.getSpectrum() != N )
 		throw exception( "(Error) `designer->drawImage`: incorrect number of channels\n" );
