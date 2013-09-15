@@ -1,4 +1,4 @@
-Rpi-hw v0.4.2
+Rpi-hw v0.5.0
 =============
 
 ![Ultrasonic Distance Sensor](https://raw.github.com/Wicker25/Rpi-hw/master/extras/ultrasonic_sensor.jpg) .
@@ -20,6 +20,7 @@ The following are some features of the library:
 
 * Low-level management of the GPIOs
 * Generic input/output interfaces
+* SPI support
 * Display support (7-segments, HD44780, PCD8544)
 * Keypad support (matrix keypad)
 * Stepper motor support

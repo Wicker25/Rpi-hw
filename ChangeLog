@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.5.0 - urgency=low =============
+
+2013-09-15 Wicker25 < wicker25@gmail.com >
+
+    * all: Added SPI support.
+
 ============ Rpi-hw 0.4.2 - urgency=high =============
 
 2013-08-07 Wicker25 < wicker25@gmail.com >
