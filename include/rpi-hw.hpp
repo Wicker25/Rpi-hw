@@ -42,6 +42,7 @@ The following are some features of the library:
 
 @li Low-level management of the GPIOs
 @li Generic input/output interfaces
+@li SPI support
 @li Display support (7-segments, HD44780, PCD8544)
 @li Keypad support (matrix keypad)
 @li Sensor support (HC-SR04)

@@ -55,7 +55,10 @@ public:
 
 	/*!
 		@brief Constructor method.
-		@param[in] pin The GPIO pin.
+		@param[in] dev_path The device path.
+		@param[in] mode The SPI mode.
+		@param[in] word_len The device word length.
+		@param[in] speed The device max speed (hz).
 	*/
 	spi( const std::string &dev_path, SpiMode mode, uint8_t word_len, uint32_t speed );
 
@@ -84,6 +87,9 @@ public:
 	void transfer( uint8_t *data, size_t size );
 
 private:
+
+	//! The device path.
+	std::string m_dev_path;
 
 	//! SPI mode.
 	uint8_t m_mode;

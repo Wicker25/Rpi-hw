@@ -28,13 +28,14 @@ namespace rpihw { // Begin main namespace
 
 spi::spi( const std::string &dev_path, SpiMode mode, uint8_t word_len, uint32_t speed )
 
-	: m_mode		( (uint8_t) mode )
+	: m_dev_path	( dev_path )
+	, m_mode		( (uint8_t) mode )
 	, m_word_len	( word_len )
 	, m_speed		( speed ) {
 
 
 	// Open device file
-	m_dev_fd = open( dev_path.c_str(), O_RDWR );
+	m_dev_fd = open( m_dev_path.c_str(), O_RDWR );
 
 	if ( m_dev_fd < 0 )
 		throw exception( "(Error) `spi`: can't open SPI device" );
