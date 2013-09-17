@@ -105,7 +105,7 @@ spi::transfer( uint8_t *data, size_t size ) {
 
 	spi_data.tx_buf			= (size_t) data;
 	spi_data.rx_buf			= (size_t) data;
-	spi_data.len			= 1;
+	spi_data.len			= size;
 	spi_data.delay_usecs	= 0;
 	spi_data.speed_hz		= m_speed;
 	spi_data.bits_per_word	= m_word_len;
