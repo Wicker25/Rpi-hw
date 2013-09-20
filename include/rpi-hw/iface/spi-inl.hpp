@@ -1,5 +1,5 @@
 /* 
-    Title --- display/pcd8544-inl.hpp
+    Title --- spi-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,15 +19,15 @@
 */
 
 
-#ifndef _RPI_HW_DISPLAY_PCD8544_INL_HPP_
-#define _RPI_HW_DISPLAY_PCD8544_INL_HPP_
+#ifndef _RPI_HW_IFACE_SPI_INL_HPP_
+#define _RPI_HW_IFACE_SPI_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace display { // Begin displays namespace
+namespace iface { // Begin interfaces namespace
 
-} // End of displays namespace
+} // End of interfaces namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_DISPLAY_PCD8544_INL_HPP_ */
+#endif /* _RPI_HW_IFACE_SPI_INL_HPP_ */

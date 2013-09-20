@@ -1,5 +1,5 @@
 /* 
-    Title --- display/pcd8544-inl.hpp
+    Title --- pcd8544-spi.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,15 +19,30 @@
 */
 
 
-#ifndef _RPI_HW_DISPLAY_PCD8544_INL_HPP_
-#define _RPI_HW_DISPLAY_PCD8544_INL_HPP_
+// Include Rpi-hw headers
+#include <rpi-hw.hpp>
+#include <rpi-hw/image/bitmap.hpp>
+#include <rpi-hw/display/pcd8544-spi.hpp>
 
-namespace rpihw { // Begin main namespace
+// Use some namespaces
+using namespace rpihw;
+using namespace rpihw::display;
 
-namespace display { // Begin displays namespace
+int
+main( int argc, char *args[] ) {
 
-} // End of displays namespace
+	// Create the display controller
+	pcd8544_spi dev( "/dev/spidev0.0", 25, 7 );
 
-} // End of main namespace
+	// Initialize the display
+	dev.init();
 
-#endif /* _RPI_HW_DISPLAY_PCD8544_INL_HPP_ */
+	// Load and show the image
+	image::bitmap< bool > img( "images/main_logo.png" );
+	dev.drawImage( img, 0, 0 );
+
+	dev.redraw();
+
+	return 0;
+}
+

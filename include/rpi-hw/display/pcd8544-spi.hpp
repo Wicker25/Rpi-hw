@@ -1,5 +1,5 @@
 /* 
-    Title --- display/pcd8544.hpp
+    Title --- display/pcd8544-spi.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_DISPLAY_PCD8544_HPP_
-#define _RPI_HW_DISPLAY_PCD8544_HPP_
+#ifndef _RPI_HW_DISPLAY_PCD8544_SPI_HPP_
+#define _RPI_HW_DISPLAY_PCD8544_SPI_HPP_
 
 #include <memory>
 
@@ -28,7 +28,7 @@
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 
-#include <rpi-hw/iface/shift-out.hpp>
+#include <rpi-hw/iface/spi.hpp>
 
 #include <rpi-hw/display/pcd8544-skeleton.hpp>
 
@@ -37,27 +37,25 @@ namespace rpihw { // Begin main namespace
 namespace display { // Begin displays namespace
 
 /*!
-	@class pcd8544
-	@brief Philips PCD8544 LCD controller.
+	@class pcd8544_spi
+	@brief Philips PCD8544 LCD controller (via SPI).
 
-	@example display/pcd8544.cpp
+	@example display/pcd8544-spi.cpp
 */
-class pcd8544 : public pcd8544_skeleton {
+class pcd8544_spi : public pcd8544_skeleton {
 
 public:
 
 	/*!
-		@brief Constructor method (4-bit mode).
-		@param[in] sclk The GPIO pin connected to the sclk pin.
-		@param[in] sdin The GPIO pin connected to the sda pin.
+		@brief Constructor method.
+		@param[in] dev_path The device path.
 		@param[in] dc The GPIO pin connected to the dorc pin.
-		@param[in] sce The GPIO pin connected to the cs pin.
 		@param[in] rst The GPIO pin connected to the rst pin.
 	*/
-	pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t rst );
+	pcd8544_spi( const std::string &dev_path, uint8_t dc, uint8_t rst );
 
 	//! Destructor method.
-	virtual ~pcd8544();
+	virtual ~pcd8544_spi();
 
 	/*!
 		@brief Sends a command to the display.
@@ -73,8 +71,8 @@ public:
 
 protected:
 
-	//! Shift-out interface to the data pins.
-	std::unique_ptr< iface::shiftOut > m_data;
+	//! SPI interface to the data pins.
+	std::unique_ptr< iface::spi > m_spi;
 };
 
 } // End of displays namespace
@@ -83,6 +81,6 @@ protected:
 
 
 // Include inline methods 
-#include <rpi-hw/display/pcd8544-inl.hpp>
+#include <rpi-hw/display/pcd8544-spi-inl.hpp>
 
-#endif /* _RPI_HW_DISPLAY_PCD8544_HPP_ */
+#endif /* _RPI_HW_DISPLAY_PCD8544_SPI_HPP_ */

@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_SPI_HPP_
-#define _RPI_HW_SPI_HPP_
+#ifndef _RPI_HW_IFACE_SPI_HPP_
+#define _RPI_HW_IFACE_SPI_HPP_
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -33,8 +33,9 @@
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
 
-
 namespace rpihw { // Begin main namespace
+
+namespace iface { // Begin interfaces namespace
 
 /*!
 	@class spi
@@ -104,10 +105,12 @@ private:
 	int m_dev_fd;
 };
 
+} // End of interfaces namespace
+
 } // End of main namespace
 
 
 // Include inline methods 
-#include <rpi-hw/spi-inl.hpp>
+#include <rpi-hw/iface/spi-inl.hpp>
 
-#endif /* _RPI_HW_SPI_HPP_ */
+#endif /* _RPI_HW_IFACE_SPI_HPP_ */

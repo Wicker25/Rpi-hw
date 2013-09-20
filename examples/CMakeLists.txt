@@ -42,6 +42,9 @@ target_link_libraries( lcd20x4demo ${RpiHw_LIBRARIES} )
 add_executable( pcd8544 ${CMAKE_SOURCE_DIR}/display/pcd8544.cpp )
 target_link_libraries( pcd8544 ${RpiHw_LIBRARIES} )
 
+add_executable( pcd8544-spi ${CMAKE_SOURCE_DIR}/display/pcd8544-spi.cpp )
+target_link_libraries( pcd8544-spi ${RpiHw_LIBRARIES} )
+
 add_executable( 12keys0 ${CMAKE_SOURCE_DIR}/keypad/12keys0.cpp )
 target_link_libraries( 12keys0 ${RpiHw_LIBRARIES} )
 

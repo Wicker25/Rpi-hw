@@ -1,4 +1,4 @@
-Rpi-hw v0.5.0
+Rpi-hw v0.5.1
 =============
 
 ![Ultrasonic Distance Sensor](https://raw.github.com/Wicker25/Rpi-hw/master/extras/ultrasonic_sensor.jpg) .

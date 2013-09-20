@@ -19,12 +19,14 @@
 */
 
 
-#ifndef _RPI_HW_SPI_CPP_
-#define _RPI_HW_SPI_CPP_
+#ifndef _RPI_HW_IFACE_SPI_CPP_
+#define _RPI_HW_IFACE_SPI_CPP_
 
-#include <rpi-hw/spi.hpp>
+#include <rpi-hw/iface/spi.hpp>
 
 namespace rpihw { // Begin main namespace
+
+namespace iface { // Begin interfaces namespace
 
 spi::spi( const std::string &dev_path, SpiMode mode, uint8_t word_len, uint32_t speed )
 
@@ -116,6 +118,8 @@ spi::transfer( uint8_t *data, size_t size ) {
 		throw exception( "(Error) `spi`: transmission error" );
 }
 
+} // End of interfaces namespace
+
 } // End of main namespace
 
-#endif /* _RPI_HW_SPI_CPP_ */
+#endif /* _RPI_HW_IFACE_SPI_CPP_ */
