@@ -1,5 +1,5 @@
 /* 
-    Title --- spi-inl.hpp
+    Title --- iface/spi-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 

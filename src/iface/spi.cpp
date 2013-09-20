@@ -1,5 +1,5 @@
 /* 
-    Title --- spi.cpp
+    Title --- iface/spi.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
