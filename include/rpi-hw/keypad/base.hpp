@@ -23,6 +23,7 @@
 #define _RPI_HW_KEYPAD_BASE_HPP_
 
 #include <memory>
+#include <functional>
 #include <vector>
 #include <map>
 
@@ -31,6 +32,7 @@
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
+#include <rpi-hw/math.hpp>
 #include <rpi-hw/time.hpp>
 
 #include <rpi-hw/iface/base.hpp>
@@ -44,6 +46,12 @@ namespace rpihw { // Begin main namespace
 */
 
 namespace keypad { // Begin keypads namespace
+
+// Prototypes
+class base;
+
+//! The type of the keypad event listener.
+typedef std::function< void ( keypad::base & ) > T_EventListener;
 
 /*!
 	@class base
@@ -94,6 +102,21 @@ public:
 		@param[in] keymap The keymap vector.
 	*/
 	virtual void setKeymap( const std::vector< uint8_t > &keymap );
+
+	/*!
+		@brief Sets the keypad event listener.
+		@param[in] listener The event listener.
+	*/
+	virtual void addEventListener( T_EventListener listener );
+
+	/*!
+		@brief Sets the frequency with which buttons are read.
+		@param[in] useconds The refresh rate in Hz.
+	*/
+	virtual void setRefreshRate( float frequency );
+
+	//! Returns the frequency with which buttons are read.
+	virtual float getRefreshRate() const;
 
 	/*!
 		@brief Returns a button state.
@@ -166,11 +189,17 @@ protected:
 	//! Pressed buttons (0 = none, 1 = released).
 	std::vector< bool > m_released;
 
+	//! The refresh rate.
+	float m_frequency;
+
 	//! Updating thread.
 	std::unique_ptr< std::thread > m_thread;
 
 	//! Mutex of the updating thread.
 	std::unique_ptr< std::mutex > m_mutex;
+
+	//! The keypad event listener.
+	T_EventListener m_event_listener;
 
 	//! Updates the state of buttons (threading function).
 	virtual void update();

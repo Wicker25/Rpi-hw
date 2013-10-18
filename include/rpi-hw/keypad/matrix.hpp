@@ -47,6 +47,7 @@ namespace keypad { // Begin keypads namespace
 	@example keypad/12keys1.cpp
 	@example keypad/16keys0.cpp
 	@example keypad/16keys1.cpp
+	@example keypad/16keys2.cpp
 */
 class matrix : public keypad::base {
 

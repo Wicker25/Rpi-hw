@@ -35,6 +35,7 @@ base::base( size_t total, std::initializer_list< uint8_t > pins )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
+	, m_frequency	( 10.0 )
 	, m_thread		( new std::thread( &keypad::base::update, this ) )
 	, m_mutex		( new std::mutex ) {
 
@@ -47,6 +48,7 @@ base::base( size_t total, std::initializer_list< uint8_t > pins, const std::vect
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
+	, m_frequency	( 10.0 )
 	, m_thread		( new std::thread( &keypad::base::update, this ) )
 	, m_mutex		( new std::mutex ) {
 
@@ -61,6 +63,7 @@ base::base( size_t total, const std::vector< uint8_t > &pins )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
+	, m_frequency	( 10.0 )
 	, m_thread		( new std::thread( &keypad::base::update, this ) )
 	, m_mutex		( new std::mutex ) {
 
@@ -73,6 +76,7 @@ base::base( size_t total, const std::vector< uint8_t > &pins, const std::vector<
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
+	, m_frequency	( 10.0 )
 	, m_thread		( new std::thread( &keypad::base::update, this ) )
 	, m_mutex		( new std::mutex ) {
 
@@ -196,7 +200,7 @@ void
 base::update() {
 
 	// Working structures
-	size_t state;
+	bool state;
 
 	// Iterators
 	uint8_t i;
@@ -220,8 +224,16 @@ base::update() {
 			m_mutex->unlock();
 		}
 
-		// Wait some time (100 ms)
-		time::msleep( 100 );
+		// Call the event listener
+		if ( m_event_listener ) {
+
+			m_mutex->lock();
+			m_event_listener( *this );
+			m_mutex->unlock();
+		}
+
+		// Wait some time
+		time::usleep( math::floor( 1000000.0 / m_frequency ) );
 	}
 }
 

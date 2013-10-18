@@ -54,7 +54,8 @@ matrix::update() {
 			rows = m_input->numOfPins();
 
 	// Working structures
-	size_t index, state, rows_value;
+	size_t index, rows_value;
+	bool state;
 
 	// Iterators
 	uint8_t i, j;
@@ -86,8 +87,16 @@ matrix::update() {
 			}
 		}
 
-		// Wait some time (100 ms)
-		time::msleep( 100 );
+		// Call the event listener
+		if ( m_event_listener ) {
+
+			m_mutex->lock();
+			m_event_listener( *this );
+			m_mutex->unlock();
+		}
+
+		// Wait some time
+		time::usleep( math::floor( 1000000.0 / m_frequency ) );
 	}
 }
 
