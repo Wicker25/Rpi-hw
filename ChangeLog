@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
+============ Rpi-hw 0.5.2 - urgency=medium===========
+
+2013-10-22 Wicker25 < wicker25@gmail.com >
+
+    * keypad/base.hpp: Added the refresh rate parameter and support for event listener.
+
 ============ Rpi-hw 0.5.1 - urgency=medium===========
 
 2013-09-20 Wicker25 < wicker25@gmail.com >
