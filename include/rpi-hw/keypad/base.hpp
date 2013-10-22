@@ -111,7 +111,7 @@ public:
 
 	/*!
 		@brief Sets the frequency with which buttons are read.
-		@param[in] useconds The refresh rate in Hz.
+		@param[in] frequency The refresh rate in Hz.
 	*/
 	virtual void setRefreshRate( float frequency );
 
