@@ -92,7 +92,7 @@ public:
 
 private:
 
-	//! Mutex of the updating thread.
+	//! The keypad instance.
 	std::unique_ptr< keypad::matrix > m_keypad;
 };
 
