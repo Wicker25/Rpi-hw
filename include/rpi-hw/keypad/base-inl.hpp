@@ -26,6 +26,27 @@ namespace rpihw { // Begin main namespace
 
 namespace keypad { // Begin keypads namespace
 
+inline void
+base::addEventListener( T_EventListener listener ) {
+
+	// Set the keypad event listener
+	m_event_listener = listener;
+}
+
+inline void
+base::setRefreshRate( float frequency ) {
+
+	// Set the frequency with which buttons are read
+	m_frequency = frequency;
+}
+
+inline float
+base::getRefreshRate() const {
+
+	// Returns the frequency with which buttons are read
+	return m_frequency;
+}
+
 inline const std::vector< bool > &
 base::state() const {
 
