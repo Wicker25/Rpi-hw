@@ -331,9 +331,6 @@ protected:
 		@param[in] delay The delay time after the sending of the data.
 	*/
 	void sendSerial( uint8_t data, size_t delay = 0 );
-
-	//! Checks if the current line is full
-	bool isLineFull();
 };
 
 } // End of displays namespace

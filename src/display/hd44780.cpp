@@ -206,7 +206,7 @@ void
 hd44780::write( uint8_t chr ) {
 
 	// Check if there are no still spaces available in the row
-	if ( isLineFull() ) {
+	if ( m_pos_x >= m_screen_w ) {
 
 		// Make new space for the character
 		if ( m_autoscroll & HSCROLL )

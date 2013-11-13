@@ -57,13 +57,6 @@ hd44780::getYCursor() const{
 	return m_pos_y;
 }
 
-inline bool
-hd44780::isLineFull() {
-
-	// Check if the current line is full
-	return ( m_pos_x >= m_screen_w );
-}
-
 inline void
 hd44780::write( uint8_t x, uint8_t y, uint8_t chr ) {
 
