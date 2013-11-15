@@ -29,6 +29,7 @@
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 
+#include <rpi-hw/iface/gpio.hpp>
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/output.hpp>
 #include <rpi-hw/iface/input.hpp>

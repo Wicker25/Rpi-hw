@@ -1,5 +1,5 @@
 /* 
-    Title --- hc-sr04.cpp [examples]
+    Title --- devmap-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,32 +19,18 @@
 */
 
 
-#include <iostream>
+#ifndef _RPI_HW_DEVMAP_INL_HPP_
+#define _RPI_HW_DEVMAP_INL_HPP_
 
-// Include Rpi-hw headers
-#include <rpi-hw.hpp>
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/time.hpp>
-#include <rpi-hw/sensor/hc-sr04.hpp>
+namespace rpihw { // Begin main namespace
 
-// Use the Rpi-hw namespace
-using namespace rpihw;
+//! Returns the address of the mapping.
+inline volatile uint32_t *
+devmap::data() {
 
-int
-main( int argc, char *args[] ) {
-
-	// Create the stepper controller
-	sensor::hcsr04 dev( 23, 24 );
-
-	// Calculate the elapsed time between sending and receiving back the pulse
-	double elapsed = dev.timing();
-
-	// Calculate the distance from the sensor to an object or surface
-	double distance = dev.ranging();
-
-	std::cout << utils::format( "Elapsed time: %f\n", elapsed );
-	std::cout << utils::format( "Distance: %.1f cm\n", distance );
-
-	return 0;
+	return m_map;
 }
 
+} // End of main namespace
+
+#endif /* _RPI_HW_DEVMAP_INL_HPP_ */

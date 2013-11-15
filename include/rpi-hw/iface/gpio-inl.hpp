@@ -1,5 +1,5 @@
 /* 
-    Title --- gpio-inl.hpp
+    Title --- iface/gpio-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,10 +19,12 @@
 */
 
 
-#ifndef _RPI_HW_GPIO_INL_HPP_
-#define _RPI_HW_GPIO_INL_HPP_
+#ifndef _RPI_HW_IFACE_GPIO_INL_HPP_
+#define _RPI_HW_IFACE_GPIO_INL_HPP_
 
 namespace rpihw { // Begin main namespace
+
+namespace iface { // Begin interfaces namespace
 
 inline void
 gpio::setBit( uint8_t offset, uint8_t index, bool value ) {
@@ -108,6 +110,8 @@ gpio::setLowEvent( uint8_t pin, bool enabled ) {
 	setBit( GPLEN0, pin, enabled );
 }
 
+} // End of interfaces namespace
+
 } // End of main namespace
 
-#endif /* _RPI_HW_GPIO_INL_HPP_ */
+#endif /* _RPI_HW_IFACE_GPIO_INL_HPP_ */

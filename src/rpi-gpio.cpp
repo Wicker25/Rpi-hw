@@ -24,7 +24,7 @@
 #include <cstring>
 
 #include <rpi-hw.hpp>
-#include <rpi-hw/gpio.hpp>
+#include <rpi-hw/iface/gpio.hpp>
 
 // Constants
 #define RPI_GPIO_VERSION	"0.2"
@@ -70,7 +70,7 @@ main( int argc, char *args[] ) {
 	if ( argc > 2 ) {
 
 		// GPIO control interface
-		gpio io;
+		iface::gpio io;
 
 		// Get selected GPIO pin
 	    char *garbage = NULL;
@@ -98,31 +98,31 @@ main( int argc, char *args[] ) {
 					// Input mode
 					if ( !strcasecmp( args[3], "in" ) || !strcasecmp( args[3], "input" ) ) {
 
-						io.setup( (uint8_t) pin, gpio::INPUT );
+						io.setup( (uint8_t) pin, iface::gpio::INPUT );
 						success = true;
 
 					// Output mode
 					} else if ( !strcasecmp( args[3], "out" ) || !strcasecmp( args[3], "output" ) ) {
 
-						io.setup( (uint8_t) pin, gpio::OUTPUT );
+						io.setup( (uint8_t) pin, iface::gpio::OUTPUT );
 						success = true;
 
 					// Pull-down control
 					} else if ( !strcasecmp( args[3], "pulldown" ) ) {
 
-						io.setPullUpDown( (uint8_t) pin, gpio::PULL_DOWN );
+						io.setPullUpDown( (uint8_t) pin, iface::gpio::PULL_DOWN );
 						success = true;
 
 					// Pull-up control
 					} else if ( !strcasecmp( args[3], "pullup" ) ) {
 
-						io.setPullUpDown( (uint8_t) pin, gpio::PULL_UP );
+						io.setPullUpDown( (uint8_t) pin, iface::gpio::PULL_UP );
 						success = true;
 
 					// Disable pull-up/down control
 					} else if ( !strcasecmp( args[3], "pudoff" ) ) {
 
-						io.setPullUpDown( (uint8_t) pin, gpio::PUD_OFF );
+						io.setPullUpDown( (uint8_t) pin, iface::gpio::PUD_OFF );
 						success = true;
 					}
 				}
@@ -188,9 +188,9 @@ main( int argc, char *args[] ) {
 				if ( argc > 3 ) {
 
 					if ( *args[3] == '0' || !strcasecmp( args[3], "low" ) )
-						value = gpio::LOW;
+						value = iface::gpio::LOW;
 					else if ( *args[3] == '1' || !strcasecmp( args[3], "high" ) )
-						value = gpio::HIGH;
+						value = iface::gpio::HIGH;
 				}
 
 				// Check if there are errors

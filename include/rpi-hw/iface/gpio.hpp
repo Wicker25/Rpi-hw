@@ -1,5 +1,5 @@
 /* 
-	Title --- gpio.hpp
+	Title --- iface/gpio.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,20 +19,16 @@
 */
 
 
-#ifndef _RPI_HW_GPIO_HPP_
-#define _RPI_HW_GPIO_HPP_
-
-#include <iostream>
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/mman.h>
+#ifndef _RPI_HW_IFACE_GPIO_HPP_
+#define _RPI_HW_IFACE_GPIO_HPP_
 
 #include <rpi-hw/rpi.hpp>
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
+
+#include <rpi-hw/devmap.hpp>
 
 #define BCM2708_PERI_BASE	0x20000000
 
@@ -45,6 +41,8 @@
 #define BLOCK_SIZE		(4*1024)
 
 namespace rpihw { // Begin main namespace
+
+namespace iface { // Begin interfaces namespace
 
 /*!
 	@class gpio
@@ -639,9 +637,6 @@ public:
 
 private:
 
-	//! File descriptor of `/dev/mem`.
-	int m_mem_fd;
-
 	//! GPIO controller virtual address.
 	volatile uint32_t *m_gpio;
 
@@ -669,19 +664,14 @@ private:
 		@param[in] cycles Number of CPU cycles.
 	*/
 	void waitCycles( size_t cycles ) const;
-
-	/*!
-		@brief Print a GPIO controller register (debug function).
-		@param[in] offset The register offset.
-		@param[in] group_bits Number of bits per group.
-	*/
-	void print_register( uint8_t offset, uint8_t group_bits = 0 ) const;
 };
+
+} // End of interfaces namespace
 
 } // End of main namespace
 
 
 // Include inline methods 
-#include <rpi-hw/gpio-inl.hpp>
+#include <rpi-hw/iface/gpio-inl.hpp>
 
-#endif /* _RPI_HW_GPIO_HPP_ */
+#endif /* _RPI_HW_IFACE_GPIO_HPP_ */

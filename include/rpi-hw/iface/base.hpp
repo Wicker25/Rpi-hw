@@ -30,7 +30,7 @@
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
 
-#include <rpi-hw/gpio.hpp>
+#include <rpi-hw/iface/gpio.hpp>
 
 namespace rpihw { // Begin main namespace
 

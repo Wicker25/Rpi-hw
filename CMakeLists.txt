@@ -6,8 +6,8 @@ cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
 set( RPI_HW_VERSION_MAJOR	0 )
-set( RPI_HW_VERSION_MINOR	5 )
-set( RPI_HW_VERSION_PATCH	2 )
+set( RPI_HW_VERSION_MINOR	6 )
+set( RPI_HW_VERSION_PATCH	0 )
 set( RPI_HW_VERSION			"${RPI_HW_VERSION_MAJOR}.${RPI_HW_VERSION_MINOR}.${RPI_HW_VERSION_PATCH}" )
 
 # Project directories
@@ -154,8 +154,9 @@ add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/utils.cpp
 	${RPI_HW_SOURCE_DIR}/time.cpp
-	${RPI_HW_SOURCE_DIR}/gpio.cpp
+	${RPI_HW_SOURCE_DIR}/devmap.cpp
 
+	${RPI_HW_SOURCE_DIR}/iface/gpio.cpp
 	${RPI_HW_SOURCE_DIR}/iface/spi.cpp
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
 	${RPI_HW_SOURCE_DIR}/iface/output.cpp

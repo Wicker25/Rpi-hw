@@ -1,5 +1,5 @@
 /* 
-    Title --- gpio.cpp
+    Title --- iface/gpio.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,64 +19,28 @@
 */
 
 
-#ifndef _RPI_HW_GPIO_CPP_
-#define _RPI_HW_GPIO_CPP_
+#ifndef _RPI_HW_IFACE_GPIO_CPP_
+#define _RPI_HW_IFACE_GPIO_CPP_
 
-#include <rpi-hw/gpio.hpp>
+#include <rpi-hw/iface/gpio.hpp>
 
 namespace rpihw { // Begin main namespace
 
+namespace iface { // Begin interfaces namespace
+
 gpio::gpio() {
 
-	// Open memory device file
-	m_mem_fd = open( "/dev/mem", O_RDWR | O_SYNC );
-
-	if ( m_mem_fd < 0 )
-		throw exception( "(Error) `gpio`: can't open `/dev/mem`, you must be 'root' to run this software!" );
-
-
 	// Map the GPIO controller memory
-	m_gpio = (volatile uint32_t *) mmap(
-
-		0,
-		BLOCK_SIZE,
-		PROT_READ | PROT_WRITE,
-		MAP_SHARED,
-		m_mem_fd,
-		GPIO_BASE
-	);
-
-	// Handle possible errors
-	if ( m_gpio == MAP_FAILED )
-		throw exception( utils::format( "(Error) `gpio`: mapping error at address %p (gpio)\n", m_gpio ) );
-
+	static devmap gpio_map( "/dev/mem", BLOCK_SIZE, GPIO_BASE );
+	m_gpio = gpio_map.data();
 
 	// Map the PWM controller memory
-	m_pwm = (volatile uint32_t *) mmap(
-
-		0,
-		BLOCK_SIZE,
-		PROT_READ | PROT_WRITE,
-		MAP_SHARED,
-		m_mem_fd,
-		GPIO_PWM
-	);
-
-	// Handle possible errors
-	if ( m_pwm == MAP_FAILED )
-		throw exception( utils::format( "(Error) `gpio`: mapping error at address %p (pwm)\n", m_pwm ) );
+	static devmap pwm_map( "/dev/mem", BLOCK_SIZE, GPIO_PWM );
+	m_pwm = pwm_map.data();
 }
 
 gpio::~gpio() {
 
-	// Unmap GPIO controller memory
-	munmap( (uint32_t *) m_gpio, BLOCK_SIZE );
-
-	// Unmap PWM controller memory
-	munmap( (uint32_t *) m_pwm, BLOCK_SIZE );
-
-	// Close memory device file
-	close( m_mem_fd );
 }
 
 void
@@ -121,23 +85,8 @@ gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
 	reg_pullupdown = 0;
 }
 
-void
-gpio::print_register( uint8_t offset, uint8_t group_bits ) const {
-
-	// Print the GPIO controller register (debug function)
-	uint8_t i = 31;
-
-	for ( ; i >= 0; --i ) {
-
-		std::cout << getBit( offset, i );
-
-		if ( ( i + 1 ) % group_bits == 0 )
-			std::cout << " ";
-	}
-
-	std::cout << std::endl;
-}
+} // End of interfaces namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_GPIO_CPP_ */
+#endif /* _RPI_HW_IFACE_GPIO_CPP_ */
