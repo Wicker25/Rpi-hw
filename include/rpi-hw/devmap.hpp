@@ -59,7 +59,7 @@ public:
 private:
 
 	//! File descriptor of the device.
-	int m_fd;
+	int m_dev_fd;
 
 	//! Length of the mapping.
 	size_t m_length;

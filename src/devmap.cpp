@@ -29,9 +29,9 @@ namespace rpihw { // Begin main namespace
 devmap::devmap( const std::string &path, size_t length, off_t offset ) : m_length( length ) {
 
 	// Open the device file
-	m_fd = open( path.c_str(), O_RDWR | O_SYNC );
+	m_dev_fd = open( path.c_str(), O_RDWR | O_SYNC );
 
-	if ( m_fd < 0 )
+	if ( m_dev_fd < 0 )
 		throw exception( utils::format( "(Error) `devmap`: can't open `%s`, you must be 'root' to run this software!", path.c_str() ) );
 
 	// Map the device into memory
@@ -41,7 +41,7 @@ devmap::devmap( const std::string &path, size_t length, off_t offset ) : m_lengt
 		m_length,
 		PROT_READ | PROT_WRITE,
 		MAP_SHARED,
-		m_fd,
+		m_dev_fd,
 		offset
 	);
 
@@ -56,7 +56,7 @@ devmap::~devmap() {
 	munmap( (uint32_t *) m_map, m_length );
 
 	// Close the device file
-	close( m_fd );
+	close( m_dev_fd );
 }
 
 } // End of main namespace
