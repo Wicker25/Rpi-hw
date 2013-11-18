@@ -25,7 +25,7 @@
 #include <rpi-hw/iface/decoder-out.hpp>
 #include <rpi-hw/display/m7seg.hpp>
 
-// Use the Rpi-hw namespace
+// Use Rpi-hw namespace
 using namespace rpihw;
 
 /*

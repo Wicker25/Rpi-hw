@@ -33,8 +33,8 @@ output::output( std::initializer_list< uint8_t > pins ) : iface::base( pins ) {
 	// Initialize the interface pins
 	for ( auto &pin : m_pins ) {
 
-		m_gpio->write( pin, gpio::LOW );
-		m_gpio->setup( pin, gpio::OUTPUT );
+		m_gpio->write( pin, LOW );
+		m_gpio->setup( pin, OUTPUT );
 	}
 }
 
@@ -43,8 +43,8 @@ output::output( const std::vector< uint8_t > &pins ) : iface::base( pins ) {
 	// Initialize the interface pins
 	for ( auto &pin : m_pins ) {
 
-		m_gpio->write( pin, gpio::LOW );
-		m_gpio->setup( pin, gpio::OUTPUT );
+		m_gpio->write( pin, LOW );
+		m_gpio->setup( pin, OUTPUT );
 	}
 }
 
@@ -67,7 +67,7 @@ output::write( uint8_t index, bool data ) {
 
 	// Check if pin exists
 	if ( index >= numOfPins() )
-		throw exception( "(Error) `iface::write`: could not get pin, index out of range\n" );
+		throw exception( "(Fatal) `iface::write`: could not get pin, index out of range\n" );
 
 	// Write data on the interface pin
 	m_gpio->write( m_pins[ index ], data );

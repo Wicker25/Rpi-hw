@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/spi-inl.hpp
+    Title --- consts.hpp [main]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,15 +19,34 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SPI_INL_HPP_
-#define _RPI_HW_IFACE_SPI_INL_HPP_
+#ifndef _RPI_HW_CONSTS_HPP_
+#define _RPI_HW_CONSTS_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+//! Logic level.
+enum Level {
 
-} // End of interfaces namespace
+	LOW		= 0,
+	HIGH	= 1
+};
+
+//! Pin mode.
+enum PinMode {
+
+	INPUT		= 0,
+	OUTPUT		= 1,
+	PWM_OUTPUT	= 2
+};
+
+//! Pull control mode.
+enum PullMode {
+
+	PUD_OFF		= 0,
+	PULL_DOWN	= 1,
+	PULL_UP		= 2
+};
 
 } // End of main namespace
 
-#endif /* _RPI_HW_IFACE_SPI_INL_HPP_ */
+#endif /* _RPI_HW_CONSTS_HPP_ */

@@ -33,8 +33,8 @@ input::input( std::initializer_list< uint8_t > pins ) : iface::base( pins ) {
 	// Initialize the interface pins
 	for ( auto &pin : m_pins ) {
 
-		m_gpio->setup( pin, gpio::INPUT );
-		m_gpio->setPullUpDown( pin, gpio::PULL_DOWN );
+		m_gpio->setup( pin, INPUT );
+		m_gpio->setPullUpDown( pin, PULL_DOWN );
 	}
 }
 
@@ -43,8 +43,8 @@ input::input( const std::vector< uint8_t > &pins ) : iface::base( pins ) {
 	// Initialize the interface pins
 	for ( auto &pin : m_pins ) {
 
-		m_gpio->setup( pin, gpio::INPUT );
-		m_gpio->setPullUpDown( pin, gpio::PULL_DOWN );
+		m_gpio->setup( pin, INPUT );
+		m_gpio->setPullUpDown( pin, PULL_DOWN );
 	}
 }
 
@@ -69,7 +69,7 @@ input::read( uint8_t index ) const {
 
 	// Check if pin exists
 	if ( index >= numOfPins() )
-		throw exception( "(Error) `iface::read`: could not get pin, index out of range\n" );
+		throw exception( "(Fatal) `iface::read`: could not get pin, index out of range\n" );
 
 	// Return data
 	bool data = 0;

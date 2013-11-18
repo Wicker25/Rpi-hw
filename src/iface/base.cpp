@@ -28,11 +28,11 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-base::base( std::initializer_list< uint8_t > pins ) : m_gpio( new gpio ), m_pins( pins ) {
+base::base( std::initializer_list< uint8_t > pins ) : m_pins( pins ), m_gpio( &m_gpio->get() ) {
 
 }
 
-base::base( const std::vector< uint8_t > &pins ) : m_gpio( new gpio ), m_pins( pins ) {
+base::base( const std::vector< uint8_t > &pins ) : m_pins( pins ) {
 
 }
 
@@ -45,7 +45,7 @@ base::setPin( uint8_t index, uint8_t pin ) {
 
 	// Check if the interface pin exists
 	if ( index >= m_pins.size() )
-		throw exception( "(Error) `iface::setPin`: wrong pin index\n" );
+		throw exception( "(Fatal) `iface::setPin`: wrong pin index\n" );
 
 	// Store the interface pin
 	m_pins[ index ] = pin;

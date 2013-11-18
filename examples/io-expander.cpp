@@ -1,5 +1,5 @@
 /* 
-    Title --- 12keys1.cpp [examples]
+    Title --- io-expander.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,61 +19,49 @@
 */
 
 
-#include <iostream>
-
 // Include Rpi-hw headers
 #include <rpi-hw.hpp>
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/keypad/matrix.hpp>
+
+#include <rpi-hw/driver/mcp23s17.hpp>
+#include <rpi-hw/gpio.hpp>
 
 // Use Rpi-hw namespace
 using namespace rpihw;
 
-/*
-      (21, 10, 4)     colums = 3
-          |||
-   -----------------
-   | (1)  (2)  (3) |
-   |               |
-   | (4)  (5)  (6) |
-   |               |
-   | (7)  (8)  (9) |
-   |               |
-   | (*)  (0)  (#) |
-   -----------------
-          ||||
-    (22, 14, 15, 17)  rows = 4
-*/
-
 int
 main( int argc, char *args[] ) {
 
-	// Matrix keypad controller
-	keypad::matrix dev( { 21, 10, 4 }, { 22, 14, 15, 17 } );
+	// Create the 16-bit I/O expander
+	driver::mcp23s17 expander( "/dev/spidev0.0", 0 );
 
-	// Print message
-	std::cout << "State of buttons:\n";
+	// Get the GPIO controller
+	gpio &io = gpio::get();
 
-	// Iterator
-	size_t i;
+	// Add the I/O expanderto the standard GPIO connector
+	io.expand( 100, expander );
 
-	// Main loop
+	// Set new GPIOs as output pin
+	for ( int i = 0; i < 16; ++i )
+		io.setup( 100 + i, OUTPUT ); 
+
+
+	// Animate LEDs :)
+	size_t time = 0;
+
 	for ( ;; ) {
 
-		// Write the buttons state
-		const std::vector< bool > &keystate = dev.state();
-
-		std::cout << '\r';
-
-		for ( i = 0; i < keystate.size(); ++i )
-			std::cout << keystate[i] << ' ';
-
-		std::cout << std::flush;
+		// Turn on the current pin
+		io.write( 100 + time % 16, HIGH );
 
 		// Wait some time
-		time::msleep( 100 );
+		time::msleep(100);
+
+		// Turn off the current pin
+		io.write( 100 + time % 16, LOW );
+
+		++time;
 	}
 
 	return 0;
 }
-

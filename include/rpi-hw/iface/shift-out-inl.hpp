@@ -33,7 +33,7 @@ shiftOut::setPin( uint8_t index, uint8_t pin ) {
 	base::setPin( index, pin );
 
 	// Set the GPIO pin mode
-	m_gpio->setup( m_pins[ index ], gpio::OUTPUT );
+	m_gpio->setup( m_pins[ index ], OUTPUT );
 }
 
 } // End of interfaces namespace

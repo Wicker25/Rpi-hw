@@ -23,7 +23,7 @@
 #include <rpi-hw.hpp>
 #include <rpi-hw/display/hd44780.hpp>
 
-// Use the Rpi-hw namespace
+// Use Rpi-hw namespace
 using namespace rpihw;
 
 int

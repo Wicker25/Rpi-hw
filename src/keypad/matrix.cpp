@@ -44,6 +44,8 @@ matrix::matrix( std::initializer_list< uint8_t > cols, std::initializer_list< ui
 
 matrix::~matrix() {
 
+	// Destroy the interfaces
+	delete m_input;
 }
 
 void

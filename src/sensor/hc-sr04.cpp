@@ -38,6 +38,9 @@ hcsr04::hcsr04( uint8_t trigger, uint8_t echo )
 
 hcsr04::~hcsr04() {
 
+	// Destroy the interfaces
+	delete m_trigger;
+	delete m_echo;
 }
 
 double

@@ -25,7 +25,7 @@
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/display/hd44780.hpp>
 
-// Use some namespaces
+// Use Rpi-hw namespaces
 using namespace rpihw;
 using namespace rpihw::display;
 

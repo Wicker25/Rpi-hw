@@ -1,5 +1,5 @@
 /* 
-	Title --- iface/spi.hpp
+	Title --- driver/spi.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SPI_HPP_
-#define _RPI_HW_IFACE_SPI_HPP_
+#ifndef _RPI_HW_DRIVER_SPI_HPP_
+#define _RPI_HW_DRIVER_SPI_HPP_
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -35,7 +35,7 @@
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+namespace driver { // Begin drivers namespace
 
 /*!
 	@class spi
@@ -46,7 +46,7 @@ class spi {
 public:
 
 	//! The SPI modes (see: https://www.kernel.org/doc/Documentation/spi/spi-summary).
-	enum SpiMode {
+	enum Modes {
 
 		MODE_0	= SPI_MODE_0,	//!< Sets CPOL=0, SPI_CPHA=0.
 		MODE_1	= SPI_MODE_1,	//!< Sets CPOL=0, SPI_CPHA=1.
@@ -61,7 +61,7 @@ public:
 		@param[in] word_len The device word length.
 		@param[in] speed The device max speed (hz).
 	*/
-	spi( const std::string &dev_path, SpiMode mode, uint8_t word_len, uint32_t speed );
+	spi( const std::string &dev_path, Modes mode, uint8_t word_len, uint32_t speed );
 
 	//! Destructor method.
 	virtual ~spi();
@@ -84,7 +84,7 @@ public:
 	*/
 	void setSpeed( uint32_t speed );
 
-	//! Sends/receives a data buffer. 
+	//! Sends/receives a data buffer.
 	void transfer( uint8_t *data, size_t size );
 
 private:
@@ -105,12 +105,12 @@ private:
 	int m_dev_fd;
 };
 
-} // End of interfaces namespace
+} // End of drivers namespace
 
 } // End of main namespace
 
 
 // Include inline methods 
-#include <rpi-hw/iface/spi-inl.hpp>
+#include <rpi-hw/driver/spi-inl.hpp>
 
-#endif /* _RPI_HW_IFACE_SPI_HPP_ */
+#endif /* _RPI_HW_DRIVER_SPI_HPP_ */

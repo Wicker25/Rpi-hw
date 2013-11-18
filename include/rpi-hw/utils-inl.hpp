@@ -28,7 +28,7 @@ namespace utils { // Begin utilss namespace
 
 template < typename T >
 inline void
-set_bit( T &buffer, size_t offset, uint8_t index, bool value ) {
+set_bit( T buffer, size_t offset, uint8_t index, bool value ) {
 
 	// Set the bit
 	if ( value )
@@ -39,7 +39,7 @@ set_bit( T &buffer, size_t offset, uint8_t index, bool value ) {
 
 template < typename T >
 inline void
-clear_bit( T &buffer, size_t offset, uint8_t index ) {
+clear_bit( T buffer, size_t offset, uint8_t index ) {
 
 	// Clear the bit
 	buffer[ offset ] &= ~( 1 << index );
@@ -47,7 +47,7 @@ clear_bit( T &buffer, size_t offset, uint8_t index ) {
 
 template < typename T >
 inline void
-flip_bit( T &buffer, size_t offset, uint8_t index ) {
+flip_bit( T buffer, size_t offset, uint8_t index ) {
 
 	// Flip the bit value
 	buffer[ offset ] ^= ( 1 << index );
@@ -55,7 +55,7 @@ flip_bit( T &buffer, size_t offset, uint8_t index ) {
 
 template < typename T >
 inline bool
-get_bit( T &buffer, size_t offset, uint8_t index ) {
+get_bit( T buffer, size_t offset, uint8_t index ) {
 
 	// Return the bit value
 	return ( buffer[ offset ] & ( 1 << index ) ) != 0;

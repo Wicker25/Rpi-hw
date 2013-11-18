@@ -63,6 +63,8 @@ s7seg::s7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
 
 s7seg::~s7seg() {
 
+	// Destroy the interfaces
+	delete m_display;
 }
 
 void

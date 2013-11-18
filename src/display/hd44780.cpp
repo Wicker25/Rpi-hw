@@ -46,6 +46,9 @@ hd44780::hd44780( uint8_t rs, uint8_t e,
 
 hd44780::~hd44780() {
 
+	// Destroy the interfaces
+	delete m_mode;
+	delete m_data;
 }
 
 void
@@ -60,10 +63,19 @@ hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 
 	// Set the address locations
 	// see: http://web.alfredstate.edu/weimandn/lcd/lcd_addressing/lcd_addressing_index.html
-	if ( rows == 4 && cols == 16 )
-		m_lines = {{ 0x00, 0x40, 0x10, 0x50 }};
-	else
-		m_lines = {{ 0x00, 0x40, 0x14, 0x54 }};
+	m_lines[0] = 0x00;
+	m_lines[1] = 0x40;
+
+	if ( rows == 4 && cols == 16 ) {
+
+		m_lines[2] = 0x10;
+		m_lines[3] = 0x50;
+
+	} else {
+
+		m_lines[2] = 0x14;
+		m_lines[3] = 0x54;
+	}
 
 	// Store the font size
 	m_font_height = ( font ? 10 : 8 );
@@ -175,7 +187,7 @@ hd44780::move( uint8_t x, uint8_t y ) {
 
 	// Check if position exists
 	if ( x >= m_screen_w || y >= m_screen_h )
-		throw exception( utils::format( "(Error) `hd44780::move`: the position (%u,%u) does not exists\n", x, y ) );
+		throw exception( utils::format( "(Fatal) `hd44780::move`: the position (%u,%u) does not exists\n", x, y ) );
 
 	// Update the cursor position
 	m_pos_x = x;
@@ -416,7 +428,7 @@ hd44780::defChar( uint8_t index, const uint8_t *data ) {
 
 	// Check if custom character
 	if ( index > 7 )
-		throw exception( "(Error) `hd44780::defChar`: could not define new custom character, index out of range\n" );
+		throw exception( "(Fatal) `hd44780::defChar`: could not define new custom character, index out of range\n" );
 
 	// Start definition of the custom character
 	cmd( CGRAM | ( index * 8 ) );

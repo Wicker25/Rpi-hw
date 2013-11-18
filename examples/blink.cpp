@@ -22,7 +22,7 @@
 // Include Rpi-hw headers
 #include <rpi-hw.hpp>
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/iface/gpio.hpp>
+#include <rpi-hw/gpio.hpp>
 
 // Use Rpi-hw namespace
 using namespace rpihw;
@@ -31,22 +31,22 @@ int
 main( int argc, char *args[] ) {
 
 	// GPIO controller interface
-	iface::gpio io;
+	gpio &io = gpio::get();
 
 	// Set the output GPIO to the LED
-	io.setup( 11, iface::gpio::OUTPUT );
+	io.setup( 11, OUTPUT );
 
 	// Main loop
 	for ( ;; ) {
 
 		// Turn it on
-		io.write( 11, iface::gpio::HIGH );
+		io.write( 11, HIGH );
 
 		// Wait some time
 		time::sleep(1);
 
 		// Turn it off
-		io.write( 11, iface::gpio::LOW );
+		io.write( 11, LOW );
 
 		// Wait some time
 		time::sleep(1);

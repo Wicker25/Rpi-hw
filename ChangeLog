@@ -2,10 +2,15 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
 ============ Rpi-hw 0.6.0 - urgency=low===========
 
-2013-11-15 Wicker25 < wicker25@gmail.com >
+2013-11-19 Wicker25 < wicker25@gmail.com >
 
-    * all: Moved `gpio` to `iface::gpio`.
-           Added class `devmap` to map devices into memory.
+    * all: Added directory `driver` containing the hardware drivers.
+           Renamed `gpio` to `driver::bcm2835`.
+           Added `driver::mcp23s17` to support 16-Bit I/O expander with SPI.
+           Added new class `gpio` to handles all GPIOs.
+           Deleted class `pcd8544-skeleton` and `pcd8544-spi`.
+           Deleted `rpi-gpio`.
+           Improved names of enumeration constants.
 
 ============ Rpi-hw 0.5.2 - urgency=medium===========
 

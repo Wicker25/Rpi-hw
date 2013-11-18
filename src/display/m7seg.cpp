@@ -58,6 +58,9 @@ m7seg::m7seg( uint8_t a, uint8_t b, uint8_t c, uint8_t d,
 
 m7seg::~m7seg() {
 
+	// Destroy the thread and mutex instances 
+	delete m_thread;
+	delete m_mutex;
 }
 
 void

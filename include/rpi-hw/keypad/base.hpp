@@ -22,7 +22,6 @@
 #ifndef _RPI_HW_KEYPAD_BASE_HPP_
 #define _RPI_HW_KEYPAD_BASE_HPP_
 
-#include <memory>
 #include <functional>
 #include <vector>
 #include <map>
@@ -175,7 +174,7 @@ protected:
 	size_t m_nkeys;
 
 	//! Buttons input interface.
-	std::unique_ptr< iface::input > m_input;
+	iface::input *m_input;
 
 	//! The keymap vector.
 	T_Keymap m_keymap;
@@ -193,10 +192,10 @@ protected:
 	float m_frequency;
 
 	//! Updating thread.
-	std::unique_ptr< std::thread > m_thread;
+	std::thread *m_thread;
 
 	//! Mutex of the updating thread.
-	std::unique_ptr< std::mutex > m_mutex;
+	std::mutex *m_mutex;
 
 	//! The keypad event listener.
 	T_EventListener m_event_listener;

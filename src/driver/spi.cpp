@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/spi.cpp
+    Title --- driver/spi.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,16 +19,16 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_SPI_CPP_
-#define _RPI_HW_IFACE_SPI_CPP_
+#ifndef _RPI_HW_DRIVER_SPI_CPP_
+#define _RPI_HW_DRIVER_SPI_CPP_
 
-#include <rpi-hw/iface/spi.hpp>
+#include <rpi-hw/driver/spi.hpp>
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+namespace driver { // Begin drivers namespace
 
-spi::spi( const std::string &dev_path, SpiMode mode, uint8_t word_len, uint32_t speed )
+spi::spi( const std::string &dev_path, Modes mode, uint8_t word_len, uint32_t speed )
 
 	: m_dev_path	( dev_path )
 	, m_mode		( (uint8_t) mode )
@@ -40,7 +40,7 @@ spi::spi( const std::string &dev_path, SpiMode mode, uint8_t word_len, uint32_t 
 	m_dev_fd = open( m_dev_path.c_str(), O_RDWR );
 
 	if ( m_dev_fd < 0 )
-		throw exception( "(Error) `spi`: can't open SPI device" );
+		throw exception( "(Fatal) `spi`: can't open SPI device" );
 
 
 	// Set the SPI mode
@@ -66,10 +66,10 @@ spi::setMode( uint8_t mode ) {
 	m_mode = mode;
 
 	if ( ioctl( m_dev_fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
-		throw exception( "(Error) `spi`: can't set SPI mode (WR)" );
+		throw exception( "(Fatal) `spi`: can't set SPI mode (WR)" );
 
 	if ( ioctl( m_dev_fd, SPI_IOC_RD_MODE, &m_mode ) < 0 )
-		throw exception( "(Error) `spi`: can't set SPI mode (RD)" );
+		throw exception( "(Fatal) `spi`: can't set SPI mode (RD)" );
 }
 
 void
@@ -79,10 +79,10 @@ spi::setWordLen( uint8_t word_len ) {
 	m_word_len = word_len;
 
 	if ( ioctl( m_dev_fd, SPI_IOC_WR_BITS_PER_WORD, &m_word_len ) < 0 )
-		throw exception( "(Error) `spi`: can't set SPI bit per words (WR)" );
+		throw exception( "(Fatal) `spi`: can't set SPI bit per words (WR)" );
 
 	if ( ioctl( m_dev_fd, SPI_IOC_RD_BITS_PER_WORD, &m_word_len ) < 0 )
-		throw exception( "(Error) `spi`: can't set SPI bit per words (RD)" );
+		throw exception( "(Fatal) `spi`: can't set SPI bit per words (RD)" );
 }
 
 void
@@ -93,10 +93,10 @@ spi::setSpeed( uint32_t speed ) {
 
 	// Set SPI speed
 	if ( ioctl( m_dev_fd, SPI_IOC_WR_MAX_SPEED_HZ, &m_speed ) < 0 )
-		throw exception( "(Error) `spi`: can't set SPI speed (WR)" );
+		throw exception( "(Fatal) `spi`: can't set SPI speed (WR)" );
 
 	if ( ioctl( m_dev_fd, SPI_IOC_RD_MAX_SPEED_HZ, &m_speed ) < 0 )
-		throw exception( "(Error) `spi`: can't set SPI speed (RD)" );
+		throw exception( "(Fatal) `spi`: can't set SPI speed (RD)" );
 }
 
 void
@@ -115,11 +115,11 @@ spi::transfer( uint8_t *data, size_t size ) {
 
 	// Send/receive the data buffer
 	if ( ioctl( m_dev_fd, SPI_IOC_MESSAGE(1), &spi_data ) < 0 )
-		throw exception( "(Error) `spi`: transmission error" );
+		throw exception( "(Fatal) `spi`: transmission error" );
 }
 
-} // End of interfaces namespace
+} // End of drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_IFACE_SPI_CPP_ */
+#endif /* _RPI_HW_DRIVER_SPI_CPP_ */

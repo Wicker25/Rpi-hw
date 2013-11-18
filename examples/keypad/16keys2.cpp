@@ -27,7 +27,7 @@
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/keypad/matrix.hpp>
 
-// Use the Rpi-hw namespace
+// Use Rpi-hw namespace
 using namespace rpihw;
 
 /*

@@ -22,7 +22,6 @@
 #ifndef _RPI_HW_SENSOR_HC_SR04_HPP_
 #define _RPI_HW_SENSOR_HC_SR04_HPP_
 
-#include <memory>
 #include <vector>
 #include <chrono>
 
@@ -87,10 +86,10 @@ public:
 protected:
 
 	//! Output interface to the trigger.
-	std::unique_ptr< iface::output > m_trigger;
+	iface::output *m_trigger;
 
 	//! Input interface connected to the echo pin.
-	std::unique_ptr< iface::input > m_echo;
+	iface::input *m_echo;
 
 	//! Time of last pulse sending.
 	std::chrono::time_point< timer > m_last_sending;

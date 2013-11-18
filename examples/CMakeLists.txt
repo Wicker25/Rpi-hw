@@ -24,6 +24,9 @@ include_directories( ${RpiHw_INCLUDE_DIRS} )
 add_executable( blink ${CMAKE_SOURCE_DIR}/blink.cpp )
 target_link_libraries( blink ${RpiHw_LIBRARIES} )
 
+add_executable( io-expander ${CMAKE_SOURCE_DIR}/io-expander.cpp )
+target_link_libraries( io-expander ${RpiHw_LIBRARIES} )
+
 add_executable( s7seg ${CMAKE_SOURCE_DIR}/display/s7seg.cpp )
 target_link_libraries( s7seg ${RpiHw_LIBRARIES} )
 
@@ -41,9 +44,6 @@ target_link_libraries( lcd20x4demo ${RpiHw_LIBRARIES} )
 
 add_executable( pcd8544 ${CMAKE_SOURCE_DIR}/display/pcd8544.cpp )
 target_link_libraries( pcd8544 ${RpiHw_LIBRARIES} )
-
-add_executable( pcd8544-spi ${CMAKE_SOURCE_DIR}/display/pcd8544-spi.cpp )
-target_link_libraries( pcd8544-spi ${RpiHw_LIBRARIES} )
 
 add_executable( 12keys0 ${CMAKE_SOURCE_DIR}/keypad/12keys0.cpp )
 target_link_libraries( 12keys0 ${RpiHw_LIBRARIES} )

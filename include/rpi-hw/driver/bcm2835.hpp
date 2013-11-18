@@ -1,5 +1,5 @@
 /* 
-	Title --- iface/gpio.hpp
+	Title --- driver/bcm2835.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,16 +19,19 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_GPIO_HPP_
-#define _RPI_HW_IFACE_GPIO_HPP_
+#ifndef _RPI_HW_IFACE_BCM2835_HPP_
+#define _RPI_HW_IFACE_BCM2835_HPP_
+
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/mman.h>
 
 #include <rpi-hw/rpi.hpp>
 
+#include <rpi-hw/consts.hpp>
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
-
-#include <rpi-hw/devmap.hpp>
 
 #define BCM2708_PERI_BASE	0x20000000
 
@@ -42,15 +45,13 @@
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+namespace driver { // Begin drivers namespace
 
 /*!
-	@class gpio
-	@brief GPIO controller interface.
-
-	@example blink.cpp
+	@class bcm2835
+	@brief Broadcom BCM2835 controller.
 */
-class gpio {
+class bcm2835 {
 
 public:
 
@@ -555,21 +556,11 @@ public:
 
 	};
 
-	//! Logic level.
-	enum Level { LOW = 0, HIGH = 1 };
-
-	//! Pin mode.
-	enum PinMode { INPUT = 0, OUTPUT = 1, PWM_OUTPUT = 2 };
-
-	//! Pull resistor mode.
-	enum PullMode { PUD_OFF = 0, PULL_DOWN = 1, PULL_UP = 2 };
-
-
 	//! Constructor method.
-	gpio();
+	bcm2835();
 
 	//! Destructor method.
-	virtual ~gpio();
+	virtual ~bcm2835();
 
 	/*!
 		@brief Sets the mode of a GPIO pin.
@@ -577,7 +568,7 @@ public:
 		@param[in] mode The GPIO mode.
 		@param[in] pud_mode The pull resistor mode.
 	*/
-	void setup( uint8_t pin, PinMode mode, PullMode pud_mode = PUD_OFF );
+	void setup( uint8_t pin, uint8_t mode, uint8_t pud_mode = PUD_OFF );
 
 	/*!
 		@brief Sets the value of a output pin.
@@ -633,9 +624,12 @@ public:
 		@param[in] pin The GPIO pin.
 		@param[in] mode The pull resistor mode.
 	*/
-	void setPullUpDown( uint8_t pin, PullMode mode );
+	void setPullUpDown( uint8_t pin, uint8_t mode );
 
 private:
+
+	//! File descriptor of `/dev/mem`.
+	int m_mem_fd;
 
 	//! GPIO controller virtual address.
 	volatile uint32_t *m_gpio;
@@ -666,12 +660,12 @@ private:
 	void waitCycles( size_t cycles ) const;
 };
 
-} // End of interfaces namespace
+} // End of drivers namespace
 
 } // End of main namespace
 
 
 // Include inline methods 
-#include <rpi-hw/iface/gpio-inl.hpp>
+#include <rpi-hw/driver/bcm2835-inl.hpp>
 
-#endif /* _RPI_HW_IFACE_GPIO_HPP_ */
+#endif /* _RPI_HW_IFACE_BCM2835_HPP_ */

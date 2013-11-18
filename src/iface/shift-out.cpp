@@ -33,11 +33,11 @@ shiftOut::shiftOut( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t 
 	: shiftBase( data_pin, clock_pin, order, delay ) {
 
 	// Initialize the interface pins
-	m_gpio->write( m_pins[ DATA_PIN ], gpio::LOW );
-	m_gpio->setup( m_pins[ DATA_PIN ], gpio::OUTPUT );
+	m_gpio->write( m_pins[ DATA ], LOW );
+	m_gpio->setup( m_pins[ DATA ], OUTPUT );
 
-	m_gpio->write( m_pins[ CLOCK_PIN ], gpio::LOW );
-	m_gpio->setup( m_pins[ CLOCK_PIN ], gpio::OUTPUT );
+	m_gpio->write( m_pins[ CLOCK ], LOW );
+	m_gpio->setup( m_pins[ CLOCK ], OUTPUT );
 }
 
 shiftOut::~shiftOut() {
@@ -54,7 +54,7 @@ shiftOut::write( uint8_t data ) {
 		for ( i = 7; i >= 0; --i ) {
 
 			// Write the data to the output pin
-			m_gpio->write( m_pins[ DATA_PIN ], data & ( 1 << i ) );
+			m_gpio->write( m_pins[ DATA ], data & ( 1 << i ) );
 
 			// Toggle the clock
 			strobe();
@@ -65,7 +65,7 @@ shiftOut::write( uint8_t data ) {
 		for ( i = 0; i < 8; ++i ) {
 
 			// Write the data to the output pin
-			m_gpio->write( m_pins[ DATA_PIN ], data & ( 1 << i ) );
+			m_gpio->write( m_pins[ DATA ], data & ( 1 << i ) );
 
 			// Toggle the clock
 			strobe();

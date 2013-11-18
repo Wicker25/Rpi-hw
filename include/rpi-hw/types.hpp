@@ -1,5 +1,5 @@
 /* 
-    Title --- rpi-hw.hpp
+    Title --- types.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 

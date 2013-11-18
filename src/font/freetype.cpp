@@ -47,21 +47,21 @@ freetype::freetype( const std::string &path, uint8_t height, RenderMode mode, En
 	struct stat stat_info;
 
 	if ( stat( path.c_str(), &stat_info ) == -1 )
-		throw exception( utils::format( "(Error) `freetype->constructor`: the file `%s` doesn't exist\n", path.c_str() ) );
+		throw exception( utils::format( "(Fatal) `freetype->constructor`: the file `%s` doesn't exist\n", path.c_str() ) );
 
 	// Initialize the FreeType Font Library
 	if ( FT_Init_FreeType( &m_library ) )
-		throw exception( "(Error) `freetype->constructor`: `FT_Init_FreeType` failed\n" );
+		throw exception( "(Fatal) `freetype->constructor`: `FT_Init_FreeType` failed\n" );
 
 	// Create the cache manager and some other instances
 	if ( FTC_Manager_New( m_library, 0, 0, 0, (FTC_Face_Requester) &faceRequester, (FT_Pointer *) this, &m_manager ) )
-		throw exception( "(Error) `freetype->constructor`: `FTC_Manager_New` failed\n" );
+		throw exception( "(Fatal) `freetype->constructor`: `FTC_Manager_New` failed\n" );
 
 	if ( FTC_CMapCache_New( m_manager, &m_cmap_cache ) )
-		throw exception( "(Error) `freetype->constructor`: `FTC_CMapCache_New` failed\n" );
+		throw exception( "(Fatal) `freetype->constructor`: `FTC_CMapCache_New` failed\n" );
 
 	if ( FTC_SBitCache_New( m_manager, &m_sbit_cache ) )
-		throw exception( "(Error) `freetype->constructor`: `FTC_SBitCache_New` failed\n" );
+		throw exception( "(Fatal) `freetype->constructor`: `FTC_SBitCache_New` failed\n" );
 
 	// Set the parameters of the font
 	m_image_type = new FTC_ImageTypeRec;
@@ -87,13 +87,13 @@ freetype::buildFace( FTC_FaceID face_id, FT_Face *face ) {
 
 	// Build the fresh new font object
 	if ( FT_New_Face( m_library, (const char *) m_path.c_str(), 0, face ) )
-		throw exception( utils::format( "(Error) `freetype->buildFace`: `FT_New_Face` failed with `%s`\n", m_path.c_str() ) );
+		throw exception( utils::format( "(Fatal) `freetype->buildFace`: `FT_New_Face` failed with `%s`\n", m_path.c_str() ) );
 
 	// Set the character set
 	if ( m_encoding != ENCODING_NONE ) {
 
 		if ( FT_Select_Charmap( *face, (FT_Encoding) m_encoding ) )
-			throw exception( utils::format( "(Error) `freetype->buildFace`: `FT_Select_Charmap` failed with `%s`\n", m_path.c_str() ) );
+			throw exception( utils::format( "(Fatal) `freetype->buildFace`: `FT_Select_Charmap` failed with `%s`\n", m_path.c_str() ) );
 	}
 }
 
@@ -109,7 +109,7 @@ freetype::getSBitChar( uint32_t charcode, FTC_SBit &sbit ) const {
 	*/
 
 	if ( FTC_SBitCache_Lookup( m_sbit_cache, m_image_type, glyph_index, &sbit, NULL ) )
-		throw exception( utils::format( "(Error) `freetype->getSBitChar`: `FTC_SBitCache_Lookup` failed with `%s`\n", m_path.c_str() ) );
+		throw exception( utils::format( "(Fatal) `freetype->getSBitChar`: `FTC_SBitCache_Lookup` failed with `%s`\n", m_path.c_str() ) );
 }
 
 uint8_t

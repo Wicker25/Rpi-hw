@@ -45,8 +45,8 @@ public:
 	//! Shift interface pins.
 	enum ShiftPin {
 
-		DATA_PIN	= 0,	//!< The data pin.
-		CLOCK_PIN	= 1		//!< The clock pin.
+		DATA	= 0,	//!< The data pin.
+		CLOCK	= 1		//!< The clock pin.
 	};
 
 	//! Bit orders.

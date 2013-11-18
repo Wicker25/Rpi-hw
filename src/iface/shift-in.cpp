@@ -33,11 +33,11 @@ shiftIn::shiftIn( uint8_t data_pin, uint8_t clock_pin, BitOrder order, size_t de
 	: shiftBase( data_pin, clock_pin, order, delay ) {
 
 	// Initialize the interface pins
-	m_gpio->setup( m_pins[ DATA_PIN ], gpio::INPUT );
-	m_gpio->setPullUpDown( m_pins[ DATA_PIN ], gpio::PULL_DOWN );
+	m_gpio->setup( m_pins[ DATA ], INPUT );
+	m_gpio->setPullUpDown( m_pins[ DATA ], PULL_DOWN );
 
-	m_gpio->write( m_pins[ CLOCK_PIN ], gpio::LOW );
-	m_gpio->setup( m_pins[ CLOCK_PIN ], gpio::OUTPUT );
+	m_gpio->write( m_pins[ CLOCK ], LOW );
+	m_gpio->setup( m_pins[ CLOCK ], OUTPUT );
 }
 
 shiftIn::~shiftIn() {
@@ -55,7 +55,7 @@ shiftIn::read() {
 		for ( i = 7; i >= 0; --i ) {
 
 			// Read the data to the input pin
-			data |= ( (uint8_t) m_gpio->read( m_pins[ DATA_PIN ] ) ) << i;
+			data |= ( (uint8_t) m_gpio->read( m_pins[ DATA ] ) ) << i;
 
 			// Toggle the clock
 			strobe();
@@ -66,7 +66,7 @@ shiftIn::read() {
 		for ( i = 0; i < 8; ++i ) {
 
 			// Read the data to the input pin
-			data |= ( (uint8_t) m_gpio->read( m_pins[ DATA_PIN ] ) ) << i;
+			data |= ( (uint8_t) m_gpio->read( m_pins[ DATA ] ) ) << i;
 
 			// Toggle the clock
 			strobe();

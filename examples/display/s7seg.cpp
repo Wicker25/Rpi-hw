@@ -25,7 +25,7 @@
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/display/s7seg.hpp>
 
-// Use the Rpi-hw namespace
+// Use Rpi-hw namespace
 using namespace rpihw;
 
 /*

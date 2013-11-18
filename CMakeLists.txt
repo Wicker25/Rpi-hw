@@ -154,10 +154,14 @@ add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/utils.cpp
 	${RPI_HW_SOURCE_DIR}/time.cpp
-	${RPI_HW_SOURCE_DIR}/devmap.cpp
 
-	${RPI_HW_SOURCE_DIR}/iface/gpio.cpp
-	${RPI_HW_SOURCE_DIR}/iface/spi.cpp
+	${RPI_HW_SOURCE_DIR}/gpio.cpp
+
+	${RPI_HW_SOURCE_DIR}/driver/bcm2835.cpp
+	${RPI_HW_SOURCE_DIR}/driver/spi.cpp
+	${RPI_HW_SOURCE_DIR}/driver/ioexpander.cpp
+	${RPI_HW_SOURCE_DIR}/driver/mcp23s17.cpp
+
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
 	${RPI_HW_SOURCE_DIR}/iface/output.cpp
 	${RPI_HW_SOURCE_DIR}/iface/input.cpp
@@ -177,9 +181,7 @@ add_library( rpihw SHARED
 	${RPI_HW_SOURCE_DIR}/display/s7seg.cpp
 	${RPI_HW_SOURCE_DIR}/display/m7seg.cpp
 	${RPI_HW_SOURCE_DIR}/display/hd44780.cpp
-	${RPI_HW_SOURCE_DIR}/display/pcd8544-skeleton.cpp
 	${RPI_HW_SOURCE_DIR}/display/pcd8544.cpp
-	${RPI_HW_SOURCE_DIR}/display/pcd8544-spi.cpp
 
 	${RPI_HW_SOURCE_DIR}/motor/stepper.cpp
 
@@ -198,11 +200,6 @@ endif()
 if ( USE_MAGICK )
 	target_link_libraries( rpihw ${GraphicsMagick++_LIBRARIES} )
 endif()
-
-
-# Build the executables
-add_executable( rpi-gpio ${RPI_HW_SOURCE_DIR}/rpi-gpio.cpp )
-target_link_libraries( rpi-gpio rpihw )
 
 
 # If Doxygen was found, define the function `make doc` to build the local documentation
@@ -241,10 +238,6 @@ foreach ( module ${CMAKE_MODULES} )
 	endif()
 endforeach()
 
-# Define the tools installer
-install( FILES ${RPI_HW_BUILD_DIR}/rpi-gpio
-		 DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
-		 PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
 
 # Store the library paths
 file( APPEND "${RPI_HW_DIR}/install_directories.txt"

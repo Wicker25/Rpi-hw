@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/gpio.cpp
+    Title --- driver/bcm2835.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,32 +19,70 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_GPIO_CPP_
-#define _RPI_HW_IFACE_GPIO_CPP_
+#ifndef _RPI_HW_IFACE_BCM2835_CPP_
+#define _RPI_HW_IFACE_BCM2835_CPP_
 
-#include <rpi-hw/iface/gpio.hpp>
+#include <rpi-hw/driver/bcm2835.hpp>
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+namespace driver { // Begin drivers namespace
 
-gpio::gpio() {
+bcm2835::bcm2835() {
+
+	// Open memory device file
+	m_mem_fd = open( "/dev/mem", O_RDWR | O_SYNC );
+
+	if ( m_mem_fd < 0 )
+		throw exception( "(Fatal) `gpio`: can't open `/dev/mem`, you must be 'root' to run this software!" );
+
 
 	// Map the GPIO controller memory
-	static devmap gpio_map( "/dev/mem", BLOCK_SIZE, GPIO_BASE );
-	m_gpio = gpio_map.data();
+	m_gpio = (volatile uint32_t *) mmap(
+
+		0,
+		BLOCK_SIZE,
+		PROT_READ | PROT_WRITE,
+		MAP_SHARED,
+		m_mem_fd,
+		GPIO_BASE
+	);
+
+	// Handle possible errors
+	if ( m_gpio == MAP_FAILED )
+		throw exception( utils::format( "(Fatal) `gpio`: mapping error at address %p (gpio)\n", m_gpio ) );
+
 
 	// Map the PWM controller memory
-	static devmap pwm_map( "/dev/mem", BLOCK_SIZE, GPIO_PWM );
-	m_pwm = pwm_map.data();
+	m_pwm = (volatile uint32_t *) mmap(
+
+		0,
+		BLOCK_SIZE,
+		PROT_READ | PROT_WRITE,
+		MAP_SHARED,
+		m_mem_fd,
+		GPIO_PWM
+	);
+
+	// Handle possible errors
+	if ( m_pwm == MAP_FAILED )
+		throw exception( utils::format( "(Fatal) `gpio`: mapping error at address %p (pwm)\n", m_pwm ) );
 }
 
-gpio::~gpio() {
+bcm2835::~bcm2835() {
 
+	// Unmap GPIO controller memory
+	munmap( (uint32_t *) m_gpio, BLOCK_SIZE );
+
+	// Unmap PWM controller memory
+	munmap( (uint32_t *) m_pwm, BLOCK_SIZE );
+
+	// Close memory device file
+	close( m_mem_fd );
 }
 
 void
-gpio::setup( uint8_t pin, PinMode mode, PullMode pud_mode ) {
+bcm2835::setup( uint8_t pin, uint8_t mode, uint8_t pud_mode ) {
 
 	// Enable/disable pull-up/down control on the GPIO pin
 	if ( mode == INPUT ) setPullUpDown( pin, pud_mode );
@@ -62,7 +100,7 @@ gpio::setup( uint8_t pin, PinMode mode, PullMode pud_mode ) {
 }
 
 void
-gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
+bcm2835::setPullUpDown( uint8_t pin, uint8_t mode ) {
 
 	// Get the GPIO controller registers
 	volatile uint32_t	&reg_pullupdown	= *( m_gpio + GPPUD0 ),
@@ -85,8 +123,8 @@ gpio::setPullUpDown( uint8_t pin, PullMode mode ) {
 	reg_pullupdown = 0;
 }
 
-} // End of interfaces namespace
+} // End of drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_IFACE_GPIO_CPP_ */
+#endif /* _RPI_HW_IFACE_BCM2835_CPP_ */

@@ -27,7 +27,7 @@
 #include <rpi-hw/time.hpp>
 #include <rpi-hw/sensor/hc-sr04.hpp>
 
-// Use the Rpi-hw namespace
+// Use Rpi-hw namespace
 using namespace rpihw;
 
 int

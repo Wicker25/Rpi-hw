@@ -1,5 +1,5 @@
 /* 
-    Title --- display/pcd8544-skeleton-inl.hpp
+    Title --- gpio-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,37 +19,23 @@
 */
 
 
-#ifndef _RPI_HW_DISPLAY_PCD8544_SKELETON_INL_HPP_
-#define _RPI_HW_DISPLAY_PCD8544_SKELETON_INL_HPP_
+#ifndef _RPI_HW_GPIO_INL_HPP_
+#define _RPI_HW_GPIO_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace display { // Begin displays namespace
+template < typename T >
+void
+gpio::expand( uint8_t pin_base, T &expander ) {
 
-inline void
-pcd8544_skeleton::setColor( bool color ) {
+	// Check the pin base
+	if ( pin_base <= RESERVED_PINS )
+		throw exception( utils::format( "(Fatal) `gpio::expand`: pin %d is reserved", pin_base ) );
 
-	// Set the foreground color
-	setPenColor( { color } );
+	// Add the I/O expander to the standard GPIO connector
+	m_expanders.push_back( { pin_base, static_cast< driver::ioexpander *>( &expander ) } );
 }
-
-inline bool
-pcd8544_skeleton::getColor() const {
-
-	// Set the foreground color
-	return getPenColor()[0];
-}
-
-inline void
-pcd8544_skeleton::setPixel( int8_t x, int8_t y, bool color ) {
-
-	// Set the pixel color
-	std::vector< bool > c = { color };
-	drawPixel( x, y, std::begin( c ) );
-}
-
-} // End of displays namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_DISPLAY_PCD8544_SKELETON_INL_HPP_ */
+#endif /* _RPI_HW_GPIO_INL_HPP_ */

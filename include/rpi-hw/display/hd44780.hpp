@@ -23,7 +23,6 @@
 #define _RPI_HW_DISPLAY_HD44780_HPP_
 
 #include <vector>
-#include <array>
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
@@ -50,7 +49,7 @@ class hd44780 {
 public:
 
 	//! The controller command set.
-	enum CommandSet {
+	enum Commands {
 
 		CLEAR	= 0x01,		//!< Clear display.
 		HOME	= 0x02,		//!< Cursor home.
@@ -63,7 +62,7 @@ public:
 	};
 
 	//! The controller command set (bit flags).
-	enum CommandArgs {
+	enum Settings {
 
 		ENTRY_S		= 0x01,		//!< Shifts display when byte written to display.
 		ENTRY_ID	= 0x02,		//!< Increments the cursor after each byte written to display.
@@ -288,13 +287,13 @@ public:
 protected:
 
 	//! Output interface to the control pins.
-	std::unique_ptr< iface::output > m_mode;
+	iface::output *m_mode;
 
 	//! Output interface to the data pins.
-	std::unique_ptr< iface::output > m_data;
+	iface::output *m_data;
 
 	//! DDRAM line addresses
-	std::array< uint8_t, 4 > m_lines;
+	uint8_t m_lines[4];
 
 	//@{
 	//! Size of the display.

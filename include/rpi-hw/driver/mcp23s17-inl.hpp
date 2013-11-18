@@ -1,5 +1,5 @@
 /* 
-    Title --- devmap-inl.hpp
+    Title --- driver/mcp23s17-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,18 +19,39 @@
 */
 
 
-#ifndef _RPI_HW_DEVMAP_INL_HPP_
-#define _RPI_HW_DEVMAP_INL_HPP_
+#ifndef _RPI_HW_DRIVER_MCP23S17_INL_HPP_
+#define _RPI_HW_DRIVER_MCP23S17_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-//! Returns the address of the mapping.
-inline volatile uint32_t *
-devmap::data() {
+namespace driver { // Begin drivers namespace
 
-	return m_map;
+inline void
+mcp23s17::send( uint8_t reg, uint8_t data ) {
+
+	// Send data to the device
+	m_buffer[0] = WRITE | ( m_device_id << 1 );
+	m_buffer[1] = reg;
+	m_buffer[2] = data;
+
+	m_spi->transfer( m_buffer, 3 );
 }
+
+inline uint8_t
+mcp23s17::receive( uint8_t reg ) {
+
+	// Receive data from the device
+	m_buffer[0] = READ | ( m_device_id << 1 );
+	m_buffer[1] = reg;
+	m_buffer[2] = 0;
+
+	m_spi->transfer( m_buffer, 3 );
+
+	return m_buffer[2];
+}
+
+} // End of drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_DEVMAP_INL_HPP_ */
+#endif /* _RPI_HW_DRIVER_MCP23S17_INL_HPP_ */

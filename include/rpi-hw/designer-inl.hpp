@@ -394,7 +394,7 @@ designer< T, C, N >::drawImage( const image::base< C > &img, T x, T y ) {
 
 	// Check the number of channels
 	if ( img.getSpectrum() != N )
-		throw exception( "(Error) `designer->drawImage`: incorrect number of channels\n" );
+		throw exception( "(Fatal) `designer->drawImage`: incorrect number of channels\n" );
 
 	// Get the size of the image
 	uint16_t	width	= img.getWidth(),
@@ -457,7 +457,7 @@ designer< T, C, N >::drawChar( char32_t charcode ) {
 	}
 
 	// Update the pen position
-	m_pos_x += (T) glyph.xadvance;
+	m_pos_x += static_cast< T >( glyph.xadvance );
 }
 
 template < typename T, typename C, uint8_t N >
@@ -466,7 +466,7 @@ designer< T, C, N >::drawText( char32_t charcode ) {
 
 	// Check if text font was loaded
 	if ( !m_font )
-		throw exception( "(Error) `designer->drawText`: no font selected\n" );
+		throw exception( "(Fatal) `designer->drawText`: no font selected\n" );
 
 	// Draw the character
 	drawChar( charcode );
@@ -493,7 +493,7 @@ designer< T, C, N >::drawText( iterator it, iterator end ) {
 
 	// Check if text font was loaded
 	if ( !m_font )
-		throw exception( "(Error) `designer->drawText`: no font selected\n" );
+		throw exception( "(Fatal) `designer->drawText`: no font selected\n" );
 
 	// Store the horizontal pen position
 	T old_x = m_pos_x;
@@ -520,7 +520,7 @@ designer< T, C, N >::drawText( iterator it, iterator end, T width, T height, uin
 
 	// Check if text font was loaded
 	if ( !m_font )
-		throw exception( "(Error) `designer->drawText`: no font selected\n" );
+		throw exception( "(Fatal) `designer->drawText`: no font selected\n" );
 
 	// Get the word wrapping mode
 	bool word_break = flags & WORD_BREAK;

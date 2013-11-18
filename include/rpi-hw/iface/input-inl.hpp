@@ -33,7 +33,7 @@ input::setPin( uint8_t index, uint8_t pin ) {
 	base::setPin( index, pin );
 
 	// Set the GPIO pin mode
-	m_gpio->setup( m_pins[ index ], gpio::INPUT );
+	m_gpio->setup( m_pins[ index ], INPUT );
 }
 
 } // End of interfaces namespace

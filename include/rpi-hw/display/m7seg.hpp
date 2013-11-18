@@ -22,7 +22,6 @@
 #ifndef _RPI_HW_DISPLAY_M7SEG_HPP_
 #define _RPI_HW_DISPLAY_M7SEG_HPP_
 
-#include <memory>
 #include <thread>
 #include <mutex>
 
@@ -134,10 +133,10 @@ protected:
 	iface::output *m_enabler;
 
 	//! Rendering thread.
-	std::unique_ptr< std::thread > m_thread;
+	std::thread *m_thread;
 
 	//! Mutex of the rendering thread.
-	std::unique_ptr< std::mutex > m_mutex;
+	std::mutex *m_mutex;
 };
 
 } // End of displays namespace

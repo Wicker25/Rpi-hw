@@ -22,14 +22,11 @@
 #ifndef _RPI_HW_KEYPAD_MATRIX_HPP_
 #define _RPI_HW_KEYPAD_MATRIX_HPP_
 
-#include <memory>
-
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 
-#include <rpi-hw/iface/gpio.hpp>
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/output.hpp>
 #include <rpi-hw/iface/input.hpp>
@@ -75,7 +72,7 @@ public:
 protected:
 
 	//! Columns output interface.
-	std::unique_ptr< iface::output > m_output;
+	iface::output *m_output;
 
 	//! Updates the state of buttons.
 	virtual void update();

@@ -22,8 +22,6 @@
 #ifndef _RPI_HW_DISPLAY_S7SEG_HPP_
 #define _RPI_HW_DISPLAY_S7SEG_HPP_
 
-#include <memory>
-
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
@@ -111,7 +109,7 @@ public:
 protected:
 
 	//! Output interface to the display.
-	std::unique_ptr< iface::output > m_display;
+	iface::output *m_display;
 
 	//! Value of the display.
 	float m_value;

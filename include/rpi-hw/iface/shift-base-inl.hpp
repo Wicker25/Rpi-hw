@@ -30,9 +30,9 @@ inline void
 shiftBase::strobe() {
 
 	// Toggle the clock
-	m_gpio->write( m_pins[ CLOCK_PIN ], gpio::HIGH );
+	m_gpio->write( m_pins[ CLOCK ], HIGH );
 	time::nsleep( m_delay );
-	m_gpio->write( m_pins[ CLOCK_PIN ], gpio::LOW );
+	m_gpio->write( m_pins[ CLOCK ], LOW );
 }
 
 } // End of interfaces namespace

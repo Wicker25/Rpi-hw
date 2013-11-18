@@ -30,21 +30,21 @@ inline void
 sleep( size_t seconds ) {
 
 	// Wait some seconds
-	::usleep( (useconds_t) ( seconds * 1000000 ) );
+	::usleep( static_cast< useconds_t >( seconds * 1000000 ) );
 }
 
 inline void
 msleep( size_t mseconds ) {
 
 	// Wait some milliseconds
-	::usleep( (useconds_t) ( mseconds * 1000 ) );
+	::usleep( static_cast< useconds_t >( mseconds * 1000 ) );
 }
 
 inline void
 usleep( size_t useconds ) {
 
 	// Wait some microseconds
-	::usleep( (useconds_t) useconds );
+	::usleep( static_cast< useconds_t >( useconds ) );
 }
 
 } // End of times namespace

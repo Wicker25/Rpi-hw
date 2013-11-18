@@ -1,5 +1,5 @@
 /* 
-    Title --- iface/gpio-inl.hpp
+    Title --- driver/bcm2835-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,36 +19,36 @@
 */
 
 
-#ifndef _RPI_HW_IFACE_GPIO_INL_HPP_
-#define _RPI_HW_IFACE_GPIO_INL_HPP_
+#ifndef _RPI_HW_IFACE_BCM2835_INL_HPP_
+#define _RPI_HW_IFACE_BCM2835_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace iface { // Begin interfaces namespace
+namespace driver { // Begin drivers namespace
 
 inline void
-gpio::setBit( uint8_t offset, uint8_t index, bool value ) {
+bcm2835::setBit( uint8_t offset, uint8_t index, bool value ) {
 
 	// Set the bit value on the GPIO controller register
 	utils::set_bit( m_gpio, offset + index / 32, index % 32, value );
 }
 
 inline bool
-gpio::getBit( uint8_t offset, uint8_t index ) const {
+bcm2835::getBit( uint8_t offset, uint8_t index ) const {
 
 	// Return the bit value from one of the GPIO controller registers
 	return utils::get_bit( m_gpio, offset + index / 32, index % 32 );
 }
 
 inline void
-gpio::waitCycles( size_t cycles ) const {
+bcm2835::waitCycles( size_t cycles ) const {
 
 	// Wait some CPU cycles
     while ( --cycles ) asm volatile( "nop" );
 }
 
 inline void
-gpio::write( uint8_t pin, bool value ) {
+bcm2835::write( uint8_t pin, bool value ) {
 
 	// Set the value of the output pin
 	// 0 = Low
@@ -57,7 +57,7 @@ gpio::write( uint8_t pin, bool value ) {
 }
 
 inline bool
-gpio::read( uint8_t pin ) const {
+bcm2835::read( uint8_t pin ) const {
 
 	// Return the value of the input pin
 	// 0 = Low
@@ -66,7 +66,7 @@ gpio::read( uint8_t pin ) const {
 }
 
 inline bool
-gpio::checkEvent( uint8_t pin ) const {
+bcm2835::checkEvent( uint8_t pin ) const {
 
 	// Return event state of the GPIO pin
 	// 0 = Event not detected on the GPIO pin
@@ -75,7 +75,7 @@ gpio::checkEvent( uint8_t pin ) const {
 }
 
 inline void
-gpio::setRisingEvent( uint8_t pin, bool enabled ) {
+bcm2835::setRisingEvent( uint8_t pin, bool enabled ) {
 
 	// Enable/disable rising edge event on the GPIO pin
 	// 0 = Disabled
@@ -84,7 +84,7 @@ gpio::setRisingEvent( uint8_t pin, bool enabled ) {
 }
 
 inline void
-gpio::setFallingEvent( uint8_t pin, bool enabled ) {
+bcm2835::setFallingEvent( uint8_t pin, bool enabled ) {
 
 	// Enable/disable falling edge event on the GPIO pin
 	// 0 = Disabled
@@ -93,7 +93,7 @@ gpio::setFallingEvent( uint8_t pin, bool enabled ) {
 }
 
 inline void
-gpio::setHighEvent( uint8_t pin, bool enabled ) {
+bcm2835::setHighEvent( uint8_t pin, bool enabled ) {
 
 	// Enable/disable high event on the GPIO pin
 	// 0 = Disabled
@@ -102,7 +102,7 @@ gpio::setHighEvent( uint8_t pin, bool enabled ) {
 }
 
 inline void
-gpio::setLowEvent( uint8_t pin, bool enabled ) {
+bcm2835::setLowEvent( uint8_t pin, bool enabled ) {
 
 	// Enable/disable low event on the GPIO pin
 	// 0 = Disabled
@@ -110,8 +110,8 @@ gpio::setLowEvent( uint8_t pin, bool enabled ) {
 	setBit( GPLEN0, pin, enabled );
 }
 
-} // End of interfaces namespace
+} // End of drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_IFACE_GPIO_INL_HPP_ */
+#endif /* _RPI_HW_IFACE_BCM2835_INL_HPP_ */

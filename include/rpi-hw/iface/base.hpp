@@ -30,7 +30,7 @@
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
 
-#include <rpi-hw/iface/gpio.hpp>
+#include <rpi-hw/gpio.hpp>
 
 namespace rpihw { // Begin main namespace
 
@@ -83,11 +83,11 @@ public:
 
 protected:
 
-	//! GPIO controller interface.
-	std::unique_ptr< gpio > m_gpio;
-
 	//! Vector containing interface pins.
 	std::vector< uint8_t > m_pins;
+
+	//! Virtual GPIO controller.
+	gpio *m_gpio;
 };
 
 } // End of interfaces namespace

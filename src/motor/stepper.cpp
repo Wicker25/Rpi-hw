@@ -91,6 +91,8 @@ stepper::stepper( size_t steps, uint8_t pin0, uint8_t pin1, uint8_t pin2, uint8_
 
 stepper::~stepper() {
 
+	// Destroy the interfaces
+	delete m_motor;
 }
 
 void

@@ -26,6 +26,28 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
+inline void
+pcd8544::setColor( bool color ) {
+
+	// Set the foreground color
+	setPenColor( { color } );
+}
+
+inline bool
+pcd8544::getColor() const {
+
+	// Set the foreground color
+	return getPenColor()[0];
+}
+
+inline void
+pcd8544::setPixel( int8_t x, int8_t y, bool color ) {
+
+	// Set the pixel color
+	std::vector< bool > c = { color };
+	drawPixel( x, y, std::begin( c ) );
+}
+
 } // End of displays namespace
 
 } // End of main namespace

@@ -86,6 +86,12 @@ base::base( size_t total, const std::vector< uint8_t > &pins, const std::vector<
 
 base::~base() {
 
+	// Destroy the interfaces
+	delete m_input;
+
+	// Destroy the thread and mutex instances 
+	delete m_thread;
+	delete m_mutex;
 }
 
 void
@@ -93,7 +99,7 @@ base::setKeymap( const std::vector< uint8_t > &keymap ) {
 
 	// Check the keymap
 	if ( keymap.size() != m_nkeys )
-		throw exception( utils::format( "(Error) `keypad::setKeymap`: bad keymap\n" ) );
+		throw exception( utils::format( "(Fatal) `keypad::setKeymap`: bad keymap\n" ) );
 
 	// Store the keymap
 	uint8_t index = 0;
@@ -107,7 +113,7 @@ base::state( size_t index ) const {
 
 	// Check if the button exists
 	if ( index >= m_nkeys )
-		throw exception( utils::format( "(Error) `keypad::state`: keypad %p has only %lu buttons\n",
+		throw exception( utils::format( "(Fatal) `keypad::state`: keypad %p has only %lu buttons\n",
 										this, (unsigned long) m_nkeys ) );
 
 	// Return the button state
@@ -119,7 +125,7 @@ base::pressed( size_t index ) const {
 
 	// Check if the button exists
 	if ( index >= m_nkeys )
-		throw exception( utils::format( "(Error) `keypad::pressed`: keypad %p has only %lu buttons\n",
+		throw exception( utils::format( "(Fatal) `keypad::pressed`: keypad %p has only %lu buttons\n",
 										this, (unsigned long) m_nkeys ) );
 
 	// Return `true` if the button is pressed
@@ -131,7 +137,7 @@ base::released( size_t index ) const {
 
 	// Check if the button exists
 	if ( index >= m_nkeys )
-		throw exception( utils::format( "(Error) `keypad::released`: keypad %p has only %lu buttons\n",
+		throw exception( utils::format( "(Fatal) `keypad::released`: keypad %p has only %lu buttons\n",
 										this, (unsigned long) m_nkeys ) );
 
 	// Return `true` if the button is released
@@ -145,7 +151,7 @@ base::keyState( uint8_t key ) const {
 	T_Keymap::const_iterator it = m_keymap.find( key );
 
 	if ( it == m_keymap.end() )
-		throw exception( utils::format( "(Error) `keypad::state`: keypad %p doesn't have key '%c'\n",
+		throw exception( utils::format( "(Fatal) `keypad::state`: keypad %p doesn't have key '%c'\n",
 										this, (char) key ) );
 
 	// Return the button state
@@ -159,7 +165,7 @@ base::keyPressed( uint8_t key ) const {
 	T_Keymap::const_iterator it = m_keymap.find( key );
 
 	if ( it == m_keymap.end() )
-		throw exception( utils::format( "(Error) `keypad::pressed`: keypad %p doesn't have key '%c'\n",
+		throw exception( utils::format( "(Fatal) `keypad::pressed`: keypad %p doesn't have key '%c'\n",
 										this, (char) key ) );
 
 	// Return `true` if the button is pressed
@@ -173,7 +179,7 @@ base::keyReleased( uint8_t key ) const {
 	T_Keymap::const_iterator it = m_keymap.find( key );
 
 	if ( it == m_keymap.end() )
-		throw exception( utils::format( "(Error) `keypad::released`: keypad %p doesn't have key '%c'\n",
+		throw exception( utils::format( "(Fatal) `keypad::released`: keypad %p doesn't have key '%c'\n",
 										this, (char) key ) );
 
 	// Return `true` if the button is released
