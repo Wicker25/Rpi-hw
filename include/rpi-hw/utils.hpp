@@ -58,7 +58,7 @@ enum TextFlags {
 	@param[in] value The bit value.
 */
 template < typename T >
-void set_bit( T buffer, size_t offset, uint8_t index, bool value = 1 );
+void set_bit( T &buffer, size_t offset, uint8_t index, bool value = 1 );
 
 /*!
 	@brief Clears a bit in a variable.
@@ -67,7 +67,7 @@ void set_bit( T buffer, size_t offset, uint8_t index, bool value = 1 );
 	@param[in] index The bit position.
 */
 template < typename T >
-void clear_bit( T buffer, size_t offset, uint8_t index );
+void clear_bit( T &buffer, size_t offset, uint8_t index );
 
 /*!
 	@brief Flips a bit value in a variable.
@@ -76,7 +76,7 @@ void clear_bit( T buffer, size_t offset, uint8_t index );
 	@param[in] index The bit position.
 */
 template < typename T >
-void flip_bit( T buffer, size_t offset, uint8_t index );
+void flip_bit( T &buffer, size_t offset, uint8_t index );
 
 /*!
 	@brief Retuns a bit value in a variable.
@@ -86,7 +86,7 @@ void flip_bit( T buffer, size_t offset, uint8_t index );
 	@return The bit value.
 */
 template < typename T >
-bool get_bit( T buffer, size_t offset, uint8_t index );
+bool get_bit( T &buffer, size_t offset, uint8_t index );
 
 
 //! Returns a formatted string like `printf`.

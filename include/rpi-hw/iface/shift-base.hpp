@@ -43,7 +43,7 @@ class shiftBase : public iface::base {
 public:
 
 	//! Shift interface pins.
-	enum ShiftPin {
+	enum ShiftPins {
 
 		DATA	= 0,	//!< The data pin.
 		CLOCK	= 1		//!< The clock pin.
