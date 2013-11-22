@@ -169,10 +169,16 @@ public:
 	/*!
 		@brief Draws an image.
 		@param[in] img The image object.
+	*/
+	void drawImage( const image::base< C > &img );
+
+	/*!
+		@brief Moves the pen position and draws an image.
 		@param[in] x The horizontal position of the left-top vertex.
 		@param[in] y The vertical position of the left-top vertex.
+		@param[in] img The image object.
 	*/
-	void drawImage( const image::base< C > &img, T x, T y );
+	void drawImage( T x, T y, const image::base< C > &img );
 
 	/*!
 		@brief Draws a character.

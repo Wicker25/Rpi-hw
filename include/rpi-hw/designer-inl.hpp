@@ -389,8 +389,16 @@ designer< T, C, N >::drawEllipseAreas( T cx, T cy, T x, T y ) {
 }
 
 template < typename T, typename C, uint8_t N >
+inline void
+designer< T, C, N >::drawImage( const image::base< C > &img ) {
+
+	// Draw the bitmap image
+	drawImage( img, 0, 0 );
+}
+
+template < typename T, typename C, uint8_t N >
 void
-designer< T, C, N >::drawImage( const image::base< C > &img, T x, T y ) {
+designer< T, C, N >::drawImage( T x, T y, const image::base< C > &img ) {
 
 	// Check the number of channels
 	if ( img.getSpectrum() != N )
@@ -403,7 +411,7 @@ designer< T, C, N >::drawImage( const image::base< C > &img, T x, T y ) {
 	// Iterator
 	uint16_t i, j;
 
-	// Draw the image bitmap
+	// Draw the bitmap image
 	for ( j = 0; j < height; ++j )
 		for ( i = 0; i < width; ++i )
 			drawPixel( x + i, y + j, img.getData( i, j ) );

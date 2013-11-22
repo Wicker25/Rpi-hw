@@ -38,7 +38,7 @@ main( int argc, char *args[] ) {
 	// Get the GPIO controller
 	gpio &io = gpio::get();
 
-	// Add the I/O expanderto the standard GPIO connector
+	// Add the I/O expander to the standard GPIO connector
 	io.expand( 100, expander );
 
 	// Set new GPIOs as output pin
