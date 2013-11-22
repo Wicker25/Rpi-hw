@@ -393,7 +393,7 @@ inline void
 designer< T, C, N >::drawImage( const image::base< C > &img ) {
 
 	// Draw the bitmap image
-	drawImage( img, 0, 0 );
+	drawImage( 0, 0, img );
 }
 
 template < typename T, typename C, uint8_t N >

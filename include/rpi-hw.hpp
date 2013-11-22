@@ -47,6 +47,7 @@ It allows you to connect several devices to the board (including displays, keypa
 @li Character LCDs (Hitachi HD44780)
 @li Graphical LCDs (Philips PCD8544)
 @li Single and multiple 7-segments diplays
+@li Matrix keypads
 @li Ultrasonic distance sensor (HC-SR04)
 @li Stepper motors
 

@@ -174,7 +174,7 @@ showImage( pcd8544 &dev, const std::string &path, uint8_t x = 0, uint8_t y = 0 )
 
 	// Load and show the image
 	image::bitmap< bool > img( path );
-	dev.drawImage( img, x, y );
+	dev.drawImage( x, y, img );
 
 	dev.redraw();
 }
@@ -192,7 +192,7 @@ showDitherImage( pcd8544 &dev, const std::string &path, uint8_t x = 0, uint8_t y
 	image::bitmap< bool > img( img_magick );
 
 	// Draw the image on the screen
-	dev.drawImage( img, x, y );
+	dev.drawImage( x, y, img );
 
 	dev.redraw();
 }

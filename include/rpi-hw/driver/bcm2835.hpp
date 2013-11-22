@@ -45,6 +45,11 @@
 
 namespace rpihw { // Begin main namespace
 
+/*!
+	@namespace rpihw::driver
+	@brief Namespace of the main driver.
+*/
+
 namespace driver { // Begin drivers namespace
 
 /*!
