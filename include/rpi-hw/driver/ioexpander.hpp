@@ -61,14 +61,14 @@ public:
 		@param[in] pin The input pin.
 		@return The value of input pin.
 	*/
-	virtual bool read( uint8_t pin ) const;
+	virtual bool read( uint8_t pin );
 
 	/*!
 		@brief Returns the event state of a GPIO pin.
 		@param[in] pin The GPIO pin.
 		@return The event state.
 	*/
-	virtual bool checkEvent( uint8_t pin ) const;
+	virtual bool checkEvent( uint8_t pin );
 
 	/*!
 		@brief Enables/disables the rising edge event on a GPIO pin.

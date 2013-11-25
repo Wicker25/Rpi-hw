@@ -44,23 +44,16 @@ gpio::~gpio() {
 	delete m_bcm2835;
 }
 
-driver::ioexpander *
-gpio::findExpander( uint8_t &pin ) {
+expander_slot &
+gpio::findExpander( uint8_t pin ) {
 
 	// Find the I/O expander with the specific pin index
-	for ( auto it = m_expanders.rbegin(); it != m_expanders.rend(); ++it ) {
-
-		if ( pin >= it->pin_base ) {
-
-			pin -= it->pin_base;
-			return it->expander;
-		}
-	}
+	for ( auto it = m_expanders.rbegin(); it != m_expanders.rend(); ++it )
+		if ( pin >= it->pin_base )
+			return *it;
 
 	// Else throw an exception
 	throw exception( utils::format( "(Fatal) `ioexpander::findExpander`: there's not I/O expander for pin %u", pin ) );
-
-	return nullptr;
 }
 
 void
@@ -72,8 +65,8 @@ gpio::setup( uint8_t pin, uint8_t mode, uint8_t pud_mode ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->setup( pin, mode, pud_mode );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->setup( pin - slot.pin_base, mode, pud_mode );
 	}
 }
 
@@ -86,8 +79,8 @@ gpio::write( uint8_t pin, bool value ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->write( pin, value );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->write( pin - slot.pin_base, value );
 	}
 }
 
@@ -98,8 +91,8 @@ gpio::read( uint8_t pin ) {
 	if ( pin <= RESERVED_PINS )
 		return m_bcm2835->read( pin );
 
-	driver::ioexpander *expander = findExpander( pin );
-	return expander->read( pin );
+	expander_slot &slot = findExpander( pin );
+	return slot.expander->read( pin - slot.pin_base );
 }
 
 bool
@@ -109,8 +102,8 @@ gpio::checkEvent( uint8_t pin ) {
 	if ( pin <= RESERVED_PINS )
 		return m_bcm2835->checkEvent( pin );
 
-	driver::ioexpander *expander = findExpander( pin );
-	return expander->checkEvent( pin );
+	expander_slot &slot = findExpander( pin );
+	return slot.expander->checkEvent( pin - slot.pin_base );
 }
 
 void
@@ -122,8 +115,8 @@ gpio::setRisingEvent( uint8_t pin, bool enabled ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->setRisingEvent( pin, enabled );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->setRisingEvent( pin - slot.pin_base, enabled );
 	}
 }
 
@@ -136,8 +129,8 @@ gpio::setFallingEvent( uint8_t pin, bool enabled ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->setFallingEvent( pin, enabled );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->setFallingEvent( pin - slot.pin_base, enabled );
 	}
 }
 
@@ -150,8 +143,8 @@ gpio::setHighEvent( uint8_t pin, bool enabled ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->setHighEvent( pin, enabled );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->setHighEvent( pin - slot.pin_base, enabled );
 	}
 }
 
@@ -164,8 +157,8 @@ gpio::setLowEvent( uint8_t pin, bool enabled ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->setLowEvent( pin, enabled );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->setLowEvent( pin - slot.pin_base, enabled );
 	}
 }
 
@@ -178,8 +171,8 @@ gpio::setPullUpDown( uint8_t pin, uint8_t mode ) {
 
 	else {
 
-		driver::ioexpander *expander = findExpander( pin );
-		expander->setPullUpDown( pin, mode );
+		expander_slot &slot = findExpander( pin );
+		slot.expander->setPullUpDown( pin - slot.pin_base, mode );
 	}
 }
 

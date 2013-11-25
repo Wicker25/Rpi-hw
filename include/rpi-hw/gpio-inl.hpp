@@ -33,7 +33,7 @@ gpio::expand( uint8_t pin_base, T &expander ) {
 		throw exception( utils::format( "(Fatal) `gpio::expand`: pin %d is reserved", pin_base ) );
 
 	// Add the I/O expander to the standard GPIO connector
-	m_expanders.push_back( { pin_base, static_cast< driver::ioexpander *>( &expander ) } );
+	m_expanders.push_back( { pin_base, static_cast< driver::ioexpander * >( &expander ) } );
 }
 
 } // End of main namespace

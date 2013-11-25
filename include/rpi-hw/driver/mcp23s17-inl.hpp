@@ -43,7 +43,6 @@ mcp23s17::receive( uint8_t reg ) {
 	// Receive data from the device
 	m_buffer[0] = READ | ( m_device_id << 1 );
 	m_buffer[1] = reg;
-	m_buffer[2] = 0;
 
 	m_spi->transfer( m_buffer, 3 );
 

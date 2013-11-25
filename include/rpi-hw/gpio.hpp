@@ -156,7 +156,7 @@ private:
 		@param[in] pin The GPIO pin.
 		@return A pointer to the I/O expander.
 	*/
-	driver::ioexpander *findExpander( uint8_t &pin );
+	expander_slot &findExpander( uint8_t pin );
 
 	//! Constructor method.
 	gpio();

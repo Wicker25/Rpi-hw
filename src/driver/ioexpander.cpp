@@ -41,17 +41,15 @@ ioexpander::write( uint8_t pin, bool value ) {
 }
 
 bool
-ioexpander::read( uint8_t pin ) const {
+ioexpander::read( uint8_t pin ) {
 
 	throw exception( "(Fatal) `ioexpander::read`: function is not implemented" );
-	return 0;
 }
 
 bool
-ioexpander::checkEvent( uint8_t pin ) const {
+ioexpander::checkEvent( uint8_t pin ) {
 
 	throw exception( "(Fatal) `ioexpander::checkEvent`: function is not implemented" );
-	return 0;
 }
 
 void

@@ -92,7 +92,7 @@ public:
 
 private:
 
-	//! The keypad instance.
+	// The keypad instance.
 	std::unique_ptr< keypad::matrix > m_keypad;
 };
 
