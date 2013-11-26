@@ -28,24 +28,18 @@ namespace rpihw { // Begin main namespace
 
 namespace iface { // Begin interfaces namespace
 
-input::input( std::initializer_list< uint8_t > pins ) : iface::base( pins ) {
+input::input( std::initializer_list< uint8_t > pins, uint8_t pull_mode ) : iface::base( pins ), m_pull_mode( pull_mode ) {
 
 	// Initialize the interface pins
-	for ( auto &pin : m_pins ) {
-
-		m_gpio->setup( pin, INPUT );
-		m_gpio->setPullUpDown( pin, PULL_DOWN );
-	}
+	for ( auto &pin : m_pins )
+		m_gpio->setup( pin, INPUT, m_pull_mode );
 }
 
-input::input( const std::vector< uint8_t > &pins ) : iface::base( pins ) {
+input::input( const std::vector< uint8_t > &pins, uint8_t pull_mode ) : iface::base( pins ), m_pull_mode( pull_mode ) {
 
 	// Initialize the interface pins
-	for ( auto &pin : m_pins ) {
-
-		m_gpio->setup( pin, INPUT );
-		m_gpio->setPullUpDown( pin, PULL_DOWN );
-	}
+	for ( auto &pin : m_pins )
+		m_gpio->setup( pin, INPUT, m_pull_mode );
 }
 
 input::~input() {

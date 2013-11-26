@@ -82,11 +82,11 @@ bcm2835::~bcm2835() {
 }
 
 void
-bcm2835::setup( uint8_t pin, uint8_t mode, uint8_t pud_mode ) {
+bcm2835::setup( uint8_t pin, uint8_t mode, uint8_t pull_mode ) {
 
 	// Enable/disable pull-up/down control on the GPIO pin
 	if ( mode == INPUT )
-		setPullUpDown( pin, pud_mode );
+		setPullUpDown( pin, pull_mode );
 
 	// Calculate the bit position
 	uint8_t shift = ( pin % 10 ) * 3;

@@ -57,51 +57,51 @@ mcp23s17::~mcp23s17() {
 }
 
 void
-mcp23s17::setup( uint8_t pin, uint8_t mode, uint8_t pud_mode ) {
+mcp23s17::setup( uint8_t pin, uint8_t mode, uint8_t pull_mode ) {
 
 	// Enable/disable pull-up control on the GPIO pin
 	if ( mode == INPUT )
-		setPullUpDown( pin, pud_mode );
+		setPullUpDown( pin, pull_mode );
 
-	uint8_t offset = pin / 8;
+	uint8_t reg = pin / 8;
 
-	utils::set_bit( m_states, offset, pin % 8, mode ? 0 : 1 );
+	utils::set_bit( m_states, reg, pin % 8, mode ? 0 : 1 );
 
 	// Set the mode of the GPIO pin
-	send( IODIR + pin / 8, m_states[ offset ] );
+	send( IODIR + reg, m_states[ reg ] );
 }
 
 void
 mcp23s17::write( uint8_t pin, bool value ) {
 
-	uint8_t offset = pin / 8 + 2;
+	uint8_t reg = pin / 8, off = reg + 2;
 
-	utils::set_bit( m_states, offset, pin % 8, value );
+	utils::set_bit( m_states, off, pin % 8, value );
 
 	// Set the value of the output pin
-	send( GPIO + pin / 8, m_states[ offset ] );
+	send( GPIO + reg, m_states[ off ] );
 }
 
 bool
 mcp23s17::read( uint8_t pin ) {
 
-	uint8_t offset = pin / 8 + 2;
+	uint8_t reg = pin / 8, off = reg + 4;
 
-	m_states[ offset ] = receive( GPIO + pin / 8 );
+	m_states[ off ] = receive( GPIO + reg );
 
 	// Return the value of the input pin
-	return utils::get_bit( m_states, offset, pin % 8 );
+	return utils::get_bit( m_states, off, pin % 8 );
 }
 
 void
 mcp23s17::setPullUpDown( uint8_t pin, uint8_t mode ) {
 
-	uint8_t offset = pin / 8 + 4;
+	uint8_t reg = pin / 8, off = reg + 4;
 
-	utils::set_bit( m_states, offset, pin % 8, mode );
+	utils::set_bit( m_states, off, pin % 8, mode );
 
 	// Enable/disable the pull-up control on a GPIO pin
-	send( GPPU + pin / 8, m_states[ offset ] );
+	send( GPPU + reg, m_states[ off ] );
 }
 
 } // End of drivers namespace

@@ -201,7 +201,7 @@ protected:
 	T_EventListener m_event_listener;
 
 	//! Updates the state of buttons (threading function).
-	virtual void update();
+	virtual void update() = 0;
 };
 
 } // End of keypads namespace

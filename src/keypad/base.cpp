@@ -31,7 +31,7 @@ namespace keypad { // Begin keypads namespace
 base::base( size_t total, std::initializer_list< uint8_t > pins )
 
 	: m_nkeys		( total )
-	, m_input		( new iface::input( pins ) )
+	, m_input		( new iface::input( pins, PULL_UP ) )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
@@ -44,7 +44,7 @@ base::base( size_t total, std::initializer_list< uint8_t > pins )
 base::base( size_t total, std::initializer_list< uint8_t > pins, const std::vector< uint8_t > &keymap )
 
 	: m_nkeys		( total )
-	, m_input		( new iface::input( pins ) )
+	, m_input		( new iface::input( pins, PULL_UP ) )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
@@ -59,7 +59,7 @@ base::base( size_t total, std::initializer_list< uint8_t > pins, const std::vect
 base::base( size_t total, const std::vector< uint8_t > &pins )
 
 	: m_nkeys		( total )
-	, m_input		( new iface::input( pins ) )
+	, m_input		( new iface::input( pins, PULL_UP ) )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
@@ -72,7 +72,7 @@ base::base( size_t total, const std::vector< uint8_t > &pins )
 base::base( size_t total, const std::vector< uint8_t > &pins, const std::vector< uint8_t > &keymap )
 
 	: m_nkeys		( total )
-	, m_input		( new iface::input( pins ) )
+	, m_input		( new iface::input( pins, PULL_UP ) )
 	, m_keystate	( m_nkeys, 0 )
 	, m_pressed		( m_nkeys, 0 )
 	, m_released	( m_nkeys, 0 )
@@ -104,7 +104,7 @@ base::setKeymap( const std::vector< uint8_t > &keymap ) {
 	// Store the keymap
 	uint8_t index = 0;
 
-	for ( uint8_t key : keymap )
+	for ( auto &key : keymap )
 		m_keymap[ key ] = index++;
 }
 
@@ -200,47 +200,6 @@ base::keyState() const {
 
 	// Return the list of pressed keys
 	return keys;
-}
-
-void
-base::update() {
-
-	// Working structures
-	bool state;
-
-	// Iterators
-	uint8_t i;
-
-	// Updating loop
-	for ( ;; ) {
-
-		// Update state of buttons
-		for ( i = 0; i < m_nkeys; ++i ) {
-
-			// Read the state of i-th button
-			state = m_input->read( i );
-
-			// Update the button registers
-			m_mutex->lock();
-
-			m_pressed[i]	= ( !m_keystate[i] && state );
-			m_released[i]	= ( m_keystate[i] && !state );
-			m_keystate[i]	= state;
-
-			m_mutex->unlock();
-		}
-
-		// Call the event listener
-		if ( m_event_listener ) {
-
-			m_mutex->lock();
-			m_event_listener( *this );
-			m_mutex->unlock();
-		}
-
-		// Wait some time
-		time::usleep( math::floor( 1000000.0 / m_frequency ) );
-	}
 }
 
 } // End of keypads namespace

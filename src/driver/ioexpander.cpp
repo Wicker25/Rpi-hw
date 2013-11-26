@@ -29,7 +29,7 @@ namespace rpihw { // Begin main namespace
 namespace driver { // Begin drivers namespace
 
 void
-ioexpander::setup( uint8_t pin, uint8_t mode, uint8_t pud_mode ) {
+ioexpander::setup( uint8_t pin, uint8_t mode, uint8_t pull_mode ) {
 
 	throw exception( "(Fatal) `ioexpander::setup`: function is not implemented" );
 }

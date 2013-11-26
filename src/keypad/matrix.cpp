@@ -52,11 +52,12 @@ void
 matrix::update() {
 
 	// Get the size of the keypad
-	uint8_t	cols = m_output->numOfPins(),
-			rows = m_input->numOfPins();
+	uint8_t	cols = m_output->numOfPins(), rows = m_input->numOfPins();
 
-	// Working structures
-	size_t index, rows_value;
+	// Current button index
+	size_t index;
+
+	// Button state
 	bool state;
 
 	// Iterators
@@ -65,28 +66,42 @@ matrix::update() {
 	// Updating loop
 	for ( ;; ) {
 
+		// Activate all columns
+		m_output->write( 0 );
+
+		// Check if some buttons have been pressed
+		if ( ~m_input->read() == 0 )
+			continue;
+
+		// Deactivate all columns
+		m_output->write( 0xFFFF );
+
+
 		// Update state of buttons
 		for ( j = 0; j < cols; ++j ) {
 
 			// Activate the j-th column
-			m_output->write( 1 << j );
-			rows_value = m_input->read();
+			m_output->write( j, LOW );
 
 			for ( i = 0; i < rows; ++i ) {
 
 				// Look for connection with i-th row
-				state = rows_value & ( 1 << i );
-				index = (size_t) j + (size_t) i * (size_t) cols;
+				state = !m_input->read(i);
 
 				// Update the button registers
+				index = (size_t) j + (size_t) i * (size_t) cols;
+
 				m_mutex->lock();
 
-				m_pressed[ index ]	= ( !m_keystate[ index ] && state );
-				m_released[ index ]	= ( m_keystate[ index ] && !state );
+				m_pressed[ index ]	= !m_keystate[ index ] && state;
+				m_released[ index ]	= m_keystate[ index ] && !state;
 				m_keystate[ index ]	= state;
 
 				m_mutex->unlock();
 			}
+
+			// Deactivate the j-th column
+			m_output->write( j, HIGH );
 		}
 
 		// Call the event listener

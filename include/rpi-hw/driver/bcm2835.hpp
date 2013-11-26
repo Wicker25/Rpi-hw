@@ -571,9 +571,9 @@ public:
 		@brief Sets the mode of a GPIO pin.
 		@param[in] pin The GPIO pin.
 		@param[in] mode The GPIO mode.
-		@param[in] pud_mode The pull resistor mode.
+		@param[in] pull_mode The pull resistor mode.
 	*/
-	void setup( uint8_t pin, uint8_t mode, uint8_t pud_mode = PUD_OFF );
+	void setup( uint8_t pin, uint8_t mode, uint8_t pull_mode = PULL_OFF );
 
 	/*!
 		@brief Sets the value of a output pin.

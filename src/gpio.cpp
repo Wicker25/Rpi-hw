@@ -53,20 +53,20 @@ gpio::findExpander( uint8_t pin ) {
 			return *it;
 
 	// Else throw an exception
-	throw exception( utils::format( "(Fatal) `ioexpander::findExpander`: there's not I/O expander for pin %u", pin ) );
+	throw exception( utils::format( "(Fatal) `ioexpander::findExpander`: there's not I/O expander for pin %u\n", pin ) );
 }
 
 void
-gpio::setup( uint8_t pin, uint8_t mode, uint8_t pud_mode ) {
+gpio::setup( uint8_t pin, uint8_t mode, uint8_t pull_mode ) {
 
 	// Set the mode of a GPIO pin
 	if ( pin <= RESERVED_PINS )
-		m_bcm2835->setup( pin, mode, pud_mode );
+		m_bcm2835->setup( pin, mode, pull_mode );
 
 	else {
 
 		expander_slot &slot = findExpander( pin );
-		slot.expander->setup( pin - slot.pin_base, mode, pud_mode );
+		slot.expander->setup( pin - slot.pin_base, mode, pull_mode );
 	}
 }
 

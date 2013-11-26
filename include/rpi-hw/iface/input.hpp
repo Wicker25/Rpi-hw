@@ -47,14 +47,16 @@ public:
 	/*!
 		@brief Constructor method.
 		@param[in] pins Sequence of `uint8_t` containing the GPIO pins.
+		@param[in] pull_mode The pull resistor mode.
 	*/
-	input( std::initializer_list< uint8_t > pins );
+	input( std::initializer_list< uint8_t > pins, uint8_t pull_mode = PULL_DOWN );
 
 	/*!
 		@brief Constructor method.
 		@param[in] pins Vector containing the GPIO pins.
+		@param[in] pull_mode The pull resistor mode.
 	*/
-	input( const std::vector< uint8_t > &pins );
+	input( const std::vector< uint8_t > &pins, uint8_t pull_mode = PULL_DOWN );
 
 	//! Destructor method.
 	virtual ~input();
@@ -78,6 +80,11 @@ public:
 		@return The data read from the interface.
 	*/
 	virtual bool read( uint8_t index ) const;
+
+protected:
+
+	//! The pull resistor mode.
+	uint8_t m_pull_mode;
 };
 
 } // End of interfaces namespace

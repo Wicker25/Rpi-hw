@@ -11,6 +11,10 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
            Removed class `pcd8544-skeleton` and `pcd8544-spi`.
            Removed `rpi-gpio`.
            Improved names of enumeration constants.
+           Renamed `PUD_OFF` to `PULL_OFF`.
+           Renamed `pud_mode` to `pull_mode`.
+
+    * keypad/base.hpp: Changed the input polarity using pull-up resistors (now it works with I/O expanders).
 
 ============ Rpi-hw 0.5.2 - urgency=medium===========
 
