@@ -106,7 +106,7 @@ m7seg::render() {
 
 			// Calculate the value of the display
 			negative = ( m_value < 0 );
-			value = (size_t) math::floor( ( negative ? -m_value : m_value ) * math::pow( 10.0f, (float) m_decimals ) );
+			value = math::floor< size_t >( ( negative ? -m_value : m_value ) * math::pow( 10.0f, (float) m_decimals ) );
 
 			// Initialize the outputs to the display
 			out = 0xff;

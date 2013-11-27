@@ -364,7 +364,7 @@ void demo9( hd44780 &dev ) {
 	for ( ; i <= 100; i += 5 ) {
 
 		dev.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
-		dev.write( 1, 2, std::string( (size_t) math::abs( (float) i / factor ), (uint8_t) 0xFF ) );
+		dev.write( 1, 2, std::string( math::abs< size_t >( (float) i / factor ), (uint8_t) 0xFF ) );
 
 		time::msleep( 500 );
 	}
@@ -374,7 +374,7 @@ void demo9( hd44780 &dev ) {
 	for ( i = 0; i <= 100; i += 5 ) {
 
 		dev.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
-		dev.write( 0, 2, "[" + std::string( (size_t) math::abs( (float) i / factor ), '=' ) );
+		dev.write( 0, 2, "[" + std::string( math::abs< size_t >( (float) i / factor ), '=' ) );
 		dev.write( 19, 2, "]" );
 	
 		time::msleep( 500 );

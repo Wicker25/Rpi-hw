@@ -249,12 +249,10 @@ hd44780::write( const std::string &text, size_t delay ) {
 	for ( ; it != end; ++it ) {
 
 		// Parse newline characters
-		if ( *it == '\n' ) {
-
-			// Move the cursor to the new line
+		if ( *it == '\n' )
 			newLine();
 
-		} else {
+		else {
 
 			// Write the character on the display and wait some time
 			write( (uint8_t) *it );

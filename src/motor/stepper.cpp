@@ -125,6 +125,30 @@ stepper::step( size_t number ) {
 	}
 }
 
+void
+stepper::rotate( double angle ) {
+
+	if ( angle > 0.0 ) {
+
+		// Rotate the motor
+		step( math::floor< size_t >( ( (double) m_steps / 360.0 ) * angle ) );
+
+	} else {
+
+		// Store the motor direction
+		Direction old = getDirection();
+
+		// Invert the motor direction
+		setDirection( old == DIRECTION_CW ? DIRECTION_CCW : DIRECTION_CW );
+
+		// Rotate the motor
+		step( math::floor< size_t >( ( (double) m_steps / 360.0 ) * -angle ) );
+
+		// Restore the motor direction
+		setDirection( old );
+	}
+}
+
 } // End of motors namespace
 
 } // End of main namespace

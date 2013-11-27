@@ -68,13 +68,6 @@ stepper::getDirection() const {
 	return m_direction;
 }
 
-inline void
-stepper::rotate( double angle ) {
-
-	// Rotate the motor
-	step( (size_t) math::floor( ( (double) m_steps / 360.0 ) * angle ) );
-}
-
 } // End of motors namespace
 
 } // End of main namespace

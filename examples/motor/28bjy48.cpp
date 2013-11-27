@@ -34,6 +34,10 @@ main( int argc, char *args[] ) {
 	motor::stepper dev( 4096, 24, 25, 8, 7 );
 
 	// Start demo
+	dev.setSpeed( 10.0 );
+	dev.rotate( -180.0 );
+	time::msleep( 500 );
+
 	dev.setSpeed( 3.0 );
 	dev.rotate( 45.0 );
 	time::msleep( 500 );

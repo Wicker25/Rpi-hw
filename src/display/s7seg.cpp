@@ -74,7 +74,7 @@ s7seg::set( float value ) {
 	m_value = value;
 
 	// Set the outputs corresponding to the value
-	m_display->write( s7seg::output[ (uint8_t) math::floor( value ) % 10 ] );
+	m_display->write( s7seg::output[ math::floor< uint8_t >( value ) % 10 ] );
 }
 
 } // End of displays namespace
