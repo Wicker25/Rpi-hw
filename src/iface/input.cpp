@@ -52,7 +52,7 @@ input::read() const {
 	// Read data from the interface
 	size_t data = 0, i = 0;
 
-	for ( ; i < numOfPins(); ++i )
+	for ( ; i < size(); ++i )
 		data |= ( (size_t) m_gpio->read( m_pins[i] ) ) << i;
 
 	return data;
@@ -62,7 +62,7 @@ bool
 input::read( uint8_t index ) const {
 
 	// Check if pin exists
-	if ( index >= numOfPins() )
+	if ( index >= size() )
 		throw exception( "(Fatal) `iface::read`: could not get pin, index out of range\n" );
 
 	// Return data

@@ -30,7 +30,7 @@
 #include <rpi-hw/utils.hpp>
 
 #include <rpi-hw/driver/spi.hpp>
-#include <rpi-hw/driver/ioexpander.hpp>
+#include <rpi-hw/driver/io-expander.hpp>
 
 namespace rpihw { // Begin main namespace
 
@@ -40,7 +40,7 @@ namespace driver { // Begin drivers namespace
 	@class mcp23s17
 	@brief 16-Bit I/O Expander with SPI.
 */
-class mcp23s17 : public ioexpander {
+class mcp23s17 : public io_expander {
 
 public:
 
@@ -67,7 +67,7 @@ public:
 		OLAT		= 0x14,	//!< Provides access to the output latches.
 	};
 
-	//! The controller configuration set.
+	//! The controller configuration set (bit flags).
 	enum Settings {
 
 		INTPOL	= 0x02,	//!< Sets the polarity of the INT output pin

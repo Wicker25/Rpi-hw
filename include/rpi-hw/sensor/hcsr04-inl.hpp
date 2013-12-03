@@ -1,5 +1,5 @@
 /* 
-    Title --- sensor/hc-sr04-inl.hpp
+    Title --- sensor/hcsr04-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_SENSOR_HC_SR04_INL_HPP_
-#define _RPI_HW_SENSOR_HC_SR04_INL_HPP_
+#ifndef _RPI_HW_SENSOR_HCSR04_INL_HPP_
+#define _RPI_HW_SENSOR_HCSR04_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
@@ -37,4 +37,4 @@ hcsr04::ranging() {
 
 } // End of main namespace
 
-#endif /* _RPI_HW_SENSOR_HC_SR04_INL_HPP_ */
+#endif /* _RPI_HW_SENSOR_HCSR04_INL_HPP_ */

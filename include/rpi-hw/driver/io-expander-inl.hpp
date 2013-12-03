@@ -1,5 +1,5 @@
 /* 
-    Title --- driver/ioexpander-inl.hpp
+    Title --- driver/io-expander-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_DRIVER_IOEXPANDER_INL_HPP_
-#define _RPI_HW_DRIVER_IOEXPANDER_INL_HPP_
+#ifndef _RPI_HW_DRIVER_IO_EXPANDER_INL_HPP_
+#define _RPI_HW_DRIVER_IO_EXPANDER_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
@@ -31,4 +31,4 @@ namespace driver { // Begin drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_DRIVER_IOEXPANDER_INL_HPP_ */
+#endif /* _RPI_HW_DRIVER_IO_EXPANDER_INL_HPP_ */

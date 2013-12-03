@@ -22,11 +22,13 @@
 #ifndef _RPI_HW_DISPLAY_HD44780_HPP_
 #define _RPI_HW_DISPLAY_HD44780_HPP_
 
+#include <cctype>
 #include <vector>
 
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
+#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
 
 #include <rpi-hw/iface/base.hpp>
@@ -154,32 +156,6 @@ public:
 		@param[in] data The command.
 	*/
 	void cmd( uint8_t data );
-
-	/*!
-		@brief Writes a character on the display (low level).
-		@param[in] chr The 8-bit character.
-	*/
-	void putChar( uint8_t chr );
-
-	/*!
-		@brief Reads a character from the buffer at specified position.
-		@param[in] x The horizontal position of the character.
-		@param[in] y The vertical position of the character.
-		@return The 8-bit character at position.
-	*/
-	uint8_t getChar( uint8_t x, uint8_t y ) const;
-	
-	/*!
-		@brief Reads the current x-position of the cursor.
-		@return Cursor x-position.
-	*/
-	uint8_t getXCursor() const;
-	
-	/*!
-		@brief Reads the current y-position of the cursor.
-		@return Cursor y-position.
-	*/
-	uint8_t getYCursor() const;
 	
 	//! Homes the cursor.
 	void home();
@@ -191,38 +167,72 @@ public:
 	*/
 	void move( uint8_t x, uint8_t y );
 
+	/*!
+		@brief Returns the current x-position of the cursor.
+		@return The cursor x-position.
+	*/
+	uint8_t getCursorX() const;
+
+	/*!
+		@brief Returns the current y-position of the cursor.
+		@return The cursor y-position.
+	*/
+	uint8_t getCursorY() const;
+
+	/*!
+		@brief Reads a character from the buffer at specified position.
+		@param[in] x The horizontal position of the character.
+		@param[in] y The vertical position of the character.
+		@return The 8-bit character at position.
+	*/
+	uint8_t getChar( uint8_t x, uint8_t y ) const;
+
 	//! Moves the cursor to the new line.
 	void newLine();
 
 	/*!
 		@brief Writes a character on the display.
-		@param[in] chr The 8-bit character.
+		@param[in] c The 8-bit character.
 	*/
-	void write( uint8_t chr );
+	void write( uint8_t c );
 
 	/*!
 		@brief Moves the cursor position and writes a character on the display.
 		@param[in] x The new horizontal position of the cursor.
 		@param[in] y The new vertical position of the cursor.
-		@param[in] chr The 8-bit character.
+		@param[in] c The 8-bit character.
 	*/
-	void write( uint8_t x, uint8_t y, uint8_t chr );
+	void write( uint8_t x, uint8_t y, uint8_t c );
 
 	/*!
 		@brief Writes a string on the display.
 		@param[in] text The string to be written.
-		@param[in] delay The delay time between a letter and another in milliseconds.
 	*/
-	void write( const std::string &text, size_t delay = 0 );
+	void write( const std::string &text );
+
+	/*!
+		@brief Writes a string on the display.
+		@param[in] text The string to be written.
+		@param[in] flags The parameters of the text.
+	*/
+	void write( const std::string &text, uint8_t flags );
 
 	/*!
 		@brief Moves the cursor position and writes a string on the display.
 		@param[in] x The new horizontal position of the cursor.
 		@param[in] y The new vertical position of the cursor.
 		@param[in] text The string to be written.
-		@param[in] delay The delay time between a letter and another in milliseconds.
 	*/
-	void write( uint8_t x, uint8_t y, const std::string &text, size_t delay = 0 );
+	void write( uint8_t x, uint8_t y, const std::string &text );
+
+	/*!
+		@brief Moves the cursor position and writes a string on the display.
+		@param[in] x The new horizontal position of the cursor.
+		@param[in] y The new vertical position of the cursor.
+		@param[in] text The string to be written.
+		@param[in] flags The parameters of the text.
+	*/
+	void write( uint8_t x, uint8_t y, const std::string &text, uint8_t flags );
 
 	/*!
 		@brief Scrolls the contents of the display to the left.
@@ -276,6 +286,12 @@ public:
 	void setCursor( uint8_t mode );
 
 	/*!
+		@brief Sets the typing delay between individual characters (milliseconds). 
+		@param[in] speed The typing delay.
+	*/
+	void setTypingDelay( size_t delay );
+
+	/*!
 		@brief Sets the autoscroll mode.
 		@param[in] mode The bitwise flags of the autoscroll mode. You can use \c NO_SCROLL, \c VSCROLL, \c HSCROLL and \c HSCROLL_LINE.
 	*/
@@ -297,7 +313,7 @@ protected:
 
 	//@{
 	//! Size of the display.
-	uint8_t m_screen_w, m_screen_h;
+	uint8_t m_width, m_height;
 	//@}
 
 	//! Font height.
@@ -311,18 +327,21 @@ protected:
 	uint8_t m_pos_x, m_pos_y;
 	//@}
 
+	//! Typing delay (milliseconds).
+	size_t m_typing_speed = 0;
+
 	//! Autoscroll mode.
-	uint8_t m_autoscroll;
+	uint8_t m_autoscroll = VSCROLL;
 
 	//! Toggles the enable pin.
 	void strobe();
 
 	/*!
-		@brief Sends a nibble data to the display.
+		@brief Sends data to the display.
 		@param[in] data The 4-bit data to be sended.
 		@param[in] delay The delay time after the sending of the data.
 	*/
-	void send( uint8_t data, size_t delay = 0 );
+	void sendData( uint8_t data, size_t delay = 0 );
 
 	/*!
 		@brief Sends a serial data to the display (a nibble at a time).
@@ -330,6 +349,12 @@ protected:
 		@param[in] delay The delay time after the sending of the data.
 	*/
 	void sendSerial( uint8_t data, size_t delay = 0 );
+
+	/*!
+		@brief Puts a character on the display (low level).
+		@param[in] c The 8-bit character.
+	*/
+	void putChar( uint8_t c );
 };
 
 } // End of displays namespace

@@ -67,24 +67,27 @@ void demo0( hd44780 &dev ) {
 	dev.write( 4, 2, "Cursor mode" );
 	pause( dev, 2 );
 
+	// Set the text speed
+	dev.setTypingDelay( 200 );
+
 	// Write a text using the solid cursor
 	dev.setCursor( hd44780::CURSOR_SOLID );
-	dev.write( "Solid cursor", 200 );
+	dev.write( "Solid cursor" );
 	time::sleep( 1 );
 
 	// Write a text using the blinking cursor
 	dev.setCursor( hd44780::CURSOR_BLINKING );
-	dev.write( "\nBlinking cursor", 200 );
+	dev.write( "\nBlinking cursor" );
 	time::sleep( 1 );
 
 	// Write a text using the both cursors 
 	dev.setCursor( hd44780::CURSOR_SOLID | hd44780::CURSOR_BLINKING );
-	dev.write( "\nBoth cursors", 200 );
+	dev.write( "\nBoth cursors" );
 	time::sleep( 1 );
 
 	// Hide cursor
 	dev.setCursor( hd44780::NO_CURSOR );
-	dev.write( "\nNo cursor", 200 );
+	dev.write( "\nNo cursor" );
 	pause( dev, 2 );
 }
 
@@ -97,6 +100,9 @@ void demo1( hd44780 &dev ) {
 
 	// Set solid cursor
 	dev.setCursor( hd44780::CURSOR_SOLID );
+
+	// Set the text speed
+	dev.setTypingDelay( 0 );
 
 	// Iterator
 	uint8_t i = 0;
@@ -124,8 +130,13 @@ void demo2( hd44780 &dev ) {
 	pause( dev, 2 );
 
 	// Write text at different speeds
-	dev.write( "Slow speed", 500 );
-	dev.write( "\nNormal speed", 200 );
+	dev.setTypingDelay( 500 );
+	dev.write( "Slow speed" );
+
+	dev.setTypingDelay( 200 );
+	dev.write( "\nNormal speed" );
+
+	dev.setTypingDelay( 0 );
 	dev.write( "\nFast speed" );
 	pause( dev, 2 );
 }
@@ -138,15 +149,15 @@ void demo3( hd44780 &dev ) {
 	pause( dev, 2 );
 
 	// Write a text using the left alignment
-	dev.write( 0, 1, "Left\nalignment", 0 );
+	dev.write( 0, 1, "Left\nalignment" );
 	pause( dev, 2 );
 
 	// Write a text using the center alignment
-	dev.write( 0, 1, utils::align( "Center\nalignment", 20, utils::ALIGN_CENTER ), 0 );
+	dev.write( 0, 1, "Center\nalignment", utils::ALIGN_CENTER );
 	pause( dev, 2 );
 
 	// Write a text using the right alignment
-	dev.write( 0, 1, utils::align( "Right\nalignment", 20, utils::ALIGN_RIGHT ), 0 );
+	dev.write( 0, 1, "Right\nalignment", utils::ALIGN_RIGHT );
 	pause( dev, 2 );
 }
 
@@ -211,46 +222,57 @@ void demo5( hd44780 &dev ) {
 						"Sixth line.";
 
 	// Write the text without scrolling
+	dev.setTypingDelay( 0 );
 	dev.write( 3, 1, "No scrolling" );
 	pause( dev, 2 );
 
 	dev.setAutoscroll( hd44780::NO_SCROLL );
-	dev.write( text, 150 );
+	dev.setTypingDelay( 200 );
+	dev.write( text );
 	pause( dev, 1 );
 
 	// Write the text with vertical autoscrolling
+	dev.setTypingDelay( 0 );
 	dev.write( 6, 1, "Vertical" );
 	pause( dev, 2 );
 
 	dev.setAutoscroll( hd44780::VSCROLL );
-	dev.write( text, 150 );
+	dev.setTypingDelay( 200 );
+	dev.write( text );
 	pause( dev, 1 );
 
 	// Write the text with horizontal autoscrolling
+	dev.setTypingDelay( 0 );
 	dev.write( 5, 1, "Horizontal" );
 	pause( dev, 2 );
 
 	dev.setAutoscroll( hd44780::HSCROLL );
-	dev.write( text, 150 );
+	dev.setTypingDelay( 200 );
+	dev.write( text );
 	pause( dev, 2 );
 
 	// Write the text with horizontal autoscrolling (single line)
+	dev.setTypingDelay( 0 );
 	dev.write( 1, 1, "Horizontal (line)" );
 	pause( dev, 2 );
 
 	dev.setAutoscroll( hd44780::HSCROLL_LINE );
-	dev.write( text, 150 );
+	dev.setTypingDelay( 200 );
+	dev.write( text );
 	pause( dev, 2 );
 
 	// Write the text with horizontal (single line) and vertical autoscrolling
-	dev.write( 0, 1, utils::align( "Horizontal (line) and vertical", 20, utils::ALIGN_CENTER ) );
+	dev.setTypingDelay( 0 );
+	dev.write( 0, 1, "Horizontal (line) and vertical", utils::ALIGN_CENTER );
 	pause( dev, 2 );
 
 	dev.setAutoscroll( hd44780::HSCROLL_LINE | hd44780::VSCROLL );
-	dev.write( text, 150 );
+	dev.setTypingDelay( 200 );
+	dev.write( text );
 
-	// Restore the autoscrolling
+	// Restore the autoscrolling and the text speed
 	dev.setAutoscroll( hd44780::VSCROLL );
+	dev.setTypingDelay( 0 );
 
 	// Wait some time and clear the screen
 	pause( dev, 2 );
@@ -271,7 +293,9 @@ void demo6( hd44780 &dev ) {
 						"and, by opposing, end them. To die, to sleep...";
 
 	// Write the text with word wrapping
-	dev.write( utils::align( text, 20, utils::ALIGN_CENTER ), 200 );
+	dev.setTypingDelay( 200 );
+	dev.write( text, utils::ALIGN_CENTER );
+	dev.setTypingDelay( 0 );
 	pause( dev, 2 );
 }
 
@@ -341,7 +365,7 @@ void demo8( hd44780 &dev ) {
 
 	for ( ; i < 10; ++i ) {
 
-		dev.write( 0, 1, utils::align( exec( "date +%H:%m:%S" ), 20, utils::ALIGN_CENTER ) );
+		dev.write( 0, 1, exec( "date +%H:%m:%S" ), utils::ALIGN_CENTER );
 		pause( dev, 1 );
 	}
 
@@ -363,7 +387,7 @@ void demo9( hd44780 &dev ) {
 
 	for ( ; i <= 100; i += 5 ) {
 
-		dev.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
+		dev.write( 0, 1, utils::format( "%zu%%", i ), utils::ALIGN_CENTER );
 		dev.write( 1, 2, std::string( math::abs< size_t >( (float) i / factor ), (uint8_t) 0xFF ) );
 
 		time::msleep( 500 );
@@ -373,7 +397,7 @@ void demo9( hd44780 &dev ) {
 
 	for ( i = 0; i <= 100; i += 5 ) {
 
-		dev.write( 0, 1, utils::align( utils::format( "%zu%%", i ), 20, utils::ALIGN_CENTER ) );
+		dev.write( 0, 1, utils::format( "%zu%%", i ), utils::ALIGN_CENTER );
 		dev.write( 0, 2, "[" + std::string( math::abs< size_t >( (float) i / factor ), '=' ) );
 		dev.write( 19, 2, "]" );
 	
@@ -392,8 +416,10 @@ void demo10( hd44780 &dev ) {
 	pause( dev, 2 );
 
 	// Write the contents of the directory
+	dev.setTypingDelay( 200 );
 	dev.write( "Directory contents\n" );
-	dev.write( exec( "ls | awk '{print FNR \" \" $0}'" ), 200 );
+	dev.write( exec( "ls | awk '{print FNR \" \" $0}'" ) );
+	dev.setTypingDelay( 0 );
 	pause( dev, 2 );
 }
 
@@ -409,8 +435,10 @@ void demo11( hd44780 &dev ) {
 	std::string list = exec( "iwlist wlan0 scanning | sed -n 's/.*ESSID:\"\\(.*\\)\"/\\1/p' | awk '{ print FNR, $0 }'" );
 	dev.clear();
 
+	dev.setTypingDelay( 200 );
 	dev.write( "Wireless networks\n" );
-	dev.write( list, 200 );
+	dev.write( list );
+	dev.setTypingDelay( 0 );
 
 	// Wait some time and clear the screen
 	time::sleep( 2 );
@@ -427,21 +455,25 @@ main( int argc, char *args[] ) {
 	dev.init( 20, 4 );
 
 	// Print the initial messages
-	dev.write( utils::align(
+	dev.write(
 
 		"= Rpi-hw =\n"
 		"Interfacing Raspberry Pi with Hitachi HD44780",
 
-	20, utils::ALIGN_CENTER ) );
+	utils::ALIGN_CENTER );
 
 	pause( dev, 5 );
 
-	dev.write( utils::align(
+	dev.setTypingDelay( 200 );
+
+	dev.write(
 
 		"Rpi-hw is a free C++ library designed to manage "
 		"the Raspberry Pi's GPIO connector.",
 
-	20, utils::ALIGN_CENTER ), 200 );
+	utils::ALIGN_CENTER );
+
+	dev.setTypingDelay( 0 );
 
 	pause( dev, 2 );
 
@@ -459,14 +491,16 @@ main( int argc, char *args[] ) {
 	demo10( dev );
 	//demo11( dev );
 
+	dev.setTypingDelay( 200 );
+
 	// Print the final message
-	dev.write( utils::align( "That's all, folks!\nFeel free to comment my work!", 20, utils::ALIGN_CENTER ), 200 );
+	dev.write( "That's all, folks!\nFeel free to comment my work!", utils::ALIGN_CENTER );
 	pause( dev, 2 );
-	dev.write( utils::align( "For more informations visit:\n\nwww.hackyourmind.org", 20, utils::ALIGN_CENTER ), 200 );
+	dev.write( "For more informations visit:\n\nwww.hackyourmind.org", utils::ALIGN_CENTER );
 	pause( dev, 2 );
 
 	/*
-	dev.write( utils::align( "A special thanks to my friend Nicola for helping me with this video!", 20, utils::ALIGN_CENTER ), 200 );
+	dev.write( "A special thanks to my friend Nicola for helping me with this video!", utils::ALIGN_CENTER );
 	dev.write( hd44780::CCHAR0 );
 	pause( dev, 2 );
 	*/

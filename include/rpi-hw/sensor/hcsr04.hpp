@@ -1,5 +1,5 @@
 /* 
-    Title --- sensor/hc-sr04.hpp
+    Title --- sensor/hcsr04.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_SENSOR_HC_SR04_HPP_
-#define _RPI_HW_SENSOR_HC_SR04_HPP_
+#ifndef _RPI_HW_SENSOR_HCSR04_HPP_
+#define _RPI_HW_SENSOR_HCSR04_HPP_
 
 #include <vector>
 #include <chrono>
@@ -52,7 +52,7 @@ namespace sensor { // Begin sensors namespace
 	@class hcsr04
 	@brief Ultrasonic distance sensor HC-SR04.
 
-	@example sensor/hc-sr04.cpp
+	@example sensor/hcsr04.cpp
 */
 class hcsr04 {
 
@@ -101,6 +101,6 @@ protected:
 
 
 // Include inline methods 
-#include <rpi-hw/sensor/hc-sr04-inl.hpp>
+#include <rpi-hw/sensor/hcsr04-inl.hpp>
 
-#endif /* _RPI_HW_SENSOR_HC_SR04_HPP_ */
+#endif /* _RPI_HW_SENSOR_HCSR04_HPP_ */

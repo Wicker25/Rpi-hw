@@ -1,5 +1,5 @@
 /* 
-    Title --- motor/hc-sr04.cpp
+    Title --- motor/hcsr04.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,10 +19,10 @@
 */
 
 
-#ifndef _RPI_HW_SENSOR_HC_SR04_CPP_
-#define _RPI_HW_SENSOR_HC_SR04_CPP_
+#ifndef _RPI_HW_SENSOR_HCSR04_CPP_
+#define _RPI_HW_SENSOR_HCSR04_CPP_
 
-#include <rpi-hw/sensor/hc-sr04.hpp>
+#include <rpi-hw/sensor/hcsr04.hpp>
 
 namespace rpihw { // Begin main namespace
 
@@ -79,4 +79,4 @@ hcsr04::timing() {
 
 } // End of main namespace
 
-#endif /* _RPI_HW_SENSOR_HC_SR04_CPP_ */
+#endif /* _RPI_HW_SENSOR_HCSR04_CPP_ */

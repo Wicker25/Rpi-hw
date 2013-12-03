@@ -37,44 +37,68 @@ hd44780::cmd( uint8_t data ) {
 }
 
 inline uint8_t
-hd44780::getChar( uint8_t x, uint8_t y ) const {
+hd44780::getCursorX() const {
 
-	// Return a character from the buffer
-	return m_buffer[ x + y * m_screen_w ];
-}
-
-inline uint8_t
-hd44780::getXCursor() const{
-	
-	//Return cursor x position
+	// Return cursor x position
 	return m_pos_x;
 }
 
 inline uint8_t
-hd44780::getYCursor() const{
-	
-	//Return cursor x position
+hd44780::getCursorY() const {
+
+	// Return cursor x position
 	return m_pos_y;
 }
 
+inline uint8_t
+hd44780::getChar( uint8_t x, uint8_t y ) const {
+
+	// Return a character from the buffer
+	return m_buffer[ x + y * m_width ];
+}
+
 inline void
-hd44780::write( uint8_t x, uint8_t y, uint8_t chr ) {
+hd44780::write( uint8_t x, uint8_t y, uint8_t c ) {
 
 	// Set the position of the cursor on the display
 	move( x, y );
 
 	// Write the character on the display
-	write( chr );
+	write( c );
 }
 
 inline void
-hd44780::write( uint8_t x, uint8_t y, const std::string &text, size_t delay ) {
+hd44780::write( const std::string &text, uint8_t flags ) {
+
+	// Align the text and write it on the display
+	write( utils::align( text, m_width, flags ) );
+}
+
+inline void
+hd44780::write( uint8_t x, uint8_t y, const std::string &text ) {
 
 	// Set the position of the cursor on the display
 	move( x, y );
 
 	// Write the string on the display
-	write( text, delay );
+	write( text );
+}
+
+inline void
+hd44780::write( uint8_t x, uint8_t y, const std::string &text, uint8_t flags ) {
+
+	// Set the position of the cursor on the display
+	move( x, y );
+
+	// Write the string on the display
+	write( text, flags );
+}
+
+inline void
+hd44780::setTypingDelay( size_t delay ) {
+
+	// Set the typing delay
+	m_typing_speed = delay;
 }
 
 inline void

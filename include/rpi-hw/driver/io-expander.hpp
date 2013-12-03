@@ -1,5 +1,5 @@
 /* 
-	Title --- driver/ioexpander.hpp
+	Title --- driver/io-expander.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_DRIVER_IOEXPANDER_HPP_
-#define _RPI_HW_DRIVER_IOEXPANDER_HPP_
+#ifndef _RPI_HW_DRIVER_IO_EXPANDER_HPP_
+#define _RPI_HW_DRIVER_IO_EXPANDER_HPP_
 
 #include <rpi-hw/rpi.hpp>
 
@@ -34,10 +34,10 @@ namespace rpihw { // Begin main namespace
 namespace driver { // Begin drivers namespace
 
 /*!
-	@class ioexpander
+	@class io_expander
 	@brief GPIO controller.
 */
-class ioexpander {
+class io_expander {
 
 public:
 
@@ -112,6 +112,6 @@ public:
 
 
 // Include inline methods 
-#include <rpi-hw/driver/ioexpander-inl.hpp>
+#include <rpi-hw/driver/io-expander-inl.hpp>
 
-#endif /* _RPI_HW_DRIVER_IOEXPANDER_HPP_ */
+#endif /* _RPI_HW_DRIVER_IO_EXPANDER_HPP_ */

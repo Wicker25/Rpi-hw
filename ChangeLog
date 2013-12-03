@@ -1,4 +1,18 @@
-ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
+ChangeLog of Rpi-hw - A free C++ library designed to manage the Raspberry Pi's GPIO connector and its other buses.
+
+============ Rpi-hw 0.7.0 - urgency=low===========
+
+********** Wicker25 < wicker25@gmail.com >
+
+    * all: Beautified all code! :)
+           Renamed `ioexpander.hpp` to `io-expander.hpp` and `ioexpander` to `io_expander`.
+           Renamed `hc-sr04.hpp` to `hcsr04.hpp`.
+
+    * iface/base.hpp: Renamed `numOfPins` to `size`.
+
+    * display/hd44780.hpp: Improved performance and style.
+                           Added `setTypingDelay` to set the typing delay between individual characters.
+                           Added the text flags parameter to the function `write`.
 
 ============ Rpi-hw 0.6.0 - urgency=low===========
 
@@ -26,8 +40,8 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
 2013-09-20 Wicker25 < wicker25@gmail.com >
 
-    * all: Moved SPI sources into directory `rpi-hw/iface`.
-           Added SPI support to PCD8544 controller.
+    * all: Moved SPI sources into the directory `rpi-hw/iface`.
+           Added SPI support to the PCD8544 controller.
 
 ============ Rpi-hw 0.5.0 - urgency=low =============
 
@@ -46,7 +60,7 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
 2013-05-06 Wicker25 < wicker25@gmail.com >
 
-    * all: Added class `hc-sr04` to manage HC-SR04 ultrasonic distance sensors.
+    * all: Added class `hcsr04` to manage HC-SR04 ultrasonic distance sensors.
 
     * gpio.hpp: Replaced `m_addr` with `m_gpio`.
 

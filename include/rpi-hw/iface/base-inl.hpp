@@ -34,7 +34,7 @@ base::getPin( uint8_t index ) const {
 }
 
 inline uint8_t
-base::numOfPins() const {
+base::size() const {
 
 	// Return the number of pins
 	return (uint8_t) m_pins.size();

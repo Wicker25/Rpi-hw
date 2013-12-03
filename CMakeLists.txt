@@ -6,7 +6,7 @@ cmake_minimum_required( VERSION 2.6 )
 
 # Set the version of the library
 set( RPI_HW_VERSION_MAJOR	0 )
-set( RPI_HW_VERSION_MINOR	6 )
+set( RPI_HW_VERSION_MINOR	7 )
 set( RPI_HW_VERSION_PATCH	0 )
 set( RPI_HW_VERSION			"${RPI_HW_VERSION_MAJOR}.${RPI_HW_VERSION_MINOR}.${RPI_HW_VERSION_PATCH}" )
 
@@ -159,7 +159,7 @@ add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/driver/bcm2835.cpp
 	${RPI_HW_SOURCE_DIR}/driver/spi.cpp
-	${RPI_HW_SOURCE_DIR}/driver/ioexpander.cpp
+	${RPI_HW_SOURCE_DIR}/driver/io-expander.cpp
 	${RPI_HW_SOURCE_DIR}/driver/mcp23s17.cpp
 
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
@@ -185,7 +185,7 @@ add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/motor/stepper.cpp
 
-	${RPI_HW_SOURCE_DIR}/sensor/hc-sr04.cpp
+	${RPI_HW_SOURCE_DIR}/sensor/hcsr04.cpp
 )
 
 

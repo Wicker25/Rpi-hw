@@ -31,7 +31,7 @@
 #include <rpi-hw/utils.hpp>
 
 #include <rpi-hw/driver/bcm2835.hpp>
-#include <rpi-hw/driver/ioexpander.hpp>
+#include <rpi-hw/driver/io-expander.hpp>
 
 #define RESERVED_PINS	30
 
@@ -44,13 +44,13 @@ namespace rpihw { // Begin main namespace
 struct expander_slot {
 
 	//! Constructor method.
-	expander_slot( uint8_t b, driver::ioexpander *e ) : pin_base(b), expander(e) {}
+	expander_slot( uint8_t b, driver::io_expander *e ) : pin_base(b), expander(e) {}
 
 	//! The pin base for the I/O expander.
 	int pin_base;
 
 	//! Pointer to the I/O expander.
-	driver::ioexpander *expander;
+	driver::io_expander *expander;
 };
 
 
