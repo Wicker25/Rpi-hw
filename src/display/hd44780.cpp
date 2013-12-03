@@ -242,8 +242,8 @@ hd44780::write( uint8_t c ) {
 			putChar( c );
 
 			// Wait some time (corresponding to the typing delay)
-			if ( m_typing_speed && !std::isspace( c ) )
-				time::msleep( m_typing_speed );
+			if ( m_typing_delay && !std::isspace( c ) )
+				time::msleep( m_typing_delay );
 
 			break;
 		}
@@ -420,8 +420,7 @@ hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 	for ( i = m_width - 1; i >= 1; --i )
 		m_buffer[ i + line * m_width ] = getChar( i - 1, line );
 
-	move( 0, line );
-	putChar( ' ' );
+	move( 0, line ); putChar( ' ' );
 
 	for ( i = 1; i < m_width; ++i )
 		putChar( getChar( i, line ) );

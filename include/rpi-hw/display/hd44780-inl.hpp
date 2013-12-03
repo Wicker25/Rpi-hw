@@ -98,7 +98,14 @@ inline void
 hd44780::setTypingDelay( size_t delay ) {
 
 	// Set the typing delay
-	m_typing_speed = delay;
+	m_typing_delay = delay;
+}
+
+inline size_t
+hd44780::getTypingDelay() const {
+
+	// Return the typing delay
+	return m_typing_delay;
 }
 
 inline void

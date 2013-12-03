@@ -287,9 +287,15 @@ public:
 
 	/*!
 		@brief Sets the typing delay between individual characters (milliseconds). 
-		@param[in] speed The typing delay.
+		@param[in] delay The typing delay.
 	*/
 	void setTypingDelay( size_t delay );
+
+	/*!
+		@brief Returns the typing delay between individual characters (milliseconds). 
+		@return The typing delay.
+	*/
+	size_t getTypingDelay() const;
 
 	/*!
 		@brief Sets the autoscroll mode.
@@ -328,7 +334,7 @@ protected:
 	//@}
 
 	//! Typing delay (milliseconds).
-	size_t m_typing_speed = 0;
+	size_t m_typing_delay = 0;
 
 	//! Autoscroll mode.
 	uint8_t m_autoscroll = VSCROLL;
