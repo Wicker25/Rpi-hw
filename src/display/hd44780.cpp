@@ -424,7 +424,7 @@ hd44780::scrollRightLine( uint8_t line, bool cursor ) {
 	putChar( ' ' );
 
 	for ( i = 1; i < m_width; ++i )
-		putChar( getChar( i - 1, line ) );
+		putChar( getChar( i, line ) );
 
 	// Restore the cursor position
 	move( x, y );
