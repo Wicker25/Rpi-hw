@@ -40,8 +40,7 @@ spi::spi( const std::string &dev_path, Modes mode, uint8_t word_len, uint32_t sp
 	m_dev_fd = open( m_dev_path.c_str(), O_RDWR );
 
 	if ( m_dev_fd < 0 )
-		throw exception( "(Fatal) `spi`: can't open SPI device" );
-
+		throw exception( utils::format( "(Fatal) `spi`: can't open SPI device '%s'\n", strerror( errno ) ) );
 
 	// Set the SPI mode
 	setMode( m_mode );
@@ -66,10 +65,10 @@ spi::setMode( uint8_t mode ) {
 	m_mode = mode;
 
 	if ( ioctl( m_dev_fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
-		throw exception( "(Fatal) `spi`: can't set SPI mode (WR)" );
+		throw exception( "(Fatal) `spi::setMode`: can't set SPI mode (WR)\n" );
 
 	if ( ioctl( m_dev_fd, SPI_IOC_RD_MODE, &m_mode ) < 0 )
-		throw exception( "(Fatal) `spi`: can't set SPI mode (RD)" );
+		throw exception( "(Fatal) `spi::setMode`: can't set SPI mode (RD)\n" );
 }
 
 void
@@ -79,10 +78,10 @@ spi::setWordLen( uint8_t word_len ) {
 	m_word_len = word_len;
 
 	if ( ioctl( m_dev_fd, SPI_IOC_WR_BITS_PER_WORD, &m_word_len ) < 0 )
-		throw exception( "(Fatal) `spi`: can't set SPI bit per words (WR)" );
+		throw exception( "(Fatal) `spi::setWordLen`: can't set SPI bit per words (WR)\n" );
 
 	if ( ioctl( m_dev_fd, SPI_IOC_RD_BITS_PER_WORD, &m_word_len ) < 0 )
-		throw exception( "(Fatal) `spi`: can't set SPI bit per words (RD)" );
+		throw exception( "(Fatal) `spi::setWordLen`: can't set SPI bit per words (RD)\n" );
 }
 
 void
@@ -93,10 +92,10 @@ spi::setSpeed( uint32_t speed ) {
 
 	// Set SPI speed
 	if ( ioctl( m_dev_fd, SPI_IOC_WR_MAX_SPEED_HZ, &m_speed ) < 0 )
-		throw exception( "(Fatal) `spi`: can't set SPI speed (WR)" );
+		throw exception( "(Fatal) `spi::setSpeed`: can't set SPI speed (WR)\n" );
 
 	if ( ioctl( m_dev_fd, SPI_IOC_RD_MAX_SPEED_HZ, &m_speed ) < 0 )
-		throw exception( "(Fatal) `spi`: can't set SPI speed (RD)" );
+		throw exception( "(Fatal) `spi::setSpeed`: can't set SPI speed (RD)\n" );
 }
 
 void
@@ -115,7 +114,7 @@ spi::transfer( uint8_t *data, size_t size ) {
 
 	// Send/receive the data buffer
 	if ( ioctl( m_dev_fd, SPI_IOC_MESSAGE(1), &spi_data ) < 0 )
-		throw exception( "(Fatal) `spi`: transmission error" );
+		throw exception( utils::format( "(Fatal) `spi::transfer`: transmission error '%s'\n", strerror( errno ) ) );
 }
 
 } // End of drivers namespace
