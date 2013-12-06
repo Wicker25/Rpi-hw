@@ -109,7 +109,7 @@ i2c::readReg16( uint8_t reg ) const {
 	read( m_buffer, 2 );
 
 	// Merge the 16 bit data
-	return m_buffer[0] | ( m_buffer[1] << 8 );
+	return (uint16_t) m_buffer[0] | ( (uint16_t) m_buffer[1] << 8 );
 }
 
 } // End of drivers namespace
