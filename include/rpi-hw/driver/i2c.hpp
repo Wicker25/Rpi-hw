@@ -25,6 +25,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
 #include <errno.h>
 
 #include <rpi-hw/rpi.hpp>
@@ -55,6 +57,48 @@ public:
 	//! Destructor method.
 	virtual ~i2c();
 
+	/*!
+		@brief Writes data on the device.
+		@param[in] data The data to write on the device.
+		@param[in] size Size of the data to write.
+	*/
+	void write( uint8_t *data, uint8_t size );
+
+	/*!
+		@brief Reads data from the device.
+		@param[in] data The buffer to store the data.
+		@param[in] size Size of the data to read.
+	*/
+	void read( uint8_t *data, uint8_t size ) const;
+
+	/*!
+		@brief Writes a byte data to a register on the device.
+		@param[in] reg The device register.
+		@param[in] data The data to write to the register.
+	*/
+	void writeReg8( uint8_t reg, uint8_t data );
+
+	/*!
+		@brief Reads a byte from a register on the device.
+		@param[in] reg The device register.
+		@return The data read from the register.
+	*/
+	uint8_t readReg8( uint8_t reg ) const;
+
+	/*!
+		@brief Writes a word data to a register on the device.
+		@param[in] reg The device register.
+		@param[in] data The data to write to the register.
+	*/
+	void writeReg16( uint8_t reg, uint16_t data );
+
+	/*!
+		@brief Reads a word from a register on the device.
+		@param[in] reg The device register.
+		@return The data read from the register.
+	*/
+	uint16_t readReg16( uint8_t reg ) const;
+
 private:
 
 	//! The device path.
@@ -65,6 +109,9 @@ private:
 
 	//! File descriptor of the device.
 	int m_dev_fd;
+
+	//! Data buffer used for I2C transmission.
+	uint8_t m_buffer[3];
 };
 
 } // End of drivers namespace

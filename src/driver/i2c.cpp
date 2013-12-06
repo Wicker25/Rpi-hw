@@ -50,6 +50,68 @@ i2c::~i2c() {
 	close( m_dev_fd );
 }
 
+void
+i2c::write( uint8_t *data, uint8_t size ) {
+
+	if ( write( m_dev_fd, data, size ) != size )
+		throw exception( "(Fatal) `i2c`: failed to write to the bus\n" ) );
+}
+
+void
+i2c::read( uint8_t *data, uint8_t size ) const {
+
+	if ( read( m_dev_fd, data, size ) != size )
+		throw exception( "(Fatal) `i2c`: failed to read from the bus\n" );
+}
+
+void
+i2c::writeReg8( uint8_t reg, uint8_t data ) {
+
+	// Build the buffer to send
+	m_buffer[0] = reg;
+	m_buffer[1] = data;
+
+	// Write the data on the device
+	write( buffer, 2 );
+}
+
+uint8_t
+i2c::readReg8( uint8_t reg ) const {
+
+	// Select the register on the device
+	write( &reg, 1 );
+
+	// Read the data from the device
+	read( buffer, 1 );
+
+	return m_buffer[0];
+}
+
+void
+i2c::writeReg16( uint8_t reg, uint16_t data ) {
+
+	// Build the buffer to send
+	m_buffer[0] = reg;
+	m_buffer[1] = data & 0xFF;
+	m_buffer[2] = (data >> 8) & 0xFF;
+
+	// Write the data on the device
+	write( m_buffer, 2 );
+}
+
+uint16_t
+i2c::readReg16( uint8_t reg ) const {
+
+	// Select the register on the device
+	write( &reg, 1 );
+
+	// Read the data from the device
+	read( m_buffer, 2 );
+
+	// Merge the 16 bit data
+	return m_buffer[0] | ( m_buffer[1] << 8 );
+}
+
 } // End of drivers namespace
 
 } // End of main namespace
