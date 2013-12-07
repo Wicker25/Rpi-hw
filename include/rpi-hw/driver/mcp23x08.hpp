@@ -1,5 +1,5 @@
 /* 
-	Title --- driver/mcp23x17.hpp
+	Title --- driver/mcp23x08.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_DRIVER_MCP23X17_HPP_
-#define _RPI_HW_DRIVER_MCP23X17_HPP_
+#ifndef _RPI_HW_DRIVER_MCP23X08_HPP_
+#define _RPI_HW_DRIVER_MCP23X08_HPP_
 
 #include <rpi-hw/rpi.hpp>
 
@@ -36,10 +36,10 @@ namespace rpihw { // Begin main namespace
 namespace driver { // Begin drivers namespace
 
 /*!
-	@class mcp23x17
-	@brief 16-Bit I/O Expander with SPI/I2C (skeleton).
+	@class mcp23x08
+	@brief 8-Bit I/O Expander with SPI/I2C (skeleton).
 */
-class mcp23x17 : public io_expander {
+class mcp23x08 : public io_expander {
 
 public:
 
@@ -82,10 +82,10 @@ public:
 		@brief Constructor method.
 		@param[in] dev_path The device path.
 	*/
-	mcp23x17( const std::string &dev_path );
+	mcp23x08( const std::string &dev_path );
 
 	//! Destructor method.
-	virtual ~mcp23x17();
+	virtual ~mcp23x08();
 
 	//! Initialize the expander.
 	void init();
@@ -122,7 +122,7 @@ public:
 protected:
 
 	//! Local registers.
-	uint8_t m_states[8];
+	uint8_t m_states[4];
 
 	//! Device path.
 	std::string m_dev_path;
@@ -140,6 +140,6 @@ protected:
 
 
 // Include inline methods 
-#include <rpi-hw/driver/mcp23x17-inl.hpp>
+#include <rpi-hw/driver/mcp23x08-inl.hpp>
 
-#endif /* _RPI_HW_DRIVER_MCP23X17_HPP_ */
+#endif /* _RPI_HW_DRIVER_MCP23X08_HPP_ */
