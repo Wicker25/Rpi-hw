@@ -46,21 +46,21 @@ i2c::i2c( const std::string &dev_path, uint8_t addr )
 
 i2c::~i2c() {
 
-	// Close device file
+	// Close the device file
 	close( m_dev_fd );
 }
 
 void
 i2c::write( uint8_t *data, uint8_t size ) {
 
-	if ( write( m_dev_fd, data, size ) != size )
-		throw exception( "(Fatal) `i2c`: failed to write to the bus\n" ) );
+	if ( ::write( m_dev_fd, data, size ) != size )
+		throw exception( "(Fatal) `i2c`: failed to write to the bus\n" );
 }
 
 void
-i2c::read( uint8_t *data, uint8_t size ) const {
+i2c::read( uint8_t *data, uint8_t size ) {
 
-	if ( read( m_dev_fd, data, size ) != size )
+	if ( ::read( m_dev_fd, data, size ) != size )
 		throw exception( "(Fatal) `i2c`: failed to read from the bus\n" );
 }
 
@@ -72,17 +72,17 @@ i2c::writeReg8( uint8_t reg, uint8_t data ) {
 	m_buffer[1] = data;
 
 	// Write the data on the device
-	write( buffer, 2 );
+	write( m_buffer, 2 );
 }
 
 uint8_t
-i2c::readReg8( uint8_t reg ) const {
+i2c::readReg8( uint8_t reg ) {
 
 	// Select the register on the device
 	write( &reg, 1 );
 
 	// Read the data from the device
-	read( buffer, 1 );
+	read( m_buffer, 1 );
 
 	return m_buffer[0];
 }
@@ -100,7 +100,7 @@ i2c::writeReg16( uint8_t reg, uint16_t data ) {
 }
 
 uint16_t
-i2c::readReg16( uint8_t reg ) const {
+i2c::readReg16( uint8_t reg ) {
 
 	// Select the register on the device
 	write( &reg, 1 );

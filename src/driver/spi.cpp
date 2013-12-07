@@ -54,7 +54,7 @@ spi::spi( const std::string &dev_path, Modes mode, uint8_t word_len, uint32_t sp
 
 spi::~spi() {
 
-	// Close device file
+	// Close the device file
 	close( m_dev_fd );
 }
 

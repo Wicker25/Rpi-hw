@@ -21,6 +21,7 @@ It allows you to connect several devices to the board (including displays, keypa
 
 ### List of supported devices
 
+* 16 bit I/O expander with I2C (MCP23017)
 * 16 bit I/O expander with SPI (MCP23S17)
 * Character LCDs (Hitachi HD44780)
 * Graphical LCDs (Philips PCD8544)
@@ -31,9 +32,8 @@ It allows you to connect several devices to the board (including displays, keypa
 
 ### To-do list
 
-* Support for I2C and UART interfaces
+* Support for UART interface
 * Support for 8 bit I/O expander with SPI/I2C interface
-* Support for 16 bit I/O expander with I2C interface
 
 ### Code examples
 

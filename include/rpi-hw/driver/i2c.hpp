@@ -27,7 +27,7 @@
 #include <sys/ioctl.h>
 #include <linux/i2c.h>
 #include <linux/i2c-dev.h>
-#include <errno.h>
+#include <cstring>
 
 #include <rpi-hw/rpi.hpp>
 
@@ -69,7 +69,7 @@ public:
 		@param[in] data The buffer to store the data.
 		@param[in] size Size of the data to read.
 	*/
-	void read( uint8_t *data, uint8_t size ) const;
+	void read( uint8_t *data, uint8_t size );
 
 	/*!
 		@brief Writes a byte data to a register on the device.
@@ -83,7 +83,7 @@ public:
 		@param[in] reg The device register.
 		@return The data read from the register.
 	*/
-	uint8_t readReg8( uint8_t reg ) const;
+	uint8_t readReg8( uint8_t reg );
 
 	/*!
 		@brief Writes a word data to a register on the device.
@@ -97,7 +97,7 @@ public:
 		@param[in] reg The device register.
 		@return The data read from the register.
 	*/
-	uint16_t readReg16( uint8_t reg ) const;
+	uint16_t readReg16( uint8_t reg );
 
 private:
 

@@ -159,7 +159,10 @@ add_library( rpihw SHARED
 
 	${RPI_HW_SOURCE_DIR}/driver/bcm2835.cpp
 	${RPI_HW_SOURCE_DIR}/driver/spi.cpp
+	${RPI_HW_SOURCE_DIR}/driver/i2c.cpp
 	${RPI_HW_SOURCE_DIR}/driver/io-expander.cpp
+	${RPI_HW_SOURCE_DIR}/driver/mcp23x17.cpp
+	${RPI_HW_SOURCE_DIR}/driver/mcp23017.cpp
 	${RPI_HW_SOURCE_DIR}/driver/mcp23s17.cpp
 
 	${RPI_HW_SOURCE_DIR}/iface/base.cpp
