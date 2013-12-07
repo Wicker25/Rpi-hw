@@ -81,7 +81,6 @@ public:
 	/*!
 		@brief Constructor method.
 		@param[in] dev_path The device path.
-		@param[in] device_id The device identifier.
 	*/
 	mcp23x17( const std::string &dev_path );
 
