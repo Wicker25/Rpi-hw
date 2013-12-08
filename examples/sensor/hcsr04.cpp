@@ -1,5 +1,5 @@
 /* 
-    Title --- hc-sr04.cpp [examples]
+    Title --- hcsr04.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -25,7 +25,7 @@
 #include <rpi-hw.hpp>
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
-#include <rpi-hw/sensor/hc-sr04.hpp>
+#include <rpi-hw/sensor/hcsr04.hpp>
 
 // Use Rpi-hw namespace
 using namespace rpihw;
