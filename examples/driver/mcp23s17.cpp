@@ -1,5 +1,5 @@
 /* 
-    Title --- io-expander.cpp [examples]
+    Title --- mcp23s17.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 

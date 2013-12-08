@@ -1,4 +1,4 @@
-Rpi-hw v0.6.0
+Rpi-hw v0.7.0
 =============
 
 [Rpi-hw](http://hackyourmind.org/projects/rpi-hw) (short for "Raspberry Pi Hardware") is a free C++ library 
@@ -21,7 +21,8 @@ It allows you to connect several devices to the board (including displays, keypa
 
 ### List of supported devices
 
-* 16 bit I/O expander with SPI (MCP23S17)
+* 8-bit I/O expander with I2C/SPI (MCP23008, MCP23S08)
+* 16-bit I/O expander with I2C/SPI (MCP23017, MCP23S17)
 * Character LCDs (Hitachi HD44780)
 * Graphical LCDs (Philips PCD8544)
 * Single and multiple 7-segments diplays
@@ -31,9 +32,7 @@ It allows you to connect several devices to the board (including displays, keypa
 
 ### To-do list
 
-* Support for I2C and UART interfaces
-* Support for 8 bit I/O expander with SPI/I2C interface
-* Support for 16 bit I/O expander with I2C interface
+* Support for UART interface
 
 ### Code examples
 

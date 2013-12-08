@@ -24,8 +24,11 @@ include_directories( ${RpiHw_INCLUDE_DIRS} )
 add_executable( blink ${CMAKE_SOURCE_DIR}/blink.cpp )
 target_link_libraries( blink ${RpiHw_LIBRARIES} )
 
-add_executable( io-expander ${CMAKE_SOURCE_DIR}/io-expander.cpp )
-target_link_libraries( io-expander ${RpiHw_LIBRARIES} )
+add_executable( mcp23017 ${CMAKE_SOURCE_DIR}/driver/mcp23017.cpp )
+target_link_libraries( mcp23017 ${RpiHw_LIBRARIES} )
+
+add_executable( mcp23s17 ${CMAKE_SOURCE_DIR}/driver/mcp23s17.cpp )
+target_link_libraries( mcp23s17 ${RpiHw_LIBRARIES} )
 
 add_executable( s7seg ${CMAKE_SOURCE_DIR}/display/s7seg.cpp )
 target_link_libraries( s7seg ${RpiHw_LIBRARIES} )
@@ -63,5 +66,5 @@ target_link_libraries( 16keys2 ${RpiHw_LIBRARIES} )
 add_executable( 28bjy48 ${CMAKE_SOURCE_DIR}/motor/28bjy48.cpp )
 target_link_libraries( 28bjy48 ${RpiHw_LIBRARIES} )
 
-add_executable( hc-sr04 ${CMAKE_SOURCE_DIR}/sensor/hc-sr04.cpp )
-target_link_libraries( hc-sr04 ${RpiHw_LIBRARIES} )
+add_executable( hcsr04 ${CMAKE_SOURCE_DIR}/sensor/hcsr04.cpp )
+target_link_libraries( hcsr04 ${RpiHw_LIBRARIES} )

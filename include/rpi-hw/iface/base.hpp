@@ -79,7 +79,7 @@ public:
 	virtual uint8_t getPin( uint8_t index ) const;
 
 	//! Returns the number of the pins.
-	virtual uint8_t numOfPins() const;
+	virtual uint8_t size() const;
 
 protected:
 

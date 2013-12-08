@@ -1,5 +1,5 @@
 /* 
-    Title --- driver/ioexpander-inl.hpp
+    Title --- driver/mcp23x08-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,16 +19,15 @@
 */
 
 
-#ifndef _RPI_HW_DRIVER_IOEXPANDER_INL_HPP_
-#define _RPI_HW_DRIVER_IOEXPANDER_INL_HPP_
+#ifndef _RPI_HW_DRIVER_MCP23X08_INL_HPP_
+#define _RPI_HW_DRIVER_MCP23X08_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
 namespace driver { // Begin drivers namespace
 
-
 } // End of drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_DRIVER_IOEXPANDER_INL_HPP_ */
+#endif /* _RPI_HW_DRIVER_MCP23X08_INL_HPP_ */

@@ -26,29 +26,6 @@ namespace rpihw { // Begin main namespace
 
 namespace driver { // Begin drivers namespace
 
-inline void
-mcp23s17::send( uint8_t reg, uint8_t data ) {
-
-	// Send data to the device
-	m_buffer[0] = WRITE | ( m_device_id << 1 );
-	m_buffer[1] = reg;
-	m_buffer[2] = data;
-
-	m_spi->transfer( m_buffer, 3 );
-}
-
-inline uint8_t
-mcp23s17::receive( uint8_t reg ) {
-
-	// Receive data from the device
-	m_buffer[0] = READ | ( m_device_id << 1 );
-	m_buffer[1] = reg;
-
-	m_spi->transfer( m_buffer, 3 );
-
-	return m_buffer[2];
-}
-
 } // End of drivers namespace
 
 } // End of main namespace

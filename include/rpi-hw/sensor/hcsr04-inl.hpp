@@ -1,5 +1,5 @@
 /* 
-    Title --- gpio-inl.hpp
+    Title --- sensor/hcsr04-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,23 +19,22 @@
 */
 
 
-#ifndef _RPI_HW_GPIO_INL_HPP_
-#define _RPI_HW_GPIO_INL_HPP_
+#ifndef _RPI_HW_SENSOR_HCSR04_INL_HPP_
+#define _RPI_HW_SENSOR_HCSR04_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-template < typename T >
-void
-gpio::expand( uint8_t pin_base, T &expander ) {
+namespace sensor { // Begin sensors namespace
 
-	// Check the pin base
-	if ( pin_base <= RESERVED_PINS )
-		throw exception( utils::format( "(Fatal) `gpio::expand`: pin %d is reserved\n", pin_base ) );
+inline double
+hcsr04::ranging() {
 
-	// Add the I/O expander to the standard GPIO connector
-	m_expanders.push_back( { pin_base, static_cast< driver::io_expander * >( &expander ) } );
+	// Return the distance from the sensor to an object or surface
+	return timing() * 17;
 }
+
+} // End of sensors namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_GPIO_INL_HPP_ */
+#endif /* _RPI_HW_SENSOR_HCSR04_INL_HPP_ */

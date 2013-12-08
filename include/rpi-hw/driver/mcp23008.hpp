@@ -1,5 +1,5 @@
 /* 
-	Title --- driver/mcp23s17.hpp
+	Title --- driver/mcp23008.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_DRIVER_MCP23S17_HPP_
-#define _RPI_HW_DRIVER_MCP23S17_HPP_
+#ifndef _RPI_HW_DRIVER_MCP23017_HPP_
+#define _RPI_HW_DRIVER_MCP23017_HPP_
 
 #include <rpi-hw/rpi.hpp>
 
@@ -29,43 +29,38 @@
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/utils.hpp>
 
-#include <rpi-hw/driver/spi.hpp>
-#include <rpi-hw/driver/mcp23x17.hpp>
+#include <rpi-hw/driver/i2c.hpp>
+#include <rpi-hw/driver/mcp23x08.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace driver { // Begin drivers namespace
 
 /*!
-	@class mcp23s17
-	@brief 16-bit I/O Expander with SPI.
-
-	@example driver/mcp23s17.cpp
+	@class mcp23008
+	@brief 8-bit I/O Expander with I2C.
 */
-class mcp23s17 : public mcp23x17 {
+class mcp23008 : public mcp23x08 {
 
 public:
 
 	/*!
 		@brief Constructor method.
 		@param[in] dev_path The device path.
-		@param[in] dev_id The device identifier.
+		@param[in] dev_addr The device address.
 	*/
-	mcp23s17( const std::string &dev_path, uint8_t dev_id );
+	mcp23008( const std::string &dev_path, uint8_t dev_addr );
 
 	//! Destructor method.
-	virtual ~mcp23s17();
+	virtual ~mcp23008();
 
 private:
 
-	//! Serial Peripheral Interface.
-	driver::spi *m_spi;
+	//! Inter Integrated Circuit.
+	driver::i2c *m_i2c;
 
-	//! Device identifier.
-	uint8_t m_dev_id;
-
-	//! Data buffer used for SPI transmission.
-	uint8_t m_buffer[3];
+	//! Device address.
+	uint8_t m_dev_addr;
 
 	//! Sends data to the device.
 	virtual void send( uint8_t reg, uint8_t data );
@@ -80,6 +75,6 @@ private:
 
 
 // Include inline methods 
-#include <rpi-hw/driver/mcp23s17-inl.hpp>
+#include <rpi-hw/driver/mcp23008-inl.hpp>
 
-#endif /* _RPI_HW_DRIVER_MCP23S17_HPP_ */
+#endif /* _RPI_HW_DRIVER_MCP23017_HPP_ */

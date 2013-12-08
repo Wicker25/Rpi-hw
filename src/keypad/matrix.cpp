@@ -52,7 +52,7 @@ void
 matrix::update() {
 
 	// Get the size of the keypad
-	uint8_t	cols = m_output->numOfPins(), rows = m_input->numOfPins();
+	uint8_t	cols = m_output->size(), rows = m_input->size();
 
 	// Current button index
 	size_t index;

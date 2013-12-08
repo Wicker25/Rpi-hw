@@ -33,14 +33,12 @@ std::string format( const char *format, ... ) {
 	// Formatted string
 	char buffer[256];
 
-	// Initialize variable argument list
+	// Format the string
 	va_list args;
 	va_start( args, format );
 
-	// Format the string
 	std::vsnprintf( buffer, 256, format, args );
 
-	// Clean variable argument list
 	va_end( args );
 
 	return std::string( buffer );

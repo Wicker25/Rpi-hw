@@ -1,6 +1,23 @@
-ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
+ChangeLog of Rpi-hw - A free C++ library designed to manage the Raspberry Pi's GPIO connector and its other buses.
 
-============ Rpi-hw 0.6.0 - urgency=low===========
+============ Rpi-hw 0.7.0 - urgency=low ===========
+
+2013-12-07 Wicker25 < wicker25@gmail.com >
+
+    * all: Beautified all code! :)
+           Added I2C support.
+           Added `driver::mcp23017` to support 16-Bit I/O expander with I2C.
+           Added `driver::mcp23008` and `driver::mcp23s08` to support 8-Bit I/O expander with I2C/SPI.
+           Renamed `ioexpander.hpp` to `io-expander.hpp` and `ioexpander` to `io_expander`.
+           Renamed `hc-sr04.hpp` to `hcsr04.hpp`.
+
+    * iface/base.hpp: Renamed `numOfPins` to `size`.
+
+    * display/hd44780.hpp: Improved performance and style.
+                           Added `setTypingDelay` to set the typing delay between individual characters.
+                           Added the text flags parameter to the function `write`.
+
+============ Rpi-hw 0.6.0 - urgency=low ===========
 
 2013-11-22 Wicker25 < wicker25@gmail.com >
 
@@ -16,18 +33,18 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
     * keypad/base.hpp: Changed the input polarity using pull-up resistors (now it works with I/O expanders).
 
-============ Rpi-hw 0.5.2 - urgency=medium===========
+============ Rpi-hw 0.5.2 - urgency=medium ===========
 
 2013-10-22 Wicker25 < wicker25@gmail.com >
 
     * keypad/base.hpp: Added the refresh rate parameter and support for event listener.
 
-============ Rpi-hw 0.5.1 - urgency=medium===========
+============ Rpi-hw 0.5.1 - urgency=medium ===========
 
 2013-09-20 Wicker25 < wicker25@gmail.com >
 
-    * all: Moved SPI sources into directory `rpi-hw/iface`.
-           Added SPI support to PCD8544 controller.
+    * all: Moved SPI sources into the directory `rpi-hw/iface`.
+           Added SPI support to the PCD8544 controller.
 
 ============ Rpi-hw 0.5.0 - urgency=low =============
 
@@ -46,7 +63,7 @@ ChangeLog of Rpi-hw - C++ library for Raspberry Pi GPIO
 
 2013-05-06 Wicker25 < wicker25@gmail.com >
 
-    * all: Added class `hc-sr04` to manage HC-SR04 ultrasonic distance sensors.
+    * all: Added class `hcsr04` to manage HC-SR04 ultrasonic distance sensors.
 
     * gpio.hpp: Replaced `m_addr` with `m_gpio`.
 

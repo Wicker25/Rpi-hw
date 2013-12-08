@@ -26,6 +26,27 @@ namespace rpihw { // Begin main namespace
 
 namespace driver { // Begin drivers namespace
 
+inline uint8_t
+spi::getMode() const {
+
+	// Return the SPI mode
+	return m_mode;
+}
+
+inline uint8_t
+spi::getWordLen() const {
+
+	// Return the device word length
+	return m_word_len;
+}
+
+inline uint32_t
+spi::getSpeed() const {
+
+	// Return the device max speed
+	return m_speed;
+}
+
 } // End of drivers namespace
 
 } // End of main namespace
