@@ -24,10 +24,10 @@ include_directories( ${RpiHw_INCLUDE_DIRS} )
 add_executable( blink ${CMAKE_SOURCE_DIR}/blink.cpp )
 target_link_libraries( blink ${RpiHw_LIBRARIES} )
 
-add_executable( mcp23017 ${CMAKE_SOURCE_DIR}/io-expander/mcp23017.cpp )
+add_executable( mcp23017 ${CMAKE_SOURCE_DIR}/driver/mcp23017.cpp )
 target_link_libraries( mcp23017 ${RpiHw_LIBRARIES} )
 
-add_executable( mcp23s17 ${CMAKE_SOURCE_DIR}/io-expander/mcp23s17.cpp )
+add_executable( mcp23s17 ${CMAKE_SOURCE_DIR}/driver/mcp23s17.cpp )
 target_link_libraries( mcp23s17 ${RpiHw_LIBRARIES} )
 
 add_executable( s7seg ${CMAKE_SOURCE_DIR}/display/s7seg.cpp )

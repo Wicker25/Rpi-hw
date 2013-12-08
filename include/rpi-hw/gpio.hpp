@@ -59,7 +59,6 @@ struct expander_slot {
 	@brief Virtual GPIO controller.
 
 	@example blink.cpp
-	@example io-expander.cpp
 */
 class gpio {
 
