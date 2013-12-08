@@ -38,7 +38,7 @@ namespace driver { // Begin drivers namespace
 
 /*!
 	@class mcp23017
-	@brief 16-Bit I/O Expander with I2C.
+	@brief 16-bit I/O Expander with I2C.
 */
 class mcp23017 : public mcp23x17 {
 

@@ -38,7 +38,7 @@ namespace driver { // Begin drivers namespace
 
 /*!
 	@class mcp23s17
-	@brief 16-Bit I/O Expander with SPI.
+	@brief 16-bit I/O Expander with SPI.
 */
 class mcp23s17 : public mcp23x17 {
 

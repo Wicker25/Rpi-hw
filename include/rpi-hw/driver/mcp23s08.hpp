@@ -38,7 +38,7 @@ namespace driver { // Begin drivers namespace
 
 /*!
 	@class mcp23s08
-	@brief 8-Bit I/O Expander with SPI.
+	@brief 8-bit I/O Expander with SPI.
 */
 class mcp23s08 : public mcp23x08 {
 
