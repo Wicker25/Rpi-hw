@@ -1,5 +1,5 @@
 /* 
-    Title --- driver/mcp23s17.cpp
+    Title --- driver/mcp23s08.cpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -22,15 +22,15 @@
 #ifndef _RPI_HW_DRIVER_MCP23S17_CPP_
 #define _RPI_HW_DRIVER_MCP23S17_CPP_
 
-#include <rpi-hw/driver/mcp23s17.hpp>
+#include <rpi-hw/driver/mcp23s08.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace driver { // Begin drivers namespace
 
-mcp23s17::mcp23s17( const std::string &dev_path, uint8_t dev_id )
+mcp23s08::mcp23s08( const std::string &dev_path, uint8_t dev_id )
 
-	: mcp23x17	( dev_path )
+	: mcp23x08	( dev_path )
 	, m_spi		( new driver::spi( dev_path, driver::spi::MODE_0, 8, 10000000 ) )
 	, m_dev_id	( dev_id ) {
 
@@ -38,14 +38,14 @@ mcp23s17::mcp23s17( const std::string &dev_path, uint8_t dev_id )
 	init();
 }
 
-mcp23s17::~mcp23s17() {
+mcp23s08::~mcp23s08() {
 
 	// Destroy the SPI controller
 	delete m_spi;
 }
 
 void
-mcp23s17::send( uint8_t reg, uint8_t data ) {
+mcp23s08::send( uint8_t reg, uint8_t data ) {
 
 	// Build the buffer to send
 	m_buffer[0] = WRITE | ( m_dev_id << 1 );
@@ -57,7 +57,7 @@ mcp23s17::send( uint8_t reg, uint8_t data ) {
 }
 
 uint8_t
-mcp23s17::receive( uint8_t reg ) {
+mcp23s08::receive( uint8_t reg ) {
 
 	// Build the buffer to send
 	m_buffer[0] = READ | ( m_dev_id << 1 );

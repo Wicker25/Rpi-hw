@@ -1,5 +1,5 @@
 /* 
-    Title --- io-expander.cpp [examples]
+    Title --- hcsr04.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,12 +19,13 @@
 */
 
 
+#include <iostream>
+
 // Include Rpi-hw headers
 #include <rpi-hw.hpp>
+#include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
-
-#include <rpi-hw/driver/mcp23s17.hpp>
-#include <rpi-hw/gpio.hpp>
+#include <rpi-hw/sensor/hcsr04.hpp>
 
 // Use Rpi-hw namespace
 using namespace rpihw;
@@ -32,36 +33,18 @@ using namespace rpihw;
 int
 main( int argc, char *args[] ) {
 
-	// Create the 16-bit I/O expander
-	driver::mcp23s17 expander( "/dev/spidev0.0", 0 );
+	// Create the stepper controller
+	sensor::hcsr04 dev( 23, 24 );
 
-	// Get the GPIO controller
-	gpio &io = gpio::get();
+	// Calculate the elapsed time between sending and receiving back the pulse
+	double elapsed = dev.timing();
 
-	// Add the I/O expander to the standard GPIO connector
-	io.expand( 100, expander );
+	// Calculate the distance from the sensor to an object or surface
+	double distance = dev.ranging();
 
-	// Set new GPIOs as output pin
-	for ( int i = 0; i < 16; ++i )
-		io.setup( 100 + i, OUTPUT ); 
-
-
-	// Animate LEDs :)
-	size_t time = 0;
-
-	for ( ;; ) {
-
-		// Turn on the current pin
-		io.write( 100 + time % 16, HIGH );
-
-		// Wait some time
-		time::msleep(100);
-
-		// Turn off the current pin
-		io.write( 100 + time % 16, LOW );
-
-		++time;
-	}
+	std::cout << utils::format( "Elapsed time: %f\n", elapsed );
+	std::cout << utils::format( "Distance: %.1f cm\n", distance );
 
 	return 0;
 }
+

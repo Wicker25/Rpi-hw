@@ -26,6 +26,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+#include <cstring>
 
 #include <rpi-hw/rpi.hpp>
 
@@ -73,16 +74,34 @@ public:
 	void setMode( uint8_t mode );
 
 	/*!
+		@brief Returns the SPI mode.
+		@return The SPI mode.
+	*/
+	uint8_t getMode() const;
+
+	/*!
 		@brief Sets the device word length.
 		@param[in] word_len The bits per word.
 	*/
 	void setWordLen( uint8_t word_len );
 
 	/*!
+		@brief Returns the device word length.
+		@return The bits per word.
+	*/
+	uint8_t getWordLen() const;
+
+	/*!
 		@brief Sets the device max speed.
 		@param[in] speed The new device speed.
 	*/
 	void setSpeed( uint32_t speed );
+
+	/*!
+		@brief Returns the device max speed.
+		@return The new device speed.
+	*/
+	uint32_t getSpeed() const;
 
 	//! Sends/receives a data buffer.
 	void transfer( uint8_t *data, size_t size );

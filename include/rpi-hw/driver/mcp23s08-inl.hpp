@@ -1,5 +1,5 @@
 /* 
-    Title --- hc-sr04.cpp [examples]
+    Title --- driver/mcp23s08-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,32 +19,15 @@
 */
 
 
-#include <iostream>
+#ifndef _RPI_HW_DRIVER_MCP23S17_INL_HPP_
+#define _RPI_HW_DRIVER_MCP23S17_INL_HPP_
 
-// Include Rpi-hw headers
-#include <rpi-hw.hpp>
-#include <rpi-hw/utils.hpp>
-#include <rpi-hw/time.hpp>
-#include <rpi-hw/sensor/hc-sr04.hpp>
+namespace rpihw { // Begin main namespace
 
-// Use Rpi-hw namespace
-using namespace rpihw;
+namespace driver { // Begin drivers namespace
 
-int
-main( int argc, char *args[] ) {
+} // End of drivers namespace
 
-	// Create the stepper controller
-	sensor::hcsr04 dev( 23, 24 );
+} // End of main namespace
 
-	// Calculate the elapsed time between sending and receiving back the pulse
-	double elapsed = dev.timing();
-
-	// Calculate the distance from the sensor to an object or surface
-	double distance = dev.ranging();
-
-	std::cout << utils::format( "Elapsed time: %f\n", elapsed );
-	std::cout << utils::format( "Distance: %.1f cm\n", distance );
-
-	return 0;
-}
-
+#endif /* _RPI_HW_DRIVER_MCP23S17_INL_HPP_ */

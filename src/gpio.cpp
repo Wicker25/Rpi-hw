@@ -53,7 +53,7 @@ gpio::findExpander( uint8_t pin ) {
 			return *it;
 
 	// Else throw an exception
-	throw exception( utils::format( "(Fatal) `ioexpander::findExpander`: there's not I/O expander for pin %u\n", pin ) );
+	throw exception( utils::format( "(Fatal) `gpio::findExpander`: there's not I/O expander for pin %u\n", pin ) );
 }
 
 void

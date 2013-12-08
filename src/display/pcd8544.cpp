@@ -37,7 +37,7 @@ pcd8544::pcd8544( uint8_t sclk, uint8_t sdin, uint8_t dc, uint8_t sce, uint8_t r
 	, m_updates						( DDRAM_SIZE, true ) {
 
 	// Set the foreground color
-	setColor( COLOR_BLACK );
+	setColor( BLACK );
 }
 
 pcd8544::~pcd8544() {

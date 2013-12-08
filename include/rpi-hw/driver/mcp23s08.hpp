@@ -1,5 +1,5 @@
 /* 
-	Title --- driver/mcp23s17.hpp
+	Title --- driver/mcp23s08.hpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -30,19 +30,17 @@
 #include <rpi-hw/utils.hpp>
 
 #include <rpi-hw/driver/spi.hpp>
-#include <rpi-hw/driver/mcp23x17.hpp>
+#include <rpi-hw/driver/mcp23x08.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace driver { // Begin drivers namespace
 
 /*!
-	@class mcp23s17
-	@brief 16-bit I/O Expander with SPI.
-
-	@example driver/mcp23s17.cpp
+	@class mcp23s08
+	@brief 8-bit I/O Expander with SPI.
 */
-class mcp23s17 : public mcp23x17 {
+class mcp23s08 : public mcp23x08 {
 
 public:
 
@@ -51,10 +49,10 @@ public:
 		@param[in] dev_path The device path.
 		@param[in] dev_id The device identifier.
 	*/
-	mcp23s17( const std::string &dev_path, uint8_t dev_id );
+	mcp23s08( const std::string &dev_path, uint8_t dev_id );
 
 	//! Destructor method.
-	virtual ~mcp23s17();
+	virtual ~mcp23s08();
 
 private:
 
@@ -80,6 +78,6 @@ private:
 
 
 // Include inline methods 
-#include <rpi-hw/driver/mcp23s17-inl.hpp>
+#include <rpi-hw/driver/mcp23s08-inl.hpp>
 
 #endif /* _RPI_HW_DRIVER_MCP23S17_HPP_ */

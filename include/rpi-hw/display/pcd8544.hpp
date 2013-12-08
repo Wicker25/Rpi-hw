@@ -105,8 +105,8 @@ public:
 	//! The display colors.
 	enum Color {
 
-		COLOR_BLACK	= 0,
-		COLOR_WHITE	= 1
+		BLACK	= 0,
+		WHITE	= 1
 	};
 
 	/*!

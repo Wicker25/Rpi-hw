@@ -1,5 +1,5 @@
 /* 
-    Title --- sensor/hc-sr04-inl.hpp
+    Title --- driver/mcp23008-inl.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,22 +19,29 @@
 */
 
 
-#ifndef _RPI_HW_SENSOR_HC_SR04_INL_HPP_
-#define _RPI_HW_SENSOR_HC_SR04_INL_HPP_
+#ifndef _RPI_HW_DRIVER_MCP23017_INL_HPP_
+#define _RPI_HW_DRIVER_MCP23017_INL_HPP_
 
 namespace rpihw { // Begin main namespace
 
-namespace sensor { // Begin sensors namespace
+namespace driver { // Begin drivers namespace
 
-inline double
-hcsr04::ranging() {
+inline void
+mcp23008::send( uint8_t reg, uint8_t data ) {
 
-	// Return the distance from the sensor to an object or surface
-	return timing() * 17;
+	// Send data to the device
+	m_i2c->writeReg8( reg, data );
 }
 
-} // End of sensors namespace
+inline uint8_t
+mcp23008::receive( uint8_t reg ) {
+
+	// Receive data from the device
+	return m_i2c->readReg8( reg );
+}
+
+} // End of drivers namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_SENSOR_HC_SR04_INL_HPP_ */
+#endif /* _RPI_HW_DRIVER_MCP23017_INL_HPP_ */

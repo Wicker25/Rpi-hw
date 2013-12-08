@@ -58,7 +58,7 @@ output::write( size_t data ) {
 	// Write data on the interface
 	size_t i = 0;
 
-	for ( ; i < numOfPins(); ++i )
+	for ( ; i < size(); ++i )
 		m_gpio->write( m_pins[i], data & ( 1 << i ) );
 }
 
@@ -66,7 +66,7 @@ void
 output::write( uint8_t index, bool data ) {
 
 	// Check if pin exists
-	if ( index >= numOfPins() )
+	if ( index >= size() )
 		throw exception( "(Fatal) `iface::write`: could not get pin, index out of range\n" );
 
 	// Write data on the interface pin
