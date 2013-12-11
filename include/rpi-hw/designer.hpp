@@ -22,10 +22,8 @@
 #ifndef _RPI_HW_DESIGNER_HPP_
 #define _RPI_HW_DESIGNER_HPP_
 
-#include <array>
 #include <algorithm>
 #include <vector>
-#include <array>
 #include <locale>
 
 #include <rpi-hw/types.hpp>
@@ -84,7 +82,7 @@ public:
 		@param[in] x The new horizontal pen position.
 		@param[in] y The new vertical pen position.
 	*/
-	void setPenPosition( T x, T y );
+	virtual void setPenPosition( T x, T y );
 
 	/*!
 		@brief Sets the text font.

@@ -28,20 +28,17 @@ namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-hd44780::hd44780( uint8_t rs, uint8_t e,
-				  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 )
+hd44780::hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 4, 7 ) )
 
 	: m_mode( new iface::output( { rs, e } ) )
-	, m_data( new iface::output( { d4, d5, d6, d7 } ) ) {
+	, m_data( new iface::output( { __ENUM_FROM_TO( d, 4, 7 ) } ) ) {
 
 }
 
-hd44780::hd44780( uint8_t rs, uint8_t e,
-				  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-				  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 )
+hd44780::hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 0, 7 ) )
 
 	: m_mode( new iface::output( { rs, e } ) )
-	, m_data( new iface::output( { d0, d1, d2, d3, d4, d5, d6, d7 } ) ) {
+	, m_data( new iface::output( { __ENUM_FROM_TO( d, 0, 7 ) } ) ) {
 
 }
 

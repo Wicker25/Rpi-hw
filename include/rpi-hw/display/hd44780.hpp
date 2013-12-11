@@ -25,6 +25,8 @@
 #include <cctype>
 #include <vector>
 
+#include <rpi-hw/preprocessor/enumerate.hpp>
+
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
@@ -115,30 +117,17 @@ public:
 		@brief Constructor method (4-bit mode).
 		@param[in] rs The GPIO pin connected to the rs pin.
 		@param[in] e The GPIO pin connected to the e pin.
-		@param[in] d4 The GPIO pin connected to the d4 pin.
-		@param[in] d5 The GPIO pin connected to the d5 pin.
-		@param[in] d6 The GPIO pin connected to the d6 pin.
-		@param[in] d7 The GPIO pin connected to the d7 pin.
+		@param[in] d4...d7 The GPIO pin connected to the data pins.
 	*/
-	hd44780( uint8_t rs, uint8_t e,
-			 uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 );
+	hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 4, 7 ) );
 
 	/*!
 		@brief Constructor method (8-bit mode).
 		@param[in] rs The GPIO pin connected to the rs pin.
 		@param[in] e The GPIO pin connected to the e pin.
-		@param[in] d0 The GPIO pin connected to the d0 pin.
-		@param[in] d1 The GPIO pin connected to the d1 pin.
-		@param[in] d2 The GPIO pin connected to the d2 pin.
-		@param[in] d3 The GPIO pin connected to the d3 pin.
-		@param[in] d4 The GPIO pin connected to the d4 pin.
-		@param[in] d5 The GPIO pin connected to the d5 pin.
-		@param[in] d6 The GPIO pin connected to the d6 pin.
-		@param[in] d7 The GPIO pin connected to the d7 pin.
+		@param[in] d0...d7 The GPIO pin connected to the data pins.
 	*/
-	hd44780( uint8_t rs, uint8_t e,
-			 uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			 uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7 );
+	hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 0, 7 ) );
 
 	//! Destructor method.
 	virtual ~hd44780();
