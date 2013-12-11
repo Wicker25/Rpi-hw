@@ -23,10 +23,10 @@
 #define _RPI_HW_ENUMERATE_HPP_
 
 //! Generates a comma-separated list of enumerated expressions.
-#define __ENUM_FROM_TO( expr, from, to )	__ENUM_ ## from ## _ ## to ( expr )
+#define __ENUM( expr, from, to )	__ENUM_ ## from ## _ ## to ( expr )
 
 //! Generates a comma-separated list of parameters.
-#define __ENUM_PARAMS( type, prefix, from, to )		__ENUM_FROM_TO( type prefix, from, to )
+#define __ENUM_PARAMS( type, prefix, from, to )		__ENUM( type prefix, from, to )
 
 
 // All repeat macros

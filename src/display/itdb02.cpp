@@ -32,7 +32,7 @@ itdb02::itdb02( uint8_t rs, uint8_t wr, uint8_t rd, uint8_t cs, uint8_t rst, __E
 
 	: designer< int16_t, uint16_t, 3 >	( LCD_WIDTH, LCD_HEIGHT )
 	, m_control							( new iface::output( { rs, wr, rd, cs, rst } ) )
-	, m_data							( new iface::output( { __ENUM_FROM_TO( db, 0, 15 ) } ) ) {
+	, m_data							( new iface::output( { __ENUM( db, 0, 15 ) } ) ) {
 
 }
 

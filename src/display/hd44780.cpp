@@ -31,14 +31,14 @@ namespace display { // Begin displays namespace
 hd44780::hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 4, 7 ) )
 
 	: m_mode( new iface::output( { rs, e } ) )
-	, m_data( new iface::output( { __ENUM_FROM_TO( d, 4, 7 ) } ) ) {
+	, m_data( new iface::output( { __ENUM( d, 4, 7 ) } ) ) {
 
 }
 
 hd44780::hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 0, 7 ) )
 
 	: m_mode( new iface::output( { rs, e } ) )
-	, m_data( new iface::output( { __ENUM_FROM_TO( d, 0, 7 ) } ) ) {
+	, m_data( new iface::output( { __ENUM( d, 0, 7 ) } ) ) {
 
 }
 
