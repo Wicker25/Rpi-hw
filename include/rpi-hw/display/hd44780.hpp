@@ -25,13 +25,13 @@
 #include <cctype>
 #include <vector>
 
-#include <rpi-hw/preprocessor/enumerate.hpp>
-
 #include <rpi-hw/types.hpp>
 #include <rpi-hw/exception.hpp>
 #include <rpi-hw/math.hpp>
 #include <rpi-hw/utils.hpp>
 #include <rpi-hw/time.hpp>
+
+#include <rpi-hw/preprocessor/enumerate.hpp>
 
 #include <rpi-hw/iface/base.hpp>
 #include <rpi-hw/iface/output.hpp>
@@ -46,11 +46,19 @@ namespace display { // Begin displays namespace
 	@brief Hitachi HD44780 LCD controller.
 
 	@example display/lcd16x2.cpp
+	@example display/lcd16x2_unicode.cpp
 	@example display/lcd20x4demo.cpp
 */
 class hd44780 {
 
 public:
+
+	//! The ROM codes.
+	enum RomCodes {
+
+		ROM_A00	= 0,	//!< Japanese version.
+		ROM_A02	= 1		//!< European version.
+	};
 
 	//! The controller command set.
 	enum Commands {
@@ -86,14 +94,14 @@ public:
 	//! The custom characters.
 	enum CustomCharacters {
 
-		CCHAR0 = 0,
-		CCHAR1 = 1,
-		CCHAR2 = 2,
-		CCHAR3 = 3,
-		CCHAR4 = 4,
-		CCHAR5 = 5,
-		CCHAR6 = 6,
-		CCHAR7 = 7
+		CCHAR0 = 0,	//!< Custom character #0.
+		CCHAR1 = 1,	//!< Custom character #1.
+		CCHAR2 = 2,	//!< Custom character #2.
+		CCHAR3 = 3,	//!< Custom character #3.
+		CCHAR4 = 4,	//!< Custom character #4.
+		CCHAR5 = 5,	//!< Custom character #5.
+		CCHAR6 = 6,	//!< Custom character #6.
+		CCHAR7 = 7	//!< Custom character #7.
 	};
 
 	//! The cursor modes (bitwise flags).
@@ -117,7 +125,10 @@ public:
 		@brief Constructor method (4-bit mode).
 		@param[in] rs The GPIO pin connected to the rs pin.
 		@param[in] e The GPIO pin connected to the e pin.
-		@param[in] d4...d7 The GPIO pin connected to the data pins.
+		@param[in] d4 The GPIO pin connected to the d4 pin.
+		@param[in] d5 The GPIO pin connected to the d5 pin.
+		@param[in] d6 The GPIO pin connected to the d6 pin.
+		@param[in] d7 The GPIO pin connected to the d7 pin.
 	*/
 	hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 4, 7 ) );
 
@@ -125,7 +136,14 @@ public:
 		@brief Constructor method (8-bit mode).
 		@param[in] rs The GPIO pin connected to the rs pin.
 		@param[in] e The GPIO pin connected to the e pin.
-		@param[in] d0...d7 The GPIO pin connected to the data pins.
+		@param[in] d0 The GPIO pin connected to the d0 pin.
+		@param[in] d1 The GPIO pin connected to the d1 pin.
+		@param[in] d2 The GPIO pin connected to the d2 pin.
+		@param[in] d3 The GPIO pin connected to the d3 pin.
+		@param[in] d4 The GPIO pin connected to the d4 pin.
+		@param[in] d5 The GPIO pin connected to the d5 pin.
+		@param[in] d6 The GPIO pin connected to the d6 pin.
+		@param[in] d7 The GPIO pin connected to the d7 pin.
 	*/
 	hd44780( uint8_t rs, uint8_t e, __ENUM_PARAMS( uint8_t, d, 0, 7 ) );
 
@@ -136,16 +154,17 @@ public:
 		@brief Initializes the display.
 		@param[in] cols Number of the display columns.
 		@param[in] rows Number of the display rows.
+		@param[in] rom The ROM code (\c ROM_A00 or \c ROM_A02).
 		@param[in] font If \c true uses 5x10 dots font, else uses 5x8 dots font.
 	*/
-	void init( uint8_t cols, uint8_t rows, bool font = 0 );
+	void init( uint8_t cols, uint8_t rows, RomCodes rom_code = ROM_A00, bool font = 0 );
 
 	/*!
 		@brief Sends a command to the display.
 		@param[in] data The command.
 	*/
 	void cmd( uint8_t data );
-	
+
 	//! Homes the cursor.
 	void home();
 
@@ -222,6 +241,36 @@ public:
 		@param[in] flags The parameters of the text.
 	*/
 	void write( uint8_t x, uint8_t y, const std::string &text, uint8_t flags );
+
+	/*!
+		@brief Writes a unicode string on the display.
+		@param[in] text The unicode string to be written.
+	*/
+	void write( const std::u32string &text );
+
+	/*!
+		@brief Writes a unicode string on the display.
+		@param[in] text The string to be written.
+		@param[in] flags The parameters of the text.
+	*/
+	void write( const std::u32string &text, uint8_t flags );
+
+	/*!
+		@brief Moves the cursor position and writes a unicode string on the display.
+		@param[in] x The new horizontal position of the cursor.
+		@param[in] y The new vertical position of the cursor.
+		@param[in] text The unicode string to be written.
+	*/
+	void write( uint8_t x, uint8_t y, const std::u32string &text );
+
+	/*!
+		@brief Moves the cursor position and writes a unicode string on the display.
+		@param[in] x The new horizontal position of the cursor.
+		@param[in] y The new vertical position of the cursor.
+		@param[in] text The unicode string to be written.
+		@param[in] flags The parameters of the text.
+	*/
+	void write( uint8_t x, uint8_t y, const std::u32string &text, uint8_t flags );
 
 	/*!
 		@brief Scrolls the contents of the display to the left.
@@ -311,6 +360,9 @@ protected:
 	uint8_t m_width, m_height;
 	//@}
 
+	//! ROM code.
+	RomCodes m_rom_code;
+
 	//! Font height.
 	uint8_t m_font_height;
 
@@ -350,6 +402,20 @@ protected:
 		@param[in] c The 8-bit character.
 	*/
 	void putChar( uint8_t c );
+
+	/*!
+		@brief Maps a unicode character to the corresponding code (ROM A00, Japanese version).
+		@param[in] code The unicode character.
+		@return The character code.
+	*/
+	uint8_t encode_char_a00( char32_t code );
+
+	/*!
+		@brief Maps a unicode character to the corresponding code (ROM A02, European version).
+		@param[in] code The unicode character.
+		@return The character code.
+	*/
+	uint8_t encode_char_a02( char32_t code );
 };
 
 } // End of displays namespace

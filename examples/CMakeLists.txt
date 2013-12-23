@@ -42,6 +42,9 @@ target_link_libraries( m7seg1 ${RpiHw_LIBRARIES} )
 add_executable( lcd16x2 ${CMAKE_SOURCE_DIR}/display/lcd16x2.cpp )
 target_link_libraries( lcd16x2 ${RpiHw_LIBRARIES} )
 
+add_executable( lcd16x2_unicode ${CMAKE_SOURCE_DIR}/display/lcd16x2_unicode.cpp )
+target_link_libraries( lcd16x2_unicode ${RpiHw_LIBRARIES} )
+
 add_executable( lcd20x4demo ${CMAKE_SOURCE_DIR}/display/lcd20x4demo.cpp )
 target_link_libraries( lcd20x4demo ${RpiHw_LIBRARIES} )
 

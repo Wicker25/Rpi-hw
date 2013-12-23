@@ -25,7 +25,6 @@
 #include <cstdio>
 #include <cstdarg>
 
-#include <vector>
 #include <string>
 
 #include <rpi-hw/types.hpp>
@@ -99,7 +98,8 @@ std::string format( const char *format, ... );
 	@param[in] flags The parameters of the text.
 	@return The aligned text.
 */
-std::string align( const std::string &text, size_t width, uint8_t flags = ALIGN_LEFT );
+template < typename T >
+std::basic_string< T > align( const std::basic_string< T > &text, size_t width, uint8_t flags = ALIGN_LEFT );
 
 } // End of utils namespace
 

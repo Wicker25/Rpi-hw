@@ -257,15 +257,15 @@ PERLMOD_MAKEVAR_PREFIX =
 # Configuration options related to the preprocessor
 #---------------------------------------------------------------------------
 
-ENABLE_PREPROCESSING   = NO
-MACRO_EXPANSION        = NO
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           =
-INCLUDE_FILE_PATTERNS  =
+INCLUDE_PATH           = include/
+INCLUDE_FILE_PATTERNS  = *.hpp
 PREDEFINED             =
 EXPAND_AS_DEFINED      =
-SKIP_FUNCTION_MACROS   = YES
+SKIP_FUNCTION_MACROS   = NO
 
 #---------------------------------------------------------------------------
 # Configuration::additions related to external references

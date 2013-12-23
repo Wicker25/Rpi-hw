@@ -50,7 +50,7 @@ hd44780::~hd44780() {
 }
 
 void
-hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
+hd44780::init( uint8_t cols, uint8_t rows, RomCodes rom_code, bool font ) {
 
 	// Store the size of the display
 	m_width		= cols;
@@ -58,6 +58,9 @@ hd44780::init( uint8_t cols, uint8_t rows, bool font ) {
 
 	// Create a new character buffer
 	m_buffer.assign( m_width * m_height, ' ' );
+
+	// Store the ROM code
+	m_rom_code = rom_code;
 
 	// Store the font size
 	m_font_height = font ? 10 : 8;
@@ -255,6 +258,23 @@ hd44780::write( const std::string &text ) {
 
 		// Put the character on the display
 		write( (uint8_t) c );
+	}
+}
+
+void
+hd44780::write( const std::u32string &text ) {
+
+	// Write the string on the display
+	for ( auto &c : text ) {
+
+		// Encode the character and put it on the display
+		switch ( m_rom_code ) {
+
+			case ROM_A00: { write( encode_char_a00( c ) ); break; }
+			case ROM_A02: { write( encode_char_a02( c ) ); break; }
+
+			default: { write( encode_char_a00( c ) ); break; }
+		}
 	}
 }
 
@@ -473,6 +493,207 @@ hd44780::clear() {
 
 	// Clear the character buffer
 	m_buffer.assign( m_buffer.size(), ' ' );
+}
+
+uint8_t
+hd44780::encode_char_a00( char32_t code ) {
+
+	// Standard ASCII characters
+	if ( code <= 0x7d && code != 0x5c )
+		return (uint8_t) code;
+
+	// Parse all supported characters
+	switch ( code ) {
+
+		case 0x00a5: return 0x4c;	// Yen sign
+		case 0x2192: return 0x7e;	// Rightwards arrow
+		case 0x2190: return 0x7f;	// Leftwards arrow
+		case 0x3002: return 0xa1;	// Ideographic full stop
+		case 0x231c: return 0xa2;	// Top left corner
+		case 0x231f: return 0xa3;	// Bottom right corner
+		case 0x3001: return 0xa4;	// Ideographic comma
+		case 0x30fb: return 0xa5;	// Katakana middle dot
+		case 0x30f2: return 0xa6;	// Katakana letter wo
+		case 0x30a1: return 0xa7;	// Katakana letter small a
+		case 0x30a3: return 0xa8;	// Katakana letter small i
+		case 0x30a5: return 0xa9;	// Katakana letter small u
+		case 0x30a7: return 0xaa;	// Katakana letter small e
+		case 0x30a9: return 0xab;	// Katakana letter small o
+		case 0x30e3: return 0xac;	// Katakana letter small ya
+		case 0x30e5: return 0xad;	// Katakana letter small yu
+		case 0x30e7: return 0xae;	// Katakana letter small yo
+		case 0x30c3: return 0xaf;	// Katakana letter small tu
+		case 0x30fc: return 0xb0;	// Katakana-hiragana prolonged sound mark
+		case 0x30a2: return 0xb1;	// Katakana letter a
+		case 0x30a4: return 0xb2;	// Katakana letter i
+		case 0x30a6: return 0xb3;	// Katakana letter u
+		case 0x30a8: return 0xb4;	// Katakana letter e
+		case 0x30aa: return 0xb5;	// Katakana letter o
+		case 0x30ab: return 0xb6;	// Katakana letter ka
+		case 0x30ad: return 0xb7;	// Katakana letter ki
+		case 0x30af: return 0xb8;	// Katakana letter ku
+		case 0x30b1: return 0xb9;	// Katakana letter ke
+		case 0x30b3: return 0xba;	// Katakana letter ko
+		case 0x30b5: return 0xbb;	// Katakana letter sa
+		case 0x30b7: return 0xbc;	// Katakana letter si
+		case 0x30b9: return 0xbd;	// Katakana letter su
+		case 0x30bb: return 0xbe;	// Katakana letter se
+		case 0x30bd: return 0xbf;	// Katakana letter so
+		case 0x30bf: return 0xc0;	// Katakana letter ta
+		case 0x30c1: return 0xc1;	// Katakana letter ti
+		case 0x30c4: return 0xc2;	// Katakana letter tu
+		case 0x30c6: return 0xc3;	// Katakana letter te
+		case 0x30c8: return 0xc4;	// Katakana letter to
+		case 0x30ca: return 0xc5;	// Katakana letter na
+		case 0x30cb: return 0xc6;	// Katakana letter ni
+		case 0x30cc: return 0xc7;	// Katakana letter nu
+		case 0x30cd: return 0xc8;	// Katakana letter ne
+		case 0x30ce: return 0xc9;	// Katakana letter no
+		case 0x30cf: return 0xca;	// Katakana letter ha
+		case 0x30d2: return 0xcb;	// Katakana letter hi
+		case 0x30d5: return 0xcc;	// Katakana letter hu
+		case 0x30d8: return 0xcd;	// Katakana letter he
+		case 0x30db: return 0xce;	// Katakana letter ho
+		case 0x30de: return 0xcf;	// Katakana letter ma
+		case 0x30df: return 0xd0;	// Katakana letter mi
+		case 0x30e0: return 0xd1;	// Katakana letter mu
+		case 0x30e1: return 0xd2;	// Katakana letter me
+		case 0x30e2: return 0xd3;	// Katakana letter mo
+		case 0x30e4: return 0xd4;	// Katakana letter ya
+		case 0x30e6: return 0xd5;	// Katakana letter yu
+		case 0x30e8: return 0xd6;	// Katakana letter yo
+		case 0x30e9: return 0xd7;	// Katakana letter ra
+		case 0x30ea: return 0xd8;	// Katakana letter ri
+		case 0x30eb: return 0xd9;	// Katakana letter ru
+		case 0x30ec: return 0xda;	// Katakana letter re
+		case 0x30ed: return 0xdb;	// Katakana letter ro
+		case 0x30ef: return 0xdc;	// Katakana letter wa
+		case 0x30f3: return 0xdd;	// Katakana letter n
+		case 0x309b: return 0xde;	// Katakana-hiragana voiced sound mark
+		case 0x309c: return 0xdf;	// Katakana-hiragana semi-voiced sound mark
+		case 0x03b1: return 0xe0;	// Greek small letter alpha
+		case 0x00e4: return 0xe1;	// Latin small letter a with diaeresis
+		case 0x03b2: return 0xe2;	// Greek small letter beta
+		case 0x03b5: return 0xe3;	// Greek small letter epsilon
+		case 0x03bc: return 0xe4;	// Greek small letter mu
+		case 0x03c3: return 0xe5;	// Greek small letter sigma
+		case 0x03c1: return 0xe6;	// Greek small letter rho
+		/* 0xe7 */
+		case 0x221a: return 0xe8;	// Square root
+		/* 0xe9 */
+		/* 0xea */
+		case 0x02df: return 0xeb;	// Modifier letter cross accent
+		case 0xffe0: return 0xec;	// Fullwidth cent sign
+		case 0x2c60: return 0xed;	// Latin capital letter l with double bar
+		case 0x00f1: return 0xee;	// Latin small letter n with tilde
+		case 0x00f6: return 0xef;	// Latin small letter o with diaeresis
+		/* 0xf0 */
+		/* 0xf1 */
+		case 0x0398: return 0xf2;	// Greek capital letter theta
+		case 0x221E: return 0xf3;	// Infinity
+		case 0x03a9: return 0xf4;	// Greek capital letter omega
+		case 0x00fc: return 0xf5;	// Latin small letter u with diaeresis
+		case 0x03a3: return 0xf6;	// Greek capital letter sigma
+		case 0x03c0: return 0xf7;	// Greek small letter pi
+		/* 0xf8 */
+		/* 0xf9 */
+		case 0x5343: return 0xfa;	// Cjk unified ideograph
+		case 0x4e07: return 0xfb;	// Cjk unified ideograph
+		case 0x5186: return 0xfc;	// Cjk unified ideograph
+		case 0x00f7: return 0xfd;	// Division sign
+		/* 0xfe */
+		case 0x25a0: return 0xff;	// Black square
+
+		default: return 0x20;
+	}
+}
+
+uint8_t
+hd44780::encode_char_a02( char32_t code ) {
+
+	// Standard ASCII characters
+	if	(
+			code <= 0xff &&
+			(
+				( code <= 0x7e ) ||
+				( code >= 0xa1 && code <= 0xa7 ) ||
+				( code >= 0xa9 && code <= 0xab ) ||
+				( code == 0xae ) ||
+				( code >= 0xb1 && code <= 0xb3 ) ||
+				( code >= 0xb5 && code <= 0xb7 ) ||
+				( code >= 0xb9 && code <= 0xd7 ) ||
+				( code >= 0xd9 && code <= 0xf7 ) ||
+				( code >= 0xf9 && code <= 0xff )
+			)
+
+		) {
+
+		return (uint8_t) code;
+	}
+
+	// Parse all supported characters
+	switch ( code ) {
+
+		case 0x25b6: return 0x10;	// Black right-pointing triangle
+		case 0x25c0: return 0x11;	// Black left-pointing triangle
+		case 0x201c: return 0x12;	// Left double quotation mark
+		case 0x201d: return 0x13;	// Right double quotation mark
+		case 0x25cf: return 0x16;	// Black circle
+		case 0x21b5: return 0x17;	// Downwards arrow with corner leftwards
+		case 0x2191: return 0x18;	// Upwards arrow
+		case 0x2193: return 0x19;	// Downwards arrow
+		case 0x2192: return 0x1a;	// Rightwards arrow
+		case 0x2190: return 0x1b;	// Leftwards arrow
+		case 0x2264: return 0x1c;	// Less-than or equal to
+		case 0x2265: return 0x1d;	// Greater-than or equal to
+		case 0x25b2: return 0x1e;	// Black up-pointing triangle
+		case 0x25bc: return 0x1f;	// Black down-pointing triangle
+		case 0x2302: return 0x7f;	// House
+		case 0x0411: return 0x80;	// Cyrillic capital letter be
+		case 0x0414: return 0x81;	// Cyrillic capital letter de
+		case 0x0416: return 0x82;	// Cyrillic capital letter zhe
+		case 0x0417: return 0x83;	// Cyrillic capital letter ze
+		case 0x0418: return 0x84;	// Cyrillic capital letter i
+		case 0x0419: return 0x85;	// Cyrillic capital letter short i
+		case 0x041b: return 0x86;	// Cyrillic capital letter el
+		case 0x041f: return 0x87;	// Cyrillic capital letter pe
+		case 0x0423: return 0x88;	// Cyrillic capital letter u
+		case 0x0426: return 0x89;	// Cyrillic capital letter tse
+		case 0x0427: return 0x8a;	// Cyrillic capital letter che
+		case 0x0428: return 0x8b;	// Cyrillic capital letter sha
+		case 0x0429: return 0x8c;	// Cyrillic capital letter shcha
+		case 0x042a: return 0x8d;	// Cyrillic capital letter hard sign
+		case 0x042b: return 0x8e;	// Cyrillic capital letter yeru
+		case 0x042D: return 0x8f;	// Cyrillic capital letter e
+		case 0x03b1: return 0x90;	// Greek small letter alpha
+		case 0x266a: return 0x91;	// Eighth note
+		case 0x0393: return 0x92;	// Greek capital letter gamma
+		case 0x03c0: return 0x93;	// Greek small letter pi
+		case 0x03a3: return 0x94;	// Greek capital letter sigma
+		case 0x03c3: return 0x95;	// Greek small letter sigma
+		case 0x266c: return 0x96;	// Beamed sixteenth notes
+		case 0x03c4: return 0x97;	// Greek small letter tau
+		/* 0x98 */
+		case 0x0398: return 0x99;	// Greek capital letter theta
+		case 0x03a9: return 0x9a;	// Greek capital letter omega
+		case 0x03b4: return 0x9b;	// Greek small letter delta
+		case 0x221e: return 0x9c;	// Infinity
+		case 0x2665: return 0x9d;	// Black heart suit
+		case 0x03b5: return 0x9e;	// Greek small letter epsilon
+		case 0x2229: return 0x9f;	// Intersection
+		/* 0xa0 */
+		case 0x0192: return 0xa8;	// Latin small letter f with hook
+		case 0x042e: return 0xac;	// Cyrillic capital letter yu
+		case 0x042f: return 0xad;	// Cyrillic capital letter ya
+		case 0x2018: return 0xaf;	// Left single quotation mark
+		case 0x2070: return 0xb0;	// Superscript zero
+		case 0x20a7: return 0xb4;	// Peseta sign
+		case 0x03c9: return 0xb8;	// Greek small letter omega
+		case 0x03a6: return 0xd8;	// Greek capital letter phi
+		case 0x03c6: return 0xf8;	// Greek small letter phi
+
+		default: return 0x20;
+	}
 }
 
 } // End of displays namespace

@@ -6,6 +6,10 @@ ChangeLog of Rpi-hw - A free C++ library designed to manage the Raspberry Pi's G
 
     * all: Added `__ENUM` and `__ENUM_PARAMS` macros.
 
+    * utils.hpp: Added support for UTF-16 and UTF-32 string to the `utils::align`.
+
+    * hd44780.hpp: Added support for Unicode strings.
+
 ============ Rpi-hw 0.7.0 - urgency=low ===========
 
 2013-12-07 Wicker25 < wicker25@gmail.com >
