@@ -7,7 +7,7 @@ cmake_minimum_required( VERSION 2.6 )
 # Set the version of the library
 set( RPI_HW_VERSION_MAJOR	0 )
 set( RPI_HW_VERSION_MINOR	7 )
-set( RPI_HW_VERSION_PATCH	0 )
+set( RPI_HW_VERSION_PATCH	1 )
 set( RPI_HW_VERSION			"${RPI_HW_VERSION_MAJOR}.${RPI_HW_VERSION_MINOR}.${RPI_HW_VERSION_PATCH}" )
 
 # Project directories

@@ -1,5 +1,5 @@
 /* 
-    Title --- utils.cpp
+    Title --- lcd16x2_unicode.cpp [examples]
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,33 +19,25 @@
 */
 
 
-#ifndef _RPI_HW_UTILS_CPP_
-#define _RPI_HW_UTILS_CPP_
+// Include Rpi-hw headers
+#include <rpi-hw.hpp>
+#include <rpi-hw/display/hd44780.hpp>
 
-#include <rpi-hw/utils.hpp>
+// Use Rpi-hw namespace
+using namespace rpihw;
 
-namespace rpihw { // Begin main namespace
+int
+main( int argc, char *args[] ) {
 
-namespace utils { // Begin utils namespace
+	// Create the display controller
+	display::hd44780 dev( 14, 18, 4, 17, 21, 22 );
 
-std::string format( const char *format, ... ) {
+	// Initialize the 16x2 display
+	dev.init( 16, 2, display::hd44780::ROM_A00 );
 
-	// Formatted string
-	char buffer[256];
+	// Write a string on the display
+	dev.write( U"ハローワールト゜" );
 
-	// Format the string
-	va_list args;
-	va_start( args, format );
-
-	std::vsnprintf( buffer, 256, format, args );
-
-	va_end( args );
-
-	return std::string( buffer );
+	return 0;
 }
 
-} // End of utilss namespace
-
-} // End of main namespace
-
-#endif /* _RPI_HW_UTILS_CPP_ */
