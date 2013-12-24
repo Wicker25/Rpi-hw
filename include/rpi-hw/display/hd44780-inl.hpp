@@ -102,6 +102,13 @@ hd44780::write( const std::u32string &text, uint8_t flags ) {
 }
 
 inline void
+hd44780::write( const std::wstring &text, uint8_t flags ) {
+
+    // Align the text and write it on the display
+    write( utils::align( text, m_width, flags ) );
+}
+
+inline void
 hd44780::write( uint8_t x, uint8_t y, const std::u32string &text ) {
 
 	// Set the position of the cursor on the display
@@ -112,6 +119,16 @@ hd44780::write( uint8_t x, uint8_t y, const std::u32string &text ) {
 }
 
 inline void
+hd44780::write( uint8_t x, uint8_t y, const std::wstring &text ) {
+
+    // Set the position of the cursor on the display
+    move( x, y );
+
+    // Write the unicode string on the display
+    write( text );
+}
+
+inline void
 hd44780::write( uint8_t x, uint8_t y, const std::u32string &text, uint8_t flags ) {
 
 	// Set the position of the cursor on the display
@@ -119,6 +136,16 @@ hd44780::write( uint8_t x, uint8_t y, const std::u32string &text, uint8_t flags 
 
 	// Write the unicode string on the display
 	write( text, flags );
+}
+
+inline void
+hd44780::write( uint8_t x, uint8_t y, const std::wstring &text, uint8_t flags ) {
+
+    // Set the position of the cursor on the display
+    move( x, y );
+
+    // Write the unicode string on the display
+    write( text, flags );
 }
 
 inline void
