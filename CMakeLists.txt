@@ -188,7 +188,6 @@ add_library( rpihw SHARED
 	${RPI_HW_SOURCE_DIR}/display/m7seg.cpp
 	${RPI_HW_SOURCE_DIR}/display/hd44780.cpp
 	${RPI_HW_SOURCE_DIR}/display/pcd8544.cpp
-	${RPI_HW_SOURCE_DIR}/display/itdb02.cpp
 
 	${RPI_HW_SOURCE_DIR}/motor/stepper.cpp
 

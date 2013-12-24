@@ -35,7 +35,7 @@ main( int argc, char *args[] ) {
 	// Initialize the 16x2 display
 	dev.init( 16, 2, display::hd44780::ROM_A00 );
 
-	// Write a string at cursor position
+	// Write a string on the display
 	dev.write( U"ハローワールト゜" );
 
 	return 0;

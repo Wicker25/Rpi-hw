@@ -154,7 +154,7 @@ public:
 		@brief Initializes the display.
 		@param[in] cols Number of the display columns.
 		@param[in] rows Number of the display rows.
-		@param[in] rom The ROM code (\c ROM_A00 or \c ROM_A02).
+		@param[in] rom_code The ROM code (\c ROM_A00 or \c ROM_A02).
 		@param[in] font If \c true uses 5x10 dots font, else uses 5x8 dots font.
 	*/
 	void init( uint8_t cols, uint8_t rows, RomCodes rom_code = ROM_A00, bool font = 0 );

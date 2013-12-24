@@ -2,7 +2,7 @@ ChangeLog of Rpi-hw - A free C++ library designed to manage the Raspberry Pi's G
 
 ============ Rpi-hw 0.7.1 - urgency=low ===========
 
-2013-12-11 Wicker25 < wicker25@gmail.com >
+2013-12-24 Wicker25 < wicker25@gmail.com >
 
     * all: Added `__ENUM` and `__ENUM_PARAMS` macros.
 
