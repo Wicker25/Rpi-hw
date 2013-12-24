@@ -248,12 +248,25 @@ public:
 	*/
 	void write( const std::u32string &text );
 
+    /*!
+        @brief Writes a unicode string on the display.
+        @param[in] text The unicode string to be written.
+    */
+    void write( const std::wstring &text );
+
 	/*!
 		@brief Writes a unicode string on the display.
 		@param[in] text The string to be written.
 		@param[in] flags The parameters of the text.
 	*/
-	void write( const std::u32string &text, uint8_t flags );
+    void write( const std::u32string &text, uint8_t flags );
+
+    /*!
+        @brief Writes a unicode string on the display.
+        @param[in] text The string to be written.
+        @param[in] flags The parameters of the text.
+    */
+    void write( const std::wstring &text, uint8_t flags );
 
 	/*!
 		@brief Moves the cursor position and writes a unicode string on the display.
@@ -263,6 +276,14 @@ public:
 	*/
 	void write( uint8_t x, uint8_t y, const std::u32string &text );
 
+    /*!
+        @brief Moves the cursor position and writes a unicode string on the display.
+        @param[in] x The new horizontal position of the cursor.
+        @param[in] y The new vertical position of the cursor.
+        @param[in] text The unicode string to be written.
+    */
+    void write( uint8_t x, uint8_t y, const std::wstring &text );
+
 	/*!
 		@brief Moves the cursor position and writes a unicode string on the display.
 		@param[in] x The new horizontal position of the cursor.
@@ -271,6 +292,15 @@ public:
 		@param[in] flags The parameters of the text.
 	*/
 	void write( uint8_t x, uint8_t y, const std::u32string &text, uint8_t flags );
+
+    /*!
+        @brief Moves the cursor position and writes a unicode string on the display.
+        @param[in] x The new horizontal position of the cursor.
+        @param[in] y The new vertical position of the cursor.
+        @param[in] text The unicode string to be written.
+        @param[in] flags The parameters of the text.
+    */
+    void write( uint8_t x, uint8_t y, const std::wstring &text, uint8_t flags );
 
 	/*!
 		@brief Scrolls the contents of the display to the left.
