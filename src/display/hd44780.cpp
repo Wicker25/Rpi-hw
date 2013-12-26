@@ -268,13 +268,18 @@ hd44780::write( const std::u32string &text ) {
 	for ( auto &c : text ) {
 
 		// Encode the character and put it on the display
-		switch ( m_rom_code ) {
+		write( encodeChar( c ) );
+	}
+}
 
-			case ROM_A00: { write( encode_char_a00( c ) ); break; }
-			case ROM_A02: { write( encode_char_a02( c ) ); break; }
+void
+hd44780::write( const std::wstring &text ) {
 
-			default: { write( encode_char_a00( c ) ); break; }
-		}
+	// Write the string on the display
+	for ( auto &c : text ) {
+
+		// Encode the character and put it on the display
+		write( encodeChar( (char32_t) c ) );
 	}
 }
 
@@ -496,7 +501,20 @@ hd44780::clear() {
 }
 
 uint8_t
-hd44780::encode_char_a00( char32_t code ) {
+hd44780::encodeChar( char32_t code ) {
+
+	// Map a unicode character to the corresponding code
+	switch ( m_rom_code ) {
+
+		case ROM_A00: return encodeCharA00( code );
+		case ROM_A02: return encodeCharA02( code );
+
+		default: return encodeCharA00( code );
+	}
+}
+
+uint8_t
+hd44780::encodeCharA00( char32_t code ) {
 
 	// Standard ASCII characters
 	if ( code <= 0x7d && code != 0x5c )
@@ -609,7 +627,7 @@ hd44780::encode_char_a00( char32_t code ) {
 }
 
 uint8_t
-hd44780::encode_char_a02( char32_t code ) {
+hd44780::encodeCharA02( char32_t code ) {
 
 	// Standard ASCII characters
 	if	(

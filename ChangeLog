@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - A free C++ library designed to manage the Raspberry Pi's GPIO connector and its other buses.
 
+============ Rpi-hw 0.7.2 - urgency=low ===========
+
+2013-12-26 Wicker25 < wicker25@gmail.com >
+
+    * hd44780.hpp: Added support for `std::wstring`.
+
 ============ Rpi-hw 0.7.1 - urgency=low ===========
 
 2013-12-24 Wicker25 < wicker25@gmail.com >
