@@ -18,7 +18,6 @@
     along with Rpi-hw. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #ifndef _RPI_HW_DISPLAY_HD44780_HPP_
 #define _RPI_HW_DISPLAY_HD44780_HPP_
 
@@ -273,6 +272,36 @@ public:
 	void write( uint8_t x, uint8_t y, const std::u32string &text, uint8_t flags );
 
 	/*!
+		@brief Writes a unicode string on the display.
+		@param[in] text The unicode string to be written.
+	*/
+	void write( const std::wstring &text );
+
+	/*!
+		@brief Writes a unicode string on the display.
+		@param[in] text The string to be written.
+		@param[in] flags The parameters of the text.
+	*/
+	void write( const std::wstring &text, uint8_t flags );
+
+	/*!
+		@brief Moves the cursor position and writes a unicode string on the display.
+		@param[in] x The new horizontal position of the cursor.
+		@param[in] y The new vertical position of the cursor.
+		@param[in] text The unicode string to be written.
+	*/
+	void write( uint8_t x, uint8_t y, const std::wstring &text );
+
+	/*!
+		@brief Moves the cursor position and writes a unicode string on the display.
+		@param[in] x The new horizontal position of the cursor.
+		@param[in] y The new vertical position of the cursor.
+		@param[in] text The unicode string to be written.
+		@param[in] flags The parameters of the text.
+	*/
+	void write( uint8_t x, uint8_t y, const std::wstring &text, uint8_t flags );
+
+	/*!
 		@brief Scrolls the contents of the display to the left.
 		@param[in] cursor If \c true, will also moves the cursor.
 	*/
@@ -404,18 +433,25 @@ protected:
 	void putChar( uint8_t c );
 
 	/*!
+		@brief Maps a unicode character to the corresponding code.
+		@param[in] code The unicode character.
+		@return The character code.
+	*/
+	uint8_t encodeChar( char32_t code );
+
+	/*!
 		@brief Maps a unicode character to the corresponding code (ROM A00, Japanese version).
 		@param[in] code The unicode character.
 		@return The character code.
 	*/
-	uint8_t encode_char_a00( char32_t code );
+	uint8_t encodeCharA00( char32_t code );
 
 	/*!
 		@brief Maps a unicode character to the corresponding code (ROM A02, European version).
 		@param[in] code The unicode character.
 		@return The character code.
 	*/
-	uint8_t encode_char_a02( char32_t code );
+	uint8_t encodeCharA02( char32_t code );
 };
 
 } // End of displays namespace
