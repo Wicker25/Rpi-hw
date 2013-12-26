@@ -275,7 +275,23 @@ hd44780::write( const std::u32string &text ) {
 
 			default: { write( encode_char_a00( c ) ); break; }
 		}
-	}
+    }
+}
+
+void rpihw::display::hd44780::write(const std::wstring &text)
+{
+    // Write the string on the display
+    for ( auto &c : text ) {
+
+        // Encode the character and put it on the display
+        switch ( m_rom_code ) {
+
+            case ROM_A00: { write( encode_char_a00( c ) ); break; }
+            case ROM_A02: { write( encode_char_a02( c ) ); break; }
+
+            default: { write( encode_char_a00( c ) ); break; }
+        }
+    }
 }
 
 void
