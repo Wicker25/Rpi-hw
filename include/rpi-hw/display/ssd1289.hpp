@@ -1,5 +1,5 @@
 /* 
-    Title --- display/itdb02.hpp
+    Title --- display/ssd1289.hpp
 
     Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef _RPI_HW_DISPLAY_ITDB02_HPP_
-#define _RPI_HW_DISPLAY_ITDB02_HPP_
+#ifndef _RPI_HW_DISPLAY_SSD1289_HPP_
+#define _RPI_HW_DISPLAY_SSD1289_HPP_
 
 #include <rpi-hw/preprocessor/enumerate.hpp>
 
@@ -38,12 +38,12 @@ namespace rpihw { // Begin main namespace
 namespace display { // Begin displays namespace
 
 /*!
-	@class itdb02
-	@brief ITDB02 LCD controller.
+	@class ssd1289
+	@brief SSD1289 LCD controller.
 
-	@example display/itdb02.cpp
+	@example display/ssd1289.cpp
 */
-class itdb02 : public designer< int16_t, uint16_t, 3 > {
+class ssd1289 : public designer< int16_t, uint16_t, 3 > {
 
 public:
 
@@ -52,6 +52,13 @@ public:
 
 		LCD_WIDTH	= 240,
 		LCD_HEIGHT	= 320
+	};
+
+	//! The orientation of the display.
+	enum DisplayOrientation {
+
+		PORTRAIT	= 0,
+		LANDSCAPE	= 1
 	};
 
 	/*!
@@ -63,10 +70,16 @@ public:
 		@param[in] rst .
 		@param[in] d0...d15 The GPIO pin connected to the data pins.
 	*/
-	itdb02(	uint8_t rs, uint8_t wr, uint8_t rd, uint8_t cs, uint8_t rst, __ENUM_PARAMS( uint8_t, db, 0, 15 ) );
+	ssd1289( uint8_t rs, uint8_t wr, uint8_t rd, uint8_t cs, uint8_t rst, __ENUM_PARAMS( uint8_t, db, 0, 15 ) );
 
 	//! Destructor method.
-	virtual ~itdb02();
+	virtual ~ssd1289();
+
+	/*!
+		@brief Initializes the display.
+		@param[in] orientation The display aspect (portrait or landscape).
+	*/
+	void init( bool orientation = PORTRAIT );
 
 protected:
 
@@ -83,6 +96,6 @@ protected:
 
 
 // Include inline methods 
-#include <rpi-hw/display/itdb02-inl.hpp>
+#include <rpi-hw/display/ssd1289-inl.hpp>
 
-#endif /* _RPI_HW_DISPLAY_ITDB02_HPP_ */
+#endif /* _RPI_HW_DISPLAY_SSD1289_HPP_ */

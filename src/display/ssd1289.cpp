@@ -1,5 +1,5 @@
 /* 
-	Title --- display/itdb02.cpp
+	Title --- display/ssd1289.cpp
 
 	Copyright (C) 2013 Giacomo Trudu - wicker25[at]gmail[dot]com
 
@@ -19,16 +19,16 @@
 */
 
 
-#ifndef _RPI_HW_DISPLAY_ITDB02_CPP_
-#define _RPI_HW_DISPLAY_ITDB02_CPP_
+#ifndef _RPI_HW_DISPLAY_SSD1289_CPP_
+#define _RPI_HW_DISPLAY_SSD1289_CPP_
 
-#include <rpi-hw/display/itdb02.hpp>
+#include <rpi-hw/display/ssd1289.hpp>
 
 namespace rpihw { // Begin main namespace
 
 namespace display { // Begin displays namespace
 
-itdb02::itdb02( uint8_t rs, uint8_t wr, uint8_t rd, uint8_t cs, uint8_t rst, __ENUM_PARAMS( uint8_t, db, 0, 15 ) )
+ssd1289::ssd1289( uint8_t rs, uint8_t wr, uint8_t rd, uint8_t cs, uint8_t rst, __ENUM_PARAMS( uint8_t, db, 0, 15 ) )
 
 	: designer< int16_t, uint16_t, 3 >	( LCD_WIDTH, LCD_HEIGHT )
 	, m_control							( new iface::output( { rs, wr, rd, cs, rst } ) )
@@ -36,15 +36,21 @@ itdb02::itdb02( uint8_t rs, uint8_t wr, uint8_t rd, uint8_t cs, uint8_t rst, __E
 
 }
 
-itdb02::~itdb02() {
+ssd1289::~ssd1289() {
 
 	// Destroy the interfaces
 	delete m_control;
 	delete m_data;
 }
 
+void
+ssd1289::init( bool orientation ) {
+
+	
+}
+
 } // End of displays namespace
 
 } // End of main namespace
 
-#endif /* _RPI_HW_DISPLAY_ITDB02_CPP_ */
+#endif /* _RPI_HW_DISPLAY_SSD1289_CPP_ */
