@@ -54,16 +54,16 @@ public:
 	enum Registers {
 
 		IODIR		= 0x00,	//!< Controls the direction of the data I/O.
-		IPOL		= 0x02,	//!< Configures the polarity on the corresponding GPIO port bits.
-		GPINTEN		= 0x04,	//!< Controls the interrupt-on-change feature for each pin
-		DEFVAL		= 0x06,	//!< Sets the default comparison value.
-		INTCON		= 0x08, //!< Controls how the associated pin value is compared for the interrupt-on-change feature.
-		IOCON		= 0x0a,	//!< Configures the device.
-		GPPU		= 0x0c,	//!< Controls the pull-up resistors for the port pins.
-		INTF		= 0x0e,	//!< Reflects the interrupt condition on the port pins of any pin that is enabled for interrupts.
-		INTCAP		= 0x10,	//!< Captures the GPIO port value at the time the interrupt occurred.
-		GPIO		= 0x12,	//!< Reflects the value on the port.
-		OLAT		= 0x14,	//!< Provides access to the output latches.
+		IPOL		= 0x01,	//!< Configures the polarity on the corresponding GPIO port bits.
+		GPINTEN		= 0x02,	//!< Controls the interrupt-on-change feature for each pin
+		DEFVAL		= 0x03,	//!< Sets the default comparison value.
+		INTCON		= 0x04, //!< Controls how the associated pin value is compared for the interrupt-on-change feature.
+		IOCON		= 0x05,	//!< Configures the device.
+		GPPU		= 0x06,	//!< Controls the pull-up resistors for the port pins.
+		INTF		= 0x07,	//!< Reflects the interrupt condition on the port pins of any pin that is enabled for interrupts.
+		INTCAP		= 0x08,	//!< Captures the GPIO port value at the time the interrupt occurred.
+		GPIO		= 0x09,	//!< Reflects the value on the port.
+		OLAT		= 0x0a	//!< Provides access to the output latches.
 	};
 
 	//! The controller configuration set (bit flags).

@@ -1,4 +1,4 @@
-Rpi-hw v0.7.2
+Rpi-hw v0.7.3
 =============
 
 [Rpi-hw](http://hackyourmind.org/projects/rpi-hw) (short for "Raspberry Pi Hardware") is a free C++ library 

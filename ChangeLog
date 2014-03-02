@@ -1,5 +1,11 @@
 ChangeLog of Rpi-hw - A free C++ library designed to manage the Raspberry Pi's GPIO connector and its other buses.
 
+============ Rpi-hw 0.7.3 - urgency=high ===========
+
+2014-03-02 Wicker25 < wicker25@gmail.com >
+
+    * mcp23x08.hpp: Fixed addresses of the registers.
+
 ============ Rpi-hw 0.7.2 - urgency=low ===========
 
 2013-12-26 Wicker25 < wicker25@gmail.com >
