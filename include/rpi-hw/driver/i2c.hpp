@@ -25,8 +25,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
-#include <linux/i2c.h>
 #include <linux/i2c-dev.h>
+#ifndef I2C_FUNC_I2C
+/* linux/i2c-dev.h provided by i2c-tools contains the symbols 
+ * defined in linux/i2c.h. (this comment (C) github.com/ceolin/soletta)
+ */
+#include <linux/i2c.h>
+#endif
 #include <cstring>
 
 #include <rpi-hw/rpi.hpp>
