@@ -97,9 +97,9 @@ Detailed documentation of Rpi-hw's features and usage can be found on the [offic
 
 * [Download and install](https://github.com/Wicker25/Rpi-hw/wiki/Download%20and%20install)
 * [Getting started](https://github.com/Wicker25/Rpi-hw/wiki/Getting%20started)
-* [Reference manual](http://hackyourmind.org/rpi-hw/)
+* [Reference manual](http://www.hackyourmind.org/projects/rpi-hw.html)
 
-Also you can find [some articles](http://hackyourmind.org/tag/rpi-hw) about the library on <http://hackyourmind.org/>.
+Also you can find [some articles](http://www.hackyourmind.org/tag/rpi-hw.html) about the library on <http://hackyourmind.org/>.
 
 ### License
 
