@@ -14,8 +14,8 @@ set( EXECUTABLE_OUTPUT_PATH		"build" )
 find_package( RpiHw REQUIRED )
 
 # Find some dependencies
-find_package( Freetype REQUIRED )
-find_package( GraphicsMagick++ REQUIRED )
+find_package( Freetype )
+find_package( GraphicsMagick++ )
 
 # Set the path to the header files
 include_directories( ${RpiHw_INCLUDE_DIRS} )
