@@ -496,7 +496,7 @@ main( int argc, char *args[] ) {
 	// Print the final message
 	dev.write( "That's all, folks!\nFeel free to comment my work!", utils::ALIGN_CENTER );
 	pause( dev, 2 );
-	dev.write( "For more informations visit:\n\nwww.hackyourmind.org", utils::ALIGN_CENTER );
+	dev.write( "For more informations visit:\n\nhttps://github.com/Wicker25", utils::ALIGN_CENTER );
 	pause( dev, 2 );
 
 	/*

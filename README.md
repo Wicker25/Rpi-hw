@@ -1,7 +1,7 @@
 Rpi-hw v0.7.3
 =============
 
-[Rpi-hw](http://hackyourmind.org/projects/rpi-hw) (short for "Raspberry Pi Hardware") is a free C++ library 
+[Rpi-hw](https://github.com/Wicker25/Rpi-hw) (short for "Raspberry Pi Hardware") is a free C++ library 
 designed to manage the Raspberry Pi's GPIO connector and its other buses.
 It allows you to connect several devices to the board (including displays, keypads, stepper motors, and sensors) as you would with Arduino's libraries.
 
@@ -97,9 +97,9 @@ Detailed documentation of Rpi-hw's features and usage can be found on the [offic
 
 * [Download and install](https://github.com/Wicker25/Rpi-hw/wiki/Download%20and%20install)
 * [Getting started](https://github.com/Wicker25/Rpi-hw/wiki/Getting%20started)
-* [Reference manual](http://www.hackyourmind.org/projects/rpi-hw.html)
+* [Reference manual](https://github.com/Wicker25/Rpi-hw)
 
-Also you can find [some articles](http://www.hackyourmind.org/tag/rpi-hw.html) about the library on <http://hackyourmind.org/>.
+Also you can find [some articles](https://github.com/Wicker25/Rpi-hw) about the library on <https://github.com/Wicker25>.
 
 ### License
 
